@@ -82,4 +82,11 @@ export default {
     mabboxStyleDark: process.env.MAPBOX_STYLE_DARK,
     mabboxStyleLight: process.env.MAPBOX_STYLE_LIGHT,
   },
+
+  pwa: {
+    name: 'Transit Tracker',
+    short_name: 'Transit T',
+    description: 'Realtime transit overview for Canadian cities',
+    theme_color: '#2374ab',
+  },
 }
