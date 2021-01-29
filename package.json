@@ -1,6 +1,6 @@
 {
   "name": "transit-tracker-frontend",
-  "version": "2.4.1",
+  "version": "2.4.0+001",
   "private": true,
   "scripts": {
     "dev": "nuxt",
@@ -12,11 +12,19 @@
     "test": "jest"
   },
   "dependencies": {
+    "@mdi/js": "^5.9.55",
     "@nuxtjs/axios": "^5.12.2",
     "@nuxtjs/pwa": "^3.0.2",
+    "animejs": "^3.2.1",
     "core-js": "^3.6.5",
+    "gtfs-realtime-bindings": "^0.0.6",
+    "gtfs-utils": "^3.0.1",
+    "mapbox-gl": "^2.0.1",
     "nuxt": "^2.14.6",
-    "nuxt-i18n": "^6.15.4"
+    "nuxt-i18n": "^6.15.4",
+    "papaparse": "^5.3.0",
+    "uuid": "^8.3.2",
+    "vue-json-component": "^0.4.1"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^3.1.0",
