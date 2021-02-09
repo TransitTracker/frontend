@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-footer :color="componentColor" height="80px">
-      <v-row v-if="vehicle.id" justify="center">
+      <v-row v-if="vehicle && vehicle.id" justify="center">
         <v-col class="agency">
           <span class="d-none d-md-block">{{ agency.name }}</span>
           <span class="d-md-none">{{ agency.shortName }}</span>
@@ -65,7 +65,7 @@ export default {
   }),
   computed: {
     agency() {
-      return this.$store.state.agencies.data[this.vehicle?.agency?.slug]
+      return this.$store.state.agencies.data[this.vehicle?.agency]
     },
     vehicle() {
       return this.$store.state.vehicles.selection

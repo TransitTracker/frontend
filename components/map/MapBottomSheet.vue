@@ -14,10 +14,11 @@
         }"
       >
         <div class="flex-grow-1">
-          <b
-            >{{ $t('mapBottomSheet.vehicle') }}
-            {{ vehicle.label ? vehicle.label : vehicle.ref }}</b
-          ><br />
+          <b>
+            {{ $t('mapBottomSheet.vehicle') }}
+            {{ vehicle.label ? vehicle.label : vehicle.ref }}
+          </b>
+          <br />
           <span v-if="vehicle.timestamp">
             {{ $t('mapBottomSheet.seenAt') }}
             {{ vehicle.timestamp | timestampToTime }}
@@ -167,6 +168,16 @@
               </v-list-item-content>
             </v-list-item>
           </div>
+          <v-list-item v-if="vehicle.meta.json">
+            <v-list-item-icon>
+              <v-icon>mdi-code-json</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>
+                <json-viewer :value="vehicle.meta.json" sort copyable />
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
         </v-list>
       </div>
     </v-sheet>
@@ -175,6 +186,8 @@
 
 <script>
 // import collect from 'collect.js'
+import JsonViewer from 'vue-json-viewer'
+
 import {
   mdiBusClock,
   mdiBusStop,
@@ -198,6 +211,7 @@ import {
   mdiHelpCircle,
 } from '@mdi/js'
 export default {
+  components: { JsonViewer },
   filters: {
     timestampToTime(timestamp) {
       const date = new Date(timestamp * 1000)
@@ -387,5 +401,10 @@ export default {
 }
 .white-space--normal {
   white-space: normal;
+}
+</style>
+<style>
+.jv-light .jv-code {
+  padding: 0;
 }
 </style>

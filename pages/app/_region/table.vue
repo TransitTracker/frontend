@@ -1,6 +1,6 @@
 <template>
   <v-data-table
-    group-by="agency.slug"
+    group-by="agency"
     :headers="headers"
     :items="vehicles"
     :items-per-page="100"
@@ -61,7 +61,7 @@ export default {
           sort: this.sortNumber,
         },
         {
-          text: this.$t('table.dateHeadsign'),
+          text: this.$t('table.dataHeadsign'),
           value: 'trip.headsign',
         },
         {
@@ -98,7 +98,7 @@ export default {
   methods: {
     setSelection(vehicle) {
       this.$store.commit('vehicles/setSelection', vehicle)
-      this.$router.push(`/${this.$route.params.region}/map`)
+      this.$router.push(`/app/${this.$route.params.region}/map`)
     },
     sortNumber(a, b) {
       const cook = (c) => {

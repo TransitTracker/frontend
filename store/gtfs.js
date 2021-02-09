@@ -1,41 +1,78 @@
-import Vue from 'vue'
 import * as Papa from 'papaparse'
 
-export const state = () => ({
-  routes: {},
-  trips: {},
-})
-
-export const mutations = {
-  setRoutes(state, { agency, routes }) {
-    Vue.set(state.routes, agency, routes)
-  },
-  setTrips(state, { agency, trips }) {
-    Vue.set(state.trips, agency, trips)
-  },
-}
+export const state = () => ({})
 
 export const actions = {
-  processRoutes({ commit, state }, { agency, file }) {
-    // Conver file to JSON
-    Papa.parse(file, {
-      header: true,
-      complete: (results) => {
-        commit('setRoutes', { agency, routes: results.data })
-      },
+  async getRoute({ agency, routeId }) {
+    return await this.$database.routes.get({
+      agency,
+      route_id: routeId,
     })
-    // return state.routes[agency].length
-    return 0
   },
-  processTrips({ commit, state }, { agency, file }) {
-    // Conver file to JSON
-    Papa.parse(file, {
-      header: true,
-      complete: (results) => {
-        commit('setTrips', { agency, trips: results.data })
-      },
+  async getRoutesByAgency(agency, count = false) {
+    const collection = this.$database.routes.where({ agency })
+    debugger
+    if (count) {
+      return await collection.count()
+    }
+
+    return collection.toArray()
+  },
+  async getTrip({ agency, tripId }) {
+    return await this.$database.trips.get({
+      agency,
+      trip_id: tripId,
     })
-    // return state.trips[agency].length
-    return 0
+  },
+  async getTripsByAgency(agency) {
+    const trips = await this.$database.trips.where({ agency })
+    return trips
+  },
+  processRoutes(context, { agency, file }) {
+    return new Promise((resolve) => {
+      let total = 0
+      // Convert file to JSON
+      Papa.parse(file, {
+        header: true,
+        worker: true,
+        chunk: ({ data, meta }) => {
+          const routes = data.map((route) => {
+            return {
+              ...route,
+              agency,
+            }
+          })
+          this.$database.routes.bulkPut(routes)
+          total += meta.cursor
+        },
+        complete: () => {
+          resolve(total)
+        },
+      })
+      // TODO: touch
+      // localdb.touchAgency(agency)
+    })
+  },
+  processTrips(context, { agency, file }) {
+    return new Promise((resolve) => {
+      // Convert file to JSON
+      Papa.parse(file, {
+        header: true,
+        worker: true,
+        chunk: (results) => {
+          const trips = results.data.map((trip) => {
+            return {
+              ...trip,
+              agency,
+            }
+          })
+          this.$database.trips.bulkPut(trips)
+        },
+        complete: () => {
+          resolve()
+        },
+      })
+      // localdb.touchAgency(agency)
+    })
   },
 }

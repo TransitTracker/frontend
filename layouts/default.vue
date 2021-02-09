@@ -53,7 +53,7 @@
       </v-btn>
       <v-btn to="/byod" nuxt>
         <span>{{ $t('app.tabByod') }}</span>
-        <v-icon>mdi-file-outline</v-icon>
+        <v-icon>mdi-folder-upload</v-icon>
       </v-btn>
       <v-btn to="/settings" nuxt>
         <span>{{ $t('app.tabSettings') }}</span>
@@ -112,6 +112,9 @@ export default {
 
       // Load alerts for this region
       this.$store.dispatch('alerts/load', this.region)
+    })
+    this.$store.dispatch('agencies/loadCustom').then(() => {
+      this.$store.dispatch('vehicles/loadCustom')
     })
   },
 }

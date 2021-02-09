@@ -36,23 +36,14 @@ export default {
   data: () => ({
     map: {},
     mapReady: false,
+    mapStyleReady: false,
     sheetOpen: false,
   }),
   computed: {
-    activeAgencies() {
-      const activeAgencies = this.$store.state.settings.activeAgencies
-      const customAgencies = this.$store.state.agencies.custom
-
-      return [
-        ...customAgencies.map((slug) => {
-          return this.$store.state.agencies.data[slug]
-        }),
-        ...this.currentRegion?.agencies?.filter(({ slug }) =>
-          activeAgencies.includes(slug)
-        ),
-      ]
+    agencies() {
+      return this.$store.state.agencies.data
     },
-    agenciesFeatures() {
+    features() {
       return this.$store.state.vehicles.features
     },
     selectedVehicle() {
@@ -63,7 +54,15 @@ export default {
     },
   },
   watch: {
-    agenciesFeatures(oldValue, value) {
+    agencies(oldValue, value) {
+      Object.keys(value).forEach((agencySlug) => {
+        // Create the source if it dosen't exist
+        if (!this.map.getSource(`source-${agencySlug}`)) {
+          this.addAgencyLayers(this.features[agencySlug], value[agencySlug])
+        }
+      })
+    },
+    features(oldValue, value) {
       Object.keys(value).forEach((agencySlug) => {
         const features = value[agencySlug]
 
@@ -71,12 +70,14 @@ export default {
         if (!this.map.getSource(`source-${agencySlug}`)) {
           this.addAgencyLayers(
             features,
-            this.activeAgencies.find((agency) => agency.slug === agencySlug)
+            Object.values(this.agencies).find(
+              (agency) => agency.slug === agencySlug
+            )
           )
+        } else {
+          // Update the source data
+          this.map.getSource(`source-${agencySlug}`).setData(features)
         }
-
-        // Update the source data
-        this.map.getSource(`source-${agencySlug}`).setData(features)
       })
     },
     currentRegion(value) {
@@ -117,7 +118,13 @@ export default {
       'top-left'
     )
 
+    this.map.on('styledata', () => {
+      console.log('Map style ready!')
+      this.mapStyleReady = true
+    })
+
     this.map.on('load', () => {
+      console.log('Map ready!')
       this.mapReady = true
 
       // Add route shape source and layer
@@ -139,11 +146,13 @@ export default {
         },
       })
 
-      Object.keys(this.agenciesFeatures).forEach((agencySlug) => {
-        this.addAgencyLayers(
-          this.agenciesFeatures[agencySlug],
-          this.activeAgencies.find(({ slug }) => slug === agencySlug)
+      Object.keys(this.features).forEach((agencySlug) => {
+        const agency = Object.values(this.agencies).find(
+          ({ slug }) => slug === agencySlug
         )
+        if (agency) {
+          this.addAgencyLayers(this.features[agencySlug], agency)
+        }
       })
 
       if (this.selectedVehicle.id) {
@@ -153,6 +162,27 @@ export default {
   },
   methods: {
     addAgencyLayers(features, agency) {
+      // Don't continue if map is not ready
+      if (!this.mapReady || !this.mapStyleReady) {
+        return
+      }
+      if (!this.mapStyleReady) {
+        return
+      }
+
+      // Don't create a second source if it already exists
+      if (this.map.getSource(`source-${agency.slug}`)) {
+        return
+      }
+
+      // Don't create if the features or agency is undefined
+      if (!features || !agency) {
+        return
+      }
+
+      console.log('continue')
+
+      console.log(features, agency)
       // Add map source
       this.map.addSource(`source-${agency.slug}`, {
         type: 'geojson',

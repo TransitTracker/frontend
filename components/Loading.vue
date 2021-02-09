@@ -2,7 +2,8 @@
   <v-progress-linear
     v-if="loading"
     active
-    indeterminate
+    :indeterminate="value === 0"
+    :value="value"
     absolute
     top
     height="5px"
@@ -12,10 +13,11 @@
 </template>
 
 <script>
-// TODO: fix
+// TODO: fix color for dark mode
 export default {
   data: () => ({
     loading: false,
+    value: 0,
   }),
   methods: {
     start() {
@@ -24,11 +26,11 @@ export default {
     finish() {
       this.loading = false
     },
-    fail(error) {
-      console.log(error)
-    },
+    // fail(error) {
+    //   console.log(error)
+    // },
     increase(num) {
-      console.log(num)
+      this.value += num
     },
   },
 }

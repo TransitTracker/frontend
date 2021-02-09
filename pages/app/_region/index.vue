@@ -54,15 +54,12 @@
                     elevation="0"
                     width="100%"
                     height="100%"
-                    :color="agency.color"
+                    color="grey lighten-3"
                     :loading="
                       vehicleCounts[agency.slug] ? false : agency.textColor
                     "
                   >
-                    <v-card-text
-                      class="d-flex px-1 py-2"
-                      :style="{ color: agency.textColor }"
-                    >
+                    <v-card-text class="d-flex px-1 py-2">
                       <v-avatar
                         size="36"
                         class="ml-1 mr-2 align-self-center avatar black--text"
@@ -75,9 +72,18 @@
                       <div class="flex-grow-1 align-self-center">
                         <b>{{ agency.name }}</b>
                         <br />
-                        <span> 30 {{ $t('home.secondsAgo') }} </span>
+                        <span>
+                          <timeago
+                            :datetime="times[agency.slug] * 1000"
+                            :auto-update="30"
+                          />
+                        </span>
                       </div>
                     </v-card-text>
+                    <div
+                      class="tt-agencies-clip-path"
+                      :style="{ backgroundColor: agency.color }"
+                    ></div>
                   </v-card>
                 </v-col>
               </v-row>
@@ -98,7 +104,7 @@
             </v-card-text>
           </v-card>
         </v-col>
-        <v-col cols="12" md="6">
+        <v-col v-if="region.name" cols="12" md="6">
           <v-card dark>
             <!-- eslint-disable -->
             <v-card-title v-html="region.infoTitle"></v-card-title>
@@ -106,7 +112,7 @@
             <!-- eslint-enable -->
           </v-card>
         </v-col>
-        <v-col cols="12" md="6">
+        <v-col v-if="region.name" cols="12" md="6">
           <v-card>
             <v-card-title>{{ $t('home.creditsTitle') }}</v-card-title>
             <!-- eslint-disable -->
@@ -120,27 +126,30 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import VueTimeago from 'vue-timeago'
+
+Vue.use(VueTimeago, {})
+
 export default {
   asyncData({ params }) {
     return { regionSlug: params.region }
   },
   middleware: 'loadapi',
-  data: () => ({
-    loading: false,
-  }),
   computed: {
     activeAgencies() {
       const activeAgencies = this.$store.state.settings.activeAgencies
-      const customAgencies = this.$store.state.agencies.custom
 
-      return [
-        ...customAgencies.map((slug) => {
-          return this.$store.state.agencies.data[slug]
-        }),
-        ...this.region?.agencies?.filter(({ slug }) =>
-          activeAgencies.includes(slug)
-        ),
-      ]
+      return Object.values(this.$store.state.agencies.data).filter(
+        ({ slug, regions }) => {
+          if (regions.includes('*')) {
+            return true
+          }
+          return (
+            activeAgencies.includes(slug) || regions.includes(this.region.slug)
+          )
+        }
+      )
     },
     region() {
       return (
@@ -161,10 +170,13 @@ export default {
     },
     totalCount() {
       let total = 0
-      this.vehicleCounts.forEach((count) => {
+      Object.values(this.vehicleCounts).forEach((count) => {
         total += count
       })
       return total
+    },
+    times() {
+      return this.$store.state.agencies.times
     },
   },
   head: () => ({
