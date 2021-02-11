@@ -22,6 +22,7 @@ export const mutations = {
 
 export const actions = {
   async getCustom() {
+    console.log(4, 'agencies.js getCustom')
     return await this.$database.agencies.toArray()
   },
   async getCustomById(context, id) {
@@ -50,20 +51,30 @@ export const actions = {
       },
     }
     this.$database.agencies.add(model)
+    commit('add', model)
     commit('setTime', { agency: id })
   },
   loadCustom({ commit, dispatch }) {
+    console.log(2, 'agencies.js loadCustom')
     return new Promise((resolve) => {
+      console.log(3, 'agencies.js promise start')
       dispatch('getCustom').then((agencies) => {
+        console.log(5, 'agencies.js dispatch then')
         agencies.forEach((agency) => {
           commit('add', agency)
           commit('setTime', {
             agency: agency.slug,
             timestamp: agency.meta.timestamp,
           })
+          console.log(6, 'agencies.js after commit', agency.name)
         })
-        resolve()
+        resolve(agencies)
       })
+    })
+  },
+  touchUpdatedAt(context, agency) {
+    this.$database.agencies.update(agency, {
+      'meta.updatedAt': new Date().toISOString(),
     })
   },
 }

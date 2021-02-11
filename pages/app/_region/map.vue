@@ -164,19 +164,20 @@ export default {
     addAgencyLayers(features, agency) {
       // Don't continue if map is not ready
       if (!this.mapReady || !this.mapStyleReady) {
-        return
-      }
-      if (!this.mapStyleReady) {
+        console.log('reject map or style not ready', agency.name)
         return
       }
 
       // Don't create a second source if it already exists
       if (this.map.getSource(`source-${agency.slug}`)) {
+        console.log('reject no source', agency.name)
         return
       }
 
       // Don't create if the features or agency is undefined
       if (!features || !agency) {
+        if (!features) console.log('reject no features', agency.name)
+        if (!agency) console.log('reject no agency', agency.name)
         return
       }
 
@@ -214,24 +215,21 @@ export default {
       })
       // Add map events
       this.map.on('click', `layer-${agency.slug}`, (e) => {
-        this.selectMarker(e.features[0], agency)
+        this.$store
+          .dispatch('vehicles/setSelectionById', {
+            id: e.features[0].properties.id,
+            agencySlug: agency.slug,
+          })
+          .then((vehicle) => {
+            if (vehicle.id) this.selectVehicle(vehicle)
+          })
       })
-      this.map.on('mouseenter', `layer-${agency.slug}`, (e) => {
+      this.map.on('mouseenter', `layer-${agency.slug}`, () => {
         this.map.getCanvas().style.cursor = 'pointer'
       })
-      this.map.on('mouseleave', `layer-${agency.slug}`, (e) => {
+      this.map.on('mouseleave', `layer-${agency.slug}`, () => {
         this.map.getCanvas().style.cursor = ''
       })
-    },
-    selectMarker({ source, properties }) {
-      this.$store
-        .dispatch('vehicles/setSelectionById', {
-          id: properties.id,
-          agencySlug: source.substring(7),
-        })
-        .then((vehicle) => {
-          this.selectVehicle(vehicle)
-        })
     },
     selectVehicle(vehicle) {
       this.map.flyTo({ center: vehicle.position, zoom: 12 })

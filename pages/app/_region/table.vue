@@ -39,8 +39,14 @@
     </template>
     <!-- eslint-disable-next-line -->
     <template v-slot:item.routeId="{ item }">
-      <v-chip :color="item.trip.routeColor">
+      <v-chip
+        :color="colorFilter(item.trip.routeColor)"
+        :text-color="colorFilter(item.trip.routeTextColor)"
+      >
         {{ item.routeId }}
+        <span v-if="item.trip.routeLongName"
+          >&nbsp;{{ item.trip.routeLongName }}</span
+        >
       </v-chip>
     </template>
   </v-data-table>
@@ -48,6 +54,13 @@
 
 <script>
 export default {
+  filter: {
+    color(value) {
+      if (typeof value !== 'string') return null
+      if (value.startsWith('#')) return value
+      return '#'.concat(value)
+    },
+  },
   data() {
     return {
       headers: [
@@ -96,6 +109,11 @@ export default {
     },
   },
   methods: {
+    colorFilter(value) {
+      if (typeof value !== 'string') return null
+      if (value.startsWith('#')) return value
+      return '#'.concat(value)
+    },
     setSelection(vehicle) {
       this.$store.commit('vehicles/setSelection', vehicle)
       this.$router.push(`/app/${this.$route.params.region}/map`)

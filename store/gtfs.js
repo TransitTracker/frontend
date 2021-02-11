@@ -11,12 +11,12 @@ export const actions = {
   },
   async getRoutesByAgency(agency, count = false) {
     const collection = this.$database.routes.where({ agency })
-    debugger
+
     if (count) {
       return await collection.count()
     }
 
-    return collection.toArray()
+    return await collection.toArray()
   },
   async getTrip({ agency, tripId }) {
     return await this.$database.trips.get({
@@ -28,9 +28,8 @@ export const actions = {
     const trips = await this.$database.trips.where({ agency })
     return trips
   },
-  processRoutes(context, { agency, file }) {
+  processRoutes({ dispatch }, { agency, file }) {
     return new Promise((resolve) => {
-      let total = 0
       // Convert file to JSON
       Papa.parse(file, {
         header: true,
@@ -43,17 +42,15 @@ export const actions = {
             }
           })
           this.$database.routes.bulkPut(routes)
-          total += meta.cursor
         },
         complete: () => {
-          resolve(total)
+          resolve()
+          dispatch('agencies/touchUpdatedAt', agency, { root: true })
         },
       })
-      // TODO: touch
-      // localdb.touchAgency(agency)
     })
   },
-  processTrips(context, { agency, file }) {
+  processTrips({ dispatch }, { agency, file }) {
     return new Promise((resolve) => {
       // Convert file to JSON
       Papa.parse(file, {
@@ -70,9 +67,9 @@ export const actions = {
         },
         complete: () => {
           resolve()
+          dispatch('agencies/touchUpdatedAt', agency, { root: true })
         },
       })
-      // localdb.touchAgency(agency)
     })
   },
 }

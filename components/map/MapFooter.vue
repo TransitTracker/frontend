@@ -18,14 +18,7 @@
           {{ vehicle.speed }} km/h
         </v-col>
         <v-col class="trip">
-          <div
-            class="route"
-            :style="{
-              backgroundColor: vehicle.trip.routeColor,
-              color: vehicle.trip.routeTextColor,
-              borderColor: vehicle.trip.routeColor || agency.color,
-            }"
-          >
+          <div class="route" :style="tripStyle">
             {{ vehicle.trip.routeShortName || vehicle.routeId }}
             <span class="d-none d-md-block">
               {{ vehicle.trip.routeLongName }}
@@ -72,6 +65,21 @@ export default {
     },
     componentColor() {
       return this.$vuetify.theme.dark ? '' : 'grey lighten-4'
+    },
+    tripStyle() {
+      return {
+        backgroundColor: this.colorFilter(this.vehicle.trip.routeColor),
+        color: this.colorFilter(this.vehicle.trip.routeTextColor),
+        borderColor:
+          this.colorFilter(this.vehicle.trip.routeColor) || this.agency.color,
+      }
+    },
+  },
+  methods: {
+    colorFilter(value) {
+      if (typeof value !== 'string') return null
+      if (value.startsWith('#')) return value
+      return '#'.concat(value)
     },
   },
 }

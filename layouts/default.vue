@@ -113,8 +113,10 @@ export default {
       // Load alerts for this region
       this.$store.dispatch('alerts/load', this.region)
     })
-    this.$store.dispatch('agencies/loadCustom').then(() => {
-      this.$store.dispatch('vehicles/loadCustom')
+    console.log(1, 'default.vue agencies/loadCustom')
+    this.$store.dispatch('agencies/loadCustom').then((agencies) => {
+      console.log(7, 'default.vue vehicles/loadCustom')
+      this.$store.dispatch('vehicles/loadCustom', agencies)
     })
   },
 }

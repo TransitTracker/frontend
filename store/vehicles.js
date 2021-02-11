@@ -34,9 +34,11 @@ export const mutations = {
 }
 
 export const actions = {
-  async getVehiclesByCustomAgency(context, agency) {
-    console.log(agency)
-    return await this.$database.vehicles.where({ agency }).toArray()
+  async getCustomActiveVehicles(context, agency) {
+    const vehicles = await this.$database.vehicles.where({ agency }).toArray()
+    return vehicles.filter((vehicle) => {
+      return vehicle.isActive
+    })
   },
   async load({ commit }, agency) {
     const response = await this.$axios.get(`/agencies/${agency}/vehicles`)
@@ -55,6 +57,13 @@ export const actions = {
   },
   setSelectionById({ commit, state }, { id, agencySlug }) {
     const vehicle = state.data[agencySlug].find((vehicle) => vehicle.id === id)
+
+    if (!vehicle) {
+      console.log('return early')
+      return {}
+    }
+
+    console.log('continue', vehicle)
     commit('setSelection', vehicle)
     return vehicle
   },
@@ -84,44 +93,51 @@ export const actions = {
         convertVehicle(agency, entity, this.$database)
       )
 
-      console.log(vehicles)
-      this.$database.vehicles.bulkPut(vehicles)
+      Promise.all(vehicles).then((vehicles) => {
+        console.log('promise start', vehicles)
+        // Remove all previous active vehicles
+        this.$database.vehicles
+          .where({ agency: agency.slug })
+          .modify({ isActive: false })
+          .then(() => {
+            // Insert new records
+            this.$database.vehicles.bulkPut(vehicles)
+          })
 
-      commit('set', {
-        agency: agency.slug,
-        vehicles,
-        features: {
-          type: 'FeatureCollection',
-          features: feed.entity.map((entity) => {
-            return {
-              type: 'Feature',
-              properties: {
-                id: entity.id,
-                label:
-                  entity.vehicle.vehicle.label || entity.vehicle.vehicle.id,
-                'marker-symbol': `tt-custom-${agency.defaultVehicleType}`,
-              },
-              geometry: {
-                type: 'Point',
-                coordinates: [
-                  entity.vehicle.position.longitude,
-                  entity.vehicle.position.latitude,
-                ],
-              },
-            }
-          }),
-        },
+        commit('set', {
+          agency: agency.slug,
+          vehicles,
+          features: {
+            type: 'FeatureCollection',
+            features: feed.entity.map((entity) => {
+              return {
+                type: 'Feature',
+                properties: {
+                  id: entity.id,
+                  label:
+                    entity.vehicle.vehicle.label || entity.vehicle.vehicle.id,
+                  'marker-symbol': `tt-custom-${agency.defaultVehicleType}`,
+                },
+                geometry: {
+                  type: 'Point',
+                  coordinates: [
+                    entity.vehicle.position.longitude,
+                    entity.vehicle.position.latitude,
+                  ],
+                },
+              }
+            }),
+          },
+        })
+        resolve()
+        dispatch('agencies/touchUpdatedAt', agency.slug, { root: true })
       })
-
-      // localdb.touchAgency(agency.slug)
-
-      resolve()
     })
   },
-  async loadCustom({ commit, dispatch }) {
-    const agencies = await dispatch('agencies/getCustom', null, { root: true })
+  loadCustom({ commit, dispatch }, agencies) {
+    console.log(8, 'vehicles.js loadCustom')
     agencies.forEach((agency) => {
-      dispatch('getVehiclesByCustomAgency', agency.slug).then((result) => {
+      dispatch('getCustomActiveVehicles', agency.slug).then((result) => {
         commit('set', {
           agency: agency.slug,
           vehicles: result,
@@ -148,7 +164,18 @@ export const actions = {
   },
 }
 
-const convertVehicle = (agency, entity) => {
+const convertVehicle = async (agency, entity, database) => {
+  const trip =
+    (await database.trips.get({
+      agency: agency.slug,
+      trip_id: entity.vehicle.trip.tripId,
+    })) || {}
+  const route =
+    (await database.routes.get({
+      agency: agency.slug,
+      route_id: entity.vehicle.trip.routeId,
+    })) || {}
+
   return {
     agency: agency.slug,
     ref: entity.vehicle.vehicle.id,
@@ -187,18 +214,18 @@ const convertVehicle = (agency, entity) => {
     },
     links: [],
     trip: {
-      id: null,
-      headsign: null,
-      shortName: null,
-      routeColor: null,
-      routeTextColor: null,
-      routeShortName: null,
-      routeLongName: null,
+      id: trip.trip_id || null,
+      headsign: trip.trip_headsign || null,
+      shortName: trip.trip_short_name || null,
+      routeColor: route.route_color || null,
+      routeTextColor: route.route_text_color || null,
+      routeShortName: route.route_short_name || null,
+      routeLongName: route.route_long_name || null,
       shapeLink: null,
-      serviceId: null,
+      serviceId: trip.service_id || null,
     },
     meta: {
-      json: entity.toJSON(),
+      json: { vehiclePosition: entity.toJSON(), trip, route },
       isLocal: true,
     },
   }

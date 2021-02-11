@@ -92,14 +92,15 @@
       <v-card rounded="lg">
         <v-card-title>Vehicles (GTFS Realtime)</v-card-title>
         <v-card-subtitle class="pb-0">
-          vehiclePosition in the protocol buffer format.
           <span v-if="lengths.vehicles">
-            {{ lengths.vehicles }} vehicles saved in your browser.
+            {{ lengths.vehicles }} vehicles saved in your browser (active and
+            not active).
           </span>
+          vehiclePosition in the protocol buffer format.
         </v-card-subtitle>
         <v-card-text
           v-if="lengths.vehicles === 0"
-          class="d-flex align-center pb-0"
+          class="d-flex align-center pb-0 pt-2"
         >
           <v-icon color="warning">mdi-alert</v-icon>
           <p class="mb-0 text-body-1 ml-2">
@@ -189,7 +190,6 @@ export default {
           file: this.files.routes,
         })
         .then(() => {
-          console.log('finished!')
           this.files.routes = undefined
           this.loading.routes = false
           this.refreshStats()
@@ -207,18 +207,28 @@ export default {
         .then((result) => {
           this.files.trips = undefined
           this.loading.trips = false
-          // this.refreshStats()
+          this.refreshStats()
         })
     },
     uploadVehicles() {
+      this.loading.vehicles = true
+
+      // Open and read file
       const fileReader = new FileReader()
       fileReader.readAsArrayBuffer(new Blob([this.files.vehicles]))
 
       fileReader.onload = () => {
-        this.$store.dispatch('vehicles/processCustomFeed', {
-          agency: this.agency,
-          file: new Uint8Array(fileReader.result),
-        })
+        // Save vehicles
+        this.$store
+          .dispatch('vehicles/processCustomFeed', {
+            agency: this.agency,
+            file: new Uint8Array(fileReader.result),
+          })
+          .then(() => {
+            this.files.vehicles = undefined
+            this.loading.vehicles = false
+            this.refreshStats()
+          })
       }
     },
   },

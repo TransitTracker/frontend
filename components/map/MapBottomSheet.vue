@@ -174,7 +174,14 @@
             </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title>
-                <json-viewer :value="vehicle.meta.json" sort copyable />
+                <json-viewer :value="vehicle.meta.json" sort copyable>
+                  <template v-slot:copy="slots">
+                    <v-btn small icon color="secondary">
+                      <v-icon v-if="slots.copied">mdi-clipboard-check</v-icon>
+                      <v-icon v-else>mdi-content-copy</v-icon>
+                    </v-btn>
+                  </template>
+                </json-viewer>
               </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
@@ -406,5 +413,11 @@ export default {
 <style>
 .jv-light .jv-code {
   padding: 0;
+}
+.jv-light .jv-button {
+  padding: 0;
+}
+.jv-light .jv-tooltip.right {
+  right: 0;
 }
 </style>
