@@ -66,7 +66,7 @@ export default {
       headers: [
         {
           text: this.$t('table.dataRef'),
-          value: 'ref',
+          value: 'label',
         },
         {
           text: this.$t('table.dataRoute'),

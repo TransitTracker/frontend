@@ -10,12 +10,6 @@ export const state = () => ({
   theme: 'system',
 })
 
-export const getters = {
-  getActiveAgencies: (state) => {
-    return state.activeAgencies
-  },
-}
-
 export const mutations = {
   set(state, { setting, value }) {
     state[setting] = value

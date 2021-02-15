@@ -10,27 +10,31 @@ export const mutations = {
     Vue.set(state.data, agency.slug, agency)
   },
   setTime(state, { agency, timestamp = null, custom = false }) {
-    Vue.set(state.times, agency, timestamp)
+    Vue.set(state.times, agency.slug, timestamp)
     if (custom) {
-      this.$database.agencies.update(agency, { 'meta.timestamp': timestamp })
+      this.$database.agencies.update(agency.slug, {
+        'meta.timestamp': timestamp,
+      })
     }
   },
   removeTime(state, agency) {
-    Vue.delete(state.times, agency)
+    Vue.delete(state.times, agency.slug)
   },
 }
 
 export const actions = {
-  async getCustom() {
-    console.log(4, 'agencies.js getCustom')
+  async delete(context, { agency }) {
+    await this.$database.agencies.where({ id: agency.slug }).delete()
+  },
+  async getLocals() {
     return await this.$database.agencies.toArray()
   },
-  async getCustomById(context, id) {
+  async getLocal(context, id) {
     return await this.$database.agencies.get(id)
   },
-  addCustom({ commit }, { id, name, vehicleType }) {
+  saveLocal({ commit }, { id, name, vehicleType }) {
     const time = new Date().toISOString()
-    const model = {
+    const agency = {
       id,
       name,
       shortName: 'Custom',
@@ -50,23 +54,23 @@ export const actions = {
         timestamp: null,
       },
     }
-    this.$database.agencies.add(model)
-    commit('add', model)
-    commit('setTime', { agency: id })
+    this.$database.agencies.add(agency)
+    commit('add', agency)
+    commit('setTime', { agency })
   },
-  loadCustom({ commit, dispatch }) {
-    console.log(2, 'agencies.js loadCustom')
+  async updateLocal(context, { agency, fields }) {
+    await this.$database.agencies.update(agency.slug, fields)
+    return await this.$database.agencies.get(agency.slug)
+  },
+  loadLocal({ commit, dispatch }) {
     return new Promise((resolve) => {
-      console.log(3, 'agencies.js promise start')
-      dispatch('getCustom').then((agencies) => {
-        console.log(5, 'agencies.js dispatch then')
+      dispatch('getLocals').then((agencies) => {
         agencies.forEach((agency) => {
           commit('add', agency)
           commit('setTime', {
-            agency: agency.slug,
+            agency,
             timestamp: agency.meta.timestamp,
           })
-          console.log(6, 'agencies.js after commit', agency.name)
         })
         resolve(agencies)
       })

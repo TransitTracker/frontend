@@ -104,7 +104,7 @@ Vue.use(VueTimeago, {})
 
 export default {
   async asyncData({ store }) {
-    const agencies = await store.dispatch('agencies/getCustom')
+    const agencies = await store.dispatch('agencies/getLocals')
     return { agencies }
   },
   data: () => ({
@@ -118,7 +118,7 @@ export default {
   }),
   methods: {
     createAgency() {
-      this.$store.dispatch('agencies/addCustom', this.newAgency).then(() => {
+      this.$store.dispatch('agencies/saveLocal', this.newAgency).then(() => {
         this.$router.push(`/byod/${this.newAgency.id}`)
       })
     },

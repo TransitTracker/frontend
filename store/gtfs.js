@@ -28,17 +28,20 @@ export const actions = {
     const trips = await this.$database.trips.where({ agency })
     return trips
   },
-  processRoutes({ dispatch }, { agency, file }) {
+  async delete(context, { agency, model }) {
+    await this.$database[model].where({ agency: agency.slug }).delete()
+  },
+  saveRoutes({ dispatch }, { agency, file }) {
     return new Promise((resolve) => {
       // Convert file to JSON
       Papa.parse(file, {
         header: true,
         worker: true,
-        chunk: ({ data, meta }) => {
+        chunk: ({ data }) => {
           const routes = data.map((route) => {
             return {
               ...route,
-              agency,
+              agency: agency.slug,
             }
           })
           this.$database.routes.bulkPut(routes)
@@ -50,20 +53,20 @@ export const actions = {
       })
     })
   },
-  processTrips({ dispatch }, { agency, file }) {
+  saveTrips({ dispatch }, { agency, file }) {
     return new Promise((resolve) => {
       // Convert file to JSON
       Papa.parse(file, {
         header: true,
         worker: true,
-        chunk: (results) => {
-          const trips = results.data.map((trip) => {
+        chunk: async ({ data }) => {
+          const trips = data.map((trip) => {
             return {
               ...trip,
-              agency,
+              agency: agency.slug,
             }
           })
-          this.$database.trips.bulkPut(trips)
+          await this.$database.trips.bulkPut(trips)
         },
         complete: () => {
           resolve()

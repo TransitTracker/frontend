@@ -26,9 +26,9 @@ export default {
     finish() {
       this.loading = false
     },
-    // fail(error) {
-    //   console.log(error)
-    // },
+    fail() {
+      this.loading = false
+    },
     increase(num) {
       this.value += num
     },

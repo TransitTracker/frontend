@@ -1,13 +1,17 @@
 <template>
   <v-app class="tt-app">
     <v-app-bar fixed app color="primary" dark>
+      <!-- eslint-disable -->
       <svg
+        tag="svg"
+        to="/"
         xmlns="http://www.w3.org/2000/svg"
         style="isolation: isolate"
         viewBox="0 0 295.012 403.722"
         width="18px"
         class="ml-2 mr-3"
       >
+      <!-- eslint-enable -->
         <path
           fill="#fff"
           class="pin"
@@ -87,6 +91,14 @@ export default {
       if (setting === 'dark') return true
       return false
     },
+    localAgenciesWithRemote() {
+      const allAgencies = Object.values(this.$store.state.agencies.data)
+      return allAgencies.filter((agency) => {
+        if (!agency.meta) return false
+        if (agency.meta.remoteUrl && agency.meta.remoteAutoRefresh) return true
+        return false
+      })
+    },
   },
   watch: {
     settingsDarkMode(value) {
@@ -106,18 +118,23 @@ export default {
       })
 
       // For each selected agency, load vehicles
-      activeAgencies.forEach(({ slug }) => {
-        this.$store.dispatch('vehicles/load', slug)
+      activeAgencies.forEach((agency) => {
+        this.$store.dispatch('vehicles/load', agency)
       })
 
       // Load alerts for this region
       this.$store.dispatch('alerts/load', this.region)
     })
-    console.log(1, 'default.vue agencies/loadCustom')
-    this.$store.dispatch('agencies/loadCustom').then((agencies) => {
-      console.log(7, 'default.vue vehicles/loadCustom')
-      this.$store.dispatch('vehicles/loadCustom', agencies)
+    this.$store.dispatch('agencies/loadLocal').then((agencies) => {
+      this.$store.dispatch('vehicles/loadLocal', agencies)
     })
+
+    // Set up auto refresh for local agencies with remote URL
+    setInterval(() => {
+      this.localAgenciesWithRemote.forEach((agency) => {
+        this.$store.dispatch('vehicles/loadRemote', agency)
+      })
+    }, 1000 * 60)
   },
 }
 </script>

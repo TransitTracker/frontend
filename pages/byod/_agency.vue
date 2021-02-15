@@ -18,7 +18,7 @@
         </v-btn>
         Back to all custom agencies
         <v-spacer></v-spacer>
-        <v-btn text color="error">
+        <v-btn text color="error" @click="deleteAgency">
           <v-icon left>mdi-delete</v-icon>
           Delete agency
         </v-btn>
@@ -33,7 +33,7 @@
         <v-card-text v-else class="d-flex align-center pb-0">
           <v-icon color="warning">mdi-alert</v-icon>
           <p class="mb-0 text-body-1 ml-2">
-            You don't have uploaded any routes yet.
+            You don't have imported any routes yet.
           </p>
         </v-card-text>
         <v-card-actions class="px-4 pb-4">
@@ -44,16 +44,16 @@
             label="Click to select the routes.txt file"
             truncate-length="50"
             :prepend-icon="null"
-            messages="Uploading a new file will overwrite any existing routes."
+            messages="Importing a new file will overwrite any existing routes."
           ></v-file-input>
           <v-btn
             color="primary"
             text
             :disabled="!files.routes"
             :loading="loading.routes"
-            @click="uploadRoutes"
+            @click="importRoutes"
           >
-            Upload routes
+            Import routes
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -65,7 +65,7 @@
         <v-card-text v-else class="d-flex align-center pb-0">
           <v-icon color="warning">mdi-alert</v-icon>
           <p class="mb-0 text-body-1 ml-2">
-            You don't have uploaded any trips yet.
+            You don't have imported any trips yet.
           </p>
         </v-card-text>
         <v-card-actions class="px-4 pb-4">
@@ -76,16 +76,16 @@
             label="Click to select the trips.txt file"
             truncate-length="50"
             :prepend-icon="null"
-            messages="Uploading a new file will overwrite any existing trips."
+            messages="Importing a new file will overwrite any existing trips."
           ></v-file-input>
           <v-btn
             color="primary"
             text
             :disabled="!files.trips"
             :loading="loading.trips"
-            @click="uploadTrips"
+            @click="importTrips"
           >
-            Upload trips
+            Import trips
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -98,37 +98,67 @@
           </span>
           vehiclePosition in the protocol buffer format.
         </v-card-subtitle>
-        <v-card-text
-          v-if="lengths.vehicles === 0"
-          class="d-flex align-center pb-0 pt-2"
-        >
-          <v-icon color="warning">mdi-alert</v-icon>
-          <p class="mb-0 text-body-1 ml-2">
-            You don't have uploaded any vehicles yet.
-          </p>
+        <v-card-text>
+          <div v-if="lengths.vehicles === 0" class="d-flex align-center py-4">
+            <v-icon color="warning">mdi-alert</v-icon>
+            <p class="mb-0 text-body-1 ml-2">
+              You don't have imported any vehicles yet.
+            </p>
+          </div>
+          <v-tabs v-model="rtTab">
+            <v-tab>Local</v-tab>
+            <v-tab>Remote</v-tab>
+          </v-tabs>
+          <v-tabs-items v-model="rtTab">
+            <v-tab-item>
+              <div class="d-flex align-center">
+                <v-file-input
+                  v-model="files.vehicles"
+                  :disabled="loading.vehicles"
+                  class="mr-4"
+                  label="Click to select the vehiclePosition file"
+                  messages="You can import as many file as you want. Entity with the same ID will be updated."
+                  truncate-length="50"
+                  :prepend-icon="null"
+                ></v-file-input>
+                <v-btn
+                  color="primary"
+                  text
+                  :disabled="!files.vehicles"
+                  :loading="loading.vehicles"
+                  @click="importVehicles"
+                >
+                  Import vehicles
+                </v-btn>
+              </div>
+            </v-tab-item>
+            <v-tab-item>
+              <v-alert
+                v-if="remote.showError"
+                type="error"
+                dense
+                text
+                class="my-4"
+              >
+                There was an error while fetching this URL:
+                <b>{{ remote.error }}</b>
+                This could be a CORS error.
+              </v-alert>
+              <v-text-field v-model="remote.url" label="Remote URL" />
+              <v-switch
+                v-model="remote.autoRefresh"
+                label="Auto refresh every minute"
+                prepend-icon="mdi-sync"
+              />
+              <v-btn color="primary" @click="saveRemoteUrl">
+                Save and fetch vehicles
+              </v-btn>
+            </v-tab-item>
+          </v-tabs-items>
         </v-card-text>
-        <v-card-actions class="px-4 pb-0">
-          <v-file-input
-            v-model="files.vehicles"
-            :disabled="loading.vehicles"
-            class="mr-4"
-            label="Click to select the vehiclePosition file"
-            truncate-length="50"
-            :prepend-icon="null"
-          ></v-file-input>
-          <v-btn
-            color="primary"
-            text
-            :disabled="!files.vehicles"
-            :loading="loading.vehicles"
-            @click="uploadVehicles"
-          >
-            Upload vehicles
-          </v-btn>
-        </v-card-actions>
       </v-card>
       <p class="mt-4">
-        Once uploaded, your vehicles are accessible in every region of Transit
+        Once imported, your vehicles are accessible in every region of Transit
         Tracker. All data is saved in your browser.
       </p>
     </v-container>
@@ -138,7 +168,7 @@
 <script>
 export default {
   async asyncData({ params, store, redirect }) {
-    const agency = await store.dispatch('agencies/getCustomById', params.agency)
+    const agency = await store.dispatch('agencies/getLocal', params.agency)
     if (!agency) redirect('/byod')
     return { agency }
   },
@@ -160,11 +190,40 @@ export default {
     },
     feed: null,
     json: null,
+    rtTab: null,
+    remote: {
+      url: '',
+      autoRefresh: false,
+      showError: false,
+      error: null,
+    },
   }),
   mounted() {
     this.refreshStats()
+    this.remote = {
+      url: this.agency.meta.remoteUrl || '',
+      autoRefresh: this.agency.meta.remoteAutoRefresh || false,
+    }
   },
   methods: {
+    async deleteAgency() {
+      await this.$store.dispatch('gtfs/delete', {
+        agency: this.agency,
+        model: 'routes',
+      })
+      await this.$store.dispatch('gtfs/delete', {
+        agency: this.agency,
+        model: 'trips',
+      })
+      await this.$store.dispatch('gtfs/delete', {
+        agency: this.agency,
+        model: 'vehicles',
+      })
+      await this.$store.dispatch('agencies/delete', {
+        agency: this.agency,
+      })
+      this.$router.push('/byod')
+    },
     refreshStats() {
       this.$database.routes
         .where({ agency: this.agency.id })
@@ -180,13 +239,13 @@ export default {
           this.lengths.vehicles = result
         })
     },
-    uploadRoutes() {
+    importRoutes() {
       this.loading.routes = true
 
       // Send file
       this.$store
-        .dispatch('gtfs/processRoutes', {
-          agency: this.agency.id,
+        .dispatch('gtfs/saveRoutes', {
+          agency: this.agency,
           file: this.files.routes,
         })
         .then(() => {
@@ -195,13 +254,13 @@ export default {
           this.refreshStats()
         })
     },
-    uploadTrips() {
+    importTrips() {
       this.loading.trips = true
 
       // Send file
       this.$store
-        .dispatch('gtfs/processTrips', {
-          agency: this.agency.id,
+        .dispatch('gtfs/saveTrips', {
+          agency: this.agency,
           file: this.files.trips,
         })
         .then((result) => {
@@ -210,7 +269,7 @@ export default {
           this.refreshStats()
         })
     },
-    uploadVehicles() {
+    importVehicles() {
       this.loading.vehicles = true
 
       // Open and read file
@@ -230,6 +289,42 @@ export default {
             this.refreshStats()
           })
       }
+    },
+    saveRemoteUrl() {
+      this.$store
+        .dispatch('agencies/updateLocal', {
+          agency: this.agency,
+          fields: {
+            'meta.remoteUrl': this.remote.url,
+            'meta.remoteAutoRefresh': this.remote.autoRefresh,
+          },
+        })
+        .then((agency) => {
+          this.agency = agency
+          this.fetchRemoteUrl()
+        })
+    },
+    fetchRemoteUrl() {
+      this.$store
+        .dispatch('vehicles/loadRemote', this.agency)
+        .then(() => {})
+        .catch((error) => {
+          // Reset the remote url
+          this.remote = {
+            url: '',
+            autoRefresh: '',
+          }
+          this.$store.dispatch('agencies/updateLocal', {
+            agency: this.agency,
+            fields: {
+              'meta.remoteUrl': this.remote.url,
+              'meta.remoteAutoRefresh': this.remote.autoRefresh,
+            },
+          })
+
+          this.remote.showError = true
+          this.remote.error = error
+        })
     },
   },
 }

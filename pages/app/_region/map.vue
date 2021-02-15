@@ -119,12 +119,12 @@ export default {
     )
 
     this.map.on('styledata', () => {
-      console.log('Map style ready!')
+      // console.log('Map style ready!')
       this.mapStyleReady = true
     })
 
     this.map.on('load', () => {
-      console.log('Map ready!')
+      // console.log('Map ready!')
       this.mapReady = true
 
       // Add route shape source and layer
@@ -164,26 +164,26 @@ export default {
     addAgencyLayers(features, agency) {
       // Don't continue if map is not ready
       if (!this.mapReady || !this.mapStyleReady) {
-        console.log('reject map or style not ready', agency.name)
+        // console.log('reject map or style not ready', agency.name)
         return
       }
 
       // Don't create a second source if it already exists
       if (this.map.getSource(`source-${agency.slug}`)) {
-        console.log('reject no source', agency.name)
+        // console.log('reject no source', agency.name)
         return
       }
 
       // Don't create if the features or agency is undefined
       if (!features || !agency) {
-        if (!features) console.log('reject no features', agency.name)
-        if (!agency) console.log('reject no agency', agency.name)
+        // if (!features) console.log('reject no features', agency.name)
+        // if (!agency) console.log('reject no agency', agency.name)
         return
       }
 
-      console.log('continue')
+      // console.log('continue')
 
-      console.log(features, agency)
+      // console.log(features, agency)
       // Add map source
       this.map.addSource(`source-${agency.slug}`, {
         type: 'geojson',
@@ -218,7 +218,7 @@ export default {
         this.$store
           .dispatch('vehicles/setSelectionById', {
             id: e.features[0].properties.id,
-            agencySlug: agency.slug,
+            agency,
           })
           .then((vehicle) => {
             if (vehicle.id) this.selectVehicle(vehicle)

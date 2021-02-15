@@ -76,6 +76,23 @@ export default {
 
   generate: {
     fallback: true,
+    routes: [
+      '/app/montreal/',
+      '/app/montreal/map',
+      '/app/montreal/table',
+      '/app/toronto/',
+      '/app/toronto/map',
+      '/app/toronto/table',
+      '/app/sherbrooke/',
+      '/app/sherbrooke/map',
+      '/app/sherbrooke/table',
+      '/app/quebec/',
+      '/app/quebec/map',
+      '/app/quebec/table',
+      '/app/outaouais/',
+      '/app/outaouais/map',
+      '/app/outaouais/table',
+    ],
   },
 
   loading: '~/components/Loading.vue',
