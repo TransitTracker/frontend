@@ -21,7 +21,7 @@
     "gtfs-realtime-bindings": "^0.0.6",
     "gtfs-utils": "^3.0.1",
     "mapbox-gl": "^2.0.1",
-    "nuxt": "^2.14.6",
+    "nuxt": "^2.15.0",
     "nuxt-i18n": "^6.15.4",
     "papaparse": "^5.3.0",
     "uuid": "^8.3.2",
