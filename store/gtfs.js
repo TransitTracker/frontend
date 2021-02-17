@@ -38,12 +38,17 @@ export const actions = {
         header: true,
         worker: true,
         chunk: ({ data }) => {
-          const routes = data.map((route) => {
+          let routes = data.map((route) => {
             return {
               ...route,
               agency: agency.slug,
             }
           })
+
+          routes = routes.filter((route) => {
+            return route.route_id
+          })
+
           this.$database.routes.bulkPut(routes)
         },
         complete: () => {
@@ -60,12 +65,17 @@ export const actions = {
         header: true,
         worker: true,
         chunk: async ({ data }) => {
-          const trips = data.map((trip) => {
+          let trips = data.map((trip) => {
             return {
               ...trip,
               agency: agency.slug,
             }
           })
+
+          trips = trips.filter((trip) => {
+            return trip.trip_id
+          })
+
           await this.$database.trips.bulkPut(trips)
         },
         complete: () => {

@@ -13,39 +13,47 @@
         You can use the interface of Transit Tracker with your own feeds from
         your favorite agencies from all over the world.
       </p>
-      <h2 class="text-h6 mt-4 mb-2">List of agencies</h2>
-      <v-list v-if="agencies.length" class="py-0">
-        <v-list-item-group>
-          <v-list-item
-            v-for="agency in agencies"
-            :key="agency.slug"
-            nuxt
-            :to="`/byod/${agency.slug}`"
-          >
-            <v-list-item-content>
-              <v-list-item-title>{{ agency.name }}</v-list-item-title>
-              <v-list-item-subtitle>
-                Last updated: <timeago :datetime="agency.meta.updatedAt" />
-              </v-list-item-subtitle>
-            </v-list-item-content>
-            <v-list-item-action>
-              <v-btn icon nuxt :to="`/byod/${agency.slug}`">
-                <v-icon>mdi-pencil</v-icon>
-              </v-btn>
-            </v-list-item-action>
-          </v-list-item>
-        </v-list-item-group>
-      </v-list>
-      <v-sheet v-else class="px-4 py-8 d-flex flex-column align-center">
-        <v-icon color="primary" size="100">mdi-folder-plus</v-icon>
-        <p class="text-h6 text-center my-2">No agencies</p>
-        <p class="text-subtitle-1 text-center">
-          To get started, click the button below
+      <div v-if="byodIsActivated">
+        <h2 class="text-h6 mt-4 mb-2">List of agencies</h2>
+        <v-list v-if="agencies.length" class="py-0">
+          <v-list-item-group>
+            <v-list-item
+              v-for="agency in agencies"
+              :key="agency.slug"
+              nuxt
+              :to="`/byod/${agency.slug}`"
+            >
+              <v-list-item-content>
+                <v-list-item-title>{{ agency.name }}</v-list-item-title>
+                <v-list-item-subtitle>
+                  Last updated: <timeago :datetime="agency.meta.updatedAt" />
+                </v-list-item-subtitle>
+              </v-list-item-content>
+              <v-list-item-action>
+                <v-btn icon nuxt :to="`/byod/${agency.slug}`">
+                  <v-icon>mdi-pencil</v-icon>
+                </v-btn>
+              </v-list-item-action>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+        <v-sheet v-else class="px-4 py-8 d-flex flex-column align-center">
+          <v-icon color="primary" size="100">mdi-folder-plus</v-icon>
+          <p class="text-h6 text-center my-2">No agencies</p>
+          <p class="text-subtitle-1 text-center">
+            To get started, click the button below
+          </p>
+          <v-btn large color="primary" @click="newAgencyDialog = true">
+            New agency
+          </v-btn>
+        </v-sheet>
+      </div>
+      <div v-else>
+        <p class="text-h6">
+          For performance reasons, the BYOD module is turn off by default.
         </p>
-        <v-btn large color="primary" @click="newAgencyDialog = true">
-          New agency
-        </v-btn>
-      </v-sheet>
+        <v-btn color="primary" @click="activateByod">Turn on BYOD</v-btn>
+      </div>
       <v-dialog v-model="newAgencyDialog" max-width="500px">
         <v-card>
           <v-card-text class="pt-4">
@@ -116,7 +124,18 @@ export default {
     newAgencyDialog: false,
     newAgencyForm: false,
   }),
+  computed: {
+    byodIsActivated() {
+      return this.$store.state.settings.activateByod
+    },
+  },
   methods: {
+    activateByod() {
+      this.$store.commit('settings/set', {
+        setting: 'activateByod',
+        value: true,
+      })
+    },
     createAgency() {
       this.$store.dispatch('agencies/saveLocal', this.newAgency).then(() => {
         this.$router.push(`/byod/${this.newAgency.id}`)

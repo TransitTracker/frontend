@@ -79,6 +79,9 @@ export default {
         this.$route.params.region || this.$store.state.settings.currentRegion
       )
     },
+    settingsByod() {
+      return this.$store.state.settings.activateByod
+    },
     settingsLang() {
       return this.$store.state.settings.lang
     },
@@ -101,6 +104,9 @@ export default {
     },
   },
   watch: {
+    settingsByod(value) {
+      if (value) this.loadByodAgencies()
+    },
     settingsDarkMode(value) {
       this.$vuetify.theme.dark = value
     },
@@ -125,16 +131,23 @@ export default {
       // Load alerts for this region
       this.$store.dispatch('alerts/load', this.region)
     })
-    this.$store.dispatch('agencies/loadLocal').then((agencies) => {
-      this.$store.dispatch('vehicles/loadLocal', agencies)
-    })
 
-    // Set up auto refresh for local agencies with remote URL
-    setInterval(() => {
-      this.localAgenciesWithRemote.forEach((agency) => {
-        this.$store.dispatch('vehicles/loadRemote', agency)
+    if (this.settingsByod) this.loadByodAgencies()
+  },
+  methods: {
+    loadByodAgencies() {
+      // Load byod agencies
+      this.$store.dispatch('agencies/loadLocal').then((agencies) => {
+        this.$store.dispatch('vehicles/loadLocal', agencies)
       })
-    }, 1000 * 60)
+
+      // Set up auto refresh for local agencies with remote URL
+      setInterval(() => {
+        this.localAgenciesWithRemote.forEach((agency) => {
+          this.$store.dispatch('vehicles/loadRemote', agency)
+        })
+      }, 1000 * 60)
+    },
   },
 }
 </script>

@@ -8,6 +8,7 @@ export const state = () => ({
   launch: '/',
   lang: 'en',
   theme: 'system',
+  activateByod: false,
 })
 
 export const mutations = {

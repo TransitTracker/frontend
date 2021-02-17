@@ -54,7 +54,7 @@
                     elevation="0"
                     width="100%"
                     height="100%"
-                    color="grey lighten-3"
+                    :color="darkMode ? 'grey darken-3' : 'grey lighten-3'"
                     :loading="
                       vehicleCounts[agency.slug] ? false : agency.textColor
                     "
@@ -151,6 +151,9 @@ export default {
         }
       )
     },
+    darkMode() {
+      return this.$vuetify.theme.dark
+    },
     region() {
       return (
         this.$store.state.regions.data[this.regionSlug] || {
@@ -190,6 +193,16 @@ export default {
 .welcome {
   background-repeat: repeat;
   background-size: contain;
+}
+.tt-agencies-clip-path {
+  height: 100%;
+  width: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  clip-path: polygon(90% 0, 100% 0, 100% 100%, 95% 100%);
 }
 
 .v-application.theme--light .welcome {

@@ -115,7 +115,7 @@ export const actions = {
                 properties: {
                   id: vehicle.id,
                   label: vehicle.label,
-                  'marker-symbol': `tt-custom-${agency.defaultVehicleType}`,
+                  'marker-symbol': `tt-custom-${vehicle.vehicleType}`,
                 },
                 geometry: {
                   type: 'Point',
@@ -141,17 +141,17 @@ export const actions = {
             vehicles: result,
             features: {
               type: 'FeatureCollection',
-              features: result.map((entity) => {
+              features: result.map((vehicle) => {
                 return {
                   type: 'Feature',
                   properties: {
-                    id: entity.id,
-                    label: entity.label,
-                    'marker-symbol': `tt-custom-${agency.defaultVehicleType}`,
+                    id: vehicle.id,
+                    label: vehicle.label,
+                    'marker-symbol': `tt-custom-${vehicle.vehicleType}`,
                   },
                   geometry: {
                     type: 'Point',
-                    coordinates: [entity.position.lon, entity.position.lat],
+                    coordinates: [vehicle.position.lon, vehicle.position.lat],
                   },
                 }
               }),
@@ -201,9 +201,89 @@ const convertVehicle = async (agency, entity, database) => {
       })) || {}
   }
 
+  let vehicleType = agency.defaultVehicleType
+  switch (route.route_type) {
+    case '0':
+    case '900':
+    case '901':
+    case '902':
+    case '903':
+    case '904':
+    case '905':
+    case '906':
+      vehicleType = 'tram'
+      break
+    case '1':
+    case '401':
+    case '402':
+      vehicleType = 'subway'
+      break
+    case '2':
+    case '100':
+    case '101':
+    case '102':
+    case '103':
+    case '104':
+    case '105':
+    case '106':
+    case '107':
+    case '108':
+    case '109':
+    case '110':
+    case '111':
+    case '112':
+    case '113':
+    case '114':
+    case '115':
+    case '116':
+    case '117':
+    case '400':
+    case '403':
+    case '404':
+      vehicleType = 'train'
+      break
+    case '3':
+    case '200':
+    case '201':
+    case '202':
+    case '203':
+    case '204':
+    case '205':
+    case '206':
+    case '207':
+    case '208':
+    case '209':
+    case '700':
+    case '701':
+    case '702':
+    case '703':
+    case '704':
+    case '705':
+    case '708':
+    case '709':
+    case '710':
+    case '711':
+    case '712':
+    case '713':
+    case '714':
+    case '715':
+    case '716':
+    case '800':
+      vehicleType = 'bus'
+      break
+    case '4':
+    case '1000':
+    case '1200':
+      vehicleType = 'ferry'
+      break
+    case 6:
+      vehicleType = 'gondola'
+      break
+  }
+
   return {
     agency: agency.slug,
-    ref: entity.vehicle.vehicle.id,
+    ref: entity.vehicle.vehicle.id || entity.id,
     id: uuid(),
     isActive: true,
     label: entity.vehicle.vehicle.label || entity.vehicle.vehicle.id,
@@ -217,7 +297,7 @@ const convertVehicle = async (agency, entity, database) => {
     },
     bearing: entity.vehicle.position.bearing || null,
     speed: Math.round(entity.vehicle.position.speed) || null,
-    vehicleType: agency.defaultVehicleType,
+    vehicleType,
     plate: entity.vehicle.vehicle.licensePlate || null,
     odometer: entity.vehicle.position.odometer || null,
     currentStopSequence: entity.vehicle.currentStopSequence || null,
