@@ -3,7 +3,7 @@ export default {
     tabHome: 'Accueil',
     tabMap: 'Carte',
     tabTable: 'Liste',
-    tabSettings: 'Réglages',
+    tabSettings: 'Paramètres',
     snackbarBold: 'Attention!',
     snackbarText:
       'Les données de certaines agences ne sont pas à jour et doivent être utilisées avec prudence.',
@@ -75,26 +75,28 @@ export default {
     actions: 'Actions',
   },
   settings: {
+    title: 'Paramètres',
+    pwa: {
+      install: 'Installer Transit Tracker',
+      success: 'Succès!',
+      error: "Erreur lors de l'installation",
+    },
     agenciesTitle: 'Agences',
-    agenciesBody:
-      "Sur un appareil mobile, commencez avec une ou deux agences, l'application sera plus performante!",
-    agenciesApply: 'Appliquer les changements',
-    changeRegion: 'Changer',
-    activeRegion: 'Active',
-    otherTitle: 'Autres réglages',
-    otherAutoRefresh: 'Actualisation automatique',
-    otherLanguageLabel: 'Langue',
-    otherLanguageCaption: 'Language',
-    otherOptOut: 'Se retirer des statistiques',
-    otherChanges:
-      'Les changements dans cette section sont appliqués instantanément.',
-    aboutTitle: 'À propos de cette application',
-    aboutBody:
-      'Cette application est conçue par FelixINX. Les données sont disponibles grâce aux programmes de données ouvertes. ' +
-      'Un problème, un commentaire ou une suggestion? <a href="https://forms.gle/3qGEuNKs7pGKMijs9" class="white--text">Contactez-moi</a>',
-    aboutSource: 'Code source',
-    aboutContributions:
-      'L\'application Transit Tracker ne serait pas possible sans de nombreux projets open-source et produits gratuits, dont : <a class="white--text" href="https://vuetifyjs.com">Vuetify</a>, <a class="white--text" href="https://laravel.com">Laravel</a>, <a class="white--text" href="https://ploi.io">Ploi</a> et <a class="white--text" href="https://backpackforlaravel.com/">Backpack</a>.',
+    searchAgency: 'Rechercher une agence',
+    autoRefresh: 'Rafraichissement automatique',
+    autoRefreshOn: 'Activé',
+    autoRefreshOnDesc: 'Mise à jour toutes les 60 secondes',
+    autoRefreshOff: 'Désactivé',
+    theme: 'Thème',
+    themeLight: 'Thème clair',
+    themeDark: 'Thème foncé',
+    themeSystem: 'Système',
+    themeSystemDesc: 'Selon les préférences de votre navigateur',
+    defaultScreen: 'Écran par défaut',
+    language: 'Langue',
+    about: 'Par @felixinx',
+    contact: 'Un problème, un commentaire ou une suggestion?',
+    contactBtn: 'Contactez-moi',
   },
   alert: {
     readMore: 'Lire plus',
