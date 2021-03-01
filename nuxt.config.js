@@ -115,9 +115,18 @@ export default {
   },
 
   pwa: {
-    name: 'Transit Tracker',
-    short_name: 'Transit T',
-    description: 'Realtime transit overview for Canadian cities',
-    theme_color: '#2374ab',
+    manifest: {
+      name: 'Transit Tracker',
+      short_name: 'Transit T',
+      description: 'Realtime transit overview for Canadian cities',
+      display: 'minimal-ui',
+    },
+    meta: {
+      appleStatusBarStyle: 'black-translucent',
+      name: 'Transit Tracker',
+      description: 'Realtime transit overview for Canadian cities',
+      theme_color: '#00497b',
+      lang: 'en',
+    },
   },
 }

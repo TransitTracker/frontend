@@ -9,7 +9,8 @@
         style="isolation: isolate"
         viewBox="0 0 295.012 403.722"
         width="18px"
-        class="ml-2 mr-3"
+        class="ml-2 mr-3 tt-toolbar--click"
+        @click="$router.push('/')"
       >
       <!-- eslint-enable -->
         <path
@@ -23,13 +24,19 @@
           d="M84.348 183.032c0 6.948 3.079 13.185 7.895 17.527v10.105a11.826 11.826 0 0011.842 11.842 11.826 11.826 0 0011.842-11.842v-3.947h63.158v3.947c0 6.474 5.289 11.842 11.842 11.842 6.474 0 11.842-5.289 11.842-11.842v-10.105c4.816-4.342 7.895-10.579 7.895-17.527v-78.947c0-27.632-28.263-31.579-63.158-31.579-34.895 0-63.158 3.947-63.158 31.579zm27.632 7.895a11.826 11.826 0 01-11.842-11.842 11.826 11.826 0 0111.842-11.842 11.826 11.826 0 0111.842 11.842c0 6.553-5.29 11.842-11.842 11.842zm71.052 0a11.826 11.826 0 01-11.842-11.842c0-6.553 5.29-11.842 11.842-11.842a11.826 11.826 0 0111.842 11.842 11.826 11.826 0 01-11.842 11.842zm11.842-47.368h-94.736v-39.474h94.736z"
         />
       </svg>
-      <v-toolbar-title>Transit Tracker</v-toolbar-title>
+      <v-toolbar-title class="tt-toolbar--click" @click="$router.push('/')">
+        Transit Tracker
+      </v-toolbar-title>
       <v-spacer />
       <v-btn text @click="loading = !loading">
         Montréal
         <v-icon>mdi-menu-down</v-icon>
       </v-btn>
-      <v-btn icon @click="settingsDrawer = !settingsDrawer">
+      <v-btn
+        icon
+        :aria-label="$t('settings.open')"
+        @click="settingsDrawer = !settingsDrawer"
+      >
         <v-icon>mdi-cog</v-icon>
       </v-btn>
     </v-app-bar>
@@ -37,33 +44,35 @@
       <settings-drawer v-model="settingsDrawer" />
       <nuxt />
     </v-main>
-    <v-bottom-navigation
-      v-if="!$route.name.includes('landing')"
-      grow
-      color="primary"
-      fixed
-    >
-      <v-btn :to="`/app/${region}/`" nuxt exact>
-        <span>{{ $t('app.tabHome') }}</span>
-        <v-icon>mdi-home</v-icon>
-      </v-btn>
-      <v-btn :to="`/app/${region}/map`" nuxt>
-        <span>{{ $t('app.tabMap') }}</span>
-        <v-icon>mdi-map</v-icon>
-      </v-btn>
-      <v-btn :to="`/app/${region}/table`" nuxt>
-        <span>{{ $t('app.tabTable') }}</span>
-        <v-icon>mdi-table</v-icon>
-      </v-btn>
-      <v-btn to="/byod" nuxt>
-        <span>{{ $t('app.tabByod') }}</span>
-        <v-icon>mdi-folder-upload</v-icon>
-      </v-btn>
-      <v-btn to="/settings" nuxt>
-        <span>{{ $t('app.tabSettings') }}</span>
-        <v-icon>mdi-cog</v-icon>
-      </v-btn>
-    </v-bottom-navigation>
+    <nav>
+      <v-bottom-navigation
+        v-if="!$route.name.includes('landing')"
+        grow
+        :color="settingsDarkMode ? null : 'primary'"
+        fixed
+      >
+        <v-btn :to="localePath(`/app/${region}/`)" nuxt exact>
+          <span>{{ $t('app.tabHome') }}</span>
+          <v-icon>mdi-home</v-icon>
+        </v-btn>
+        <v-btn :to="localePath(`/app/${region}/map`)" nuxt>
+          <span>{{ $t('app.tabMap') }}</span>
+          <v-icon>mdi-map</v-icon>
+        </v-btn>
+        <v-btn :to="localePath(`/app/${region}/table`)" nuxt>
+          <span>{{ $t('app.tabTable') }}</span>
+          <v-icon>mdi-table</v-icon>
+        </v-btn>
+        <v-btn :to="localePath('/byod')" nuxt>
+          <span>{{ $t('app.tabByod') }}</span>
+          <v-icon>mdi-folder-upload</v-icon>
+        </v-btn>
+        <v-btn :to="localePath('/settings')" nuxt>
+          <span>{{ $t('app.tabSettings') }}</span>
+          <v-icon>mdi-cog</v-icon>
+        </v-btn>
+      </v-bottom-navigation>
+    </nav>
   </v-app>
 </template>
 
@@ -105,13 +114,17 @@ export default {
   },
   watch: {
     settingsByod(value) {
+      console.log('watcher byod', value)
       if (value) this.loadByodAgencies()
     },
     settingsDarkMode(value) {
+      console.log('watcher dark', value)
       this.$vuetify.theme.dark = value
     },
     settingsLang(value) {
+      console.log('watcher lang', value)
       this.$i18n.setLocale(value)
+      this.$vuetify.lang.current = value
     },
   },
   mounted() {
@@ -132,7 +145,15 @@ export default {
       this.$store.dispatch('alerts/load', this.region)
     })
 
+    console.log(
+      'settings',
+      this.settingsByod,
+      this.settingsDarkMode,
+      this.settingsLang
+    )
     if (this.settingsByod) this.loadByodAgencies()
+    if (this.settingsDarkMode) this.$vuetify.theme.dark = true
+    this.$i18n.setLocale(this.settingsLang)
   },
   methods: {
     loadByodAgencies() {
@@ -153,6 +174,9 @@ export default {
 </script>
 
 <style>
+.tt-toolbar--click {
+  cursor: pointer;
+}
 .theme--light.tt-app {
   background: #eef6fc !important;
 }

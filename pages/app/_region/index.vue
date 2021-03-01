@@ -31,7 +31,7 @@
     <v-container>
       <v-row>
         <v-col cols="12">
-          <v-card v-if="activeAgencies">
+          <v-card v-if="activeAgencies" class="mt-4">
             <v-card-title>
               <span class="flex-grow-1">
                 {{ totalCount }} {{ $t('home.vehicleTotal') }}
