@@ -28,6 +28,12 @@ export const actions = {
     const trips = await this.$database.trips.where({ agency })
     return trips
   },
+  async getShape(context, { agency, shapeId }) {
+    return await this.$database.shapes.get({
+      agency,
+      shape_id: shapeId,
+    })
+  },
   async delete(context, { agency, model }) {
     await this.$database[model].where({ agency: agency.slug }).delete()
   },
@@ -85,4 +91,55 @@ export const actions = {
       })
     })
   },
+  // saveShapes({ dispatch }, { agency, file }) {
+  //   return new Promise((resolve) => {
+  //     const shapes = {}
+  //     Papa.parse(file, {
+  //       header: true,
+  //       worker: true,
+  //       chunk: ({ data }) => {
+  //         data.forEach((shape) => {
+  //           if (!shapes[shape.shape_id]) shapes[shape.shape_id] = []
+  //           shapes[shape.shape_id].push({
+  //             coordinates: [shape.shape_pt_lon, shape.shape_pt_lat],
+  //             sequence: shape.shape_pt_sequence,
+  //           })
+  //         })
+  //       },
+  //       complete: () => {
+  //         console.log('shapes', shapes)
+
+  //         const geojsonShapes = Object.keys(shapes).map((shapeId) => {
+  //           const unorderedShape = shapes[shapeId]
+  //           const orderedShape = unorderedShape.sort(
+  //             (a, b) => a.sequence - b.sequence
+  //           )
+  //           console.log('orderedShape', orderedShape)
+
+  //           const coordinates = []
+  //           orderedShape.forEach((point) => {
+  //             coordinates.push(point.coordinates)
+  //           })
+
+  //           return {
+  //             agency: agency.slug,
+  //             shape_id: shapeId,
+  //             type: 'Feature',
+  //             properties: {},
+  //             geometry: {
+  //               type: 'LineString',
+  //               coordinates,
+  //             },
+  //           }
+  //         })
+  //         console.log('geojsonShapes', geojsonShapes)
+
+  //         this.$database.shapes.bulkPut(geojsonShapes)
+
+  //         resolve()
+  //         dispatch('agencies/touchUpdatedAt', agency, { root: true })
+  //       },
+  //     })
+  //   })
+  // },
 }

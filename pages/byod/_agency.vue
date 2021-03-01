@@ -89,6 +89,38 @@
           </v-btn>
         </v-card-actions>
       </v-card>
+      <!-- <v-card rounded="lg" class="my-6">
+        <v-card-title>Shapes</v-card-title>
+        <v-card-subtitle v-if="lengths.trips" class="pb-0">
+          {{ lengths.shapes }} shapes saved in your browser.
+        </v-card-subtitle>
+        <v-card-text v-else class="d-flex align-center pb-0">
+          <v-icon color="warning">mdi-alert</v-icon>
+          <p class="mb-0 text-body-1 ml-2">
+            You don't have imported any shapes yet.
+          </p>
+        </v-card-text>
+        <v-card-actions class="px-4 pb-4">
+          <v-file-input
+            v-model="files.shapes"
+            :disabled="loading.shapes"
+            class="mr-4"
+            label="Click to select the shapes.txt file"
+            truncate-length="50"
+            :prepend-icon="null"
+            messages="Importing a new file will overwrite any existing shapes."
+          ></v-file-input>
+          <v-btn
+            color="primary"
+            text
+            :disabled="!files.shapes"
+            :loading="loading.shapes"
+            @click="importShapes"
+          >
+            Import trips
+          </v-btn>
+        </v-card-actions>
+      </v-card> -->
       <v-card rounded="lg">
         <v-card-title>Vehicles (GTFS Realtime)</v-card-title>
         <v-card-subtitle class="pb-0">
@@ -177,16 +209,19 @@ export default {
       routes: undefined,
       trips: undefined,
       vehicles: undefined,
+      // shapes: undefined,
     },
     lengths: {
       routes: 0,
       trips: 0,
       vehicles: 0,
+      // shapes: 0,
     },
     loading: {
       routes: false,
       trips: false,
       vehicles: false,
+      // shapes: false,
     },
     feed: null,
     json: null,
@@ -269,6 +304,21 @@ export default {
           this.refreshStats()
         })
     },
+    // importShapes() {
+    //   this.loading.shapes = true
+
+    //   // Send file
+    //   this.$store
+    //     .dispatch('gtfs/saveShapes', {
+    //       agency: this.agency,
+    //       file: this.files.shapes,
+    //     })
+    //     .then((result) => {
+    //       this.files.shapes = undefined
+    //       this.loading.shapes = false
+    //       this.refreshStats()
+    //     })
+    // },
     importVehicles() {
       this.loading.vehicles = true
 

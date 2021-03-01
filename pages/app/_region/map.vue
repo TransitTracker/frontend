@@ -242,6 +242,20 @@ export default {
           'line-color',
           vehicle.trip.routeColor || '#000000'
         )
+        // } else if (vehicle.meta.json?.trip?.shape_id) {
+        //   this.$store
+        //     .dispatch('gtfs/getShape', {
+        //       agency: vehicle.agency,
+        //       shapeId: vehicle.meta.json.trip.shape_id,
+        //     })
+        //     .then((result) => {
+        //       this.map.getSource('shape-source').setData(result)
+        //       this.map.setPaintProperty(
+        //         'shape-layer',
+        //         'line-color',
+        //         '#'.concat(vehicle.trip.routeColor) || '#000000'
+        //       )
+        //     })
       } else {
         this.map.getSource('shape-source').setData(defaultGeojsonShapeData)
       }
