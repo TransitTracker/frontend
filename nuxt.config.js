@@ -1,3 +1,5 @@
+import VuetifyEn from 'vuetify/es5/locale/en'
+import VuetifyFr from 'vuetify/es5/locale/fr'
 import { version } from './package.json'
 import en from './i18n/en'
 import fr from './i18n/fr'
@@ -62,11 +64,15 @@ export default {
 
   // i18n module configuration
   i18n: {
+    useCookie: false,
     locales: ['en', 'fr'],
     defaultLocale: 'en',
     vueI18n: {
       fallbackLocale: 'en',
-      messages: { en, fr },
+      messages: {
+        en: { ...en, $vuetify: VuetifyEn },
+        fr: { ...fr, $vuetify: VuetifyFr },
+      },
     },
   },
 

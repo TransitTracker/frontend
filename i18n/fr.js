@@ -10,6 +10,18 @@ export default {
     snackbarBtn: 'Fermer',
     regionAriaLabel: 'Changer de région',
   },
+  landing: {
+    welcome: 'Bienvenue dans Transit&nbsp;Tracker',
+    intro: "Une vue d'ensemble du réseau de transport en commun pour",
+    introCities: 'plusieurs villes Canadiennes',
+    body:
+      'En ce moment, il y a {vehicles} véhicules actifs à travers {agencies} agences.',
+    byodNew: 'Nouveau!',
+    byodTitle: 'Importez vos propres données',
+    byodBody:
+      "Vous pouvez maintenant utiliser l'interface de Transit Tracker avec n'importe quel jeu de données GTFS Realtime.",
+    byodStart: 'Commencez maintenant',
+  },
   home: {
     welcome: 'Bienvenue dans ',
     version: 'Version',
@@ -75,6 +87,7 @@ export default {
     actions: 'Actions',
   },
   settings: {
+    open: 'Ouvrir les paramètres',
     title: 'Paramètres',
     pwa: {
       install: 'Installer Transit Tracker',

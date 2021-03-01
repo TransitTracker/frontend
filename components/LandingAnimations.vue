@@ -277,16 +277,19 @@ export default {
 .bus {
   position: absolute;
   bottom: 2rem;
+  z-index: 1;
   height: 4rem;
   left: -20rem;
   animation-name: bus;
   animation-duration: 15s;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
+  opacity: 0.05;
 }
 .train {
   position: absolute;
   bottom: 10rem;
+  z-index: 1;
   height: 4rem;
   left: 100vh;
   animation-name: train;
@@ -294,10 +297,12 @@ export default {
   animation-delay: 1s;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
+  opacity: 0.05;
 }
 .tram {
   position: absolute;
   bottom: 6rem;
+  z-index: 1;
   height: 3rem;
   left: -20rem;
   animation-name: tram;
@@ -305,7 +310,17 @@ export default {
   animation-delay: 7s;
   animation-iteration-count: infinite;
   animation-timing-function: ease-in-out;
+  opacity: 0.05;
 }
+
+@media (min-width: 960px) {
+  .bus,
+  .train,
+  .tram {
+    opacity: 1;
+  }
+}
+
 .network .first {
   animation: network 2s infinite;
 }
