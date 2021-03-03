@@ -8,10 +8,7 @@
     <v-sheet>
       <div
         class="d-flex align-center pa-4 grey"
-        :class="{
-          'lighten-4': !settingsDarkMode,
-          'darken-4': settingsDarkMode,
-        }"
+        :class="[darkMode ? 'darken-4' : 'lighten-4']"
       >
         <div class="flex-grow-1">
           <b>
@@ -48,20 +45,17 @@
         <v-slide-group
           v-if="vehicle.links.length"
           class="px-4 py-2 grey"
-          :class="{
-            'lighten-3': !settingsDarkMode,
-            'darken-3': settingsDarkMode,
-          }"
+          :class="[darkMode ? 'darken-3' : 'lighten-3']"
           show-arrows
         >
           <v-slide-item v-for="link in stateLinks" :key="link.id">
             <v-sheet
               rounded
               elevation="2"
-              :class="{ white: !settingsDarkMode, dark: settingsDarkMode }"
+              :class="[darkMode ? 'dark' : 'white']"
               class="pa-2 d-flex align-center mr-4 my-2 cursor-pointer"
-              :light="!settingsDarkMode"
-              :dark="settingsDarkMode"
+              :light="!darkMode"
+              :dark="darkMode"
               @click="openLink(link.url)"
             >
               <div>
@@ -338,8 +332,8 @@ export default {
     componentColor() {
       return this.$vuetify.theme.dark ? 'white' : 'primary'
     },
-    settingsDarkMode() {
-      return this.$store.state.settings.darkMode
+    darkMode() {
+      return this.$vuetify.theme.dark
     },
     settingsLanguageEnglish() {
       return this.$store.state.settings.language === 'en'

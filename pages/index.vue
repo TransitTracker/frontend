@@ -1,6 +1,6 @@
 <template>
   <div class="landing-container flex-column flex-md-row">
-    <div id="map" class="flex-grow-1"></div>
+    <div id="lading-map" class="flex-grow-1"></div>
     <div
       class="content d-flex flex-column justify-md-center px-8 pt-8 pt-md-0 mb-14 mb-md-0 pb-4 pb-md-0"
     >
@@ -160,7 +160,7 @@ export default {
   mounted() {
     mapboxgl.accessToken = this.mapAccessToken
     this.map = new mapboxgl.Map({
-      container: 'map',
+      container: 'landing-map',
       style: this.darkMode ? this.mapStyle.dark : this.mapStyle.light,
       bounds: [
         [-85.9, 41.5],
@@ -334,7 +334,7 @@ export default {
 @media (min-width: 960px) {
   .landing-container,
   .angled-border,
-  #map {
+  #landing-map {
     height: calc(100% - 56px);
   }
   .content {
@@ -367,7 +367,7 @@ export default {
   .tt-landing--byod {
     max-width: 85%;
   }
-  #map {
+  #landing-map {
     width: 55%;
     position: absolute;
     left: 45%;

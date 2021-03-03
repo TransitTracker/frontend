@@ -2,8 +2,10 @@ import Dexie from 'dexie'
 
 export default (context, inject) => {
   const db = new Dexie('transit-tracker-local')
-  db.version(2).stores({
+  db.version(3).stores({
     agencies: '&id',
+    alerts: '[ref+agency], &id, agency',
+    tripUpdates: '[ref+agency], &id, agency',
     vehicles: '[ref+agency], &id, agency',
     routes: '[agency+route_id], agency',
     trips: '[agency+trip_id], agency',

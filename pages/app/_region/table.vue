@@ -44,9 +44,9 @@
         :text-color="colorFilter(item.trip.routeTextColor)"
       >
         {{ item.routeId }}
-        <span v-if="item.trip.routeLongName"
-          >&nbsp;{{ item.trip.routeLongName }}</span
-        >
+        <span v-if="item.trip.routeLongName">
+          &nbsp;{{ item.trip.routeLongName }}
+        </span>
       </v-chip>
     </template>
   </v-data-table>

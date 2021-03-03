@@ -39,8 +39,9 @@ export const actions = {
       name,
       shortName: 'Custom',
       slug: id,
+      cities: [],
       defaultVehicleType: vehicleType,
-      color: '#4bccbd',
+      color: '#009a8d',
       textColor: '#ffffff',
       regions: ['*'],
       license: {

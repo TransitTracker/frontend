@@ -25,6 +25,33 @@
       </v-container>
     </v-sheet>
     <v-container>
+      <nuxt-link :to="localePath(`/byod/${agency.slug}/data`)" tag="div">
+        <v-sheet rounded="lg" class="mb-6">
+          <v-row>
+            <v-col cols="4" class="d-flex flex-column align-center py-6">
+              <div class="text-h3">
+                30
+                <v-icon color="primary">mdi-bus</v-icon>
+              </div>
+              <p class="text-subtitle-1 mb-0">vehicle positions</p>
+            </v-col>
+            <v-col cols="4" class="d-flex flex-column align-center py-6">
+              <div class="text-h3">
+                0
+                <v-icon color="primary">mdi-alert</v-icon>
+              </div>
+              <p class="text-subtitle-1 mb-0">alerts</p>
+            </v-col>
+            <v-col cols="4" class="d-flex flex-column align-center py-6">
+              <div class="text-h3">
+                70
+                <v-icon color="primary">mdi-timeline-clock</v-icon>
+              </div>
+              <p class="text-subtitle-1 mb-0">trip updates</p>
+            </v-col>
+          </v-row>
+        </v-sheet>
+      </nuxt-link>
       <v-card rounded="lg">
         <v-card-title>Routes</v-card-title>
         <v-card-subtitle v-if="lengths.routes" class="pb-0">
@@ -329,7 +356,7 @@ export default {
       fileReader.onload = () => {
         // Save vehicles
         this.$store
-          .dispatch('vehicles/processCustomFeed', {
+          .dispatch('gtfs/saveRealtimeFeed', {
             agency: this.agency,
             file: new Uint8Array(fileReader.result),
           })

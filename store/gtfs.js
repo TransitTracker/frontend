@@ -1,15 +1,16 @@
 import * as Papa from 'papaparse'
+import GtfsRealtimeBindings from 'gtfs-realtime-bindings'
 
 export const state = () => ({})
 
 export const actions = {
-  async getRoute({ agency, routeId }) {
+  async getRoute(context, { agency, routeId }) {
     return await this.$database.routes.get({
       agency,
       route_id: routeId,
     })
   },
-  async getRoutesByAgency(agency, count = false) {
+  async getRoutesByAgency(context, { agency, count = false }) {
     const collection = this.$database.routes.where({ agency })
 
     if (count) {
@@ -18,13 +19,13 @@ export const actions = {
 
     return await collection.toArray()
   },
-  async getTrip({ agency, tripId }) {
+  async getTrip(context, { agency, tripId }) {
     return await this.$database.trips.get({
       agency,
       trip_id: tripId,
     })
   },
-  async getTripsByAgency(agency) {
+  async getTripsByAgency(context, agency) {
     const trips = await this.$database.trips.where({ agency })
     return trips
   },
@@ -34,8 +35,115 @@ export const actions = {
       shape_id: shapeId,
     })
   },
+  async getAlertsByAgency(context, agency) {
+    return await this.$database.alerts
+      .where({
+        agency: agency.slug,
+      })
+      .toArray()
+  },
+  async getTripUpdatesByAgency(context, agency) {
+    return await this.$database.tripUpdates
+      .where({
+        agency: agency.slug,
+      })
+      .toArray()
+  },
   async delete(context, { agency, model }) {
     await this.$database[model].where({ agency: agency.slug }).delete()
+  },
+  saveRealtimeFeed({ commit, dispatch }, { agency, file }) {
+    return new Promise((resolve, reject) => {
+      // Convert file to protobuf
+      let feed = null
+      try {
+        feed = GtfsRealtimeBindings.transit_realtime.FeedMessage.decode(file)
+      } catch (e) {
+        reject(e)
+      }
+
+      // Update timestamp
+      commit(
+        'agencies/setTime',
+        {
+          agency,
+          timestamp: feed.header.timestamp,
+          custom: true,
+        },
+        { root: true }
+      )
+
+      // Create queue
+      const queues = {
+        alerts: [],
+        tripUpdates: [],
+        vehicles: [],
+      }
+
+      feed.entity.forEach((entity) => {
+        if (entity.alert) queues.alerts.push(entity)
+        if (entity.tripUpdate) queues.tripUpdates.push(entity)
+        if (entity.vehicle) queues.vehicles.push(entity)
+      })
+
+      // Send entities
+      const dispatcher = async () => {
+        await dispatch(
+          'vehicles/processCustomFeed',
+          { agency, vehicles: queues.vehicles },
+          { root: true }
+        )
+        await dispatch('processAlerts', {
+          agency,
+          alerts: queues.alerts,
+        })
+        await dispatch('processTripUpdates', {
+          agency,
+          tripUpdates: queues.tripUpdates,
+        })
+      }
+      dispatcher().then(() => {
+        resolve()
+      })
+    })
+  },
+  processAlerts(context, { agency, alerts }) {
+    return new Promise((resolve, reject) => {
+      // Delete all existing alerts
+      this.$database.alerts.where({ agency: agency.slug }).delete()
+
+      // Map new alerts
+      const updates = alerts.map(({ id, alert }) => {
+        return {
+          ...alert.toJSON(),
+          ref: id,
+          agency: agency.slug,
+        }
+      })
+
+      this.$database.alerts.bulkPut(updates).then(() => {
+        resolve()
+      })
+    })
+  },
+  processTripUpdates(context, { agency, tripUpdates }) {
+    return new Promise((resolve, reject) => {
+      // Delete all existing trip updates
+      this.$database.tripUpdates.where({ agency: agency.slug }).delete()
+
+      // Map new trip updates
+      const updates = tripUpdates.map(({ id, tripUpdate }) => {
+        return {
+          ...tripUpdate.toJSON(),
+          ref: id,
+          agency: agency.slug,
+        }
+      })
+
+      this.$database.tripUpdates.bulkPut(updates).then(() => {
+        resolve()
+      })
+    })
   },
   saveRoutes({ dispatch }, { agency, file }) {
     return new Promise((resolve) => {
