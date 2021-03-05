@@ -11,7 +11,7 @@
         </div>
       </v-container>
     </div>
-    <v-sheet class="mb-4">
+    <v-sheet>
       <v-container class="d-flex align-center">
         <v-btn icon nuxt :to="localePath(`/byod/${agency.slug}`)" exact>
           <v-icon>mdi-arrow-left</v-icon>
@@ -50,6 +50,7 @@ export default {
     return { agency }
   },
   data: () => ({
+    vehicles: [],
     alerts: [],
     tripUpdates: [],
   }),
@@ -76,7 +77,7 @@ export default {
         })),
       ]
     },
-    vehicles() {
+    cvehicles() {
       return this.$store.state.vehicles.data[this.agency.slug]
     },
   },
@@ -85,6 +86,7 @@ export default {
   },
   methods: {
     async loadAlertsAndTripUpdates() {
+      this.vehicles = this.$store.state.vehicles.data[this.agency.slug] ?? []
       this.alerts = await this.$store.dispatch(
         'gtfs/getAlertsByAgency',
         this.agency

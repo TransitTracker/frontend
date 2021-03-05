@@ -24,34 +24,7 @@
         </v-btn>
       </v-container>
     </v-sheet>
-    <v-container>
-      <nuxt-link :to="localePath(`/byod/${agency.slug}/data`)" tag="div">
-        <v-sheet rounded="lg" class="mb-6">
-          <v-row>
-            <v-col cols="4" class="d-flex flex-column align-center py-6">
-              <div class="text-h3">
-                30
-                <v-icon color="primary">mdi-bus</v-icon>
-              </div>
-              <p class="text-subtitle-1 mb-0">vehicle positions</p>
-            </v-col>
-            <v-col cols="4" class="d-flex flex-column align-center py-6">
-              <div class="text-h3">
-                0
-                <v-icon color="primary">mdi-alert</v-icon>
-              </div>
-              <p class="text-subtitle-1 mb-0">alerts</p>
-            </v-col>
-            <v-col cols="4" class="d-flex flex-column align-center py-6">
-              <div class="text-h3">
-                70
-                <v-icon color="primary">mdi-timeline-clock</v-icon>
-              </div>
-              <p class="text-subtitle-1 mb-0">trip updates</p>
-            </v-col>
-          </v-row>
-        </v-sheet>
-      </nuxt-link>
+    <v-container class="mb-14">
       <v-card rounded="lg">
         <v-card-title>Routes</v-card-title>
         <v-card-subtitle v-if="lengths.routes" class="pb-0">
@@ -149,20 +122,40 @@
         </v-card-actions>
       </v-card> -->
       <v-card rounded="lg">
-        <v-card-title>Vehicles (GTFS Realtime)</v-card-title>
+        <v-card-title>GTFS Realtime entities</v-card-title>
         <v-card-subtitle class="pb-0">
-          <span v-if="lengths.vehicles">
-            {{ lengths.vehicles }} vehicles saved in your browser (active and
-            not active).
-          </span>
-          vehiclePosition in the protocol buffer format.
+          Upload a GTFS-RT feed in the protocol buffer format.
         </v-card-subtitle>
         <v-card-text>
-          <div v-if="lengths.vehicles === 0" class="d-flex align-center py-4">
-            <v-icon color="warning">mdi-alert</v-icon>
-            <p class="mb-0 text-body-1 ml-2">
-              You don't have imported any vehicles yet.
-            </p>
+          <div class="d-flex align-center mt-2">
+            <b class="mb-0">Empty exisisting entities: </b>
+            <v-btn
+              color="error"
+              x-small
+              class="ml-2"
+              @click="emptyEntities('vehicles')"
+            >
+              <v-icon left>mdi-delete</v-icon>
+              vehiclePositions
+            </v-btn>
+            <v-btn
+              color="error"
+              x-small
+              class="ml-1"
+              @click="emptyEntities('alerts')"
+            >
+              <v-icon left>mdi-delete</v-icon>
+              alerts
+            </v-btn>
+            <v-btn
+              color="error"
+              x-small
+              class="ml-1"
+              @click="emptyEntities('tripUpdates')"
+            >
+              <v-icon left>mdi-delete</v-icon>
+              tripUpdates
+            </v-btn>
           </div>
           <v-tabs v-model="rtTab">
             <v-tab>Local</v-tab>
@@ -172,8 +165,8 @@
             <v-tab-item>
               <div class="d-flex align-center">
                 <v-file-input
-                  v-model="files.vehicles"
-                  :disabled="loading.vehicles"
+                  v-model="files.entities"
+                  :disabled="loading.entities"
                   class="mr-4"
                   label="Click to select the vehiclePosition file"
                   messages="You can import as many file as you want. Entity with the same ID will be updated."
@@ -183,11 +176,11 @@
                 <v-btn
                   color="primary"
                   text
-                  :disabled="!files.vehicles"
-                  :loading="loading.vehicles"
-                  @click="importVehicles"
+                  :disabled="!files.entities"
+                  :loading="loading.entities"
+                  @click="importEntities"
                 >
-                  Import vehicles
+                  Import entities
                 </v-btn>
               </div>
             </v-tab-item>
@@ -210,17 +203,66 @@
                 prepend-icon="mdi-sync"
               />
               <v-btn color="primary" @click="saveRemoteUrl">
-                Save and fetch vehicles
+                Save and fetch feed
               </v-btn>
             </v-tab-item>
           </v-tabs-items>
         </v-card-text>
       </v-card>
+      <nuxt-link
+        v-if="hasEntities"
+        :to="localePath(`/byod/${agency.slug}/data`)"
+        tag="div"
+        class="cursor-pointer"
+      >
+        <v-sheet rounded="lg" class="my-6 d-flex justify-space-around">
+          <div
+            v-if="lengths.vehicles"
+            class="d-flex flex-column align-center py-6"
+          >
+            <div class="text-h3">
+              {{ lengths.vehicles }}
+              <v-icon color="primary">mdi-bus</v-icon>
+            </div>
+            <p class="text-subtitle-1 mb-0">vehicle positions</p>
+          </div>
+          <div
+            v-if="lengths.alerts"
+            class="d-flex flex-column align-center py-6"
+          >
+            <div class="text-h3">
+              {{ lengths.alerts }}
+              <v-icon color="primary">mdi-alert</v-icon>
+            </div>
+            <p class="text-subtitle-1 mb-0">alerts</p>
+          </div>
+          <div
+            v-if="lengths.tripUpdates"
+            class="d-flex flex-column align-center py-6"
+          >
+            <div class="text-h3">
+              {{ lengths.tripUpdates }}
+              <v-icon color="primary">mdi-timeline-clock</v-icon>
+            </div>
+            <p class="text-subtitle-1 mb-0">trip updates</p>
+          </div>
+        </v-sheet>
+      </nuxt-link>
       <p class="mt-4">
         Once imported, your vehicles are accessible in every region of Transit
         Tracker. All data is saved in your browser.
       </p>
     </v-container>
+    <v-dialog v-model="deleteDialog" persistent width="400">
+      <v-card>
+        <v-card-text class="d-flex flex-column align-center">
+          <span class="my-4">
+            Please wait. It could take a couple of minutes.
+          </span>
+          <v-progress-circular indeterminate />
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -235,7 +277,7 @@ export default {
     files: {
       routes: undefined,
       trips: undefined,
-      vehicles: undefined,
+      entities: undefined,
       // shapes: undefined,
     },
     lengths: {
@@ -247,7 +289,7 @@ export default {
     loading: {
       routes: false,
       trips: false,
-      vehicles: false,
+      entities: false,
       // shapes: false,
     },
     feed: null,
@@ -259,7 +301,17 @@ export default {
       showError: false,
       error: null,
     },
+    deleteDialog: false,
   }),
+  computed: {
+    hasEntities() {
+      // TODO: Cleanup
+      if (this.lengths.vehicles) return true
+      if (this.lengths.alerts) return true
+      if (this.lengths.tripUpdates) return true
+      return false
+    },
+  },
   mounted() {
     this.refreshStats()
     this.remote = {
@@ -269,6 +321,7 @@ export default {
   },
   methods: {
     async deleteAgency() {
+      this.deleteDialog = true
       await this.$store.dispatch('gtfs/delete', {
         agency: this.agency,
         model: 'routes',
@@ -281,25 +334,39 @@ export default {
         agency: this.agency,
         model: 'vehicles',
       })
+      await this.$store.dispatch('gtfs/delete', {
+        agency: this.agency,
+        model: 'alerts',
+      })
+      await this.$store.dispatch('gtfs/delete', {
+        agency: this.agency,
+        model: 'tripUpdates',
+      })
       await this.$store.dispatch('agencies/delete', {
         agency: this.agency,
       })
+      this.deleteDialog = false
       this.$router.push('/byod')
     },
-    refreshStats() {
-      this.$database.routes
-        .where({ agency: this.agency.id })
-        .count((result) => {
-          this.lengths.routes = result
-        })
-      this.$database.trips.where({ agency: this.agency.id }).count((result) => {
-        this.lengths.trips = result
+    async emptyEntities(type) {
+      this.deleteDialog = true
+      await this.$store.dispatch('gtfs/delete', {
+        agency: this.agency,
+        model: type,
       })
-      this.$database.vehicles
-        .where({ agency: this.agency.id })
-        .count((result) => {
-          this.lengths.vehicles = result
-        })
+      this.deleteDialog = false
+      this.refreshStats([type])
+    },
+    refreshStats(
+      types = ['routes', 'trips', 'vehicles', 'alerts', 'tripUpdates']
+    ) {
+      types.forEach((type) => {
+        this.$database[type]
+          .where({ agency: this.agency.slug })
+          .count((result) => {
+            this.lengths[type] = result
+          })
+      })
     },
     importRoutes() {
       this.loading.routes = true
@@ -313,7 +380,7 @@ export default {
         .then(() => {
           this.files.routes = undefined
           this.loading.routes = false
-          this.refreshStats()
+          this.refreshStats(['routes'])
         })
     },
     importTrips() {
@@ -328,7 +395,7 @@ export default {
         .then((result) => {
           this.files.trips = undefined
           this.loading.trips = false
-          this.refreshStats()
+          this.refreshStats(['trips'])
         })
     },
     // importShapes() {
@@ -346,12 +413,12 @@ export default {
     //       this.refreshStats()
     //     })
     // },
-    importVehicles() {
-      this.loading.vehicles = true
+    importEntities() {
+      this.loading.entities = true
 
       // Open and read file
       const fileReader = new FileReader()
-      fileReader.readAsArrayBuffer(new Blob([this.files.vehicles]))
+      fileReader.readAsArrayBuffer(new Blob([this.files.entities]))
 
       fileReader.onload = () => {
         // Save vehicles
@@ -361,9 +428,9 @@ export default {
             file: new Uint8Array(fileReader.result),
           })
           .then(() => {
-            this.files.vehicles = undefined
-            this.loading.vehicles = false
-            this.refreshStats()
+            this.files.entities = undefined
+            this.loading.entities = false
+            this.refreshStats(['vehicles', 'alerts', 'tripUpdates'])
           })
       }
     },
@@ -408,8 +475,7 @@ export default {
 </script>
 
 <style>
-.settings {
-  width: 100%;
-  height: 100%;
+.cursor-pointer {
+  cursor: pointer;
 }
 </style>
