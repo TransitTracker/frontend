@@ -107,6 +107,13 @@ export default {
   },
 
   loading: '~/components/Loading.vue',
+  loadingIndicator: {
+    name: 'chasing-dots',
+    color: '#ffffff',
+    background: '#2374ab',
+  },
+
+  modern: 'client',
 
   env: {
     version,
