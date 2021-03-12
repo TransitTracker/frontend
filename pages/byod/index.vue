@@ -1,6 +1,6 @@
 <template>
   <div class="tt-custom">
-    <div class="secondary mb-4">
+    <div class="secondary tt-background-texture mb-4">
       <v-container>
         <h1 class="text-h4 font-weight-medium py-4">
           <v-icon class="text-h4">mdi-folder-upload</v-icon>

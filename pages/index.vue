@@ -1,6 +1,6 @@
 <template>
   <div class="landing-container flex-column flex-md-row">
-    <div id="lading-map" class="flex-grow-1"></div>
+    <div id="landing-map" class="flex-grow-1"></div>
     <div
       class="content d-flex flex-column justify-md-center px-8 pt-8 pt-md-0 mb-14 mb-md-0 pb-4 pb-md-0"
     >
@@ -137,7 +137,7 @@ export default {
   asyncData({ store }) {
     const mapStyle = {
       dark: process.env.mabboxStyleDark,
-      light: process.env.mabboxStyleLight,
+      light: 'mapbox://styles/felixinx/cklvgeorj2t4417rtcbtk8lki?optimize=true',
     }
     const mapAccessToken = process.env.mapboxAccessToken
     return { mapAccessToken, mapStyle }
@@ -251,6 +251,7 @@ export default {
   },
   methods: {
     changeCity(city) {
+      if (!this.$refs.letters) return
       this.$refs.letters.innerHTML = city.replace(
         // eslint-disable-next-line
         /([^\x00-\x80]|\w)/g,
@@ -330,6 +331,9 @@ export default {
 .theme--dark .tt-landing--popup .mapboxgl-popup-content {
   background: #121212;
 }
+.theme--light .content {
+  background: #c0ede7;
+}
 
 @media (min-width: 960px) {
   .landing-container,
@@ -343,9 +347,6 @@ export default {
     width: 55%;
     clip-path: polygon(0 0, 95% 0, 85% 100%, 0 100%);
     backdrop-filter: blur(3px);
-  }
-  .theme--light .content {
-    background: #eef6fc;
   }
   .theme--dark .content {
     background: #121212;

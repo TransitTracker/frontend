@@ -1,6 +1,6 @@
 <template>
   <div class="tt-custom">
-    <div class="secondary">
+    <div class="secondary tt-background-texture">
       <v-container class="py-4 d-flex">
         <v-icon class="text-h4">mdi-folder-upload</v-icon>
         <div class="ml-4">
@@ -28,6 +28,7 @@
         { text: 'Entity', value: 'entity' },
       ]"
       :items="allData"
+      :items-per-page="50"
     >
       <!-- eslint-disable-next-line -->
       <template v-slot:item.entity="{ item }">
