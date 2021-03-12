@@ -127,15 +127,12 @@ export default {
   },
   watch: {
     settingsByod(value) {
-      console.log('watcher byod', value)
       if (value) this.loadByodAgencies()
     },
     settingsDarkMode(value) {
-      console.log('watcher dark', value)
       this.$vuetify.theme.dark = value
     },
     settingsLang(value) {
-      console.log('watcher lang', value)
       this.$i18n.setLocale(value)
       this.$vuetify.lang.current = value
     },
@@ -158,12 +155,6 @@ export default {
       this.$store.dispatch('alerts/load', this.region)
     })
 
-    console.log(
-      'settings',
-      this.settingsByod,
-      this.settingsDarkMode,
-      this.settingsLang
-    )
     if (this.settingsByod) this.loadByodAgencies()
     if (this.settingsDarkMode) this.$vuetify.theme.dark = true
     this.$i18n.setLocale(this.settingsLang)

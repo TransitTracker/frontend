@@ -4,7 +4,7 @@ export const state = () => ({
   autoRefresh: false,
   configurationDone: false,
   readAlerts: [],
-  currentRegion: 'mtl',
+  currentRegion: 'montreal',
   launch: '/',
   lang: 'en',
   theme: 'system',

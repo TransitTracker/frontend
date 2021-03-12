@@ -66,6 +66,7 @@ export const actions = {
     return vehicle
   },
   processCustomFeed({ commit, dispatch }, { agency, vehicles }) {
+    console.log('processCustomFeed', vehicles)
     return new Promise((resolve, reject) => {
       // Create vehicles
       const newVehicles = []
@@ -99,8 +100,6 @@ export const actions = {
       })
 
       Promise.all(asyncMap).then(() => {
-        console.log(newVehicles)
-
         // Remove all previous active vehicles
         this.$database.vehicles
           .where({ agency: agency.slug })
@@ -112,7 +111,7 @@ export const actions = {
 
         commit('set', {
           agency,
-          vehicles,
+          vehicles: newVehicles,
           features: {
             type: 'FeatureCollection',
             features: newVehicles.map((vehicle) => {
@@ -175,10 +174,14 @@ export const actions = {
           responseType: 'arraybuffer',
         })
         .then((response) => {
-          dispatch('processCustomFeed', {
-            agency,
-            file: new Uint8Array(response.data),
-          })
+          dispatch(
+            'gtfs/saveRealtimeFeed',
+            {
+              agency,
+              file: new Uint8Array(response.data),
+            },
+            { root: true }
+          )
           resolve()
         })
         .catch((error) => {

@@ -51,51 +51,50 @@ export default {
     return { agency }
   },
   data: () => ({
-    vehicles: [],
-    alerts: [],
-    tripUpdates: [],
+    allData: [],
   }),
-  computed: {
-    allData() {
-      return [
-        ...this.vehicles.map((vehicle) => ({
+  mounted() {
+    this.loadAlertsAndTripUpdates()
+  },
+  methods: {
+    async loadAlertsAndTripUpdates() {
+      const vehicles =
+        (await this.$store.state.vehicles.data[this.agency.slug]) ?? []
+      const alerts = await this.$store.dispatch(
+        'gtfs/getAlertsByAgency',
+        this.agency
+      )
+      const tripUpdates = await this.$store.dispatch(
+        'gtfs/getTripUpdatesByAgency',
+        this.agency
+      )
+
+      vehicles.forEach((vehicle) => {
+        if (!vehicle.meta) {
+          console.log('meta missing!', vehicle)
+        }
+      })
+
+      this.allData = [
+        ...vehicles.map((vehicle) => ({
           id: vehicle.id,
           ref: vehicle.ref,
           type: 'vehiclePosition',
           entity: vehicle.meta.json.realtimeVehicle,
         })),
-        ...this.alerts.map((alert) => ({
+        ...alerts.map((alert) => ({
           id: alert.id,
           ref: alert.ref,
           type: 'alert',
           entity: alert,
         })),
-        ...this.tripUpdates.map((tripUpdate) => ({
+        ...tripUpdates.map((tripUpdate) => ({
           id: tripUpdate.id,
           ref: tripUpdate.ref,
           type: 'tripUpdate',
           entity: tripUpdate,
         })),
       ]
-    },
-    cvehicles() {
-      return this.$store.state.vehicles.data[this.agency.slug]
-    },
-  },
-  mounted() {
-    this.loadAlertsAndTripUpdates()
-  },
-  methods: {
-    async loadAlertsAndTripUpdates() {
-      this.vehicles = this.$store.state.vehicles.data[this.agency.slug] ?? []
-      this.alerts = await this.$store.dispatch(
-        'gtfs/getAlertsByAgency',
-        this.agency
-      )
-      this.tripUpdates = await this.$store.dispatch(
-        'gtfs/getTripUpdatesByAgency',
-        this.agency
-      )
     },
   },
 }
