@@ -108,9 +108,7 @@ export default {
 
   loading: '~/components/Loading.vue',
   loadingIndicator: {
-    name: 'chasing-dots',
-    color: '#ffffff',
-    background: '#2374ab',
+    name: '~/assets/loading.html',
   },
 
   modern: 'client',
@@ -123,6 +121,9 @@ export default {
   },
 
   pwa: {
+    icon: {
+      source: '[srcDir]/[staticDir]/icon-beta.png',
+    },
     manifest: {
       name: 'Transit Tracker',
       short_name: 'Transit T',
