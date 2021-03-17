@@ -41,7 +41,7 @@
       </v-btn>
       <v-btn
         icon
-        :aria-label="$t('settings.open')"
+        :title="$t('settings.open')"
         @click="settingsDrawer = !settingsDrawer"
       >
         <v-icon>mdi-cog</v-icon>
@@ -65,7 +65,7 @@
           style="background-color: transparent; height: inherit"
         >
           <span>{{ $t('app.tabHome') }}</span>
-          <v-icon>mdi-home</v-icon>
+          <v-icon>mdi-view-grid</v-icon>
         </v-btn>
         <v-btn
           :to="localePath(`/regions/${region}/map`)"

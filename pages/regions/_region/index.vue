@@ -56,20 +56,19 @@
                     height="100%"
                     :color="darkMode ? 'grey darken-3' : 'grey lighten-3'"
                     :loading="
-                      vehicleCounts[agency.slug] ? false : agency.textColor
+                      agency.slug in vehicleCounts ? false : agency.textColor
                     "
+                    class="tt-agencies-card"
                   >
                     <v-card-text class="d-flex px-1 py-2">
-                      <v-avatar
-                        size="36"
-                        class="ml-1 mr-2 align-self-center avatar black--text"
-                        :color="
-                          vehicleCounts[agency.slug] ? 'white' : agency.color
-                        "
+                      <div
+                        v-if="agency.slug in vehicleCounts"
+                        class="align-self-center ml-2 px-1 text-center"
+                        style="width: 40px"
                       >
                         {{ vehicleCounts[agency.slug] }}
-                      </v-avatar>
-                      <div class="flex-grow-1 align-self-center">
+                      </div>
+                      <div class="flex-grow-1 align-self-center ml-2">
                         <b>{{ agency.name }}</b>
                         <br />
                         <span>
@@ -81,7 +80,7 @@
                       </div>
                     </v-card-text>
                     <div
-                      class="tt-agencies-clip-path"
+                      class="tt-agencies-card__clip-path"
                       :style="{ backgroundColor: agency.color }"
                     ></div>
                   </v-card>
@@ -132,10 +131,14 @@ import VueTimeago from 'vue-timeago'
 Vue.use(VueTimeago, {})
 
 export default {
+  middleware: 'loadapi',
   asyncData({ params }) {
     return { regionSlug: params.region }
   },
-  middleware: 'loadapi',
+  head: () => ({
+    // TODO: Use i18n
+    title: 'Home',
+  }),
   computed: {
     activeAgencies() {
       const activeAgencies = this.$store.state.settings.activeAgencies
@@ -182,22 +185,27 @@ export default {
       return this.$store.state.agencies.times
     },
   },
-  head: () => ({
-    // TODO: Use i18n
-    title: 'Home',
-  }),
 }
 </script>
 
-<style>
-.tt-agencies-clip-path {
-  height: 100%;
-  width: 100%;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  position: absolute;
-  clip-path: polygon(85% 0, 100% 0, 100% 100%, 95% 100%);
+<style lang="scss">
+.tt-agencies-card {
+  overflow: clip;
+
+  &__clip-path {
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    clip-path: polygon(85% 0, 100% 0, 100% 100%, 95% 100%);
+  }
+
+  .v-card__text {
+    height: 100%;
+    max-width: 90%;
+  }
 }
 </style>

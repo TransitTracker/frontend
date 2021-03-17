@@ -47,13 +47,44 @@
             New agency
           </v-btn>
         </v-sheet>
+        <v-sheet
+          v-if="agencies.length"
+          class="px-4 py-2 d-flex align-center justify-space-between mt-12"
+          color="secondary-dark"
+          dark
+        >
+          <p class="mb-0 text-subtitle-2">
+            Don't need the BYOD module anymore?
+          </p>
+          <v-btn text @click="toggleByod(false)">
+            <v-icon left>mdi-folder-remove</v-icon>
+            Disable
+          </v-btn>
+        </v-sheet>
       </div>
-      <div v-else>
-        <p class="text-h6">
-          For performance reasons, the BYOD module is turn off by default.
-        </p>
-        <v-btn color="primary" @click="activateByod">Turn on BYOD</v-btn>
-      </div>
+      <v-sheet
+        v-else
+        class="px-4 py-2 d-flex align-center justify-space-between mt-4"
+        color="primary"
+        dark
+      >
+        <div>
+          <p class="mb-1 text-subtitle-2">
+            BYOD is a feature for advanced users
+          </p>
+          <p class="mb-0 text-body-2">
+            You need basic knowledge of the GTFS (<i
+              >General Transit Feed Specification</i
+            >) format to use this feature. Also take note that enabling this
+            feature will have a performance impact on the overall performance of
+            the application.
+          </p>
+        </div>
+        <v-btn text class="ml-4" @click="toggleByod(true)">
+          <v-icon left>mdi-folder-plus</v-icon>
+          Enable
+        </v-btn>
+      </v-sheet>
       <v-dialog v-model="newAgencyDialog" max-width="500px">
         <v-card>
           <v-card-text class="pt-4">
@@ -130,10 +161,10 @@ export default {
     },
   },
   methods: {
-    activateByod() {
+    toggleByod(value) {
       this.$store.commit('settings/set', {
         setting: 'activateByod',
-        value: true,
+        value,
       })
     },
     createAgency() {

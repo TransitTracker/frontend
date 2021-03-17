@@ -51,7 +51,13 @@
                   small
                   label
                 >
-                  {{ activeAgencies.length }} /
+                  {{
+                    activeAgencies.length +
+                    Object.entries(availableAgencies).filter((agency) =>
+                      agency[1].regions.includes('*')
+                    ).length
+                  }}
+                  /
                   {{ Object.entries(availableAgencies).length }}
                 </v-chip>
               </div>
