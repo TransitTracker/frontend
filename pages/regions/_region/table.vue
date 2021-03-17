@@ -116,7 +116,9 @@ export default {
     },
     setSelection(vehicle) {
       this.$store.commit('vehicles/setSelection', vehicle)
-      this.$router.push(`/app/${this.$route.params.region}/map`)
+      this.$router.push(
+        this.localePath(`/regions/${this.$route.params.region}/map`)
+      )
     },
     sortNumber(a, b) {
       const cook = (c) => {
