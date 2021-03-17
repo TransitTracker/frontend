@@ -28,8 +28,12 @@
         Transit Tracker
       </v-toolbar-title>
       <v-spacer />
-      <v-btn text @click="loading = !loading">
-        Montréal
+      <v-btn
+        text
+        :title="$t('regionSwitcher.title')"
+        @click="regionSwitcher = true"
+      >
+        {{ regionName }}
         <v-icon>mdi-menu-down</v-icon>
       </v-btn>
       <v-btn
@@ -86,6 +90,7 @@
         </v-btn>
       </v-bottom-navigation>
     </nav>
+    <RegionSwitcher v-model="regionSwitcher" />
   </v-app>
 </template>
 
@@ -93,6 +98,7 @@
 export default {
   data: () => ({
     loading: false,
+    regionSwitcher: false,
     settingsDrawer: false,
   }),
   computed: {
@@ -100,6 +106,9 @@ export default {
       return (
         this.$route.params.region || this.$store.state.settings.currentRegion
       )
+    },
+    regionName() {
+      return this.$store.state.regions.data[this.region]?.name
     },
     settingsByod() {
       return this.$store.state.settings.activateByod

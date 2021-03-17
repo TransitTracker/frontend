@@ -145,46 +145,13 @@ export default {
     downloadError429:
       'Vous avez dépassé le nombre maximum de téléchargements par heure. Veuillez réessayer plus tard.',
   },
-  onboarding: {
-    changeLang: 'In English?',
-    welcome: 'Bienvenue dans Transit Tracker',
-    headline: 'Le réseau de transport en commun, à partir de la maison',
-    getStarted: 'Commencer',
-    btnBack: 'Précédent',
-    btnNext: 'Suivant',
-    btnDone: 'Terminer',
-    conditionsTitle: 'Informations importantes',
-    conditionsHeadline:
-      'Veuillez lire les informations suivantes avant de continuer.',
-    conditionsBody:
-      "<ul><li>Cette application a pour but d'offrir une vue d'ensemble du réseau de transport en commun dans certaines régions.</li>" +
-      "<li>Les données de cette application sont présentées telles quelles et ne doivent pas être utilisées comme horaire de transport en commun. L'exactitude et la fiabilité des données ne sont pas garanties.</li>" +
-      '<li>Les données sont disponibles grâce aux programmes de données ouvertes de plusieurs agences de transport en commun.</li>' +
-      '<li>Vos préférences sont sauvegardées dans votre navigateur.</li>' +
-      "<li>Quelques données sont transmises à Matomo, à des fins de statistiques. Ces données me permettent d'améliorer l'application en fonction de l'usage de certaines composantes. En tout temps, les données restent anonymes. Vous pouvez, à n'importe quel moment, vous retirer des statistiques en <a href=\"/opt-out/fr\">cliquant ici</a> ou avec le lien situé dans les paramètres de l'application.</li></ul>",
-    contributions:
-      'Transit Tracker est un projet open source distribué sous <a href="https://github.com/FelixINX/transit-tracker/blob/master/LICENSE">licence MIT</a> ne serait pas possible sans de nombreux projets open source et produits gratuits, dont : <a href="https://vuetifyjs.com">Vuetify</a>, <a href="https://laravel.com">Laravel</a>, <a href="https://ploi.io">Ploi</a> et <a href="https://backpackforlaravel.com/">Backpack</a>.',
-    regionTitle: 'Région',
-    regionHeadline: 'Choisissez la région que vous voulez voir en premier.',
-    regionTip:
-      "Changer rapidement de région en utilisant l'icône de carte, situé dans le coin supérieur droit",
-    agenciesTitle: 'Agences',
-    agenciesHeadline: 'Choisissez les agences que vous voulez voir.',
-    agenciesWarning:
-      "Sur un appareil mobile, commencez avec une ou deux agences, l'application sera plus performante!",
-    settingsTitle: 'Réglages',
-    settingsHeadline: "Personnalisez l'expérience à votre goût.",
-    setRefreshLabel: 'Actualisation automatique',
-    setRefreshCaption:
-      'Mise à jour des données à chaque minute. Non recommandé sur les connexions mobiles (3G/LTE).',
-    setDarkLabel: 'Thème sombre',
-    setDarkCaption: "Réduit l'utilisation de la batterie.",
-    setPathLabel: 'Page par défaut',
-    setPathCaption: "Sera affiché à chaque lancement de l'application.",
-    addHomeLabel: "Ajouter à l'écran d'accueil",
-    addHomeCaption: 'Optionel. Beaucoup plus facile à trouver!',
-    addHomeButtonInstall: 'Installer',
-    addHomeButtonSuccess: 'Succès',
-    addHomeButtonError: 'Erreur',
+  regionSwitcher: {
+    title: 'Changer de région',
+    agency: '1 agence | {n} agences',
+    close: 'Fermer',
+    next: 'Suivant',
+    previous: 'Précédent',
+    changeTo: 'Changer pour cette région',
+    already: 'Déjà sélectionné',
   },
 }
