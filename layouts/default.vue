@@ -34,6 +34,7 @@
       <v-btn
         text
         :title="$t('regionSwitcher.title')"
+        :small="$vuetify.breakpoint.smAndDown"
         @click="regionSwitcher = true"
       >
         {{ regionName }}
@@ -42,6 +43,7 @@
       <v-btn
         icon
         :title="$t('settings.open')"
+        :small="$vuetify.breakpoint.smAndDown"
         @click="settingsDrawer = !settingsDrawer"
       >
         <v-icon>mdi-cog</v-icon>

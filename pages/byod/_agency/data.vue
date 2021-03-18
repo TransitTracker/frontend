@@ -1,5 +1,5 @@
 <template>
-  <div class="tt-custom">
+  <div class="tt-byod-data">
     <div class="secondary tt-background-texture">
       <v-container class="py-4 d-flex">
         <v-icon class="text-h4">mdi-folder-upload</v-icon>
@@ -69,12 +69,6 @@ export default {
         this.agency
       )
 
-      vehicles.forEach((vehicle) => {
-        if (!vehicle.meta) {
-          console.log('meta missing!', vehicle)
-        }
-      })
-
       this.allData = [
         ...vehicles.map((vehicle) => ({
           id: vehicle.id,
@@ -101,8 +95,7 @@ export default {
 </script>
 
 <style>
-.settings {
-  width: 100%;
-  height: 100%;
+.tt-byod-data {
+  margin-bottom: 56px;
 }
 </style>

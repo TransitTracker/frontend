@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="tt-home">
     <div class="secondary tt-background-texture">
       <v-container class="d-flex align-center pa-6">
         <div class="flex-grow-1">
@@ -153,7 +153,7 @@ export default {
             return true
           }
           return (
-            activeAgencies.includes(slug) || regions.includes(this.region.slug)
+            activeAgencies.includes(slug) && regions.includes(this.regionSlug)
           )
         }
       )
@@ -171,11 +171,7 @@ export default {
     vehicleCounts() {
       return this.$store.getters['vehicles/counts']
     },
-    settings() {
-      return this.$store.state.settings
-    },
     version() {
-      // return process.env.version.replace(/"/, '')
       return process.env.version
     },
     totalCount() {
@@ -211,5 +207,8 @@ export default {
     height: 100%;
     max-width: 90%;
   }
+}
+.tt-home {
+  margin-bottom: 56px;
 }
 </style>

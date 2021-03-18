@@ -1,5 +1,5 @@
 <template>
-  <div class="tt-custom">
+  <div class="tt-byod-agency">
     <div class="secondary tt-background-texture">
       <v-container class="py-4 d-flex">
         <v-icon class="text-h4">mdi-folder-upload</v-icon>
@@ -477,5 +477,8 @@ export default {
 <style>
 .cursor-pointer {
   cursor: pointer;
+}
+.tt-byod-agency {
+  margin-bottom: 56px;
 }
 </style>

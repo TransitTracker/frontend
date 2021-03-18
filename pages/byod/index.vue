@@ -1,5 +1,5 @@
 <template>
-  <div class="tt-custom">
+  <div class="tt-byod">
     <div class="secondary tt-background-texture mb-4">
       <v-container>
         <h1 class="text-h4 font-weight-medium py-4">
@@ -177,8 +177,7 @@ export default {
 </script>
 
 <style>
-.settings {
-  width: 100%;
-  height: 100%;
+.tt-byod {
+  margin-bottom: 56px;
 }
 </style>
