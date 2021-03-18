@@ -117,7 +117,10 @@ export default {
     close: 'Fermer',
   },
   download: {
-    cardTitle: 'Télécharger des données',
+    title: 'Télécharger les données',
+    close: 'Fermer',
+    btnNext: 'Suivant',
+    btnBack: 'Précédent',
     btnCancel: 'Annuler',
     agencyStep: 'Choisissez votre agence',
     agencySelect: 'Agence',
@@ -127,23 +130,21 @@ export default {
       "La licence de cette agence n'autorise pas le téléchargement.",
     agencyRead: 'Lire la licence complète',
     formatStep: 'Choisissez le format',
-    formatDesc:
-      'Les deux options sont des fichiers CSV. Ils contiennent une structure similaire, mais ont des ensembles de données différents.',
-    formatLoaded:
-      "Véhicules chargés (que vous pouvez actuellement voir dans l'application)",
-    formatDump:
-      'Tous les véhicules (enregistrés depuis le début de Transit Tracker - contient des véhicules inactifs)',
-    formatNotLoaded:
-      "Cette agence n'est pas chargée actuellement. Activez-la dans l'onglet Paramètres pour choisir l'option chargée.",
+    formatDesc: 'Les deux options sont des fichiers CSV.',
+    formatActive:
+      "Véhicules actifs: ceux que vous pouvez actuellement voir dans l'application",
+    formatAll:
+      "Tous les véhicules: ceux enregistrés depuis la création de l'agence dans Transit Tracker - contient des véhicules inactifs (nécéssite un téléchargement - gros fichier)",
     downloadStep: 'Télécharger',
     downloadBtn: 'Télécharger',
     downloadLoading:
-      "Préparation du téléchargement ... cela devrait prendre moins d'une minute.",
+      "Téléchargement des données... cela devrait prendre moins d'une minute.",
     downloadReady: 'Votre fichier est maintenant prêt.',
     downloadError:
       "Une erreur s'est produite lors de la préparation de votre fichier. Veuillez réessayer plus tard.",
     downloadError429:
       'Vous avez dépassé le nombre maximum de téléchargements par heure. Veuillez réessayer plus tard.',
+    fileEmpty: "Il n'y a pas de véhicules en ce moment, réessayer plus tard!",
   },
   regionSwitcher: {
     title: 'Changer de région',

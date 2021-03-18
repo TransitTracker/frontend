@@ -117,7 +117,10 @@ export default {
     close: 'Close',
   },
   download: {
-    cardTitle: 'Download data',
+    title: 'Download data',
+    close: 'Close',
+    btnNext: 'Next',
+    btnBack: 'Back',
     btnCancel: 'Cancel',
     agencyStep: 'Pick your agency',
     agencySelect: 'Agency',
@@ -127,22 +130,20 @@ export default {
       'The license of this agency does not authorize download.',
     agencyRead: 'Read the complete license',
     formatStep: 'Choose the format',
-    formatDesc:
-      'Both options are CSV files. They contain a similar structure, but have different datasets.',
-    formatLoaded:
-      'Loaded vehicles (all vehicles you can currently see in the application)',
-    formatDump:
-      'All vehicles (recording since the beginning of Transit Tracker - will contain inactive vehicles)',
-    formatNotLoaded:
-      'This agency is not currently loaded. Activate it on the settings tab to choose the loaded option.',
+    formatDesc: 'Both options are CSV files.',
+    formatActive:
+      'Active vehicles: all vehicles you can currently see in the application',
+    formatAll:
+      'All vehicles: recording since this agency was introduced in Transit Tracker - will contain inactive vehicles (download needed - larger file)',
     downloadStep: 'Download',
     downloadBtn: 'Download',
-    downloadLoading: 'Downloading... it should take less than a minute.',
+    downloadLoading: 'Downloading... this should take less than a minute.',
     downloadReady: 'Your file is now ready.',
     downloadError:
       'There was an error while preparing your file. Please try again later.',
     downloadError429:
       'You have exceeded the maximum number of download per hour. Please try again later.',
+    fileEmpty: 'There is currently no vehicles, try later!',
   },
   regionSwitcher: {
     title: 'Change region',

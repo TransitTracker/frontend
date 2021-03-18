@@ -36,7 +36,7 @@
               <span class="flex-grow-1">
                 {{ totalCount }} {{ $t('home.vehicleTotal') }}
               </span>
-              <v-btn color="primary">
+              <v-btn color="primary" @click="downloadDialog = true">
                 <v-icon left>mdi-download</v-icon>
                 {{ $t('home.download') }}
               </v-btn>
@@ -121,6 +121,7 @@
         </v-col>
       </v-row>
     </v-container>
+    <DownloadDialog v-model="downloadDialog" />
   </div>
 </template>
 
@@ -135,6 +136,9 @@ export default {
   asyncData({ params }) {
     return { regionSlug: params.region }
   },
+  data: () => ({
+    downloadDialog: false,
+  }),
   head: () => ({
     // TODO: Use i18n
     title: 'Home',
