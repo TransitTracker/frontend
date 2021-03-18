@@ -90,7 +90,6 @@ export default {
     },
   },
   data: () => ({
-    model: true,
     window: 0,
   }),
   computed: {
