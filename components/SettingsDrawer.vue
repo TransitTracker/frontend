@@ -64,6 +64,7 @@
             </v-expansion-panel-header>
             <v-expansion-panel-content class="">
               <v-text-field
+                v-model="agencySearch"
                 :label="$t('settings.searchAgency')"
                 clearable
                 prepend-inner-icon="mdi-magnify"
@@ -71,7 +72,7 @@
               ></v-text-field>
               <v-list>
                 <v-list-item
-                  v-for="(agency, slug) in availableAgencies"
+                  v-for="(agency, slug) in filteredAgencies"
                   :key="slug"
                 >
                   <v-list-item-avatar :color="agency.color">
@@ -244,6 +245,7 @@ export default {
     },
   },
   data: () => ({
+    agencySearch: null,
     pwa: {
       canInstall: false,
       success: false,
@@ -261,6 +263,16 @@ export default {
     },
     darkMode() {
       return this.$vuetify.theme.dark
+    },
+    filteredAgencies() {
+      return Object.fromEntries(
+        Object.entries(this.$store.state.agencies.data).filter((value) => {
+          if (!this.agencySearch) return true
+          return value[1].name
+            .toUpperCase()
+            .includes(this.agencySearch.toUpperCase())
+        })
+      )
     },
     regions() {
       return this.$store.state.regions.data
