@@ -54,7 +54,7 @@
     </v-main>
     <nav>
       <v-bottom-navigation
-        v-if="!$route.name.includes('landing')"
+        v-if="$route.name && !$route.name.includes('landing')"
         grow
         :color="settingsDarkMode ? null : 'primary'"
         fixed
@@ -139,7 +139,16 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('regions/loadAll').then((slugs) => {
+    this.$store.dispatch('regions/loadAll').then(() => {
+      // Check if region exists
+      if (!(this.region in this.$store.state.regions.data)) {
+        this.$nuxt.error({
+          message: "This region dosen't exist.",
+          statusCode: 404,
+        })
+        return false
+      }
+
       // Make an array of all selected agencies
       const activeAgencies = this.$store.state.regions.data[
         this.region

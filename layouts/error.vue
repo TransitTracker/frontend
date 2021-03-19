@@ -1,42 +1,48 @@
 <template>
-  <v-app dark>
-    <h1 v-if="error.statusCode === 404">
-      {{ pageNotFound }}
-    </h1>
-    <h1 v-else>
-      {{ otherError }}
-    </h1>
-    <NuxtLink to="/"> Home page </NuxtLink>
-  </v-app>
+  <v-container class="d-flex align-center justify-center tt-error">
+    <v-card class="d-flex tt-error__card" rounded="lg">
+      <div class="secondary tt-error__art d-flex align-center justify-center">
+        <v-icon size="7vw" class="pa-16">mdi-alert</v-icon>
+      </div>
+      <v-card-text class="pa-16">
+        <h1 class="text-h4 font-weight-bold">
+          {{ $t(error.statusCode === 404 ? 'error.404' : 'error.500') }}
+        </h1>
+        <h2 class="text-h6 mb-4 mt-1">{{ error.message }}</h2>
+        <p class="text-subtitle-2">
+          {{ $t('error.title') }} {{ error.statusCode }}
+        </p>
+        <v-btn nuxt :to="localePath('/')" depressed>
+          <v-icon left>mdi-arrow-left</v-icon> {{ $t('error.return') }}
+        </v-btn>
+      </v-card-text>
+    </v-card>
+  </v-container>
 </template>
 
 <script>
 export default {
-  layout: 'empty',
   props: {
     error: {
       type: Object,
-      default: null,
+      default: () => ({}),
     },
   },
-  data() {
-    return {
-      pageNotFound: '404 Not Found',
-      otherError: 'An error occurred',
-    }
-  },
   head() {
-    const title =
-      this.error.statusCode === 404 ? this.pageNotFound : this.otherError
-    return {
-      title,
-    }
+    return { title: this.$t('error.title') }
   },
 }
 </script>
 
 <style scoped>
-h1 {
-  font-size: 20px;
+.tt-error {
+  height: 100%;
+  widows: 100%;
+}
+.tt-error__card {
+  overflow: hidden;
+}
+.tt-error__art {
+  border-radius: 0 !important;
 }
 </style>

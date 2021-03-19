@@ -10,6 +10,12 @@ export default {
       'Data from some agencies are outdated and should be used with caution.',
     snackbarBtn: 'Close',
   },
+  error: {
+    title: 'Error',
+    return: 'Return to the home page',
+    404: 'Are you lost?',
+    500: 'Oops! We made an error.',
+  },
   landing: {
     welcome: 'Welcome to Transit&nbsp;Tracker',
     intro: 'An overview of the public transport network for',

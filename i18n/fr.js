@@ -10,6 +10,12 @@ export default {
       'Les données de certaines agences ne sont pas à jour et doivent être utilisées avec prudence.',
     snackbarBtn: 'Fermer',
   },
+  error: {
+    error: 'Erreur',
+    return: "Retourner à l'écran d'accueil",
+    404: 'Êtes vous perdu?',
+    500: 'Oups! Nous avons fait une erreur.',
+  },
   landing: {
     welcome: 'Bienvenue dans Transit&nbsp;Tracker',
     intro: "Une vue d'ensemble du réseau de transport en commun pour",
