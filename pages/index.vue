@@ -10,7 +10,7 @@
         v-html="$t('landing.welcome')"
       ></h1>
       <!-- eslint-enable vue/no-v-html -->
-      <h2 class="text-h6 text-md-h5 my-4">
+      <h2 class="text-h6 text-md-h5 my-4 tt-subtitle">
         {{ $t('landing.intro') }}
         <span
           class="font-weight-medium tt-cities"
@@ -151,11 +151,13 @@ export default {
     },
   },
   watch: {
-    darkMode(value) {
-      if (this.mapLoaded) {
-        this.map.setStyle(value ? this.mapStyle.dark : this.mapStyle.light)
-      }
-    },
+    // TODO: fix
+    // darkMode(value) {
+    //   if (this.mapLoaded) {
+    //     this.map.setStyle(value ? this.mapStyle.dark : this.mapStyle.light)
+    //     if (this.mapLoaded) this.map.moveLayer('landing-layer')
+    //   }
+    // },
   },
   mounted() {
     mapboxgl.accessToken = this.mapAccessToken
@@ -224,6 +226,11 @@ export default {
       this.map.on('mouseleave', 'landing-layer', (e) => {
         this.map.getCanvas().style.cursor = ''
       })
+
+      this.map.setStyle(
+        this.darkMode ? this.mapStyle.dark : this.mapStyle.light
+      )
+      this.map.moveLayer('landing-layer')
     })
 
     const cities = [
@@ -334,6 +341,9 @@ export default {
 .theme--light .content {
   background: #c0ede7;
 }
+.tt-subtitle {
+  min-height: 96px;
+}
 
 @media (min-width: 960px) {
   .landing-container,
@@ -372,6 +382,9 @@ export default {
     width: 55%;
     position: absolute;
     left: 45%;
+  }
+  .tt-subtitle {
+    min-height: 64px;
   }
 }
 .tt-landing--byod .v-badge__badge {

@@ -3,12 +3,12 @@ export default {
     tabHome: 'Accueil',
     tabMap: 'Carte',
     tabTable: 'Liste',
+    tabByod: 'AVPD',
     tabSettings: 'Paramètres',
     snackbarBold: 'Attention!',
     snackbarText:
       'Les données de certaines agences ne sont pas à jour et doivent être utilisées avec prudence.',
     snackbarBtn: 'Fermer',
-    regionAriaLabel: 'Changer de région',
   },
   landing: {
     welcome: 'Bienvenue dans Transit&nbsp;Tracker',

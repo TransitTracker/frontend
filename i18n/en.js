@@ -9,7 +9,6 @@ export default {
     snackbarText:
       'Data from some agencies are outdated and should be used with caution.',
     snackbarBtn: 'Close',
-    regionAriaLabel: 'Change region',
   },
   landing: {
     welcome: 'Welcome to Transit&nbsp;Tracker',

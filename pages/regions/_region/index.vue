@@ -200,7 +200,7 @@ export default {
     bottom: 0;
     left: 0;
     position: absolute;
-    clip-path: polygon(85% 0, 100% 0, 100% 100%, 95% 100%);
+    clip-path: polygon(85% 0, 101% -1%, 101% 101%, 95% 100%);
   }
 
   .v-card__text {

@@ -43,7 +43,6 @@
       <v-btn
         icon
         :title="$t('settings.open')"
-        :small="$vuetify.breakpoint.smAndDown"
         @click="settingsDrawer = !settingsDrawer"
       >
         <v-icon>mdi-cog</v-icon>
@@ -139,18 +138,6 @@ export default {
       })
     },
   },
-  watch: {
-    settingsByod(value) {
-      if (value) this.loadByodAgencies()
-    },
-    settingsDarkMode(value) {
-      this.$vuetify.theme.dark = value
-    },
-    settingsLang(value) {
-      this.$i18n.setLocale(value)
-      this.$vuetify.lang.current = value
-    },
-  },
   mounted() {
     this.$store.dispatch('regions/loadAll').then((slugs) => {
       // Make an array of all selected agencies
@@ -170,8 +157,12 @@ export default {
     })
 
     if (this.settingsByod) this.loadByodAgencies()
-    if (this.settingsDarkMode) this.$vuetify.theme.dark = true
+    if (this.settingsDarkMode) {
+      // https://csabaszabo.dev/blog/dark-mode-for-website-with-nuxtjs-and-vuetify/
+      setTimeout(() => (this.$vuetify.theme.dark = true), 0)
+    }
     this.$i18n.setLocale(this.settingsLang)
+    // this.$vuetify.lang.current = this.settingsLang
   },
   methods: {
     loadByodAgencies() {
