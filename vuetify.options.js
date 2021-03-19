@@ -16,6 +16,9 @@ export default function ({ app }) {
           'secondary-dark': '#009a8d',
         },
       },
+      options: {
+        variations: false,
+      },
     },
     lang: {
       t: (key, ...params) => app.i18n.t(key, params),

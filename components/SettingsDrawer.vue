@@ -280,6 +280,19 @@ export default {
   methods: {
     setSetting(setting, value) {
       this.$store.commit('settings/set', { setting, value })
+
+      if (setting === 'theme') {
+        this.$vuetify.theme.dark = this.getTheme(value)
+      } else if (setting === 'language') {
+        this.$i18n.setLocale(value)
+      }
+    },
+    getTheme(value) {
+      if (value === 'system') {
+        return window.matchMedia('(prefers-color-scheme: dark)').matches
+      }
+      if (value === 'dark') return true
+      return false
     },
     async requestInstall() {
       this.pwa.loading = true
