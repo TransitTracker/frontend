@@ -49,6 +49,7 @@
       </v-btn>
     </v-app-bar>
     <v-main>
+      <Alerts />
       <settings-drawer v-model="settingsDrawer" />
       <nuxt />
     </v-main>
