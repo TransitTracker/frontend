@@ -95,7 +95,10 @@
         </v-btn>
       </v-bottom-navigation>
     </nav>
-    <RegionSwitcher v-model="regionSwitcher" />
+    <RegionSwitcher
+      v-model="regionSwitcher"
+      @new-region="listenToUpdates($event)"
+    />
   </v-app>
 </template>
 
@@ -114,6 +117,9 @@ export default {
     },
     regionName() {
       return this.$store.state.regions.data[this.region]?.name
+    },
+    settingsAutoRefresh() {
+      return this.$store.state.settings.autoRefresh
     },
     settingsByod() {
       return this.$store.state.settings.activateByod
@@ -178,7 +184,7 @@ export default {
     loadByodAgencies() {
       // Load byod agencies
       this.$store.dispatch('agencies/loadLocal').then((agencies) => {
-        this.$store.dispatch('vehicles/loadLocal', agencies)
+      this.$store.dispatch('vehicles/loadLocal', agencies)
       })
 
       // Set up auto refresh for local agencies with remote URL
@@ -187,6 +193,29 @@ export default {
           this.$store.dispatch('vehicles/loadRemote', agency)
         })
       }, 1000 * 60)
+    },
+    listenToUpdates(region) {
+      // Remove any existing channels
+      Object.keys(this.$echo.connector?.channels).forEach((channel) => {
+        this.$echo.leave(channel)
+      })
+
+      // Add the new channel
+      this.$echo.channel(region.slug).listen('VehiclesUpdated', (event) => {
+        // Check if autoRefresh is enabled and if agency is selected in settings
+        if (!this.settingsAutoRefresh) return false
+        if (!this.$store.state.settings.activeAgencies.includes(event.slug)) {
+          return false
+        }
+
+        // Find agency
+        const agency = this.$store.state.agencies.data[event.slug]
+
+        // If dosen't exist, don't proceed
+        if (!agency) return false
+
+        this.$store.dispatch('vehicles/load', agency)
+      })
     },
   },
 }

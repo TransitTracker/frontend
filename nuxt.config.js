@@ -36,6 +36,7 @@ export default {
     '~/plugins/byod',
     '~/plugins/database',
     '~/plugins/settings.client.js',
+    '~/plugins/socket.js',
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -118,6 +119,11 @@ export default {
     mapboxAccessToken: process.env.MAPBOX_ACCESS_TOKEN,
     mabboxStyleDark: process.env.MAPBOX_STYLE_DARK,
     mabboxStyleLight: process.env.MAPBOX_STYLE_LIGHT,
+    shapesEndpoint: process.env.SHAPES_BASE_URL,
+    wsKey: process.env.WS_KEY || 'tt-ws',
+    wsHost: process.env.WS_HOST || 'localhost',
+    wsPort: process.env.WS_PORT || 6001,
+    wsTls: process.env.WS_TLS || true,
   },
 
   pwa: {

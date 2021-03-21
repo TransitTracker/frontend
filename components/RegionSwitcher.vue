@@ -68,7 +68,7 @@
                 v-else
                 elevation="0"
                 color="primary"
-                @click="changeTo(region.slug)"
+                @click="changeTo(region)"
               >
                 <v-icon left>mdi-swap-horizontal</v-icon>
                 {{ $t('regionSwitcher.changeTo') }}
@@ -110,19 +110,21 @@ export default {
   },
   methods: {
     changeTo(region) {
-      this.currentRegion = this.$store.commit('settings/set', {
+      this.$store.commit('settings/set', {
         setting: 'currentRegion',
-        value: region,
+        value: region.slug,
       })
+
+      this.$emit('new-region', region)
 
       const route = this.$route.path
       if (route.includes('regions')) {
         if (route.includes('map')) {
-          this.$router.push(this.localePath(`/regions/${region}/map`))
+          this.$router.push(this.localePath(`/regions/${region.slug}/map`))
         } else if (route.includes('table')) {
-          this.$router.push(this.localePath(`/regions/${region}/table`))
+          this.$router.push(this.localePath(`/regions/${region.slug}/table`))
         } else {
-          this.$router.push(this.localePath(`/regions/${region}`))
+          this.$router.push(this.localePath(`/regions/${region.slug}`))
         }
       }
     },
