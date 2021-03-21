@@ -4,17 +4,16 @@
       <v-container>
         <h1 class="text-h4 font-weight-medium py-4">
           <v-icon class="text-h4">mdi-folder-upload</v-icon>
-          Bring your own data
+          {{ $t('byod.title') }}
         </h1>
       </v-container>
     </div>
     <v-container>
       <p class="text-subtitle-1">
-        You can use the interface of Transit Tracker with your own feeds from
-        your favorite agencies from all over the world.
+        {{ $t('byod.subtitle') }}
       </p>
       <div v-if="byodIsActivated">
-        <h2 class="text-h6 mt-4 mb-2">List of agencies</h2>
+        <h2 class="text-h6 mt-4 mb-2">{{ $t('byod.list') }}</h2>
         <v-list v-if="agencies.length" class="py-0">
           <v-list-item-group>
             <v-list-item
@@ -26,7 +25,8 @@
               <v-list-item-content>
                 <v-list-item-title>{{ agency.name }}</v-list-item-title>
                 <v-list-item-subtitle>
-                  Last updated: <timeago :datetime="agency.meta.updatedAt" />
+                  {{ $t('byod.lastUpdated') }}
+                  <timeago :datetime="agency.meta.updatedAt" />
                 </v-list-item-subtitle>
               </v-list-item-content>
               <v-list-item-action>
@@ -39,12 +39,12 @@
         </v-list>
         <v-sheet v-else class="px-4 py-8 d-flex flex-column align-center">
           <v-icon color="primary" size="100">mdi-folder-plus</v-icon>
-          <p class="text-h6 text-center my-2">No agencies</p>
+          <p class="text-h6 text-center my-2">{{ $t('byod.noAgencies') }}</p>
           <p class="text-subtitle-1 text-center">
-            To get started, click the button below
+            {{ $t('byod.getStarted') }}
           </p>
           <v-btn large color="primary" @click="newAgencyDialog = true">
-            New agency
+            {{ $t('byod.newAgency') }}
           </v-btn>
         </v-sheet>
         <v-sheet
@@ -54,11 +54,11 @@
           dark
         >
           <p class="mb-0 text-subtitle-2">
-            Don't need the BYOD module anymore?
+            {{ $t('byod.removeModule') }}
           </p>
           <v-btn text @click="toggleByod(false)">
             <v-icon left>mdi-folder-remove</v-icon>
-            Disable
+            {{ $t('byod.disable') }}
           </v-btn>
         </v-sheet>
       </div>
@@ -70,41 +70,36 @@
       >
         <div>
           <p class="mb-1 text-subtitle-2">
-            BYOD is a feature for advanced users
+            {{ $t('byod.addModule') }}
           </p>
-          <p class="mb-0 text-body-2">
-            You need basic knowledge of the GTFS (<i
-              >General Transit Feed Specification</i
-            >) format to use this feature. Also take note that enabling this
-            feature will have a performance impact on the overall performance of
-            the application.
-          </p>
+          <!-- eslint-disable-next-line -->
+          <p class="mb-0 text-body-2" v-html="$t('byod.addModuleDesc')"></p>
         </div>
         <v-btn text class="ml-4" @click="toggleByod(true)">
           <v-icon left>mdi-folder-plus</v-icon>
-          Enable
+          {{ $t('byod.enable') }}
         </v-btn>
       </v-sheet>
       <v-dialog v-model="newAgencyDialog" max-width="500px">
         <v-card>
           <v-card-text class="pt-4">
-            <h2 class="text-h6 mb-2">Create a new agency</h2>
+            <h2 class="text-h6 mb-2">{{ $t('byod.createTitle') }}</h2>
             <v-form v-model="newAgencyForm">
               <v-text-field
                 v-model="newAgency.name"
-                :rules="[(v) => !!v || 'Name is required']"
-                label="Agency name"
+                :rules="[(v) => !!v || $t('byod.nameValidation')]"
+                :label="$t('byod.nameLabel')"
                 required
               ></v-text-field>
               <v-select
                 v-model="newAgency.vehicleType"
-                label="Icon"
+                :label="$t('byod.iconLabel')"
                 required
                 :items="[
-                  { text: 'Bus', value: 'bus' },
-                  { text: 'Train', value: 'train' },
-                  { text: 'Tram', value: 'tram' },
-                  { text: 'Ferry', value: 'ferry' },
+                  { text: $t('byod.bus'), value: 'bus' },
+                  { text: $t('byod.train'), value: 'train' },
+                  { text: $t('byod.tram'), value: 'tram' },
+                  { text: $t('byod.ferry'), value: 'ferry' },
                 ]"
               ></v-select>
               <v-btn
@@ -113,7 +108,7 @@
                 @click="createAgency"
               >
                 <v-icon left>mdi-plus</v-icon>
-                Add
+                {{ $t('byod.createAdd') }}
               </v-btn>
             </v-form>
           </v-card-text>

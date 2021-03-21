@@ -4,7 +4,7 @@
       <v-container class="py-4 d-flex">
         <v-icon class="text-h4">mdi-folder-upload</v-icon>
         <div class="ml-4">
-          <h1 class="text-h4 font-weight-medium">Bring your own data</h1>
+          <h1 class="text-h4 font-weight-medium">{{ $t('byod.title') }}</h1>
           <p class="text-subtitle-1 font-weight-medium mb-0">
             {{ agency.name }}
           </p>
@@ -16,24 +16,25 @@
         <v-btn icon nuxt to="/byod/" exact>
           <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
-        Back to all custom agencies
+        {{ $t('byod.back') }}
         <v-spacer></v-spacer>
         <v-btn text color="error" @click="deleteAgency">
           <v-icon left>mdi-delete</v-icon>
-          Delete agency
+          {{ $t('byod.delete') }}
         </v-btn>
       </v-container>
     </v-sheet>
     <v-container class="mb-14">
       <v-card rounded="lg">
-        <v-card-title>Routes</v-card-title>
+        <v-card-title>{{ $t('byod.routesCap') }}</v-card-title>
         <v-card-subtitle v-if="lengths.routes" class="pb-0">
-          {{ lengths.routes }} routes saved in your browser.
+          {{ lengths.routes }}
+          {{ $t('byod.saved', { type: $t('byod.routes') }) }}
         </v-card-subtitle>
         <v-card-text v-else class="d-flex align-center pb-0">
           <v-icon color="warning">mdi-alert</v-icon>
           <p class="mb-0 text-body-1 ml-2">
-            You don't have imported any routes yet.
+            {{ $t('byod.empty', { type: $t('byod.routes') }) }}
           </p>
         </v-card-text>
         <v-card-actions class="px-4 pb-4">
@@ -41,10 +42,10 @@
             v-model="files.routes"
             :disabled="loading.routes"
             class="mr-4"
-            label="Click to select the routes.txt file"
+            :label="$t('byod.upload', { file: 'routes.txt' })"
             truncate-length="50"
             :prepend-icon="null"
-            messages="Importing a new file will overwrite any existing routes."
+            :messages="$t('byod.message', { type: $t('byod.routes') })"
           ></v-file-input>
           <v-btn
             color="primary"
@@ -53,19 +54,20 @@
             :loading="loading.routes"
             @click="importRoutes"
           >
-            Import routes
+            {{ $t('byod.import') }}
           </v-btn>
         </v-card-actions>
       </v-card>
       <v-card rounded="lg" class="my-6">
-        <v-card-title>Trips</v-card-title>
+        <v-card-title>{{ $t('byod.tripsCap') }}</v-card-title>
         <v-card-subtitle v-if="lengths.trips" class="pb-0">
-          {{ lengths.trips }} trips saved in your browser.
+          {{ lengths.trips }}
+          {{ $t('byod.saved', { type: $t('byod.trips') }) }}
         </v-card-subtitle>
         <v-card-text v-else class="d-flex align-center pb-0">
           <v-icon color="warning">mdi-alert</v-icon>
           <p class="mb-0 text-body-1 ml-2">
-            You don't have imported any trips yet.
+            {{ $t('byod.empty', { type: $t('byod.routes') }) }}
           </p>
         </v-card-text>
         <v-card-actions class="px-4 pb-4">
@@ -73,10 +75,10 @@
             v-model="files.trips"
             :disabled="loading.trips"
             class="mr-4"
-            label="Click to select the trips.txt file"
+            :label="$t('byod.upload', { file: 'trips.txt' })"
             truncate-length="50"
             :prepend-icon="null"
-            messages="Importing a new file will overwrite any existing trips."
+            :messages="$t('byod.message', { type: $t('byod.trips') })"
           ></v-file-input>
           <v-btn
             color="primary"
@@ -85,7 +87,7 @@
             :loading="loading.trips"
             @click="importTrips"
           >
-            Import trips
+            {{ $t('byod.import') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -122,13 +124,14 @@
         </v-card-actions>
       </v-card> -->
       <v-card rounded="lg">
-        <v-card-title>GTFS Realtime entities</v-card-title>
+        <v-card-title>{{ $t('byod.realtimeTitle') }}</v-card-title>
         <v-card-subtitle class="pb-0">
-          Upload a GTFS-RT feed in the protocol buffer format.
+          {{ $t('byod.realtimeDesc') }}
         </v-card-subtitle>
         <v-card-text>
           <div class="d-flex align-center mt-2">
             <b class="mb-0">Empty exisisting entities: </b>
+            <b class="mb-0">{{ $t('byod.emptyExisting') }}</b>
             <v-btn
               color="error"
               x-small
@@ -158,8 +161,8 @@
             </v-btn>
           </div>
           <v-tabs v-model="rtTab">
-            <v-tab>Local</v-tab>
-            <v-tab>Remote</v-tab>
+            <v-tab>{{ $t('byod.local') }}</v-tab>
+            <v-tab>{{ $t('byod.remote') }}</v-tab>
           </v-tabs>
           <v-tabs-items v-model="rtTab">
             <v-tab-item>
@@ -168,8 +171,8 @@
                   v-model="files.entities"
                   :disabled="loading.entities"
                   class="mr-4"
-                  label="Click to select the vehiclePosition file"
-                  messages="You can import as many file as you want. Entity with the same ID will be updated."
+                  :label="$t('byod.upload', { file: 'GTFS-RT' })"
+                  :messages="$t('byod.realtimeMessage')"
                   truncate-length="50"
                   :prepend-icon="null"
                 ></v-file-input>
@@ -180,7 +183,7 @@
                   :loading="loading.entities"
                   @click="importEntities"
                 >
-                  Import entities
+                  {{ $t('byod.import') }}
                 </v-btn>
               </div>
             </v-tab-item>
@@ -192,18 +195,18 @@
                 text
                 class="my-4"
               >
-                There was an error while fetching this URL:
+                {{ $t('byod.realtimeError') }}
                 <b>{{ remote.error }}</b>
-                This could be a CORS error.
+                {{ $t('byod.corsError') }}
               </v-alert>
               <v-text-field v-model="remote.url" label="Remote URL" />
               <v-switch
                 v-model="remote.autoRefresh"
-                label="Auto refresh every minute"
+                :label="$t('byod.autoRefresh')"
                 prepend-icon="mdi-sync"
               />
               <v-btn color="primary" @click="saveRemoteUrl">
-                Save and fetch feed
+                {{ $t('byod.saveAndFetch') }}
               </v-btn>
             </v-tab-item>
           </v-tabs-items>
@@ -224,7 +227,7 @@
               {{ lengths.vehicles }}
               <v-icon color="primary">mdi-bus</v-icon>
             </div>
-            <p class="text-subtitle-1 mb-0">vehicle positions</p>
+            <p class="text-subtitle-1 mb-0">vehiclePositions</p>
           </div>
           <div
             v-if="lengths.alerts"
@@ -244,20 +247,19 @@
               {{ lengths.tripUpdates }}
               <v-icon color="primary">mdi-timeline-clock</v-icon>
             </div>
-            <p class="text-subtitle-1 mb-0">trip updates</p>
+            <p class="text-subtitle-1 mb-0">tripUpdates</p>
           </div>
         </v-sheet>
       </nuxt-link>
       <p class="mt-4">
-        Once imported, your vehicles are accessible in every region of Transit
-        Tracker. All data is saved in your browser.
+        {{ $t('byod.note') }}
       </p>
     </v-container>
     <v-dialog v-model="deleteDialog" persistent width="400">
       <v-card>
         <v-card-text class="d-flex flex-column align-center">
           <span class="my-4">
-            Please wait. It could take a couple of minutes.
+            {{ $t('byod.wait') }}
           </span>
           <v-progress-circular indeterminate />
         </v-card-text>

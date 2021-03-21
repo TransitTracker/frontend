@@ -4,7 +4,7 @@
       <v-container class="py-4 d-flex">
         <v-icon class="text-h4">mdi-folder-upload</v-icon>
         <div class="ml-4">
-          <h1 class="text-h4 font-weight-medium">Bring your own data</h1>
+          <h1 class="text-h4 font-weight-medium">{{ $t('byod.title') }}</h1>
           <p class="text-subtitle-1 font-weight-medium mb-0">
             {{ agency.name }}
           </p>
@@ -16,16 +16,16 @@
         <v-btn icon nuxt :to="localePath(`/byod/${agency.slug}`)" exact>
           <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
-        Back to {{ agency.name }}
+        {{ $t('byod.backTo') }} {{ agency.name }}
       </v-container>
     </v-sheet>
     <v-data-table
       class="mt-0"
       group-by="type"
       :headers="[
-        { text: 'ID', value: 'ref' },
-        { text: 'Type', value: 'type' },
-        { text: 'Entity', value: 'entity' },
+        { text: $t('byod.id'), value: 'ref' },
+        { text: $t('byod.type'), value: 'type' },
+        { text: $t('byod.entity'), value: 'entity' },
       ]"
       :items="allData"
       :items-per-page="50"
