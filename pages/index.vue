@@ -160,78 +160,9 @@ export default {
     // },
   },
   mounted() {
-    mapboxgl.accessToken = this.mapAccessToken
-    this.map = new mapboxgl.Map({
-      container: 'landing-map',
-      style: this.darkMode ? this.mapStyle.dark : this.mapStyle.light,
-      bounds: [
-        [-85.9, 41.5],
-        [-66.7, 49.7],
-      ],
-      interactive: false,
-      logoPosition: 'top-right',
-    })
-
-    this.map.on('load', () => {
-      this.mapLoaded = true
-      this.map.addSource('landing-source', {
-        type: 'geojson',
-        data: geojson,
-      })
-
-      this.map.addLayer({
-        id: 'landing-layer',
-        type: 'symbol',
-        source: 'landing-source',
-        layout: {
-          'icon-allow-overlap': true,
-          'icon-anchor': 'bottom',
-          'icon-image': 'tt-custom-custom',
-          'icon-size': 1,
-        },
-      })
-      const popup = new mapboxgl.Popup({
-        closeButton: false,
-        anchor: 'center',
-        className: 'pa-1 tt-landing--popup',
-      })
-
-      this.map.on('click', 'landing-layer', (e) => {
-        popup
-          .setLngLat(e.features[0].geometry.coordinates.slice())
-          .setHTML(
-            `
-              <h2>${e.features[0].properties.name}</h2>
-              <b>${e.features[0].properties.agencies} agences</b><br>
-              <b>${e.features[0].properties.vehicles} vehicules</b>
-              <div class="d-flex secondark-dark--text mt-1">
-                <a href="/app/${e.features[0].properties.slug}/map/" class="mr-2" style="height: 24px;">
-                  <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M15,19L9,16.89V5L15,7.11M20.5,3C20.44,3 20.39,3 20.34,3L15,5.1L9,3L3.36,4.9C3.15,4.97 3,5.15 3,5.38V20.5A0.5,0.5 0 0,0 3.5,21C3.55,21 3.61,21 3.66,20.97L9,18.9L15,21L20.64,19.1C20.85,19 21,18.85 21,18.62V3.5A0.5,0.5 0 0,0 20.5,3Z" />
-                  </svg>
-                </a>
-                <a href="/app/${e.features[0].properties.slug}/table/" style="height: 24px;">
-                  <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M5,4H19A2,2 0 0,1 21,6V18A2,2 0 0,1 19,20H5A2,2 0 0,1 3,18V6A2,2 0 0,1 5,4M5,8V12H11V8H5M13,8V12H19V8H13M5,14V18H11V14H5M13,14V18H19V14H13Z" />
-                  </svg>
-                </a>
-              </div>
-            `
-          )
-          .addTo(this.map)
-      })
-      this.map.on('mouseenter', 'landing-layer', (e) => {
-        this.map.getCanvas().style.cursor = 'pointer'
-      })
-      this.map.on('mouseleave', 'landing-layer', (e) => {
-        this.map.getCanvas().style.cursor = ''
-      })
-
-      this.map.setStyle(
-        this.darkMode ? this.mapStyle.dark : this.mapStyle.light
-      )
-      this.map.moveLayer('landing-layer')
-    })
+    setTimeout(() => {
+      this.loadMap()
+    }, 10)
 
     const cities = [
       'Montréal',
@@ -299,6 +230,80 @@ export default {
           easing: 'easeOutExpo',
           delay: 1000,
         })
+    },
+    loadMap() {
+      mapboxgl.accessToken = this.mapAccessToken
+      this.map = new mapboxgl.Map({
+        container: 'landing-map',
+        style: this.darkMode ? this.mapStyle.dark : this.mapStyle.light,
+        bounds: [
+          [-85.9, 41.5],
+          [-66.7, 49.7],
+        ],
+        interactive: false,
+        logoPosition: 'top-right',
+      })
+
+      this.map.on('load', () => {
+        this.mapLoaded = true
+        this.map.addSource('landing-source', {
+          type: 'geojson',
+          data: geojson,
+        })
+
+        this.map.addLayer({
+          id: 'landing-layer',
+          type: 'symbol',
+          source: 'landing-source',
+          layout: {
+            'icon-allow-overlap': true,
+            'icon-anchor': 'bottom',
+            'icon-image': 'tt-custom-custom',
+            'icon-size': 1,
+          },
+        })
+        const popup = new mapboxgl.Popup({
+          closeButton: false,
+          anchor: 'center',
+          className: 'pa-1 tt-landing--popup',
+        })
+
+        this.map.on('click', 'landing-layer', (e) => {
+          popup
+            .setLngLat(e.features[0].geometry.coordinates.slice())
+            .setHTML(
+              `
+              <h2>${e.features[0].properties.name}</h2>
+              <b>${e.features[0].properties.agencies} agences</b><br>
+              <b>${e.features[0].properties.vehicles} vehicules</b>
+              <div class="d-flex secondark-dark--text mt-1">
+                <a href="/app/${e.features[0].properties.slug}/map/" class="mr-2" style="height: 24px;">
+                  <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M15,19L9,16.89V5L15,7.11M20.5,3C20.44,3 20.39,3 20.34,3L15,5.1L9,3L3.36,4.9C3.15,4.97 3,5.15 3,5.38V20.5A0.5,0.5 0 0,0 3.5,21C3.55,21 3.61,21 3.66,20.97L9,18.9L15,21L20.64,19.1C20.85,19 21,18.85 21,18.62V3.5A0.5,0.5 0 0,0 20.5,3Z" />
+                  </svg>
+                </a>
+                <a href="/app/${e.features[0].properties.slug}/table/" style="height: 24px;">
+                  <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M5,4H19A2,2 0 0,1 21,6V18A2,2 0 0,1 19,20H5A2,2 0 0,1 3,18V6A2,2 0 0,1 5,4M5,8V12H11V8H5M13,8V12H19V8H13M5,14V18H11V14H5M13,14V18H19V14H13Z" />
+                  </svg>
+                </a>
+              </div>
+            `
+            )
+            .addTo(this.map)
+        })
+        this.map.on('mouseenter', 'landing-layer', (e) => {
+          this.map.getCanvas().style.cursor = 'pointer'
+        })
+        this.map.on('mouseleave', 'landing-layer', (e) => {
+          this.map.getCanvas().style.cursor = ''
+        })
+
+        this.map.setStyle(
+          this.darkMode ? this.mapStyle.dark : this.mapStyle.light
+        )
+        this.map.moveLayer('landing-layer')
+      })
     },
   },
 }

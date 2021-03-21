@@ -181,11 +181,10 @@ export default {
     // this.$vuetify.lang.current = this.settingsLang
   },
   methods: {
-    loadByodAgencies() {
+    async loadByodAgencies() {
       // Load byod agencies
-      this.$store.dispatch('agencies/loadLocal').then((agencies) => {
+      const agencies = await this.$store.dispatch('agencies/loadLocal')
       this.$store.dispatch('vehicles/loadLocal', agencies)
-      })
 
       // Set up auto refresh for local agencies with remote URL
       setInterval(() => {
