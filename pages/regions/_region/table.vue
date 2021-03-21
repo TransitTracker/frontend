@@ -38,6 +38,10 @@
       </v-btn>
     </template>
     <!-- eslint-disable-next-line -->
+    <template v-slot:item.label="{ item }">
+      {{ item.label || item.ref }}
+    </template>
+    <!-- eslint-disable-next-line -->
     <template v-slot:item.routeId="{ item }">
       <v-chip
         :color="colorFilter(item.trip.routeColor)"
