@@ -295,7 +295,7 @@ export default {
 
       if (setting === 'theme') {
         this.$vuetify.theme.dark = this.getTheme(value)
-      } else if (setting === 'language') {
+      } else if (setting === 'lang') {
         this.$i18n.setLocale(value)
       }
     },
