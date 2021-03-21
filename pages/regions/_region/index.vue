@@ -36,9 +36,17 @@
               <span class="flex-grow-1">
                 {{ totalCount }} {{ $t('home.vehicleTotal') }}
               </span>
-              <v-btn color="primary" @click="downloadDialog = true">
-                <v-icon left>mdi-download</v-icon>
-                {{ $t('home.download') }}
+              <v-btn
+                color="primary"
+                :fab="$vuetify.breakpoint.smAndDown"
+                :small="$vuetify.breakpoint.smAndDown"
+                elevation="0"
+                @click="downloadDialog = true"
+              >
+                <v-icon :left="$vuetify.breakpoint.mdAndUp">
+                  mdi-download
+                </v-icon>
+                <span class="d-none d-md-block">{{ $t('home.download') }}</span>
               </v-btn>
             </v-card-title>
             <v-card-text>
@@ -109,6 +117,12 @@
             <v-card-title v-html="region.infoTitle"></v-card-title>
             <v-card-text v-html="region.infoBody"></v-card-text>
             <!-- eslint-enable -->
+            <v-img
+              v-if="region.image"
+              height="100"
+              :src="region.image"
+              gradient="to top, transparent 0%, rgba(0,73,123,1) 100%"
+            ></v-img>
           </v-card>
         </v-col>
         <v-col v-if="region.name" cols="12" md="6">
