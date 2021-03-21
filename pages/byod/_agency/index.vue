@@ -2,10 +2,10 @@
   <div class="tt-byod-agency">
     <div class="secondary tt-background-texture">
       <v-container class="py-4 d-flex">
-        <v-icon class="text-h4">mdi-folder-upload</v-icon>
+        <v-icon class="text-h5">mdi-folder-upload</v-icon>
         <div class="ml-4">
-          <h1 class="text-h4 font-weight-medium">{{ $t('byod.title') }}</h1>
-          <p class="text-subtitle-1 font-weight-medium mb-0">
+          <h1 class="text-h5 font-weight-medium">{{ $t('byod.title') }}</h1>
+          <p class="text-subtitle-2 text-md-subtitle-1 font-weight-medium mb-0">
             {{ agency.name }}
           </p>
         </div>
@@ -18,7 +18,7 @@
         </v-btn>
         {{ $t('byod.back') }}
         <v-spacer></v-spacer>
-        <v-btn text color="error" @click="deleteAgency">
+        <v-btn text color="error" small @click="deleteAgency">
           <v-icon left>mdi-delete</v-icon>
           {{ $t('byod.delete') }}
         </v-btn>
@@ -37,7 +37,7 @@
             {{ $t('byod.empty', { type: $t('byod.routes') }) }}
           </p>
         </v-card-text>
-        <v-card-actions class="px-4 pb-4">
+        <v-card-actions class="px-4 d-block d-md-flex pb-4">
           <v-file-input
             v-model="files.routes"
             :disabled="loading.routes"
@@ -70,7 +70,7 @@
             {{ $t('byod.empty', { type: $t('byod.routes') }) }}
           </p>
         </v-card-text>
-        <v-card-actions class="px-4 pb-4">
+        <v-card-actions class="px-4 d-block d-md-flex pb-4">
           <v-file-input
             v-model="files.trips"
             :disabled="loading.trips"
@@ -129,8 +129,7 @@
           {{ $t('byod.realtimeDesc') }}
         </v-card-subtitle>
         <v-card-text>
-          <div class="d-flex align-center mt-2">
-            <b class="mb-0">Empty exisisting entities: </b>
+          <div class="d-flex align-center flex-wrap mt-2">
             <b class="mb-0">{{ $t('byod.emptyExisting') }}</b>
             <v-btn
               color="error"
@@ -166,7 +165,7 @@
           </v-tabs>
           <v-tabs-items v-model="rtTab">
             <v-tab-item>
-              <div class="d-flex align-center">
+              <div class="d-md-flex align-center">
                 <v-file-input
                   v-model="files.entities"
                   :disabled="loading.entities"

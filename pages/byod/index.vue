@@ -2,8 +2,8 @@
   <div class="tt-byod">
     <div class="secondary tt-background-texture mb-4">
       <v-container>
-        <h1 class="text-h4 font-weight-medium py-4">
-          <v-icon class="text-h4">mdi-folder-upload</v-icon>
+        <h1 class="text-h5 font-weight-medium py-4">
+          <v-icon class="text-h5">mdi-folder-upload</v-icon>
           {{ $t('byod.title') }}
         </h1>
       </v-container>

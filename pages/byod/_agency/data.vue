@@ -2,10 +2,10 @@
   <div class="tt-byod-data">
     <div class="secondary tt-background-texture">
       <v-container class="py-4 d-flex">
-        <v-icon class="text-h4">mdi-folder-upload</v-icon>
+        <v-icon class="text-h5">mdi-folder-upload</v-icon>
         <div class="ml-4">
-          <h1 class="text-h4 font-weight-medium">{{ $t('byod.title') }}</h1>
-          <p class="text-subtitle-1 font-weight-medium mb-0">
+          <h1 class="text-h5 font-weight-medium">{{ $t('byod.title') }}</h1>
+          <p class="text-subtitle-2 text-md-subtitle-1 font-weight-medium mb-0">
             {{ agency.name }}
           </p>
         </div>
