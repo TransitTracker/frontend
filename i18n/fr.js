@@ -55,30 +55,30 @@ export default {
     properties: {
       label: 'ID du véhicule :',
       plate: "Plaque d'immatriculation :",
-      gtfs_trip: 'Trip ID :',
-      route: 'Route :',
+      tripId: 'Trip ID :',
+      routeId: 'Route :',
       headsign: 'Destination :',
-      trip_short_name: 'Numéro du départ :',
-      start: 'Heure de départ :',
-      status: 'Statut :',
-      stop_sequence: "Séquence d'arrêt :",
+      shortName: 'Numéro du départ :',
+      startTime: 'Heure de départ :',
+      currentStatus: 'Statut :',
+      currentStopSequence: "Séquence d'arrêt :",
       bearing: 'Direction :',
       speed: 'Vitesse :',
       odometer: 'Odomètre :',
-      relationship: "Relation avec l'horaire :",
-      congestion: 'Niveau de congestion :',
-      occupancy: 'Statut de la capacité :',
+      scheduleRelationship: "Relation avec l'horaire :",
+      congestionLevel: 'Niveau de congestion :',
+      occupancyStatus: 'Statut de la capacité :',
     },
     help: {
       label:
         "Ceci est l'identifiant interne assigné par l'agence pour ce véhicule. Dans des circonstances normales, ce champ n'est pas visible pour les usagers de ce véhicule.",
-      gtfs_trip:
+      tripId:
         "Il s'agit d'un identifiant unique attribué à ce voyage. Un même trajet peut être vu plusieurs fois au cours d'une semaine, par exemple du lundi au vendredi.",
-      relationship:
+      scheduleRelationship:
         "En règle générale, un voyage est planifié à l'avance. Mais parfois, lorsque l'achalandage l'exige ou d'autres raisons, il faut ajouter un voyage entre deux. Un véhicule peut aussi ne pas avoir d'horaire (un système de métro par exemple) ou bien être annulé pour diverses raisons.",
-      status:
+      currentStatus:
         'Il s\'agit du statut du véhicule en relation avec les arrêts. Lorsqu\'un véhicule se dirige vers un arrêt, il est "In transit to". En s\'approchant, il devient "incoming". Puis à l\'arrêt, il est "Stopped at".',
-      stop_sequence:
+      currentStopSequence:
         "Ce champ représente la position du véhicule en relation au nombre d'arrêts déservi par le voyage. Plus que le voyage avance et que le véhicule s'approche de son arrêt final, ce chiffre augmente.",
     },
   },

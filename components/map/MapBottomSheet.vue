@@ -23,7 +23,7 @@
         </div>
         <v-btn
           icon
-          :color="componentColor"
+          :color="darkMode ? 'white' : 'primary'"
           class="mx-4"
           @click="togglePersistent"
         >
@@ -34,7 +34,11 @@
             {{ mdiSvg.pin }}
           </v-icon>
         </v-btn>
-        <v-btn outlined :color="componentColor" @click="$emit('close-sheet')">
+        <v-btn
+          outlined
+          :color="darkMode ? 'white' : 'primary'"
+          @click="$emit('close-sheet')"
+        >
           <span class="d-none d-md-block">{{
             $t('mapBottomSheet.close')
           }}</span>
@@ -104,14 +108,18 @@
                       }}
                     </b>
                     <span
-                      v-if="property.name === 'route' && vehicle.trip.long_name"
+                      v-if="
+                        property.name === 'routeId' &&
+                        vehicle.trip.routeLongName
+                      "
                     >
-                      {{ vehicle.trip.route_short_name }}
-                      {{ vehicle.trip.long_name }}
+                      {{ vehicle.trip.routeShortName }}
+                      {{ vehicle.trip.routeLongName }}
                       <code
-                        v-if="vehicle.trip.route_short_name !== vehicle.route"
-                        >{{ vehicle.route }}</code
+                        v-if="vehicle.trip.routeShortName !== vehicle.routeId"
                       >
+                        {{ vehicle.routeId }}
+                      </code>
                     </span>
                     <span v-else :class="property.css">
                       {{
@@ -169,7 +177,7 @@
             <v-list-item-content>
               <v-list-item-title>
                 <json-viewer :value="vehicle.meta.json" sort copyable>
-                  <template v-slot:copy="slots">
+                  <template #copy="slots">
                     <v-btn small icon color="secondary">
                       <v-icon v-if="slots.copied">mdi-clipboard-check</v-icon>
                       <v-icon v-else>mdi-content-copy</v-icon>
@@ -316,10 +324,10 @@ export default {
     ],
     helpToggle: {
       label: false,
-      gtfs_trip: false,
-      relationship: false,
-      status: false,
-      stop_sequence: false,
+      tripId: false,
+      scheduleRelationship: false,
+      currentStatus: false,
+      currentStopSequence: false,
     },
   }),
   computed: {
@@ -329,14 +337,8 @@ export default {
     vehicle() {
       return this.$store.state.vehicles.selection
     },
-    componentColor() {
-      return this.$vuetify.theme.dark ? 'white' : 'primary'
-    },
     darkMode() {
       return this.$vuetify.theme.dark
-    },
-    settingsLanguageEnglish() {
-      return this.$store.state.settings.language === 'en'
     },
     sheetModel: {
       get() {
@@ -345,13 +347,6 @@ export default {
       set() {
         !this.persistent && this.$emit('close-sheet')
       },
-    },
-    showChevron() {
-      const div = document.getElementById('links-list')
-      if (!div || !this.vehicle.links.length) {
-        return false
-      }
-      return div.scrollWidth > div.clientWidth
     },
     stateLinks() {
       // return collect(this.$store.state.links.data)
@@ -371,7 +366,7 @@ export default {
         url
           .replace(':id', this.vehicle.id)
           .replace(':ref', this.vehicle.ref)
-          .replace(':trip', this.vehicle.gtfs_trip),
+          .replace(':trip', this.vehicle.tripId),
         '_blank'
       )
       tab.focus()
