@@ -58,11 +58,12 @@
                   md="4"
                   lg="3"
                 >
+                  <!-- :color="darkMode ? 'grey darken-3' : 'grey lighten-3'" -->
                   <v-card
                     elevation="0"
                     width="100%"
                     height="100%"
-                    :color="darkMode ? 'grey darken-3' : 'grey lighten-3'"
+                    :color="`${agency.color}26`"
                     :loading="
                       agency.slug in vehicleCounts ? false : agency.textColor
                     "
@@ -153,10 +154,18 @@ export default {
   data: () => ({
     downloadDialog: false,
   }),
-  head: () => ({
-    // TODO: Use i18n
-    title: 'Home',
-  }),
+  head() {
+    return {
+      title: this.region.name,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.region.description,
+        },
+      ],
+    }
+  },
   computed: {
     activeAgencies() {
       const activeAgencies = this.$store.state.settings.activeAgencies
