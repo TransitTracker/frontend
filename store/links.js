@@ -11,14 +11,14 @@ export const mutations = {
 }
 
 export const actions = {
-  async getOne({ commit, state }, id) {
+  async get({ commit, state }, id) {
     if (id in state.data) {
       return state.data[id]
     }
 
-    const alert = await this.$axios.get(`/alerts/${id}`)
+    const alert = await this.$axios.get(`/links/${id}`)
     commit('add', alert.data.data)
 
-    return alert
+    return alert.data.data
   },
 }

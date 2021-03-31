@@ -47,31 +47,36 @@
       </div>
       <div class="bottom-sheet-overflow">
         <v-slide-group
-          v-if="vehicle.links.length"
+          v-if="Object.keys(links).length"
           class="px-4 py-2 grey"
           :class="[darkMode ? 'darken-3' : 'lighten-3']"
           show-arrows
         >
-          <v-slide-item v-for="link in stateLinks" :key="link.id">
+          <v-slide-item v-for="(link, name) in links" :key="name">
+            <v-skeleton-loader
+              v-if="link.loading || !link.url"
+              class="mr-4 my-2"
+              max-width="200px"
+              max-height="62px"
+              type="image"
+            ></v-skeleton-loader>
             <v-sheet
+              v-else
               rounded
               elevation="2"
               :class="[darkMode ? 'dark' : 'white']"
               class="pa-2 d-flex align-center mr-4 my-2 cursor-pointer"
               :light="!darkMode"
               :dark="darkMode"
+              :title="$t('mapBottomSheet.openLink')"
               @click="openLink(link.url)"
             >
               <div>
                 <p class="subtitle-2 mb-1">
-                  {{ settingsLanguageEnglish ? link.title.en : link.title.fr }}
+                  {{ link.title }}
                 </p>
                 <p class="body-2 mb-0">
-                  {{
-                    settingsLanguageEnglish
-                      ? link.description.en
-                      : link.description.fr
-                  }}
+                  {{ link.description }}
                 </p>
               </div>
               <v-icon class="ml-4" size="20px">
@@ -236,6 +241,7 @@ export default {
   },
   data: () => ({
     persistent: false,
+    links: {},
     mdiSvg: {
       pinOff: mdiPinOff,
       pin: mdiPin,
@@ -348,12 +354,14 @@ export default {
         !this.persistent && this.$emit('close-sheet')
       },
     },
-    stateLinks() {
-      // return collect(this.$store.state.links.data)
-      //   .whereIn('id', this.vehicle.links)
-      //   .all()
-      return ''
+  },
+  watch: {
+    vehicle(value) {
+      this.getLinks(value)
     },
+  },
+  mounted() {
+    this.getLinks(this.vehicle)
   },
   methods: {
     clickOutsideSheet() {
@@ -373,6 +381,19 @@ export default {
     },
     togglePersistent() {
       this.persistent ? (this.persistent = false) : (this.persistent = true)
+    },
+    getLinks(vehicle) {
+      if (Object.keys(this.links).length) {
+        Object.keys(this.links).forEach((key) => this.$delete(this.links, key))
+      }
+      if (!vehicle || !vehicle.links) return
+
+      vehicle.links.forEach(async (id) => {
+        this.$set(this.links, id, { loading: true })
+        const link = await this.$store.dispatch('links/get', id)
+
+        this.$set(this.links, id, link)
+      })
     },
   },
 }

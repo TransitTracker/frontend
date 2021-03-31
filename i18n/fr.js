@@ -52,6 +52,7 @@ export default {
     close: 'Fermer',
     vehicle: 'Véhicule',
     seenAt: 'Apparu à',
+    openLink: 'Ouvrir le lien dans un nouvel onglet',
     properties: {
       label: 'ID du véhicule :',
       plate: "Plaque d'immatriculation :",

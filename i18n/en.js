@@ -51,6 +51,7 @@ export default {
     close: 'Close',
     vehicle: 'Vehicle',
     seenAt: 'Seen at',
+    openLink: 'Open the link in a new tab',
     properties: {
       label: 'Vehicle ID:',
       plate: 'License plate:',
