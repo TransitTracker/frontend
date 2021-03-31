@@ -200,7 +200,7 @@ export default {
       })
 
       // Add the new channel
-      this.$echo.channel(region.slug).listen('VehiclesUpdated', (event) => {
+      this.$echo.channel(region.slug).listen('AgencyUpdated', (event) => {
         // Check if autoRefresh is enabled and if agency is selected in settings
         if (!this.settingsAutoRefresh) return false
         if (!this.$store.state.settings.activeAgencies.includes(event.slug)) {
