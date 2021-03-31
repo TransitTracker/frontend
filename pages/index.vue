@@ -61,77 +61,6 @@
 import anime from 'animejs/lib/anime.es'
 import mapboxgl from 'mapbox-gl'
 
-const geojson = {
-  type: 'FeatureCollection',
-  features: [
-    {
-      type: 'Feature',
-      properties: {
-        name: 'Montréal',
-        slug: 'mtl',
-        vehicles: 690,
-        agencies: 16,
-      },
-      geometry: {
-        type: 'Point',
-        coordinates: [-73.5663, 45.5],
-      },
-    },
-    {
-      type: 'Feature',
-      properties: {
-        name: 'Toronto',
-        slug: 'to',
-        vehicles: 1989,
-        agencies: 11,
-      },
-      geometry: {
-        type: 'Point',
-        coordinates: [-79.3811, 43.6455],
-      },
-    },
-    {
-      type: 'Feature',
-      properties: {
-        name: 'Sherbrooke',
-        slug: 'sh',
-        vehicles: 26,
-        agencies: 1,
-      },
-      geometry: {
-        type: 'Point',
-        coordinates: [-71.8926, 45.4043],
-      },
-    },
-    {
-      type: 'Feature',
-      properties: {
-        name: 'Outaouais',
-        slug: 'outaouais',
-        vehicles: 1,
-        agencies: 1,
-      },
-      geometry: {
-        type: 'Point',
-        coordinates: [-75.6986, 45.4236],
-      },
-    },
-    {
-      type: 'Feature',
-      properties: {
-        name: 'Lévis',
-        slug: 'quebec',
-        vehicles: 10,
-        agencies: 1,
-      },
-      geometry: {
-        type: 'Point',
-        coordinates: [-71.2056, 46.8124],
-      },
-    },
-  ],
-}
-
 export default {
   name: 'Landing',
   asyncData({ store }) {
@@ -144,7 +73,15 @@ export default {
   },
   data: () => ({
     mapLoaded: true,
+    features: {
+      type: 'FeatureCollection',
+      features: [],
+    },
   }),
+  async fetch() {
+    const features = await this.$axios.get('/landing')
+    this.features = features.data
+  },
   computed: {
     darkMode() {
       return this.$vuetify.theme.dark
@@ -161,7 +98,7 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      this.loadMap()
+      this.createMap()
     }, 10)
 
     const cities = [
@@ -231,7 +168,7 @@ export default {
           delay: 1000,
         })
     },
-    loadMap() {
+    createMap() {
       mapboxgl.accessToken = this.mapAccessToken
       this.map = new mapboxgl.Map({
         container: 'landing-map',
@@ -248,31 +185,35 @@ export default {
         this.mapLoaded = true
         this.map.addSource('landing-source', {
           type: 'geojson',
-          data: geojson,
+          data: this.features,
         })
 
-        this.map.addLayer({
-          id: 'landing-layer',
-          type: 'symbol',
-          source: 'landing-source',
-          layout: {
-            'icon-allow-overlap': true,
-            'icon-anchor': 'bottom',
-            'icon-image': 'tt-custom-custom',
-            'icon-size': 1,
-          },
-        })
-        const popup = new mapboxgl.Popup({
-          closeButton: false,
-          anchor: 'center',
-          className: 'pa-1 tt-landing--popup',
-        })
+        this.loadMapLayers()
+      })
+    },
+    loadMapLayers() {
+      this.map.addLayer({
+        id: 'landing-layer',
+        type: 'circle',
+        source: 'landing-source',
+        paint: {
+          'circle-radius': 10,
+          'circle-stroke-color': '#ffffff',
+          'circle-stroke-width': 1,
+          'circle-color': '#00497b',
+        },
+      })
+      const popup = new mapboxgl.Popup({
+        closeButton: false,
+        anchor: 'center',
+        className: 'pa-1 tt-landing--popup',
+      })
 
-        this.map.on('click', 'landing-layer', (e) => {
-          popup
-            .setLngLat(e.features[0].geometry.coordinates.slice())
-            .setHTML(
-              `
+      this.map.on('click', 'landing-layer', (e) => {
+        popup
+          .setLngLat(e.features[0].geometry.coordinates.slice())
+          .setHTML(
+            `
               <h2>${e.features[0].properties.name}</h2>
               <b>${e.features[0].properties.agencies} agences</b><br>
               <b>${e.features[0].properties.vehicles} vehicules</b>
@@ -289,21 +230,18 @@ export default {
                 </a>
               </div>
             `
-            )
-            .addTo(this.map)
-        })
-        this.map.on('mouseenter', 'landing-layer', (e) => {
-          this.map.getCanvas().style.cursor = 'pointer'
-        })
-        this.map.on('mouseleave', 'landing-layer', (e) => {
-          this.map.getCanvas().style.cursor = ''
-        })
-
-        this.map.setStyle(
-          this.darkMode ? this.mapStyle.dark : this.mapStyle.light
-        )
-        this.map.moveLayer('landing-layer')
+          )
+          .addTo(this.map)
       })
+      this.map.on('mouseenter', 'landing-layer', (e) => {
+        this.map.getCanvas().style.cursor = 'pointer'
+      })
+      this.map.on('mouseleave', 'landing-layer', (e) => {
+        this.map.getCanvas().style.cursor = ''
+      })
+      this.map.moveLayer('landing-layer')
+
+      this.map.getSource('landing-source').setData(this.features)
     },
   },
 }
