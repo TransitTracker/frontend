@@ -8,6 +8,7 @@ export default {
   // Target (https://go.nuxtjs.dev/config-target)
   target: 'static',
   ssr: false,
+  modern: 'client',
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
@@ -89,21 +90,21 @@ export default {
   generate: {
     fallback: true,
     routes: [
-      '/app/montreal/',
-      '/app/montreal/map',
-      '/app/montreal/table',
-      '/app/toronto/',
-      '/app/toronto/map',
-      '/app/toronto/table',
-      '/app/sherbrooke/',
-      '/app/sherbrooke/map',
-      '/app/sherbrooke/table',
-      '/app/quebec/',
-      '/app/quebec/map',
-      '/app/quebec/table',
-      '/app/outaouais/',
-      '/app/outaouais/map',
-      '/app/outaouais/table',
+      '/regions/montreal/',
+      '/regions/montreal/map',
+      '/regions/montreal/table',
+      '/regions/toronto/',
+      '/regions/toronto/map',
+      '/regions/toronto/table',
+      '/regions/sherbrooke/',
+      '/regions/sherbrooke/map',
+      '/regions/sherbrooke/table',
+      '/regions/quebec/',
+      '/regions/quebec/map',
+      '/regions/quebec/table',
+      '/regions/outaouais/',
+      '/regions/outaouais/map',
+      '/regions/outaouais/table',
     ],
   },
 
@@ -111,8 +112,6 @@ export default {
   loadingIndicator: {
     name: '~/assets/loading.html',
   },
-
-  modern: 'client',
 
   env: {
     version,
