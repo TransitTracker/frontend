@@ -7,7 +7,7 @@ import fr from './i18n/fr'
 export default {
   // Target (https://go.nuxtjs.dev/config-target)
   target: 'static',
-  ssr: false,
+  ssr: true,
   modern: 'client',
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
