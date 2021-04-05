@@ -7,7 +7,7 @@ import fr from './i18n/fr'
 export default {
   // Target (https://go.nuxtjs.dev/config-target)
   target: 'static',
-  ssr: true,
+  ssr: false,
   modern: 'client',
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
@@ -33,11 +33,11 @@ export default {
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
-    '~/plugins/axios',
-    '~/plugins/byod',
-    '~/plugins/database',
+    '~/plugins/axios.js',
+    '~/plugins/byod.js',
+    '~/plugins/database.client.js',
     '~/plugins/settings.client.js',
-    '~/plugins/socket.js',
+    '~/plugins/socket.client.js',
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -62,7 +62,7 @@ export default {
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    baseURL: process.env.API_BASE_URL || 'http://tt-backend.test/v2',
+    baseURL: process.env.API_BASE_URL || 'http://backend.test/v2',
   },
 
   // i18n module configuration
