@@ -82,6 +82,16 @@ export default {
     const features = await this.$axios.get('/landing')
     this.features = features.data
   },
+  head() {
+    return {
+      link: [
+        {
+          ref: 'stylesheet',
+          href: 'https://api.mapbox.com/mapbox-gl-js/v2.0.1/mapbox-gl.css',
+        },
+      ],
+    }
+  },
   computed: {
     darkMode() {
       return this.$vuetify.theme.dark

@@ -39,6 +39,17 @@ export default {
     mapStyleReady: false,
     sheetOpen: false,
   }),
+
+  head() {
+    return {
+      link: [
+        {
+          ref: 'stylesheet',
+          href: 'https://api.mapbox.com/mapbox-gl-js/v2.0.1/mapbox-gl.css',
+        },
+      ],
+    }
+  },
   computed: {
     agencies() {
       return this.$store.state.agencies.data
@@ -270,9 +281,6 @@ export default {
         .addTo(this.map)
     },
   },
-  head: () => ({
-    link: [],
-  }),
 }
 </script>
 
