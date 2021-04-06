@@ -112,6 +112,8 @@ export default {
     mapboxAccessToken: process.env.MAPBOX_ACCESS_TOKEN,
     mabboxStyleDark: process.env.MAPBOX_STYLE_DARK,
     mabboxStyleLight: process.env.MAPBOX_STYLE_LIGHT,
+    meiliHost: process.env.MEILISEARCH_HOST,
+    meiliKey: process.env.MEILISEARCH_PUBLIC_KEY,
     shapesEndpoint: process.env.SHAPES_BASE_URL,
     wsKey: process.env.WS_KEY || 'tt-ws',
     wsHost: process.env.WS_HOST || 'localhost',

@@ -19,6 +19,7 @@
           >
             <v-icon>mdi-github</v-icon>
           </v-btn>
+          <HomeSearch />
         </div>
         <img
           src="/img/logo.svg"
