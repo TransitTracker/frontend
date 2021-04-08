@@ -11,7 +11,7 @@
       ></h1>
       <!-- eslint-enable vue/no-v-html -->
       <h2 class="text-h6 text-md-h5 my-4 tt-subtitle">
-        {{ $t('landing.intro') }}
+        {{ $t('landing.intro') }} <br />
         <span
           class="font-weight-medium tt-cities"
           :class="[darkMode ? 'secondary--text' : 'primary-dark--text']"
@@ -63,13 +63,16 @@ import mapboxgl from 'mapbox-gl'
 
 export default {
   name: 'Landing',
-  asyncData({ store }) {
+  async asyncData({ app }) {
     const mapStyle = {
       dark: process.env.mabboxStyleDark,
       light: 'mapbox://styles/felixinx/cklvgeorj2t4417rtcbtk8lki?optimize=true',
     }
     const mapAccessToken = process.env.mapboxAccessToken
-    return { mapAccessToken, mapStyle }
+
+    const features = await app.$axios.get('/landing')
+
+    return { mapAccessToken, mapStyle, features: features.data }
   },
   data: () => ({
     mapLoaded: true,
@@ -78,10 +81,6 @@ export default {
       features: [],
     },
   }),
-  async fetch() {
-    const features = await this.$axios.get('/landing')
-    this.features = features.data
-  },
   head() {
     return {
       link: [
@@ -111,19 +110,14 @@ export default {
       this.createMap()
     }, 10)
 
-    const cities = [
-      'Montréal',
-      'Toronto',
-      'Terrebonne',
-      'Sherbrooke',
-      'Hamilton',
-      'Lévis',
-      'Gatineau',
-      'Longueuil',
-      'York',
-      'Chelsea',
-      this.$t('landing.introCities'),
-    ]
+    const cities = []
+
+    this.features.features.forEach((feature) => {
+      cities.push(...feature.properties.cities)
+    })
+
+    cities.push(this.$t('landing.introCities'))
+
     const delayLoop = (fn, delay) => {
       return (x, i) => {
         setTimeout(() => {
@@ -139,7 +133,7 @@ export default {
       if (!this.$refs.letters) return
       this.$refs.letters.innerHTML = city.replace(
         // eslint-disable-next-line
-        /([^\x00-\x80]|\w)/g,
+        /./g,
         "<span class='tt-cities__letter'>$&</span>"
       )
       anime
