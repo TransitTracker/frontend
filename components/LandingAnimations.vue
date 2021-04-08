@@ -1,6 +1,6 @@
 <template>
   <div class="animations">
-    <svg
+    <!-- <svg
       xmlns="http://www.w3.org/2000/svg"
       style="isolation: isolate"
       viewBox="0 0 466.838 204.402"
@@ -261,7 +261,7 @@
           d="M704.422 50h-3.948a2.572 2.572 0 01-2.572-2.571c0-9.974-10.182-20.156-20.156-20.156a2.572 2.572 0 01-2.571-2.572v-3.948a2.572 2.572 0 012.571-2.571c14.974 0 29.224 14.25 29.244 29.247A2.568 2.568 0 01704.422 50z"
         />
       </g>
-    </svg>
+    </svg> -->
   </div>
 </template>
 
@@ -274,7 +274,7 @@ export default {
 </script>
 
 <style scoped>
-.bus {
+/* .bus {
   position: absolute;
   bottom: 2rem;
   z-index: 1;
@@ -311,7 +311,7 @@ export default {
   animation-iteration-count: infinite;
   animation-timing-function: ease-in-out;
   opacity: 0.05;
-}
+} */
 
 @media (min-width: 960px) {
   .bus,
@@ -321,13 +321,13 @@ export default {
   }
 }
 
-.network .first {
+/* .network .first {
   animation: network 2s infinite;
 }
 .network .second {
   animation: network 2s infinite;
   animation-delay: 1s;
-}
+} */
 
 @keyframes bus {
   0% {

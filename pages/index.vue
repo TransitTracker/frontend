@@ -24,7 +24,12 @@
         </span>
       </h2>
       <h2 class="text-subtitle-2 text-md-subtitle-1">
-        {{ $t('landing.body', { vehicles: 3567, agencies: 32 }) }}
+        {{
+          $t('landing.body', {
+            totalAgencies,
+            totalVehicles,
+          })
+        }}
       </h2>
       <v-card
         class="mt-4 tt-landing--byod"
@@ -60,6 +65,7 @@
 <script>
 import anime from 'animejs/lib/anime.es'
 import mapboxgl from 'mapbox-gl'
+import 'mapbox-gl/dist/mapbox-gl.css'
 
 export default {
   name: 'Landing',
@@ -70,9 +76,21 @@ export default {
     }
     const mapAccessToken = process.env.mapboxAccessToken
 
-    const features = await app.$axios.get('/landing')
+    const landingResponse = await app.$axios.get('/landing')
+    let totalVehicles = 0
+    let totalAgencies = 0
+    landingResponse.data.features.forEach((region) => {
+      totalAgencies += region.properties.agencies
+      totalVehicles += region.properties.vehicles
+    })
 
-    return { mapAccessToken, mapStyle, features: features.data }
+    return {
+      mapAccessToken,
+      mapStyle,
+      features: landingResponse.data,
+      totalAgencies,
+      totalVehicles,
+    }
   },
   data: () => ({
     mapLoaded: true,
@@ -82,14 +100,7 @@ export default {
     },
   }),
   head() {
-    return {
-      link: [
-        {
-          ref: 'stylesheet',
-          href: 'https://api.mapbox.com/mapbox-gl-js/v2.0.1/mapbox-gl.css',
-        },
-      ],
-    }
+    return {}
   },
   computed: {
     darkMode() {
@@ -116,6 +127,14 @@ export default {
       cities.push(...feature.properties.cities)
     })
 
+    // Randomize array
+    for (let i = cities.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * i)
+      const temp = cities[i]
+      cities[i] = cities[j]
+      cities[j] = temp
+    }
+
     cities.push(this.$t('landing.introCities'))
 
     const delayLoop = (fn, delay) => {
@@ -133,7 +152,7 @@ export default {
       if (!this.$refs.letters) return
       this.$refs.letters.innerHTML = city.replace(
         // eslint-disable-next-line
-        /./g,
+        /([^\x00-\x80]|[^ ]|\w)/g,
         "<span class='tt-cities__letter'>$&</span>"
       )
       anime

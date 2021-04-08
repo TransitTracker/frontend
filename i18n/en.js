@@ -21,7 +21,7 @@ export default {
     intro: 'An overview of the public transport network for',
     introCities: 'several Canadian cities',
     body:
-      'There is currently {vehicles} active vehicles across {agencies} agencies.',
+      'There is currently {totalVehicles} active vehicles across {totalAgencies} agencies.',
     byodNew: 'New!',
     byodTitle: 'Import your own data',
     byodBody:

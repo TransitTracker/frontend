@@ -21,7 +21,7 @@ export default {
     intro: "Une vue d'ensemble du réseau de transport en commun pour",
     introCities: 'plusieurs villes Canadiennes',
     body:
-      'En ce moment, il y a {vehicles} véhicules actifs à travers {agencies} agences.',
+      'En ce moment, il y a {totalVehicles} véhicules actifs à travers {totalAgencies} agences.',
     byodNew: 'Nouveau!',
     byodTitle: 'Importez vos propres données',
     byodBody:

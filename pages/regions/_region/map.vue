@@ -12,6 +12,7 @@
 
 <script>
 import mapboxgl from 'mapbox-gl'
+import 'mapbox-gl/dist/mapbox-gl.css'
 
 const defaultGeojsonShapeData = {
   type: 'Feature',
@@ -39,16 +40,8 @@ export default {
     mapStyleReady: false,
     sheetOpen: false,
   }),
-
   head() {
-    return {
-      link: [
-        {
-          ref: 'stylesheet',
-          href: 'https://api.mapbox.com/mapbox-gl-js/v2.0.1/mapbox-gl.css',
-        },
-      ],
-    }
+    return {}
   },
   computed: {
     agencies() {
