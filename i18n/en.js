@@ -39,8 +39,8 @@ export default {
     outdated: 'Outdated',
     emptyTitle: 'No agencies selected',
     emptyBody:
-      "You didn't select any agencies for this region. Head over to the settings tab to add some agencies or change region using the top-right button.",
-    emptyButton: 'Add agencies',
+      "You didn't select any agencies for this region. Head over to the settings to add some agencies (top-right button) or change region.",
+    emptyButton: 'Change region',
     creditsTitle: 'Credits',
     refreshAriaLabel: 'Refresh',
   },

@@ -207,7 +207,7 @@
     <v-container>
       <v-row>
         <v-col cols="12">
-          <v-card v-if="activeAgencies" class="mt-4">
+          <v-card v-if="activeAgencies.length" class="mt-4">
             <v-card-title>
               <span class="flex-grow-1">
                 {{ totalCount }} {{ $t('home.vehicleTotal') }}
@@ -273,7 +273,7 @@
               <div class="text-subtitle1 text-center mb-6">
                 {{ $t('home.emptyBody') }}
               </div>
-              <v-btn large color="primary" to="/settings">
+              <v-btn large color="primary" :to="localePath('/')">
                 {{ $t('home.emptyButton') }}
               </v-btn>
             </v-card-text>
@@ -403,18 +403,13 @@ export default {
 }
 .tt-illustration {
   svg {
-    position: absolute;
+    position: fixed;
     left: -15px;
     bottom: 20px;
     height: 300px;
     transform: rotate(12deg);
     opacity: 0.25;
   }
-  // position: absolute;
-  // top: 0;
-  // bottom: 0;
-  // left: 0;
-  // right: 0;
   overflow: hidden;
 }
 </style>
