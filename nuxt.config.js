@@ -56,7 +56,7 @@ export default {
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    baseURL: process.env.API_BASE_URL || 'http://backend.test/v2',
+    baseURL: `${process.env.BACKEND_HOST}/v2` || 'http://backend.test/v2',
   },
 
   // i18n module configuration
@@ -112,7 +112,7 @@ export default {
     mapboxAccessToken: process.env.MAPBOX_ACCESS_TOKEN,
     mabboxStyleDark: process.env.MAPBOX_STYLE_DARK,
     mabboxStyleLight: process.env.MAPBOX_STYLE_LIGHT,
-    shapesEndpoint: process.env.SHAPES_BASE_URL,
+    backendHost: process.env.BACKEND_HOST,
     wsKey: process.env.WS_KEY || 'tt-ws',
     wsHost: process.env.WS_HOST || 'localhost',
     wsPort: process.env.WS_PORT || 6001,

@@ -240,7 +240,7 @@ export default {
       if (vehicle.trip.shapeLink) {
         this.map
           .getSource('shape-source')
-          .setData(`${process.env.shapesEndpoint}${vehicle.trip.shapeLink}`)
+          .setData(`${process.env.backendHost}${vehicle.trip.shapeLink}`)
         this.map.setPaintProperty(
           'shape-layer',
           'line-color',
