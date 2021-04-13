@@ -4,6 +4,7 @@ export default function ({ app }) {
     theme: {
       themes: {
         dark: {
+          anchor: '#ffffff',
           primary: '#00497b',
           'primary-dark': '#00224e',
           secondary: '#009a8d',

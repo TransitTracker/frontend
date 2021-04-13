@@ -35,10 +35,10 @@
             <v-card-text class="body-2">
               <b>{{ $t('download.agencyLicense') }}</b
               ><br />
-              {{ selectedAgency.license.licenseTitle }}
+              {{ selectedAgency.license.title }}
               <a
-                v-if="selectedAgency.license.licenseUrl"
-                :href="selectedAgency.license.licenseUrl"
+                v-if="selectedAgency.license.url"
+                :href="selectedAgency.license.url"
               >
                 {{ $t('download.agencyRead') }}
               </a>
@@ -53,31 +53,26 @@
             <v-card-text class="white--text body-2">
               <b>{{ $t('download.agencyNotDownloadable') }}</b>
               <br />
-              {{ selectedAgency.license.licenseTitle }}
+              {{ selectedAgency.license.title }}
               <a
-                v-if="selectedAgency.license.licenseUrl"
-                :href="selectedAgency.license.licenseUrl"
+                v-if="selectedAgency.license.url"
+                :href="selectedAgency.license.url"
+                target="_blank"
               >
                 {{ $t('download.agencyRead') }} </a
               ><br />
             </v-card-text>
           </v-card>
 
-          <div class="d-flex justify-space-between">
-            <v-btn
-              color="primary"
-              :disabled="
-                !selectedAgency || !selectedAgency.license.isDownloadable
-              "
-              @click="stepper = 2"
-            >
-              {{ $t('download.btnNext') }}
-            </v-btn>
-            <div />
-            <v-btn text @click="dialog = false">
-              {{ $t('download.btnCancel') }}
-            </v-btn>
-          </div>
+          <v-btn
+            color="primary"
+            :disabled="
+              !selectedAgency || !selectedAgency.license.isDownloadable
+            "
+            @click="stepper = 2"
+          >
+            {{ $t('download.btnNext') }}
+          </v-btn>
         </v-stepper-content>
         <v-stepper-step :complete="stepper > 2" step="2">
           {{ $t('download.formatStep') }}
