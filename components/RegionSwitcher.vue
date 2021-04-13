@@ -108,12 +108,12 @@ export default {
       },
     },
   },
+  mounted() {
+    this.window = Object.keys(this.regions).indexOf(this.currentRegion)
+  },
   methods: {
     changeTo(region) {
-      this.$store.commit('settings/set', {
-        setting: 'currentRegion',
-        value: region.slug,
-      })
+      this.$store.dispatch('settings/changeRegion', region)
 
       this.$emit('new-region', region)
 

@@ -89,7 +89,7 @@
                       {{ agency.name }}
                     </v-list-item-title>
                     <v-list-item-subtitle>
-                      <p class="mb-2 mt-1">
+                      <p class="mb-2 mt-1 text-truncate">
                         {{ agency.cities && agency.cities.join(', ') }}
                       </p>
                       <v-chip
@@ -112,7 +112,7 @@
                     </v-list-item-subtitle>
                   </v-list-item-content>
                   <v-list-item-action v-if="!agency.regions.includes('*')">
-                    <v-btn icon @click="toggleAgency(slug)">
+                    <v-btn icon @click="toggleAgency(agency)">
                       <v-icon v-if="activeAgencies.includes(slug)">
                         mdi-minus
                       </v-icon>
@@ -314,14 +314,7 @@ export default {
       this.pwa.result = outcome.outcome
     },
     toggleAgency(agency) {
-      const setting = this.activeAgencies
-      if (setting.includes(agency)) {
-        setting.splice(setting.indexOf(agency), 1)
-      } else {
-        setting.push(agency)
-      }
-
-      this.setSetting('activeAgencies', setting)
+      this.$store.dispatch('settings/toggleAgency', agency)
     },
   },
 }
