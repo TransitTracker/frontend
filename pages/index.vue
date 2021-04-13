@@ -72,7 +72,8 @@ export default {
   async asyncData({ app }) {
     const mapStyle = {
       dark: process.env.mabboxStyleDark,
-      light: 'mapbox://styles/felixinx/cklvgeorj2t4417rtcbtk8lki?optimize=true',
+      light:
+        'mapbox://styles/felixinx/cklvgeorj2t4417rtcbtk8lki/draft?optimize=true',
     }
     const mapAccessToken = process.env.mapboxAccessToken
 
