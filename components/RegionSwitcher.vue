@@ -127,6 +127,9 @@ export default {
           this.$router.push(this.localePath(`/regions/${region.slug}`))
         }
       }
+
+      // Close dialog
+      this.toggle()
     },
     toggle(value = false) {
       if (typeof value !== 'boolean') {
