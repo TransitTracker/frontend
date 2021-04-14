@@ -221,11 +221,11 @@ export default {
         type: 'circle',
         source: 'landing-source',
         paint: {
-          'circle-radius': 10,
-          'circle-stroke-color': this.darkMode ? '#00497b' : '#2374ab',
+          'circle-radius': ['max', 5, ['get', 'range']],
+          'circle-stroke-color': this.darkMode ? '#009a8d' : '#2374ab',
           'circle-stroke-width': ['get', 'range'],
           'circle-stroke-opacity': 0.5,
-          'circle-color': this.darkMode ? '#00497b' : '#2374ab',
+          'circle-color': this.darkMode ? '#009a8d' : '#2374ab',
         },
       })
       const popup = new mapboxgl.Popup({
@@ -254,16 +254,30 @@ export default {
                 })}
               </b>
               <div class="d-flex secondark-dark--text mt-1">
-                <a href="${this.localePath(
-                  `/regions/${e.features[0].properties.slug}/map`
-                )}" class="mr-2 secondary-dark--text" style="height: 24px;">
+                <a 
+                  href="${this.localePath(
+                    `/regions/${e.features[0].properties.slug}/map`
+                  )}"
+                  class="mr-2 secondary-dark--text"
+                  style="height: 24px;"
+                  title="${this.$t('landing.openMap', {
+                    region: e.features[0].properties.name,
+                  })}"
+                >
                   <svg style="width:24px;height:24px" viewBox="0 0 24 24">
                     <path fill="currentColor" d="M15,19L9,16.89V5L15,7.11M20.5,3C20.44,3 20.39,3 20.34,3L15,5.1L9,3L3.36,4.9C3.15,4.97 3,5.15 3,5.38V20.5A0.5,0.5 0 0,0 3.5,21C3.55,21 3.61,21 3.66,20.97L9,18.9L15,21L20.64,19.1C20.85,19 21,18.85 21,18.62V3.5A0.5,0.5 0 0,0 20.5,3Z" />
                   </svg>
                 </a>
-                <a href="${this.localePath(
-                  `/regions/${e.features[0].properties.slug}/table`
-                )}" style="height: 24px;" class="secondary-dark--text">
+                <a
+                  href="${this.localePath(
+                    `/regions/${e.features[0].properties.slug}/table`
+                  )}"
+                  class="secondary-dark--text"
+                  style="height: 24px;"
+                  title="${this.$t('landing.openTable', {
+                    region: e.features[0].properties.name,
+                  })}"
+                >
                   <svg style="width:24px;height:24px" viewBox="0 0 24 24">
                     <path fill="currentColor" d="M5,4H19A2,2 0 0,1 21,6V18A2,2 0 0,1 19,20H5A2,2 0 0,1 3,18V6A2,2 0 0,1 5,4M5,8V12H11V8H5M13,8V12H19V8H13M5,14V18H11V14H5M13,14V18H19V14H13Z" />
                   </svg>
@@ -320,11 +334,12 @@ export default {
   z-index: 2;
 }
 .theme--dark .tt-landing--popup {
-  .mapboxgl-popup-tip,
+  .mapboxgl-popup-tip {
+    border-top-color: #121212;
+  }
+
   .mapboxgl-popup-content {
-    background: rgba(18, 18, 18, 0.75);
-    border-top-color: rgba(18, 18, 18, 0.75);
-    backdrop-filter: blur(12px);
+    background: #121212;
   }
 }
 

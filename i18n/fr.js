@@ -29,6 +29,8 @@ export default {
     byodStart: 'Commencez maintenant',
     agencies: '{n} agences',
     vehicles: '{n} véhicules',
+    openMap: 'Ouvrir la carte de {region}',
+    openTable: 'Ouvrir la liste de {region}',
   },
   home: {
     welcome: 'Bienvenue dans ',
