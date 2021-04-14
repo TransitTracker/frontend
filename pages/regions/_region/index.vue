@@ -217,6 +217,7 @@
                 :fab="$vuetify.breakpoint.smAndDown"
                 :small="$vuetify.breakpoint.smAndDown"
                 elevation="0"
+                :title="$t('home.downloadTitle')"
                 @click="downloadDialog = true"
               >
                 <v-icon :left="$vuetify.breakpoint.mdAndUp">
@@ -233,16 +234,14 @@
                   cols="12"
                   md="4"
                 >
-                  <!-- :color="darkMode ? 'grey darken-3' : 'grey lighten-3'" -->
                   <v-card
                     elevation="0"
                     width="100%"
                     height="100%"
                     :color="`${agency.color}26`"
-                    :loading="
-                      agency.slug in vehicleCounts ? false : agency.textColor
-                    "
+                    :loading="!(agency.slug in vehicleCounts)"
                     class="tt-agencies-card"
+                    rounded="lg"
                   >
                     <v-card-text class="px-3 py-2">
                       <b>{{ agency.name }}</b>
@@ -253,6 +252,7 @@
                       <timeago
                         :datetime="(times[agency.slug] || 0) * 1000"
                         :auto-update="30"
+                        :locale="lang"
                       />
                     </v-card-text>
                     <div
@@ -287,7 +287,7 @@
             <!-- eslint-enable -->
             <v-img
               v-if="region.image"
-              height="100"
+              height="150"
               :src="region.image"
               gradient="to top, transparent 0%, rgba(0,73,123,1) 100%"
             ></v-img>
@@ -311,7 +311,12 @@
 import Vue from 'vue'
 import VueTimeago from 'vue-timeago'
 
-Vue.use(VueTimeago, {})
+Vue.use(VueTimeago, {
+  locales: {
+    en: require('date-fns/locale/en'),
+    fr: require('date-fns/locale/fr'),
+  },
+})
 
 export default {
   middleware: 'loadapi',
@@ -357,6 +362,9 @@ export default {
           agencies: [],
         }
       )
+    },
+    lang() {
+      return this.$i18n.locale
     },
     vehicleCounts() {
       return this.$store.getters['vehicles/counts']

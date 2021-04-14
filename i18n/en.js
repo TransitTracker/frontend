@@ -38,6 +38,7 @@ export default {
     exitBeta: 'Exit beta version',
     vehicleTotal: 'vehicles are active',
     download: 'Download',
+    downloadTitle: 'Download data',
     secondsAgo: 'seconds ago',
     minutesAgo: 'minutes ago',
     outdated: 'Outdated',

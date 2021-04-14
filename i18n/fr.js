@@ -37,6 +37,7 @@ export default {
     version: 'Version',
     exitBeta: 'Quitter la version bêta',
     download: 'Télécharger',
+    downloadTitle: 'Télécharger les données',
     vehicleTotal: 'véhicules actifs',
     secondsAgo: 'secondes',
     minutesAgo: 'minutes',
