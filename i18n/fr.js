@@ -27,6 +27,8 @@ export default {
     byodBody:
       "Vous pouvez maintenant utiliser l'interface de Transit Tracker avec n'importe quel jeu de données GTFS Realtime.",
     byodStart: 'Commencez maintenant',
+    agencies: '{n} agences',
+    vehicles: '{n} véhicules',
   },
   home: {
     welcome: 'Bienvenue dans ',

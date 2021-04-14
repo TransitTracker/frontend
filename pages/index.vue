@@ -222,15 +222,17 @@ export default {
         source: 'landing-source',
         paint: {
           'circle-radius': 10,
-          'circle-stroke-color': '#ffffff',
-          'circle-stroke-width': 1,
-          'circle-color': '#00497b',
+          'circle-stroke-color': this.darkMode ? '#00497b' : '#2374ab',
+          'circle-stroke-width': ['get', 'range'],
+          'circle-stroke-opacity': 0.5,
+          'circle-color': this.darkMode ? '#00497b' : '#2374ab',
         },
       })
       const popup = new mapboxgl.Popup({
-        closeButton: false,
-        anchor: 'center',
-        className: 'pa-1 tt-landing--popup',
+        closeButton: true,
+        closeOnMove: true,
+        anchor: 'bottom',
+        className: 'tt-landing--popup rounded-lg shadow-lg',
       })
 
       this.map.on('click', 'landing-layer', (e) => {
@@ -238,21 +240,36 @@ export default {
           .setLngLat(e.features[0].geometry.coordinates.slice())
           .setHTML(
             `
-              <h2>${e.features[0].properties.name}</h2>
-              <b>${e.features[0].properties.agencies} agences</b><br>
-              <b>${e.features[0].properties.vehicles} vehicules</b>
+              <h2 class="text-h6">${e.features[0].properties.name}</h2>
+              <b class="text-subtitle-2">
+                ${this.$t('landing.agencies', {
+                  n: e.features[0].properties.agencies,
+                })}
+                <br>
+                <span class="dot success d-inline-block mr-1">
+                  <div class="dot-animation success"></div>
+                </span>
+                ${this.$t('landing.vehicles', {
+                  n: e.features[0].properties.vehicles,
+                })}
+              </b>
               <div class="d-flex secondark-dark--text mt-1">
-                <a href="/app/${e.features[0].properties.slug}/map/" class="mr-2" style="height: 24px;">
+                <a href="${this.localePath(
+                  `/regions/${e.features[0].properties.slug}/map`
+                )}" class="mr-2 secondary-dark--text" style="height: 24px;">
                   <svg style="width:24px;height:24px" viewBox="0 0 24 24">
                     <path fill="currentColor" d="M15,19L9,16.89V5L15,7.11M20.5,3C20.44,3 20.39,3 20.34,3L15,5.1L9,3L3.36,4.9C3.15,4.97 3,5.15 3,5.38V20.5A0.5,0.5 0 0,0 3.5,21C3.55,21 3.61,21 3.66,20.97L9,18.9L15,21L20.64,19.1C20.85,19 21,18.85 21,18.62V3.5A0.5,0.5 0 0,0 20.5,3Z" />
                   </svg>
                 </a>
-                <a href="/app/${e.features[0].properties.slug}/table/" style="height: 24px;">
+                <a href="${this.localePath(
+                  `/regions/${e.features[0].properties.slug}/table`
+                )}" style="height: 24px;" class="secondary-dark--text">
                   <svg style="width:24px;height:24px" viewBox="0 0 24 24">
                     <path fill="currentColor" d="M5,4H19A2,2 0 0,1 21,6V18A2,2 0 0,1 19,20H5A2,2 0 0,1 3,18V6A2,2 0 0,1 5,4M5,8V12H11V8H5M13,8V12H19V8H13M5,14V18H11V14H5M13,14V18H19V14H13Z" />
                   </svg>
                 </a>
               </div>
+              <div class="border primary"></div>
             `
           )
           .addTo(this.map)
@@ -271,7 +288,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .tt-cities {
   position: relative;
   display: inline-block;
@@ -302,9 +319,57 @@ export default {
 .content .tt-landing--byod {
   z-index: 2;
 }
-.theme--dark .tt-landing--popup .mapboxgl-popup-content {
-  background: #121212;
+.theme--dark .tt-landing--popup {
+  .mapboxgl-popup-tip,
+  .mapboxgl-popup-content {
+    background: rgba(18, 18, 18, 0.75);
+    border-top-color: rgba(18, 18, 18, 0.75);
+    backdrop-filter: blur(12px);
+  }
 }
+
+.tt-landing--popup {
+  min-width: 200px;
+  .mapboxgl-popup-content {
+    padding: 8px 32px 8px 12px;
+    box-shadow: none;
+    clip-path: polygon(0 0, 95% 0, 85% 100%, 0 100%);
+    position: relative;
+    border-radius: 8px;
+    .border {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      clip-path: polygon(91% 0, 95% 0, 85% 100%, 81% 100%);
+    }
+    .dot {
+      position: relative;
+      width: 8px;
+      height: 8px;
+      border-radius: 100%;
+      margin-bottom: 1px;
+      .dot-animation {
+        animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+        position: absolute;
+        inset: 0 0 0 0;
+        border-radius: 100%;
+        opacity: 0.75;
+      }
+    }
+  }
+}
+
+// From Tailwind
+@keyframes ping {
+  75%,
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
 .theme--light .content {
   background: #c0ede7;
 }
@@ -323,7 +388,6 @@ export default {
     z-index: 2;
     width: 55%;
     clip-path: polygon(0 0, 95% 0, 85% 100%, 0 100%);
-    backdrop-filter: blur(3px);
   }
   .theme--dark .content {
     background: #121212;
