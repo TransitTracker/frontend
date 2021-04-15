@@ -1,6 +1,6 @@
 <template>
-  <div class="tt-byod-data">
-    <div class="secondary tt-background-texture">
+  <div class="mb-14">
+    <div class="secondary tt-texture--icons">
       <v-container class="py-4 d-flex">
         <v-icon class="text-h5">mdi-folder-upload</v-icon>
         <div class="ml-4">
@@ -93,9 +93,3 @@ export default {
   },
 }
 </script>
-
-<style>
-.tt-byod-data {
-  margin-bottom: 56px;
-}
-</style>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="map"></div>
+    <div id="tt-map"></div>
     <MapFooter @open-sheet="sheetOpen = true" />
     <MapBottomSheet
       v-if="sheetOpen"
@@ -94,7 +94,7 @@ export default {
   mounted() {
     mapboxgl.accessToken = this.mapAccessToken
     this.map = new mapboxgl.Map({
-      container: 'map',
+      container: 'tt-map',
       style: this.mapStyle,
       center: this.currentRegion.mapCenter || {
         lat: 58.27,
@@ -278,12 +278,14 @@ export default {
 </script>
 
 <style scoped>
-#map {
+#tt-map {
   height: calc(100vh - 200px);
   width: 100%;
+  position: fixed;
+  top: 64px;
 }
 @media only screen and (max-width: 960px) {
-  #map {
+  #tt-map {
     height: calc(100vh - 192px);
   }
 }

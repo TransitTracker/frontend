@@ -1,8 +1,8 @@
 <template>
-  <div class="landing-container flex-column flex-md-row">
-    <div id="landing-map" class="flex-grow-1"></div>
+  <div class="tt-landing flex-column flex-md-row">
+    <div id="tt-landing-map" class="flex-grow-1"></div>
     <div
-      class="content d-flex flex-column justify-md-center px-8 pt-8 pt-md-0 mb-14 mb-md-0 pb-4 pb-md-0"
+      class="tt-landing-content d-flex flex-column justify-md-center px-8 pt-8 pt-md-0 mb-14 mb-md-0 pb-4 pb-md-0"
     >
       <!-- eslint-disable vue/no-v-html -->
       <h1
@@ -10,17 +10,19 @@
         v-html="$t('landing.welcome')"
       ></h1>
       <!-- eslint-enable vue/no-v-html -->
-      <h2 class="text-h6 text-md-h5 my-4 tt-subtitle">
+      <h2 class="text-h6 text-md-h5 my-4 tt-landing-content__subtitle">
         {{ $t('landing.intro') }} <br />
         <span
-          class="font-weight-medium tt-cities"
+          class="font-weight-medium tt-landing-content__cities"
           :class="[darkMode ? 'secondary--text' : 'primary-dark--text']"
         >
           <span
-            class="tt-cities__line"
+            class="tt-landing-content__cities__line"
             :class="[darkMode ? 'secondary' : 'primary-dark']"
           ></span>
-          <span ref="letters" class="tt-cities__letters">Montréal</span>
+          <span ref="letters" class="tt-landing-content__cities__letters"
+            >Montréal</span
+          >
         </span>
       </h2>
       <h2 class="text-subtitle-2 text-md-subtitle-1">
@@ -32,7 +34,7 @@
         }}
       </h2>
       <v-card
-        class="mt-4 tt-landing--byod"
+        class="mt-4 tt-landing-content-message"
         :color="darkMode ? 'secondary-dark' : 'secondary'"
       >
         <v-badge
@@ -40,7 +42,7 @@
           :content="$t('landing.byodNew')"
           left
           overlap
-          class="tt-landing--byod--badge"
+          class="tt-landing-content-message__badge"
         >
           <v-card-text class="pb-0 pt-4">
             <b> {{ $t('landing.byodTitle') }} </b><br />
@@ -58,7 +60,7 @@
       </v-card>
       <LandingAnimations />
     </div>
-    <div class="angled-border secondary-dark"></div>
+    <div class="tt-landing-content__border secondary-dark"></div>
   </div>
 </template>
 
@@ -154,19 +156,19 @@ export default {
       this.$refs.letters.innerHTML = city.replace(
         // eslint-disable-next-line
         /([^\x00-\x80]|[^ ]|\w)/g,
-        "<span class='tt-cities__letter'>$&</span>"
+        "<span class='tt-landing-content__cities__letter'>$&</span>"
       )
       anime
         .timeline()
         .add({
-          target: '.tt-cities__line',
+          target: '.tt-landing-content__cities__line',
           scaleY: [0, 1],
           opacity: [0.5, 1],
           easing: 'easeOutExpo',
           duration: 700,
         })
         .add({
-          targets: '.tt-cities__line',
+          targets: '.tt-landing-content__cities__line',
           translateX: [
             0,
             this.$refs.letters.getBoundingClientRect().width + 10,
@@ -177,7 +179,7 @@ export default {
           delay: 100,
         })
         .add({
-          targets: '.tt-cities__letter',
+          targets: '.tt-landing-content__cities__letter',
           opacity: [0, 1],
           easing: 'easeOutExpo',
           duration: 600,
@@ -185,7 +187,7 @@ export default {
           delay: (el, i) => 34 * (i + 1),
         })
         .add({
-          targets: '.tt-cities',
+          targets: '.tt-landing-content__cities',
           opacity: 0,
           duration: 1000,
           easing: 'easeOutExpo',
@@ -195,7 +197,7 @@ export default {
     createMap() {
       mapboxgl.accessToken = this.mapAccessToken
       this.map = new mapboxgl.Map({
-        container: 'landing-map',
+        container: 'tt-landing-map',
         style: this.darkMode ? this.mapStyle.dark : this.mapStyle.light,
         bounds: [
           [-85.9, 41.5],
@@ -232,7 +234,7 @@ export default {
         closeButton: true,
         closeOnMove: true,
         anchor: 'bottom',
-        className: 'tt-landing--popup rounded-lg shadow-lg',
+        className: 'tt-tt-landing-map-popup rounded-lg shadow-lg',
       })
 
       this.map.on('click', 'landing-layer', (e) => {
@@ -246,8 +248,8 @@ export default {
                   n: e.features[0].properties.agencies,
                 })}
                 <br>
-                <span class="dot success d-inline-block mr-1">
-                  <div class="dot-animation success"></div>
+                <span class="tt-tt-landing-map-popup__dot success d-inline-block mr-1">
+                  <div class="tt-tt-landing-map-popup__dot--animate success"></div>
                 </span>
                 ${this.$t('landing.vehicles', {
                   n: e.features[0].properties.vehicles,
@@ -283,7 +285,7 @@ export default {
                   </svg>
                 </a>
               </div>
-              <div class="border primary"></div>
+              <div class="tt-tt-landing-map-popup__border primary"></div>
             `
           )
           .addTo(this.map)
@@ -303,76 +305,97 @@ export default {
 </script>
 
 <style lang="scss">
-.tt-cities {
-  position: relative;
-  display: inline-block;
-  opacity: 1 !important;
-}
-.tt-cities__line {
-  position: absolute;
-  left: 0;
-  height: 100%;
-  width: 4px;
-  /* opacity: 0; */
-  transform-origin: 0 50%;
-}
-.tt-cities__letter {
-  display: inline-block;
-}
-.landing-container {
+.tt-landing {
   width: 100%;
   height: 100%;
   display: flex;
+
+  &-content {
+    overflow: hidden;
+    position: relative;
+
+    h1,
+    h2,
+    &-message {
+      z-index: 2;
+    }
+
+    &-message {
+      .v-badge__badge {
+        inset: auto auto calc(100% - 12px) 12px !important;
+      }
+    }
+
+    &__subtitle {
+      min-height: 96px;
+    }
+
+    &__cities {
+      position: relative;
+      display: inline-block;
+      opacity: 1 !important;
+
+      &__line {
+        position: absolute;
+        left: 0;
+        height: 100%;
+        width: 4px;
+        transform-origin: 0 50%;
+      }
+
+      &__letter {
+        display: inline-block;
+      }
+    }
+  }
+
+  &-map {
+    &-popup {
+      min-width: 200px;
+
+      .mapboxgl-popup-content {
+        padding: 8px 32px 8px 12px;
+        box-shadow: none;
+        clip-path: polygon(0 0, 95% 0, 85% 100%, 0 100%);
+        position: relative;
+        border-radius: 8px;
+      }
+
+      &__border {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        clip-path: polygon(91% 0, 95% 0, 85% 100%, 81% 100%);
+      }
+
+      &__dot {
+        position: relative;
+        width: 8px;
+        height: 8px;
+        border-radius: 100%;
+        margin-bottom: 1px;
+
+        &--animate {
+          animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+          position: absolute;
+          inset: 0 0 0 0;
+          border-radius: 100%;
+          opacity: 0.75;
+        }
+      }
+    }
+  }
 }
-.content {
-  overflow: hidden;
-  position: relative;
-}
-.content h1,
-.content h2,
-.content .tt-landing--byod {
-  z-index: 2;
-}
-.theme--dark .tt-landing--popup {
+
+.theme--dark .tt-tt-landing-map-popup {
   .mapboxgl-popup-tip {
     border-top-color: #121212;
   }
 
   .mapboxgl-popup-content {
     background: #121212;
-  }
-}
-
-.tt-landing--popup {
-  min-width: 200px;
-  .mapboxgl-popup-content {
-    padding: 8px 32px 8px 12px;
-    box-shadow: none;
-    clip-path: polygon(0 0, 95% 0, 85% 100%, 0 100%);
-    position: relative;
-    border-radius: 8px;
-    .border {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      clip-path: polygon(91% 0, 95% 0, 85% 100%, 81% 100%);
-    }
-    .dot {
-      position: relative;
-      width: 8px;
-      height: 8px;
-      border-radius: 100%;
-      margin-bottom: 1px;
-      .dot-animation {
-        animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
-        position: absolute;
-        inset: 0 0 0 0;
-        border-radius: 100%;
-        opacity: 0.75;
-      }
-    }
   }
 }
 
@@ -385,55 +408,54 @@ export default {
   }
 }
 
-.theme--light .content {
+.theme--light .tt-landing-content {
   background: #c0ede7;
-}
-.tt-subtitle {
-  min-height: 96px;
 }
 
 @media (min-width: 960px) {
-  .landing-container,
-  .angled-border,
-  #landing-map {
+  .tt-landing {
+    &-content {
+      height: 100%;
+      z-index: 2;
+      width: 55%;
+      clip-path: polygon(0 0, 95% 0, 85% 100%, 0 100%);
+
+      h1,
+      h2,
+      .tt-landing-content-message {
+        max-width: 85%;
+      }
+
+      &__border {
+        position: absolute;
+        width: 55%;
+        clip-path: polygon(95% 0, 98% 0, 88% 100%, 85% 100%);
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 2;
+      }
+
+      &__subtitle {
+        min-height: 64px;
+      }
+    }
+  }
+
+  .tt-landing,
+  .tt-landing-content__border,
+  #tt-landing-map {
     height: calc(100% - 56px);
   }
-  .content {
-    height: 100%;
-    z-index: 2;
-    width: 55%;
-    clip-path: polygon(0 0, 95% 0, 85% 100%, 0 100%);
-  }
-  .theme--dark .content {
-    background: #121212;
-  }
-  .content h1,
-  .content h2,
-  .content .tt-landing--byod {
-    max-width: 85%;
-  }
-  .angled-border {
-    position: absolute;
-    width: 55%;
-    clip-path: polygon(95% 0, 98% 0, 88% 100%, 85% 100%);
-    top: 0;
-    left: 0;
-    bottom: 0;
-    z-index: 2;
-  }
-  .tt-landing--byod {
-    max-width: 85%;
-  }
-  #landing-map {
+
+  #tt-landing-map {
     width: 55%;
     position: absolute;
     left: 45%;
   }
-  .tt-subtitle {
-    min-height: 64px;
+
+  .theme--dark .tt-landing-content {
+    background: #121212;
   }
-}
-.tt-landing--byod .v-badge__badge {
-  inset: auto auto calc(100% - 12px) 12px !important;
 }
 </style>

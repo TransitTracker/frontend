@@ -1,5 +1,5 @@
 <template>
-  <div class="tt-home">
+  <div class="mb-14">
     <div class="tt-illustration">
       <svg
         version="1.1"
@@ -176,7 +176,7 @@
         </g>
       </svg>
     </div>
-    <div class="secondary tt-background-texture">
+    <div class="secondary tt-texture--icons">
       <v-container class="d-flex align-center pa-6">
         <div class="flex-grow-1">
           <h1 class="text-h5 font-weight-medium">
@@ -243,7 +243,7 @@
                     class="tt-agencies-card"
                     rounded="lg"
                   >
-                    <v-card-text class="px-3 py-2">
+                    <v-card-text class="px-3 py-2 tt-agencies-card__text">
                       <b>{{ agency.name }}</b>
                       <br />
                       <span v-if="agency.slug in vehicleCounts">
@@ -401,14 +401,12 @@ export default {
     clip-path: polygon(85% 0, 101% -1%, 101% 101%, 95% 100%);
   }
 
-  .v-card__text {
+  &__text {
     height: 100%;
     max-width: 90%;
   }
 }
-.tt-home {
-  margin-bottom: 56px;
-}
+
 .tt-illustration {
   svg {
     position: fixed;
@@ -418,6 +416,7 @@ export default {
     transform: rotate(12deg);
     opacity: 0.25;
   }
+
   overflow: hidden;
 }
 </style>

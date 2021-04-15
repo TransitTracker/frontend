@@ -1,7 +1,7 @@
 <template>
   <v-container class="d-flex align-center justify-center tt-error">
     <v-card class="d-flex tt-error__card" rounded="lg">
-      <div class="secondary tt-error__art d-flex align-center justify-center">
+      <div class="secondary tt-error__icon d-flex align-center justify-center">
         <v-icon size="7vw" class="pa-16">mdi-alert</v-icon>
       </div>
       <v-card-text class="pa-16">
@@ -34,15 +34,15 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .tt-error {
   height: 100%;
   widows: 100%;
-}
-.tt-error__card {
-  overflow: hidden;
-}
-.tt-error__art {
-  border-radius: 0 !important;
+  &__card {
+    overflow: hidden;
+  }
+  &__icon {
+    border-radius: 0 !important;
+  }
 }
 </style>

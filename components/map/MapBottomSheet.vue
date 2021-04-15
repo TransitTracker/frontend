@@ -404,15 +404,6 @@ export default {
   max-height: calc(50vh - 80px);
   overflow: auto;
 }
-.cursor-pointer {
-  cursor: pointer;
-}
-#links-list {
-  overflow-x: auto;
-}
-#links-list > div {
-  white-space: nowrap;
-}
 .dark {
   background-color: #1e1e1e;
 }

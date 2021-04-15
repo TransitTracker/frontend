@@ -22,7 +22,7 @@
       </v-btn>
     </v-toolbar>
     <v-divider />
-    <div class="d-flex flex-column tt-settings--container">
+    <div class="d-flex flex-column tt-settings__container">
       <v-container>
         <v-btn
           v-if="pwa.canInstall"
@@ -39,7 +39,7 @@
           <v-divider />
         </div>
         <v-expansion-panels flat tile>
-          <v-expansion-panel class="tt-settings--agencies">
+          <v-expansion-panel class="tt-settings__agencies">
             <v-expansion-panel-header class="pa-0">
               <div class="d-flex align-center">
                 <h2 class="text-subtitle-1 font-weight-bold">
@@ -204,7 +204,7 @@
         </SettingsItemGroup>
       </v-container>
       <v-spacer />
-      <div class="tt-felixinx white--text">
+      <div class="tt-settings__about white--text">
         <v-container class="d-flex align-center">
           <img
             src="https://felixinx.me/favicon.svg"
@@ -320,17 +320,22 @@ export default {
 }
 </script>
 
-<style>
-.tt-settings .v-expansion-panel-content__wrap {
-  padding: 0 !important;
+<style lang="scss">
+.tt-settings {
+  .v-expansion-panel-content__wrap {
+    padding: 0 !important;
+  }
+
+  &__container {
+    height: calc(100vh - 65px);
+  }
+
+  &__about {
+    background-color: #1f5784;
+  }
 }
-.tt-settings--container {
-  height: calc(100vh - 65px);
-}
-.theme--dark .tt-settings--agencies {
-  background-color: rgb(54, 54, 54) !important;
-}
-.tt-felixinx {
-  background-color: #1f5784;
+
+.theme--dark .tt-settings__agencies {
+  background-color: #363636 !important;
 }
 </style>

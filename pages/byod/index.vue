@@ -1,6 +1,6 @@
 <template>
-  <div class="tt-byod">
-    <div class="secondary tt-background-texture mb-4">
+  <div class="mb-14">
+    <div class="secondary tt-texture--icons mb-4">
       <v-container>
         <h1 class="text-h5 font-weight-medium py-4">
           <v-icon class="text-h5">mdi-folder-upload</v-icon>
@@ -170,9 +170,3 @@ export default {
   },
 }
 </script>
-
-<style>
-.tt-byod {
-  margin-bottom: 56px;
-}
-</style>

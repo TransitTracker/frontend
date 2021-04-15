@@ -5,7 +5,7 @@
     :items="vehicles"
     :items-per-page="100"
     :search="search"
-    class="tt-table"
+    class="mb-14"
   >
     <!-- eslint-disable-next-line -->
     <template v-slot:group.header="{ group, headers, toggle, isOpen }">
@@ -139,9 +139,3 @@ export default {
   },
 }
 </script>
-
-<style>
-.tt-table {
-  padding-bottom: 56px;
-}
-</style>
