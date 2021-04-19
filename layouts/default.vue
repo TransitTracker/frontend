@@ -144,42 +144,14 @@ export default {
     },
   },
   mounted() {
-    // this.$store.dispatch('regions/loadAll').then(() => {
-    //   // Check if region exists
-    //   if (!(this.region in this.$store.state.regions.data)) {
-    //     this.$nuxt.error({
-    //       message: "This region dosen't exist.",
-    //       statusCode: 404,
-    //     })
-    //     return false
-    //   }
-
-    //   // Make an array of all selected agencies
-    //   const activeAgencies = this.$store.state.regions.data[
-    //     this.region
-    //   ].agencies.filter((agency) => {
-    //     return this.$store.state.settings.activeAgencies.includes(agency.slug)
-    //   })
-
-    //   // For each selected agency, load vehicles
-    //   activeAgencies.forEach((agency) => {
-    //     this.$store.dispatch('vehicles/load', agency)
-    //   })
-
-    //   // Load alerts for this region
-    //   this.$store.dispatch('alerts/load', this.region)
-    // })
-
-    // Load ByodInjector component if BYOD module is actived
-    // TODO: find a better way to handle BYOD at loading
-    // if (this.settingsByod) this.byodInjector = 'ByodInjector'
-
     if (this.settingsDarkMode) {
       // https://csabaszabo.dev/blog/dark-mode-for-website-with-nuxtjs-and-vuetify/
       setTimeout(() => (this.$vuetify.theme.dark = true), 0)
     }
     this.$i18n.setLocale(this.settingsLang)
     // this.$vuetify.lang.current = this.settingsLang
+
+    this.handlePwa()
   },
   methods: {
     listenToUpdates(region) {
@@ -204,6 +176,35 @@ export default {
 
         this.$store.dispatch('vehicles/load', agency)
       })
+    },
+    async handlePwa() {
+      // Install prompt
+      window.addEventListener('beforeinstallprompt', (event) => {
+        console.log(event)
+
+        event.preventDefault()
+        this.$store.commit('app/set', {
+          key: 'installPrompt',
+          value: event,
+        })
+        this.$store.commit('app/set', {
+          key: 'canInstall',
+          value: true,
+        })
+      })
+
+      // Workbox update
+      const workbox = await window.$workbox
+      if (workbox) {
+        workbox.addEventListener('installed', (event) => {
+          console.log(event)
+          if (event.isUpdate)
+            this.$store.commit('app/set', {
+              key: 'updateAvailable',
+              value: true,
+            })
+        })
+      }
     },
   },
 }

@@ -24,20 +24,7 @@
     <v-divider />
     <div class="d-flex flex-column tt-settings__container">
       <v-container>
-        <v-btn
-          v-if="pwa.canInstall"
-          block
-          elevation="0"
-          height="50"
-          :loading="pwa.loading"
-          @click="requestInstall"
-        >
-          <v-icon left>mdi-plus-circle-outline</v-icon>
-          {{ $t('settings.pwa.install') }}
-        </v-btn>
-        <div v-if="pwa.canInstall" class="my-3 mx-n3">
-          <v-divider />
-        </div>
+        <SettingsPwa />
         <v-expansion-panels v-if="dataIsLoaded" flat tile>
           <v-expansion-panel class="tt-settings__agencies">
             <v-expansion-panel-header class="pa-0">
@@ -246,13 +233,6 @@ export default {
   },
   data: () => ({
     agencySearch: null,
-    pwa: {
-      canInstall: false,
-      success: false,
-      prompt: null,
-      result: null,
-      loading: false,
-    },
   }),
   computed: {
     activeAgencies() {
@@ -277,20 +257,15 @@ export default {
         })
       )
     },
+    pwa() {
+      return this.$store.state.app
+    },
     regions() {
       return this.$store.state.regions.data
     },
     settings() {
       return this.$store.state.settings
     },
-  },
-  mounted() {
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault()
-      this.pwa.prompt = e
-      this.pwa.canInstall = true
-      console.log('beforeinstallprompt', e)
-    })
   },
   methods: {
     setSetting(setting, value) {
@@ -308,13 +283,6 @@ export default {
       }
       if (value === 'dark') return true
       return false
-    },
-    async requestInstall() {
-      this.pwa.loading = true
-      this.pwa.prompt.prompt()
-      const outcome = await this.pwa.prompt.userChoice
-      console.log(outcome.outcome, outcome)
-      this.pwa.result = outcome.outcome
     },
     toggleAgency(agency) {
       this.$store.dispatch('settings/toggleAgency', agency)
