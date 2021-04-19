@@ -319,7 +319,6 @@ Vue.use(VueTimeago, {
 })
 
 export default {
-  middleware: 'loadapi',
   asyncData({ params }) {
     return { regionSlug: params.region }
   },

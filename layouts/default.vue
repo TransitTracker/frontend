@@ -32,6 +32,7 @@
       </v-toolbar-title>
       <v-spacer />
       <v-btn
+        v-if="dataIsLoaded"
         text
         :title="$t('regionSwitcher.title')"
         :small="$vuetify.breakpoint.smAndDown"
@@ -55,7 +56,7 @@
     </v-main>
     <nav>
       <v-bottom-navigation
-        v-if="$route.name && !$route.name.includes('landing')"
+        v-if="dataIsLoaded"
         grow
         :color="settingsDarkMode ? null : 'primary'"
         fixed
@@ -112,6 +113,9 @@ export default {
     byodInjector: null,
   }),
   computed: {
+    dataIsLoaded() {
+      return this.$store.state.app.dataIsLoaded
+    },
     region() {
       return (
         this.$route.params.region || this.$store.state.settings.currentRegion
@@ -138,41 +142,33 @@ export default {
       if (setting === 'dark') return true
       return false
     },
-    localAgenciesWithRemote() {
-      const allAgencies = Object.values(this.$store.state.agencies.data)
-      return allAgencies.filter((agency) => {
-        if (!agency.meta) return false
-        if (agency.meta.remoteUrl && agency.meta.remoteAutoRefresh) return true
-        return false
-      })
-    },
   },
   mounted() {
-    this.$store.dispatch('regions/loadAll').then(() => {
-      // Check if region exists
-      if (!(this.region in this.$store.state.regions.data)) {
-        this.$nuxt.error({
-          message: "This region dosen't exist.",
-          statusCode: 404,
-        })
-        return false
-      }
+    // this.$store.dispatch('regions/loadAll').then(() => {
+    //   // Check if region exists
+    //   if (!(this.region in this.$store.state.regions.data)) {
+    //     this.$nuxt.error({
+    //       message: "This region dosen't exist.",
+    //       statusCode: 404,
+    //     })
+    //     return false
+    //   }
 
-      // Make an array of all selected agencies
-      const activeAgencies = this.$store.state.regions.data[
-        this.region
-      ].agencies.filter((agency) => {
-        return this.$store.state.settings.activeAgencies.includes(agency.slug)
-      })
+    //   // Make an array of all selected agencies
+    //   const activeAgencies = this.$store.state.regions.data[
+    //     this.region
+    //   ].agencies.filter((agency) => {
+    //     return this.$store.state.settings.activeAgencies.includes(agency.slug)
+    //   })
 
-      // For each selected agency, load vehicles
-      activeAgencies.forEach((agency) => {
-        this.$store.dispatch('vehicles/load', agency)
-      })
+    //   // For each selected agency, load vehicles
+    //   activeAgencies.forEach((agency) => {
+    //     this.$store.dispatch('vehicles/load', agency)
+    //   })
 
-      // Load alerts for this region
-      this.$store.dispatch('alerts/load', this.region)
-    })
+    //   // Load alerts for this region
+    //   this.$store.dispatch('alerts/load', this.region)
+    // })
 
     // Load ByodInjector component if BYOD module is actived
     // TODO: find a better way to handle BYOD at loading

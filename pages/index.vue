@@ -1,6 +1,13 @@
 <template>
-  <div class="tt-landing flex-column flex-md-row">
-    <div id="tt-landing-map" class="flex-grow-1"></div>
+  <div
+    class="tt-landing flex-column flex-md-row"
+    :class="[dataIsLoaded && 'tt-landing__short']"
+  >
+    <div
+      id="tt-landing-map"
+      class="flex-grow-1"
+      :class="[dataIsLoaded && 'tt-landing__short']"
+    ></div>
     <div
       class="tt-landing-content d-flex flex-column justify-md-center px-8 pt-8 pt-md-0 mb-14 mb-md-0 pb-4 pb-md-0"
     >
@@ -60,7 +67,10 @@
       </v-card>
       <LandingAnimations />
     </div>
-    <div class="tt-landing-content__border secondary-dark"></div>
+    <div
+      class="tt-landing-content__border secondary-dark"
+      :class="[dataIsLoaded && 'tt-landing__short']"
+    ></div>
   </div>
 </template>
 
@@ -106,6 +116,9 @@ export default {
     return {}
   },
   computed: {
+    dataIsLoaded() {
+      return this.$store.state.app.dataIsLoaded
+    },
     darkMode() {
       return this.$vuetify.theme.dark
     },
@@ -442,9 +455,7 @@ export default {
     }
   }
 
-  .tt-landing,
-  .tt-landing-content__border,
-  #tt-landing-map {
+  .tt-landing__short {
     height: calc(100% - 56px);
   }
 

@@ -22,7 +22,6 @@ const defaultGeojsonShapeData = {
 
 export default {
   name: 'PagesRegionMap',
-  middleware: 'loadapi',
   async asyncData({ params, store }) {
     const regionSlug = params.region
 

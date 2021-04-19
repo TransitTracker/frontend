@@ -38,7 +38,7 @@
         <div v-if="pwa.canInstall" class="my-3 mx-n3">
           <v-divider />
         </div>
-        <v-expansion-panels flat tile>
+        <v-expansion-panels v-if="dataIsLoaded" flat tile>
           <v-expansion-panel class="tt-settings__agencies">
             <v-expansion-panel-header class="pa-0">
               <div class="d-flex align-center">
@@ -124,7 +124,7 @@
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
-        <div class="my-3 mx-n3">
+        <div v-if="dataIsLoaded" class="my-3 mx-n3">
           <v-divider />
         </div>
         <h2 class="text-subtitle-1 font-weight-bold">
@@ -260,6 +260,9 @@ export default {
     },
     availableAgencies() {
       return this.$store.state.agencies.data
+    },
+    dataIsLoaded() {
+      return this.$store.state.app.dataIsLoaded
     },
     darkMode() {
       return this.$vuetify.theme.dark
