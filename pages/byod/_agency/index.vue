@@ -4,7 +4,9 @@
       <v-container class="py-4 d-flex">
         <v-icon class="text-h5">mdi-folder-upload</v-icon>
         <div class="ml-4">
-          <h1 class="text-h5 font-weight-medium">{{ $t('byod.title') }}</h1>
+          <h1 class="text-h5 font-weight-medium">
+            {{ $t('byod.title') }}
+          </h1>
           <p class="text-subtitle-2 text-md-subtitle-1 font-weight-medium mb-0">
             {{ agency.name }}
           </p>
@@ -16,121 +18,103 @@
         <v-btn icon nuxt to="/byod/" exact>
           <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
-        {{ $t('byod.back') }}
+        {{ $t('byod.agency.back') }}
         <v-spacer></v-spacer>
         <v-btn text color="error" small @click="deleteAgency">
           <v-icon left>mdi-delete</v-icon>
-          {{ $t('byod.delete') }}
+          {{ $t('byod.agency.delete') }}
         </v-btn>
       </v-container>
     </v-sheet>
     <v-container class="mb-14">
-      <v-card rounded="lg">
-        <v-card-title>{{ $t('byod.routesCap') }}</v-card-title>
-        <v-card-subtitle v-if="lengths.routes" class="pb-0">
-          {{ lengths.routes }}
-          {{ $t('byod.saved', { type: $t('byod.routes') }) }}
+      <v-alert
+        v-if="loadedAgencies.includes(agency.slug)"
+        class="mb-8"
+        type="success"
+        text
+        rounded="lg"
+      >
+        {{ $t('byod.isSynced') }}
+      </v-alert>
+      <v-alert
+        v-else
+        class="mb-8"
+        icon="mdi-sync-off"
+        type="warning"
+        text
+        rounded="lg"
+      >
+        {{ $t('byod.isNotSynced') }}
+        <template #close>
+          <v-btn text color="warning" height="24" small @click="syncAgency">
+            <v-icon left>mdi-folder-sync</v-icon>
+            {{ $t('byod.agency.syncNow') }}
+          </v-btn>
+        </template>
+      </v-alert>
+      <v-card rounded="lg" class="mb-8">
+        <v-card-title>
+          {{ $t('byod.agency.staticGtfs') }}
+          <v-spacer></v-spacer>
+          <v-select
+            v-model="staticType"
+            :items="staticOptions"
+            :label="$t('byod.agency.staticType')"
+            style="max-width: 150px"
+            hide-details
+          ></v-select>
+        </v-card-title>
+        <v-card-subtitle v-if="lengths.static" class="pb-0">
+          {{
+            $t('byod.agency.saved', {
+              type: $t(`byod.agency.${staticType.store}`),
+              n: lengths.static,
+            })
+          }}
         </v-card-subtitle>
         <v-card-text v-else class="d-flex align-center pb-0">
           <v-icon color="warning">mdi-alert</v-icon>
           <p class="mb-0 text-body-1 ml-2">
-            {{ $t('byod.empty', { type: $t('byod.routes') }) }}
+            {{
+              $t('byod.agency.empty', {
+                type: $t(`byod.agency.${staticType.store}`),
+              })
+            }}
           </p>
         </v-card-text>
         <v-card-actions class="px-4 d-block d-md-flex pb-4">
           <v-file-input
-            v-model="files.routes"
-            :disabled="loading.routes"
+            v-model="files.static"
+            :disabled="loading.static"
             class="mr-4"
-            :label="$t('byod.upload', { file: 'routes.txt' })"
+            :label="$t('byod.agency.upload', { file: staticType.file })"
             truncate-length="50"
             :prepend-icon="null"
-            :messages="$t('byod.message', { type: $t('byod.routes') })"
+            :messages="
+              $t('byod.agency.message', {
+                type: $t(`byod.agency.${staticType.store}`),
+              })
+            "
           ></v-file-input>
           <v-btn
             color="primary"
             text
-            :disabled="!files.routes"
-            :loading="loading.routes"
-            @click="importRoutes"
+            :disabled="!files.static"
+            :loading="loading.static"
+            @click="importStatic"
           >
-            {{ $t('byod.import') }}
+            {{ $t('byod.agency.import') }}
           </v-btn>
         </v-card-actions>
       </v-card>
-      <v-card rounded="lg" class="my-6">
-        <v-card-title>{{ $t('byod.tripsCap') }}</v-card-title>
-        <v-card-subtitle v-if="lengths.trips" class="pb-0">
-          {{ lengths.trips }}
-          {{ $t('byod.saved', { type: $t('byod.trips') }) }}
-        </v-card-subtitle>
-        <v-card-text v-else class="d-flex align-center pb-0">
-          <v-icon color="warning">mdi-alert</v-icon>
-          <p class="mb-0 text-body-1 ml-2">
-            {{ $t('byod.empty', { type: $t('byod.routes') }) }}
-          </p>
-        </v-card-text>
-        <v-card-actions class="px-4 d-block d-md-flex pb-4">
-          <v-file-input
-            v-model="files.trips"
-            :disabled="loading.trips"
-            class="mr-4"
-            :label="$t('byod.upload', { file: 'trips.txt' })"
-            truncate-length="50"
-            :prepend-icon="null"
-            :messages="$t('byod.message', { type: $t('byod.trips') })"
-          ></v-file-input>
-          <v-btn
-            color="primary"
-            text
-            :disabled="!files.trips"
-            :loading="loading.trips"
-            @click="importTrips"
-          >
-            {{ $t('byod.import') }}
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-      <!-- <v-card rounded="lg" class="my-6">
-        <v-card-title>Shapes</v-card-title>
-        <v-card-subtitle v-if="lengths.trips" class="pb-0">
-          {{ lengths.shapes }} shapes saved in your browser.
-        </v-card-subtitle>
-        <v-card-text v-else class="d-flex align-center pb-0">
-          <v-icon color="warning">mdi-alert</v-icon>
-          <p class="mb-0 text-body-1 ml-2">
-            You don't have imported any shapes yet.
-          </p>
-        </v-card-text>
-        <v-card-actions class="px-4 pb-4">
-          <v-file-input
-            v-model="files.shapes"
-            :disabled="loading.shapes"
-            class="mr-4"
-            label="Click to select the shapes.txt file"
-            truncate-length="50"
-            :prepend-icon="null"
-            messages="Importing a new file will overwrite any existing shapes."
-          ></v-file-input>
-          <v-btn
-            color="primary"
-            text
-            :disabled="!files.shapes"
-            :loading="loading.shapes"
-            @click="importShapes"
-          >
-            Import trips
-          </v-btn>
-        </v-card-actions>
-      </v-card> -->
       <v-card rounded="lg">
-        <v-card-title>{{ $t('byod.realtimeTitle') }}</v-card-title>
+        <v-card-title>{{ $t('byod.agency.realtimeTitle') }}</v-card-title>
         <v-card-subtitle class="pb-0">
-          {{ $t('byod.realtimeDesc') }}
+          {{ $t('byod.agency.realtimeDesc') }}
         </v-card-subtitle>
         <v-card-text>
           <div class="d-flex align-center flex-wrap mt-2">
-            <b class="mb-0">{{ $t('byod.emptyExisting') }}</b>
+            <b class="mb-0">{{ $t('byod.agency.emptyExisting') }}</b>
             <v-btn
               color="error"
               x-small
@@ -160,29 +144,29 @@
             </v-btn>
           </div>
           <v-tabs v-model="rtTab">
-            <v-tab>{{ $t('byod.local') }}</v-tab>
-            <v-tab>{{ $t('byod.remote') }}</v-tab>
+            <v-tab>{{ $t('byod.agency.local') }}</v-tab>
+            <v-tab>{{ $t('byod.agency.remote') }}</v-tab>
           </v-tabs>
           <v-tabs-items v-model="rtTab">
             <v-tab-item>
               <div class="d-md-flex align-center">
                 <v-file-input
-                  v-model="files.entities"
-                  :disabled="loading.entities"
+                  v-model="files.realtime"
+                  :disabled="loading.realtime"
                   class="mr-4"
-                  :label="$t('byod.upload', { file: 'GTFS-RT' })"
-                  :messages="$t('byod.realtimeMessage')"
+                  :label="$t('byod.agency.upload', { file: 'GTFS-RT' })"
+                  :messages="$t('byod.agency.realtimeMessage')"
                   truncate-length="50"
                   :prepend-icon="null"
                 ></v-file-input>
                 <v-btn
                   color="primary"
                   text
-                  :disabled="!files.entities"
-                  :loading="loading.entities"
+                  :disabled="!files.realtime"
+                  :loading="loading.realtime"
                   @click="importEntities"
                 >
-                  {{ $t('byod.import') }}
+                  {{ $t('byod.agency.import') }}
                 </v-btn>
               </div>
             </v-tab-item>
@@ -194,18 +178,28 @@
                 text
                 class="my-4"
               >
-                {{ $t('byod.realtimeError') }}
+                {{ $t('byod.agency.realtimeError') }}
                 <b>{{ remote.error }}</b>
-                {{ $t('byod.corsError') }}
+                {{ $t('byod.agency.corsError') }}
               </v-alert>
-              <v-text-field v-model="remote.url" label="Remote URL" />
-              <v-switch
+              <div v-for="(url, key) in remote.urls" :key="key">
+                <v-text-field
+                  :value="url"
+                  append-outer-icon="mdi-plus"
+                  :append-icon="key > 0 ? 'mdi-close' : ''"
+                  :label="$t('byod.agency.remoteUrl')"
+                  @input="remote.urls[key] = $event"
+                  @click:append-outer="remote.urls.push('')"
+                  @click:append="remote.urls.splice(key, 1)"
+                />
+              </div>
+              <!-- <v-switch
                 v-model="remote.autoRefresh"
-                :label="$t('byod.autoRefresh')"
+                :label="$t('byod.agency.autoRefresh')"
                 prepend-icon="mdi-sync"
-              />
+              /> -->
               <v-btn color="primary" @click="saveRemoteUrl">
-                {{ $t('byod.saveAndFetch') }}
+                {{ $t('byod.agency.saveAndFetch') }}
               </v-btn>
             </v-tab-item>
           </v-tabs-items>
@@ -251,14 +245,14 @@
         </v-sheet>
       </nuxt-link>
       <p class="mt-4">
-        {{ $t('byod.note') }}
+        {{ $t('byod.agency.note') }}
       </p>
     </v-container>
     <v-dialog v-model="deleteDialog" persistent width="400">
       <v-card>
         <v-card-text class="d-flex flex-column align-center">
           <span class="my-4">
-            {{ $t('byod.wait') }}
+            {{ $t('byod.agency.wait') }}
           </span>
           <v-progress-circular indeterminate />
         </v-card-text>
@@ -268,36 +262,53 @@
 </template>
 
 <script>
+import {
+  agencies as byodAgencies,
+  definitions,
+  staticGtfs,
+  realtimeGtfs,
+} from '@/utils/byod'
+import { csvParser } from '@/utils/byod/converters'
+import byodMixin from '@/mixins/byod'
+import Vue from 'vue'
+
 export default {
-  async asyncData({ params, store, redirect }) {
-    const agency = await store.dispatch('agencies/getLocal', params.agency)
+  mixins: [byodMixin],
+  async asyncData({ params, redirect }) {
+    const agency = await byodAgencies.get(params.agency)
     if (!agency) redirect('/byod')
-    return { agency }
+
+    const staticOptions = Object.entries(definitions).map(([key, value]) => ({
+      text: key,
+      value,
+    }))
+
+    return {
+      agency,
+      staticOptions: staticOptions.filter(
+        (model) => model.value.type === 'static'
+      ),
+    }
   },
   data: () => ({
     files: {
-      routes: undefined,
-      trips: undefined,
-      entities: undefined,
-      // shapes: undefined,
+      static: undefined,
+      realtime: undefined,
     },
     lengths: {
-      routes: 0,
-      trips: 0,
+      static: 0,
+      alerts: 0,
       vehicles: 0,
-      // shapes: 0,
+      updates: 0,
     },
     loading: {
-      routes: false,
-      trips: false,
-      entities: false,
-      // shapes: false,
+      static: false,
+      realtime: false,
     },
-    feed: null,
-    json: null,
+    staticType: definitions.Routes,
     rtTab: null,
     remote: {
-      url: '',
+      urls: [''],
       autoRefresh: false,
       showError: false,
       error: null,
@@ -306,48 +317,62 @@ export default {
   }),
   computed: {
     hasEntities() {
-      // TODO: Cleanup
       if (this.lengths.vehicles) return true
       if (this.lengths.alerts) return true
       if (this.lengths.tripUpdates) return true
       return false
     },
+    loadedAgencies() {
+      return Object.keys(this.$store.state.agencies.data)
+    },
+  },
+  watch: {
+    staticType(val) {
+      this.refreshStats(val)
+    },
   },
   mounted() {
-    this.refreshStats()
-    this.remote = {
-      url: this.agency.meta.remoteUrl || '',
-      autoRefresh: this.agency.meta.remoteAutoRefresh || false,
-    }
+    this.refreshStats(this.staticType)
+
+    Object.values(definitions)
+      .filter(({ type }) => type === 'realtime')
+      .forEach((model) => {
+        this.refreshStats(model)
+      })
+
+    this.remote.urls = this.agency.meta.remoteUrls || ['']
+    this.remote.autoRefresh = this.agency.meta.remoteAutoRefresh || false
   },
   methods: {
     async deleteAgency() {
       this.deleteDialog = true
-      await this.$store.dispatch('gtfs/delete', {
-        agency: this.agency,
-        model: 'routes',
-      })
-      await this.$store.dispatch('gtfs/delete', {
-        agency: this.agency,
-        model: 'trips',
-      })
-      await this.$store.dispatch('gtfs/delete', {
-        agency: this.agency,
-        model: 'vehicles',
-      })
-      await this.$store.dispatch('gtfs/delete', {
-        agency: this.agency,
-        model: 'alerts',
-      })
-      await this.$store.dispatch('gtfs/delete', {
-        agency: this.agency,
-        model: 'tripUpdates',
-      })
-      await this.$store.dispatch('agencies/delete', {
-        agency: this.agency,
-      })
+
+      await staticGtfs.delete(definitions.Routes, this.agency)
+      await staticGtfs.delete(definitions.Services, this.agency)
+      await staticGtfs.delete(definitions.Stops, this.agency)
+      await staticGtfs.delete(definitions.Shapes, this.agency)
+      await staticGtfs.delete(definitions.Trips, this.agency)
+
+      await realtimeGtfs.delete(definitions.Alerts, this.agency)
+      await realtimeGtfs.delete(definitions.TripUpdates, this.agency)
+      await realtimeGtfs.delete(definitions.Vehicles, this.agency)
+
+      await byodAgencies.delete(this.agency)
+
       this.deleteDialog = false
       this.$router.push('/byod')
+    },
+    async syncAgency() {
+      this.loadAgency(this.agency)
+
+      const vehicles = await realtimeGtfs.all(
+        definitions.Vehicles,
+        this.agency,
+        false,
+        true
+      )
+
+      this.loadVehicles(this.agency, vehicles)
     },
     async emptyEntities(type) {
       this.deleteDialog = true
@@ -358,118 +383,76 @@ export default {
       this.deleteDialog = false
       this.refreshStats([type])
     },
-    refreshStats(
-      types = ['routes', 'trips', 'vehicles', 'alerts', 'tripUpdates']
-    ) {
-      types.forEach((type) => {
-        this.$database[type]
-          .where({ agency: this.agency.slug })
-          .count((result) => {
-            this.lengths[type] = result
-          })
-      })
+    async refreshStats(model) {
+      if (model.type === 'static') {
+        Vue.set(
+          this.lengths,
+          'static',
+          await staticGtfs.all(model, this.agency, true)
+        )
+      } else if (model.type === 'realtime') {
+        Vue.set(
+          this.lengths,
+          model.store,
+          await staticGtfs.all(model, this.agency, true)
+        )
+      }
     },
-    importRoutes() {
-      this.loading.routes = true
+    async importStatic() {
+      Vue.set(this.loading, 'static', true)
+
+      // Remove everything
+      await staticGtfs.delete(this.staticType, this.agency)
 
       // Send file
-      this.$store
-        .dispatch('gtfs/saveRoutes', {
-          agency: this.agency,
-          file: this.files.routes,
-        })
-        .then(() => {
-          this.files.routes = undefined
-          this.loading.routes = false
-          this.refreshStats(['routes'])
-        })
-    },
-    importTrips() {
-      this.loading.trips = true
+      await csvParser(
+        this.staticType,
+        this.agency,
+        this.files.static,
+        (items) => {
+          staticGtfs.bulkPut(this.staticType, this.agency, items)
+        }
+      )
 
-      // Send file
-      this.$store
-        .dispatch('gtfs/saveTrips', {
-          agency: this.agency,
-          file: this.files.trips,
-        })
-        .then((result) => {
-          this.files.trips = undefined
-          this.loading.trips = false
-          this.refreshStats(['trips'])
-        })
-    },
-    // importShapes() {
-    //   this.loading.shapes = true
+      await byodAgencies.touch(this.agency)
 
-    //   // Send file
-    //   this.$store
-    //     .dispatch('gtfs/saveShapes', {
-    //       agency: this.agency,
-    //       file: this.files.shapes,
-    //     })
-    //     .then((result) => {
-    //       this.files.shapes = undefined
-    //       this.loading.shapes = false
-    //       this.refreshStats()
-    //     })
-    // },
+      Vue.set(
+        this.lengths,
+        'static',
+        await staticGtfs.all(this.staticType, this.agency, true)
+      )
+
+      Vue.set(this.files, 'static', undefined)
+      Vue.set(this.loading, 'static', false)
+    },
     importEntities() {
-      this.loading.entities = true
+      Vue.set(this.loading, 'realtime', true)
 
       // Open and read file
       const fileReader = new FileReader()
-      fileReader.readAsArrayBuffer(new Blob([this.files.entities]))
+      fileReader.readAsArrayBuffer(new Blob([this.files.realtime]))
 
-      fileReader.onload = () => {
-        // Save vehicles
-        this.$store
-          .dispatch('gtfs/saveRealtimeFeed', {
-            agency: this.agency,
-            file: new Uint8Array(fileReader.result),
-          })
-          .then(() => {
-            this.files.entities = undefined
-            this.loading.entities = false
-            this.refreshStats(['vehicles', 'alerts', 'tripUpdates'])
-          })
+      fileReader.onload = async () => {
+        await this.saveEntities(this.agency, fileReader.result)
+
+        Vue.set(this.files, 'realtime', undefined)
+        Vue.set(this.loading, 'realtime', false)
       }
     },
-    saveRemoteUrl() {
-      this.$store
-        .dispatch('agencies/updateLocal', {
-          agency: this.agency,
-          fields: {
-            'meta.remoteUrl': this.remote.url,
-            'meta.remoteAutoRefresh': this.remote.autoRefresh,
-          },
-        })
-        .then((agency) => {
-          this.agency = agency
-          this.fetchRemoteUrl()
-        })
-    },
-    fetchRemoteUrl() {
-      this.$store
-        .dispatch('vehicles/loadRemote', this.agency)
-        .then(() => {})
-        .catch((error) => {
-          // Reset the remote url
-          this.remote = {
-            url: '',
-            autoRefresh: '',
-          }
-          this.$store.dispatch('agencies/updateLocal', {
-            agency: this.agency,
-            fields: {
-              'meta.remoteUrl': this.remote.url,
-              'meta.remoteAutoRefresh': this.remote.autoRefresh,
-            },
-          })
+    async saveRemoteUrl() {
+      const agency = {
+        ...this.agency,
+      }
+      agency.meta.remoteUrls = this.remote.urls
+      agency.meta.remoteAutoRefresh = this.remote.autoRefresh
 
-          this.remote.showError = true
-          this.remote.error = error
-        })
+      await byodAgencies.put(agency)
+
+      this.agency = agency
+
+      this.fetchRemoteFeeds(agency)
+
+      // TODO: Handle auto refresh
     },
   },
 }

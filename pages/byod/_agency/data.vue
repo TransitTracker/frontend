@@ -4,7 +4,9 @@
       <v-container class="py-4 d-flex">
         <v-icon class="text-h5">mdi-folder-upload</v-icon>
         <div class="ml-4">
-          <h1 class="text-h5 font-weight-medium">{{ $t('byod.title') }}</h1>
+          <h1 class="text-h5 font-weight-medium">
+            {{ $t('byod.data.title') }}
+          </h1>
           <p class="text-subtitle-2 text-md-subtitle-1 font-weight-medium mb-0">
             {{ agency.name }}
           </p>
@@ -16,16 +18,16 @@
         <v-btn icon nuxt :to="localePath(`/byod/${agency.slug}`)" exact>
           <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
-        {{ $t('byod.backTo') }} {{ agency.name }}
+        {{ $t('byod.data.backTo') }} {{ agency.name }}
       </v-container>
     </v-sheet>
     <v-data-table
       class="mt-0"
       group-by="type"
       :headers="[
-        { text: $t('byod.id'), value: 'ref' },
-        { text: $t('byod.type'), value: 'type' },
-        { text: $t('byod.entity'), value: 'entity' },
+        { text: $t('byod.data.id'), value: 'ref' },
+        { text: $t('byod.data.type'), value: 'type' },
+        { text: $t('byod.data.entity'), value: 'entity' },
       ]"
       :items="allData"
       :items-per-page="50"
@@ -40,13 +42,14 @@
 
 <script>
 import JsonViewer from 'vue-json-viewer'
+import { agencies, definitions, realtimeGtfs } from '@/utils/byod'
 
 export default {
   components: {
     JsonViewer,
   },
   async asyncData({ params, store, redirect }) {
-    const agency = await store.dispatch('agencies/getLocal', params.agency)
+    const agency = await agencies.get(params.agency)
     if (!agency) redirect('/byod')
     return { agency }
   },
@@ -58,16 +61,9 @@ export default {
   },
   methods: {
     async loadAlertsAndTripUpdates() {
-      const vehicles =
-        (await this.$store.state.vehicles.data[this.agency.slug]) ?? []
-      const alerts = await this.$store.dispatch(
-        'gtfs/getAlertsByAgency',
-        this.agency
-      )
-      const tripUpdates = await this.$store.dispatch(
-        'gtfs/getTripUpdatesByAgency',
-        this.agency
-      )
+      const vehicles = await realtimeGtfs.all(definitions.Vehicles, this.agency)
+      const alerts = await realtimeGtfs.all(definitions.Alerts, this.agency)
+      const trips = await realtimeGtfs.all(definitions.TripUpdates, this.agency)
 
       this.allData = [
         ...vehicles.map((vehicle) => ({
@@ -82,7 +78,7 @@ export default {
           type: 'alert',
           entity: alert,
         })),
-        ...tripUpdates.map((tripUpdate) => ({
+        ...trips.map((tripUpdate) => ({
           id: tripUpdate.id,
           ref: tripUpdate.ref,
           type: 'tripUpdate',

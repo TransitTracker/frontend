@@ -16,22 +16,82 @@
         <h2 class="text-h6 mt-4 mb-2">{{ $t('byod.list') }}</h2>
         <v-list v-if="agencies.length" class="py-0">
           <v-list-item-group>
-            <v-list-item
-              v-for="agency in agencies"
-              :key="agency.slug"
-              nuxt
-              :to="`/byod/${agency.slug}`"
-            >
+            <v-list-item v-for="agency in agencies" :key="agency.slug">
               <v-list-item-content>
-                <v-list-item-title>{{ agency.name }}</v-list-item-title>
+                <v-list-item-title class="d-flex align-center">
+                  <v-badge
+                    dot
+                    inline
+                    :color="agency.slug in loadedAgencies ? 'success' : 'red'"
+                    :title="
+                      agency.slug in loadedAgencies
+                        ? $t('byod.isSynced')
+                        : $t('byod.isNotSynced')
+                    "
+                    class="mt-0 mb-1"
+                  ></v-badge>
+                  <v-text-field
+                    v-if="agency.slug === editingAgency.slug"
+                    v-model="editingNewName"
+                    hide-details="auto"
+                    outlined
+                    dense
+                    class="ml-2"
+                    style="max-width: 50%"
+                    :rules="[
+                      (v) => !!v || $t('byod.validationEmpty'),
+                      (v) => v.length <= 25 || $t('byod.validationLength'),
+                    ]"
+                  ></v-text-field>
+                  <span v-else>{{ agency.name }}</span>
+                </v-list-item-title>
                 <v-list-item-subtitle>
                   {{ $t('byod.lastUpdated') }}
-                  <timeago :datetime="agency.meta.updatedAt" />
+                  <timeago :datetime="agency.meta.updatedAt" :locale="lang" />
                 </v-list-item-subtitle>
               </v-list-item-content>
-              <v-list-item-action>
-                <v-btn icon nuxt :to="`/byod/${agency.slug}`">
+              <v-list-item-action class="flex-row">
+                <v-btn
+                  v-if="agency.slug === editingAgency.slug"
+                  icon
+                  :title="$t('byod.save')"
+                  @click="saveAgency(agency)"
+                >
+                  <v-icon>mdi-content-save</v-icon>
+                </v-btn>
+                <v-btn
+                  v-else
+                  icon
+                  :title="$t('byod.rename')"
+                  @click="editAgency(agency)"
+                >
                   <v-icon>mdi-pencil</v-icon>
+                </v-btn>
+                <v-btn
+                  v-if="agency.slug in loadedAgencies"
+                  icon
+                  class="mx-2"
+                  :title="$t('byod.unSync')"
+                  @click="toggleAgency(agency)"
+                >
+                  <v-icon> mdi-folder-remove </v-icon>
+                </v-btn>
+                <v-btn
+                  v-else
+                  icon
+                  class="mx-2"
+                  :title="$t('byod.sync')"
+                  @click="toggleAgency(agency)"
+                >
+                  <v-icon>mdi-folder-sync</v-icon>
+                </v-btn>
+                <v-btn
+                  icon
+                  nuxt
+                  :to="`/byod/${agency.slug}`"
+                  :title="$t('byod.manage')"
+                >
+                  <v-icon>mdi-wrench</v-icon>
                 </v-btn>
               </v-list-item-action>
             </v-list-item>
@@ -87,8 +147,12 @@
             <v-form v-model="newAgencyForm">
               <v-text-field
                 v-model="newAgency.name"
-                :rules="[(v) => !!v || $t('byod.nameValidation')]"
+                :rules="[
+                  (v) => !!v || $t('byod.validationEmpty'),
+                  (v) => v.length <= 25 || $t('byod.validationLength'),
+                ]"
                 :label="$t('byod.nameLabel')"
+                :counter="25"
                 required
               ></v-text-field>
               <v-select
@@ -131,21 +195,36 @@
 
 <script>
 import Vue from 'vue'
-import { v4 as uuid } from 'uuid'
 import VueTimeago from 'vue-timeago'
+import byodMixin from '@/mixins/byod'
+import {
+  agencies,
+  agencies as byodAgencies,
+  definitions,
+  realtimeGtfs,
+} from '@/utils/byod'
+import { Agency as AgencyModel } from '@/utils/byod/models'
 
-Vue.use(VueTimeago, {})
+Vue.use(VueTimeago, {
+  locales: {
+    en: require('date-fns/locale/en'),
+    fr: require('date-fns/locale/fr'),
+  },
+})
 
 export default {
+  mixins: [byodMixin],
   async asyncData({ store }) {
-    const agencies = await store.dispatch('agencies/getLocals')
+    const agencies = await byodAgencies.all()
     return { agencies }
   },
   data: () => ({
+    editingAgency: {},
+    editingNewName: '',
     newAgency: {
-      id: uuid(),
       name: '',
       vehicleType: 'bus',
+      color: '#009a8d',
     },
     newAgencyDialog: false,
     newAgencyForm: false,
@@ -153,6 +232,12 @@ export default {
   computed: {
     byodIsActivated() {
       return this.$store.state.settings.activateByod
+    },
+    loadedAgencies() {
+      return this.$store.state.agencies.data
+    },
+    lang() {
+      return this.$i18n.locale
     },
   },
   methods: {
@@ -162,10 +247,53 @@ export default {
         value,
       })
     },
+    async toggleAgency(agency) {
+      if (agency.slug in this.loadedAgencies) {
+        this.removeAgency(agency)
+
+        // Remove selection if necessary
+        if (this.$store.state.vehicles.selection.agency === agency.slug) {
+          this.$store.commit('vehicles/setSelection', {})
+        }
+      } else {
+        this.loadAgency(agency)
+        const vehicles = await realtimeGtfs.all(
+          definitions.Vehicles,
+          agency,
+          false,
+          true
+        )
+        this.loadVehicles(agency, vehicles)
+      }
+    },
     createAgency() {
-      this.$store.dispatch('agencies/saveLocal', this.newAgency).then(() => {
-        this.$router.push(`/byod/${this.newAgency.id}`)
+      const agency = new AgencyModel(this.newAgency)
+      byodAgencies.put(agency).then(() => {
+        this.$router.push(`/byod/${agency.slug}`)
       })
+    },
+    editAgency(agency) {
+      this.editingAgency = agency
+      this.editingNewName = agency.name
+    },
+    saveAgency() {
+      const newAgency = { ...this.editingAgency }
+
+      newAgency.name = this.editingNewName
+      newAgency.shortName = this.editingNewName
+
+      agencies.put(newAgency)
+
+      this.editingAgency = {}
+
+      agencies.all().then((allAgencies) => {
+        this.agencies = allAgencies
+      })
+
+      // If agency is loaded in app, rename in app
+      if (newAgency.slug in this.loadedAgencies) {
+        this.$store.commit('agencies/add', newAgency)
+      }
     },
   },
 }

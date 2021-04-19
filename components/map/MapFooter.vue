@@ -1,107 +1,114 @@
 <template>
-  <v-footer
-    v-if="vehicle && vehicle.id"
-    :color="darkMode ? '' : 'grey lighten-4'"
-    height="80px"
-    class="d-flex align-center tt-footer px-4"
-  >
-    <v-avatar
-      :color="agency.color"
-      :size="$vuetify.breakpoint.mdAndDown ? 36 : 48"
-      class="tt-footer-vehicle"
+  <div v-if="vehicle && vehicle.id" class="tt-backdrop">
+    <v-footer
+      :color="darkMode ? '' : 'grey lighten-4'"
+      height="80px"
+      class="d-flex align-center tt-footer px-4"
     >
-      <svg
-        v-if="vehicle.bearing"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 16.933 16.938"
-        class="arrow d-none d-md-block"
-        :style="{ transform: `rotate(${vehicle.bearing}deg)` }"
+      <v-avatar
+        :color="agency.color"
+        :size="$vuetify.breakpoint.mdAndDown ? 36 : 48"
+        class="tt-footer-vehicle"
       >
-        <g :transform="`translate(-44.26 -44.948)`">
-          <circle cx="52.726" cy="53.42" r="6.33" fill="none" />
-          <path
-            d="m 51.667608,47.188774 1.001731,-2.116158 a 0.06262326,0.06262326 0 0 1 0.113204,0 l 1.001731,2.116158 z"
-            :fill="agency.color"
+        <svg
+          v-if="vehicle.bearing"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 16.933 16.938"
+          class="arrow d-none d-md-block"
+          :style="{ transform: `rotate(${vehicle.bearing}deg)` }"
+        >
+          <g :transform="`translate(-44.26 -44.948)`">
+            <circle cx="52.726" cy="53.42" r="6.33" fill="none" />
+            <path
+              d="m 51.667608,47.188774 1.001731,-2.116158 a 0.06262326,0.06262326 0 0 1 0.113204,0 l 1.001731,2.116158 z"
+              :fill="agency.color"
+            />
+          </g>
+        </svg>
+        <v-icon :color="agency.textColor">
+          mdi-{{ vehicle.vehicleType }}
+        </v-icon>
+      </v-avatar>
+      <div>
+        <p class="mb-0 text-subtitle-1 text-md-h6">
+          {{ vehicle.label || vehicle.ref }}
+        </p>
+        <p class="mb-0 text-caption d-md-none">
+          {{ agency.shortName }}
+        </p>
+        <p class="mb-0 text-caption d-none d-md-block">
+          <timeago
+            v-if="vehicle.timestamp"
+            :datetime="(parseInt(vehicle.timestamp) || 0) * 1000"
+            :auto-update="30"
           />
-        </g>
-      </svg>
-      <v-icon :color="agency.textColor"> mdi-{{ vehicle.vehicleType }} </v-icon>
-    </v-avatar>
-    <div>
-      <p class="mb-0 text-subtitle-1 text-md-h6">
-        {{ vehicle.label || vehicle.ref }}
-      </p>
-      <p class="mb-0 text-caption d-md-none">
-        {{ agency.shortName }}
-      </p>
-      <p class="mb-0 text-caption d-none d-md-block">
-        <timeago
-          :datetime="(parseInt(vehicle.timestamp) || 0) * 1000"
-          :auto-update="30"
+          <span v-if="vehicle.timestamp">&bull;</span>
+          {{ agency.name }}
+        </p>
+      </div>
+      <v-spacer></v-spacer>
+      <div
+        :style="{
+          color: vehicle.trip.routeTextColor,
+          backgroundColor: vehicle.trip.routeColor,
+        }"
+        class="py-2 px-3 rounded tt-footer-line"
+      >
+        <b class="mb-0">
+          {{ vehicle.trip.routeShortName || vehicle.routeId }}
+        </b>
+        <p class="mb-0 text-body-2 d-none d-md-block">
+          {{ vehicle.trip.routeLongName }}
+        </p>
+      </div>
+      <div v-if="vehicle.speed" class="text-center d-none d-md-block">
+        <b class="mb-0">{{ vehicle.speed }} km/h</b>
+        <p class="mb-0 mt-1 text-caption">
+          <v-icon>mdi-speedometer</v-icon>
+        </p>
+      </div>
+      <div
+        v-if="vehicle.occupancyStatus.data"
+        class="text-center tt-footer-occupancy d-none d-md-block"
+      >
+        <v-progress-linear
+          height="11px"
+          class="progress my-1"
+          :value="(vehicle.occupancyStatus.data / 5) * 100"
+          :color="darkMode ? 'white' : 'primary'"
+          :title="vehicle.occupancyStatus.label"
         />
-        &bull;
-        {{ agency.name }}
-      </p>
-    </div>
-    <v-spacer></v-spacer>
-    <div
-      :style="{
-        color: vehicle.trip.routeTextColor,
-        backgroundColor: vehicle.trip.routeColor,
-      }"
-      class="py-2 px-3 rounded tt-footer-line"
-    >
-      <b class="mb-0">
-        {{ vehicle.trip.routeShortName || vehicle.routeId }}
-      </b>
-      <p class="mb-0 text-body-2 d-none d-md-block">
-        {{ vehicle.trip.routeLongName }}
-      </p>
-    </div>
-    <div v-if="vehicle.speed" class="text-center d-none d-md-block">
-      <b class="mb-0">{{ vehicle.speed }} km/h</b>
-      <p class="mb-0 mt-1 text-caption">
-        <v-icon>mdi-speedometer</v-icon>
-      </p>
-    </div>
-    <div
-      v-if="vehicle.occupancyStatus.data"
-      class="text-center tt-footer-occupancy d-none d-md-block"
-    >
-      <v-progress-linear
-        height="11px"
-        class="progress my-1"
-        :value="(vehicle.occupancyStatus.data / 5) * 100"
-        :color="darkMode ? 'white' : 'primary'"
-        :title="vehicle.occupancyStatus.label"
-      />
-      <p class="mb-0 mt-2 text-caption">
-        <v-icon>mdi-seat-passenger</v-icon>
-      </p>
-    </div>
-    <div
-      v-if="vehicle.congestionLevel.data"
-      class="text-center tt-footer-congestion d-none d-md-block"
-    >
-      <v-progress-linear
-        height="11px"
-        class="progress my-1"
-        :value="(vehicle.congestionLevel.data / 5) * 100"
-        :color="darkMode ? 'white' : 'primary'"
-        :title="vehicle.congestionLevel.label"
-      />
-      <p class="mb-0 mt-2 text-caption">
-        <v-icon>mdi-traffic-light</v-icon>
-      </p>
-    </div>
-    <v-spacer />
-    <v-btn text icon @click="$emit('open-sheet')">
-      <v-icon>
-        {{ mdiSvg.chevronUp }}
-      </v-icon>
-    </v-btn>
-  </v-footer>
-  <v-footer v-else class="d-flex align-center justify-center">
+        <p class="mb-0 mt-2 text-caption">
+          <v-icon>mdi-seat-passenger</v-icon>
+        </p>
+      </div>
+      <div
+        v-if="vehicle.congestionLevel.data"
+        class="text-center tt-footer-congestion d-none d-md-block"
+      >
+        <v-progress-linear
+          height="11px"
+          class="progress my-1"
+          :value="(vehicle.congestionLevel.data / 5) * 100"
+          :color="darkMode ? 'white' : 'primary'"
+          :title="vehicle.congestionLevel.label"
+        />
+        <p class="mb-0 mt-2 text-caption">
+          <v-icon>mdi-traffic-light</v-icon>
+        </p>
+      </div>
+      <v-spacer />
+      <v-btn text icon @click="$emit('open-sheet')">
+        <v-icon>
+          {{ mdiSvg.chevronUp }}
+        </v-icon>
+      </v-btn>
+    </v-footer>
+    <v-sheet color="secondary">
+      <p class="text-h6 pa-6 mb-0">Test</p>
+    </v-sheet>
+  </div>
+  <v-footer v-else class="d-flex align-center justify-center tt-backdrop">
     <span class="select">{{ $t('mapFooter.select') }}</span>
   </v-footer>
 </template>
@@ -155,6 +162,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.tt-backdrop {
+  position: relative;
+  padding-bottom: 56px;
+  top: 779px;
+  z-index: 1;
+}
 .v-footer {
   padding: 0 16px;
   min-height: 76px;

@@ -99,6 +99,7 @@
       v-model="regionSwitcher"
       @new-region="listenToUpdates($event)"
     />
+    <component :is="byodInjector" />
   </v-app>
 </template>
 
@@ -108,6 +109,7 @@ export default {
     loading: false,
     regionSwitcher: false,
     settingsDrawer: false,
+    byodInjector: null,
   }),
   computed: {
     region() {
@@ -172,7 +174,10 @@ export default {
       this.$store.dispatch('alerts/load', this.region)
     })
 
-    if (this.settingsByod) this.loadByodAgencies()
+    // Load ByodInjector component if BYOD module is actived
+    // TODO: find a better way to handle BYOD at loading
+    // if (this.settingsByod) this.byodInjector = 'ByodInjector'
+
     if (this.settingsDarkMode) {
       // https://csabaszabo.dev/blog/dark-mode-for-website-with-nuxtjs-and-vuetify/
       setTimeout(() => (this.$vuetify.theme.dark = true), 0)
@@ -181,18 +186,6 @@ export default {
     // this.$vuetify.lang.current = this.settingsLang
   },
   methods: {
-    async loadByodAgencies() {
-      // Load byod agencies
-      const agencies = await this.$store.dispatch('agencies/loadLocal')
-      this.$store.dispatch('vehicles/loadLocal', agencies)
-
-      // Set up auto refresh for local agencies with remote URL
-      setInterval(() => {
-        this.localAgenciesWithRemote.forEach((agency) => {
-          this.$store.dispatch('vehicles/loadRemote', agency)
-        })
-      }, 1000 * 60)
-    },
     listenToUpdates(region) {
       // Remove any existing channels
       Object.keys(this.$echo.connector?.channels).forEach((channel) => {
