@@ -1,5 +1,6 @@
 import VuetifyEn from 'vuetify/es5/locale/en'
 import VuetifyFr from 'vuetify/es5/locale/fr'
+import axios from 'axios'
 import { version } from './package.json'
 import en from './i18n/en'
 import fr from './i18n/fr'
@@ -85,23 +86,22 @@ export default {
 
   generate: {
     fallback: true,
-    routes: [
-      '/regions/montreal/',
-      '/regions/montreal/map',
-      '/regions/montreal/table',
-      '/regions/toronto/',
-      '/regions/toronto/map',
-      '/regions/toronto/table',
-      '/regions/sherbrooke/',
-      '/regions/sherbrooke/map',
-      '/regions/sherbrooke/table',
-      '/regions/quebec/',
-      '/regions/quebec/map',
-      '/regions/quebec/table',
-      '/regions/outaouais/',
-      '/regions/outaouais/map',
-      '/regions/outaouais/table',
-    ],
+    routes(callback) {
+      // Auto generate routes based on current regions (fetch from API)
+      axios.get(`${process.env.BACKEND_HOST}/v2/regions`).then(({ data }) => {
+        const routes = []
+
+        data.data.forEach(({ slug }) => {
+          routes.push(
+            `/regions/${slug}`,
+            `/regions/${slug}/map`,
+            `/regions/${slug}/table`
+          )
+        })
+
+        callback(null, routes)
+      })
+    },
   },
 
   loading: '~/components/Loading.vue',
