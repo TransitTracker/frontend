@@ -5,7 +5,7 @@
   >
     <div
       id="tt-landing-map"
-      class="flex-grow-1"
+      class="flex-grow-1 tt-landing-map"
       :class="[dataIsLoaded && 'tt-landing__short']"
     ></div>
     <div
@@ -455,14 +455,15 @@ export default {
     }
   }
 
-  .tt-landing__short {
-    height: calc(100% - 56px);
-  }
-
-  #tt-landing-map {
+  .tt-landing-map {
     width: 55%;
     position: absolute;
     left: 45%;
+    height: 100%;
+  }
+
+  .tt-landing__short {
+    height: calc(100% - 56px);
   }
 
   .theme--dark .tt-landing-content {
