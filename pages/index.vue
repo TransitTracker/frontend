@@ -247,7 +247,7 @@ export default {
         closeButton: true,
         closeOnMove: true,
         anchor: 'bottom',
-        className: 'tt-tt-landing-map-popup rounded-lg shadow-lg',
+        className: 'tt-landing-map-popup rounded-lg shadow-lg',
       })
 
       this.map.on('click', 'landing-layer', (e) => {
@@ -261,8 +261,8 @@ export default {
                   n: e.features[0].properties.agencies,
                 })}
                 <br>
-                <span class="tt-tt-landing-map-popup__dot success d-inline-block mr-1">
-                  <div class="tt-tt-landing-map-popup__dot--animate success"></div>
+                <span class="tt-landing-map-popup__dot success d-inline-block mr-1">
+                  <div class="tt-landing-map-popup__dot--animate success"></div>
                 </span>
                 ${this.$t('landing.vehicles', {
                   n: e.features[0].properties.vehicles,
@@ -298,7 +298,7 @@ export default {
                   </svg>
                 </a>
               </div>
-              <div class="tt-tt-landing-map-popup__border primary"></div>
+              <div class="tt-landing-map-popup__border primary"></div>
             `
           )
           .addTo(this.map)
@@ -402,7 +402,7 @@ export default {
   }
 }
 
-.theme--dark .tt-tt-landing-map-popup {
+.theme--dark .tt-landing-map-popup {
   .mapboxgl-popup-tip {
     border-top-color: #121212;
   }
