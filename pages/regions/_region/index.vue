@@ -249,11 +249,18 @@
                       <span v-if="agency.slug in vehicleCounts">
                         {{ vehicleCounts[agency.slug] }} vehicles &bull;
                       </span>
-                      <timeago
-                        :datetime="(times[agency.slug] || 0) * 1000"
-                        :auto-update="30"
-                        :locale="lang"
-                      />
+                      <span
+                        :class="[
+                          Math.floor(Date.now() / 1000) - times[agency.slug] >
+                            300 && 'pa-0.5 rounded red white--text',
+                        ]"
+                      >
+                        <timeago
+                          :datetime="(times[agency.slug] || 0) * 1000"
+                          :auto-update="30"
+                          :locale="lang"
+                        />
+                      </span>
                     </v-card-text>
                     <div
                       class="tt-agencies-card__clip-path"

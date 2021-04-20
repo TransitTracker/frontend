@@ -5,10 +5,6 @@ export default {
     tabTable: 'Table',
     tabByod: 'BYOD',
     tabSettings: 'Settings',
-    snackbarBold: 'Warning!',
-    snackbarText:
-      'Data from some agencies are outdated and should be used with caution.',
-    snackbarBtn: 'Close',
   },
   error: {
     title: 'Error',

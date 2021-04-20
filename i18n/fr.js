@@ -5,10 +5,6 @@ export default {
     tabTable: 'Liste',
     tabByod: 'AVPD',
     tabSettings: 'Paramètres',
-    snackbarBold: 'Attention!',
-    snackbarText:
-      'Les données de certaines agences ne sont pas à jour et doivent être utilisées avec prudence.',
-    snackbarBtn: 'Fermer',
   },
   error: {
     error: 'Erreur',

@@ -37,11 +37,18 @@
           {{ agency.shortName }}
         </p>
         <p class="mb-0 text-caption d-none d-md-block">
-          <timeago
+          <span
             v-if="vehicle.timestamp"
-            :datetime="(parseInt(vehicle.timestamp) || 0) * 1000"
-            :auto-update="30"
-          />
+            :class="[
+              Math.floor(Date.now() / 1000) - parseInt(vehicle.timestamp) >
+                300 && 'pa-0.5 rounded red white--text',
+            ]"
+          >
+            <timeago
+              :datetime="(parseInt(vehicle.timestamp) || 0) * 1000"
+              :auto-update="30"
+            />
+          </span>
           <span v-if="vehicle.timestamp">&bull;</span>
           {{ agency.name }}
         </p>
