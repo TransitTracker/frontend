@@ -98,9 +98,24 @@ export default {
       search: '',
     }
   },
+  head() {
+    return {
+      title: this.$t('table.seoTitle', { region: this.region.name }),
+      meta: [
+        {
+          hid: 'robots',
+          name: 'robots',
+          content: 'noindex',
+        },
+      ],
+    }
+  },
   computed: {
     agencies() {
       return this.$store.state.agencies.data
+    },
+    region() {
+      return this.$store.state.regions.data[this.$route.params.region] || {}
     },
     vehicles() {
       let vehicles = []

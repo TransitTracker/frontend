@@ -229,6 +229,18 @@ export default {
     newAgencyDialog: false,
     newAgencyForm: false,
   }),
+  head() {
+    return {
+      title: this.$t('byod.title'),
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.$t('byod.seoDescription'),
+        },
+      ],
+    }
+  },
   computed: {
     byodIsActivated() {
       return this.$store.state.settings.activateByod

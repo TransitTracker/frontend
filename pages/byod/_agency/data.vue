@@ -5,7 +5,7 @@
         <v-icon class="text-h5">mdi-folder-upload</v-icon>
         <div class="ml-4">
           <h1 class="text-h5 font-weight-medium">
-            {{ $t('byod.data.title') }}
+            {{ $t('byod.title') }}
           </h1>
           <p class="text-subtitle-2 text-md-subtitle-1 font-weight-medium mb-0">
             {{ agency.name }}
@@ -56,6 +56,11 @@ export default {
   data: () => ({
     allData: [],
   }),
+  head() {
+    return {
+      title: this.$t('byod.data.seoTitle'),
+    }
+  },
   mounted() {
     this.loadAlertsAndTripUpdates()
   },

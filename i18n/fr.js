@@ -31,6 +31,10 @@ export default {
     vehicles: '{n} véhicules',
     openMap: 'Ouvrir la carte de {region}',
     openTable: 'Ouvrir la liste de {region}',
+    seoTitle:
+      "Transit Tracker - Une vue d'ensemble du transport en commun pour plusieurs villes canadiennes",
+    seoDescription:
+      "Transit Tracker est une application qui vous permet de retrouvez des centaines d'autobus, de train et de tramway des plus grandes villes canadiennes, comme Montréal et Toronto, sur une seule carte!",
   },
   home: {
     welcome: 'Bienvenue dans ',
@@ -48,6 +52,9 @@ export default {
     emptyButton: 'Changer de région',
     creditsTitle: 'Crédits',
     refreshAriaLabel: 'Rafraîchir',
+  },
+  map: {
+    seoTitle: 'Carte de {region}',
   },
   mapFooter: {
     select:
@@ -97,6 +104,7 @@ export default {
     dataTripId: 'Trip ID',
     dataStartTime: 'Heure de départ',
     actions: 'Actions',
+    seoTitle: 'Liste des véhicules de {region}',
   },
   byod: {
     title: 'Apportez vos propres données',
@@ -131,6 +139,8 @@ export default {
     tram: 'Tramway',
     ferry: 'Traversier',
     createAdd: 'Ajouter',
+    seoDescription:
+      "Utilisez l'interface de Transit Tracker avec vos propres fluxs GTFS Realtime.",
     agency: {
       back: "Retour à la liste d'agence",
       delete: "Supprimer l'agence",
@@ -168,6 +178,7 @@ export default {
       id: 'ID',
       type: 'Type',
       entity: 'Entité',
+      seoTitle: 'Entités temps-réel',
     },
   },
   settings: {

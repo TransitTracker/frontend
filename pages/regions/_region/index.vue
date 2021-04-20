@@ -332,7 +332,7 @@ export default {
         {
           hid: 'description',
           name: 'description',
-          content: this.region.description,
+          content: this.region.metaDescription,
         },
       ],
     }

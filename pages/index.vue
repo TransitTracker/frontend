@@ -113,7 +113,16 @@ export default {
     },
   }),
   head() {
-    return {}
+    return {
+      titleTemplate: this.$t('landing.seoTitle'),
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.$t('landing.seoDescription'),
+        },
+      ],
+    }
   },
   computed: {
     dataIsLoaded() {

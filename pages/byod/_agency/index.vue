@@ -315,6 +315,11 @@ export default {
     },
     deleteDialog: false,
   }),
+  head() {
+    return {
+      title: `${this.agency.name} (${this.$t('byod.title')})`,
+    }
+  },
   computed: {
     hasEntities() {
       if (this.lengths.vehicles) return true

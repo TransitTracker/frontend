@@ -40,7 +40,16 @@ export default {
     sheetOpen: false,
   }),
   head() {
-    return {}
+    return {
+      title: this.$t('map.seoTitle', { region: this.currentRegion.name }),
+      meta: [
+        {
+          hid: 'robots',
+          name: 'robots',
+          content: 'noindex',
+        },
+      ],
+    }
   },
   computed: {
     agencies() {

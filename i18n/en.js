@@ -31,6 +31,10 @@ export default {
     vehicles: '{n} vehicles',
     openMap: 'Open map from {region}',
     openTable: 'Open table from {region}',
+    seoTitle:
+      'Transit Tracker - An Overview of Public Transit for Several Canadian Cities',
+    seoDescription:
+      'Transit Tracker is an app that lets you find hundreds of buses, trains and streetcars from major Canadian cities, such as Montreal and Toronto, on a single map!',
   },
   home: {
     welcome: 'Welcome to ',
@@ -49,8 +53,12 @@ export default {
     creditsTitle: 'Credits',
     refreshAriaLabel: 'Refresh',
   },
+  map: {
+    seoTitle: 'Map of {region}',
+  },
   mapFooter: {
     select: 'Please select a vehicle to see more information',
+    // Padding
   },
   mapBottomSheet: {
     close: 'Close',
@@ -96,6 +104,7 @@ export default {
     dataTripId: 'Trip ID',
     dataStartTime: 'Start time',
     actions: 'Actions',
+    seoTitle: 'List of vehicles of {region}',
   },
   byod: {
     title: 'Bring Your Own Data',
@@ -112,6 +121,7 @@ export default {
     sync: 'Sync agency with Transit Tracker',
     unSync: 'Remove agency from the current session of Transit Tracker',
     manage: 'Manage this agency (add static and realtime GTFS files)',
+    // Padding
     newAgency: 'New agency',
     removeModule: "Don't need the BYOD module anymore?",
     disable: 'Disable',
@@ -129,6 +139,8 @@ export default {
     tram: 'Tram',
     ferry: 'Ferry',
     createAdd: 'Add',
+    seoDescription:
+      'Use the Transit Tracker interface with your own GTFS Realtime feeds.',
     agency: {
       back: 'Back to all custom agencies',
       delete: 'Delete agency',
@@ -166,6 +178,7 @@ export default {
       id: 'ID',
       type: 'Type',
       entity: 'Entity',
+      seoTitle: 'Realtime entitites',
     },
   },
   settings: {
@@ -220,6 +233,7 @@ export default {
     downloadStep: 'Download',
     downloadBtn: 'Download',
     downloadLoading: 'Downloading... this should take less than a minute.',
+    // Padding
     downloadReady: 'Your file is now ready.',
     downloadError:
       'There was an error while preparing your file. Please try again later.',
