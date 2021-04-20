@@ -25,6 +25,12 @@ export const actions = {
       return false
     }
 
+    await commit(
+      'settins/set',
+      { setting: 'currentRegion', value: regionSlug },
+      { root: true }
+    )
+
     // Make an array of all selected agencies
     const activeAgencies = rootState.regions.data[regionSlug].agencies.filter(
       (agency) => {

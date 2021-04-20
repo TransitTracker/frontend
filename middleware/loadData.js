@@ -1,5 +1,13 @@
 export default async ({ error, store, route }) => {
-  if (store.state.app.dataIsLoaded) return
+  if (store.state.app.dataIsLoaded) {
+    if (route.params.region)
+      store.commit('settings/set', {
+        setting: 'currentRegion',
+        value: route.params.region,
+      })
+
+    return
+  }
 
   if (route.name.includes('regions')) {
     const shouldRedirect = await store.dispatch(
