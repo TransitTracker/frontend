@@ -1,212 +1,188 @@
 <template>
-  <v-bottom-sheet
-    v-model="sheetModel"
-    hide-overlay
-    :persistent="persistent"
-    class="map-bottom-sheet"
-  >
-    <v-sheet>
-      <div
-        class="d-flex align-center pa-4 grey"
-        :class="[darkMode ? 'darken-4' : 'lighten-4']"
-      >
-        <div class="flex-grow-1">
-          <b>
-            {{ $t('mapBottomSheet.vehicle') }}
-            {{ vehicle.label ? vehicle.label : vehicle.ref }}
-          </b>
-          <br />
-          <span v-if="vehicle.timestamp">
-            {{ $t('mapBottomSheet.seenAt') }}
-            {{ vehicle.timestamp | timestampToTime }}
-          </span>
-        </div>
-        <v-btn
-          icon
-          :color="darkMode ? 'white' : 'primary'"
-          class="mx-4"
-          @click="togglePersistent"
+  <v-sheet>
+    <div class="d-flex justify-space-around">
+      <MapProperty
+        v-if="vehicle.speed"
+        icon="mdi-speedometer"
+        :icon-title="$t('mapBottomSheet.properties.speed')"
+        :value="`${vehicle.speed} km/h`"
+      />
+      <MapProperty
+        v-if="vehicle.occupancyStatus.data"
+        progress
+        icon="mdi-seat-passenger"
+        :icon-title="$t('mapBottomSheet.properties.occupancyStatus')"
+        :value="(vehicle.occupancyStatus.data / 5) * 100"
+        :value-title="vehicle.occupancyStatus.label"
+      />
+      <MapProperty
+        v-if="vehicle.congestionLevel.data"
+        progress
+        icon="mdi-traffic-light"
+        :icon-title="$t('mapBottomSheet.properties.congestionLevel')"
+        :value="(vehicle.congestionLevel.data / 5) * 100"
+        :value-title="vehicle.congestionLevel.label"
+      />
+    </div>
+    <v-slide-group
+      v-if="Object.keys(links).length"
+      class="px-4 pt-2"
+      show-arrows
+    >
+      <v-slide-item v-for="(link, index) in links" :key="index">
+        <v-skeleton-loader
+          v-if="link.loading || !link.url"
+          class="mr-4 my-2"
+          width="200px"
+          min-height="62px"
+          max-height="62px"
+          type="image"
+        ></v-skeleton-loader>
+        <v-sheet
+          v-else
+          rounded
+          elevation="2"
+          :class="[darkMode ? 'grey darken-3' : 'white']"
+          class="pa-2 d-flex align-center mr-4 my-2 cursor-pointer"
+          :light="!darkMode"
+          :dark="darkMode"
+          :title="$t('mapBottomSheet.openLink')"
+          @click="openLink(link.url)"
         >
-          <v-icon v-if="persistent">
-            {{ mdiSvg.pinOff }}
-          </v-icon>
-          <v-icon v-else>
-            {{ mdiSvg.pin }}
-          </v-icon>
-        </v-btn>
-        <v-btn
-          outlined
-          :color="darkMode ? 'white' : 'primary'"
-          @click="$emit('close-sheet')"
-        >
-          <span class="d-none d-md-block">{{
-            $t('mapBottomSheet.close')
-          }}</span>
-          <v-icon>{{ mdiSvg.close }}</v-icon>
-        </v-btn>
-      </div>
-      <div class="bottom-sheet-overflow">
-        <v-slide-group
-          v-if="Object.keys(links).length"
-          class="px-4 py-2 grey"
-          :class="[darkMode ? 'darken-3' : 'lighten-3']"
-          show-arrows
-        >
-          <v-slide-item v-for="(link, name) in links" :key="name">
-            <v-skeleton-loader
-              v-if="link.loading || !link.url"
-              class="mr-4 my-2"
-              max-width="200px"
-              max-height="62px"
-              type="image"
-            ></v-skeleton-loader>
-            <v-sheet
-              v-else
-              rounded
-              elevation="2"
-              :class="[darkMode ? 'dark' : 'white']"
-              class="pa-2 d-flex align-center mr-4 my-2 cursor-pointer"
-              :light="!darkMode"
-              :dark="darkMode"
-              :title="$t('mapBottomSheet.openLink')"
-              @click="openLink(link.url)"
-            >
-              <div>
-                <p class="subtitle-2 mb-1">
-                  {{ link.title }}
-                </p>
-                <p class="body-2 mb-0">
-                  {{ link.description }}
-                </p>
-              </div>
-              <v-icon class="ml-4" size="20px">
-                {{ mdiSvg.openInNew }}
-              </v-icon>
-            </v-sheet>
-          </v-slide-item>
-        </v-slide-group>
-
-        <v-list :dense="$vuetify.breakpoint.mdAndDown">
-          <div v-for="(property, index) in properties" :key="index">
-            <v-list-item
-              v-if="
-                property.parent
-                  ? vehicle[property.parent][property.name]
-                  : vehicle[property.name]
-              "
-            >
-              <v-list-item-icon>
-                <v-icon v-text="property.icon" />
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title
-                  class="d-flex align-center justify-space-between"
-                >
-                  <p class="mb-0 white-space--normal">
-                    <b>
-                      {{
-                        $t(
-                          `mapBottomSheet.properties.${
-                            property.label || property.name
-                          }`
-                        )
-                      }}
-                    </b>
-                    <span
-                      v-if="
-                        property.name === 'routeId' &&
-                        vehicle.trip.routeLongName
-                      "
-                    >
-                      {{ vehicle.trip.routeShortName }}
-                      {{ vehicle.trip.routeLongName }}
-                      <code
-                        v-if="vehicle.trip.routeShortName !== vehicle.routeId"
-                      >
-                        {{ vehicle.routeId }}
-                      </code>
-                    </span>
-                    <span v-else :class="property.css">
-                      {{
-                        property.content
-                          ? vehicle[property.content]
-                          : property.parent
-                          ? vehicle[property.parent][property.name]
-                          : vehicle[property.name]
-                      }}
-                    </span>
-                    <span v-if="property.name === 'odometer'">km</span>
-                    <span v-if="property.name === 'bearing'">
-                      &deg;
-                      <v-icon
-                        :style="{
-                          transform: 'rotate(' + vehicle.bearing + 'deg)',
-                        }"
-                      >
-                        {{ mdiSvg.navigation }}
-                      </v-icon>
-                    </span>
-                    <span v-if="property.name === 'speed'">km/h</span>
-                  </p>
-                  <v-btn
-                    v-if="property.help"
-                    icon
-                    small
-                    class="float-right"
-                    @click="
-                      helpToggle[property.name] = !helpToggle[property.name]
-                    "
-                  >
-                    <v-icon color="secondary">
-                      {{
-                        helpToggle[property.name]
-                          ? mdiSvg.close
-                          : mdiSvg.helpCircle
-                      }}
-                    </v-icon>
-                  </v-btn>
-                </v-list-item-title>
-                <v-list-item-subtitle
-                  v-if="helpToggle[property.name]"
-                  class="pa-2 secondary darken-3 white--text rounded white-space--normal"
-                >
-                  {{ $t(`mapBottomSheet.help.${property.name}`) }}
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
+          <div>
+            <p class="subtitle-2 mb-1">
+              {{ link.title }}
+            </p>
+            <p class="body-2 mb-0">
+              {{ link.description }}
+            </p>
           </div>
-          <v-list-item v-if="vehicle.meta.json">
-            <v-list-item-icon>
-              <v-icon>mdi-code-json</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>
-                <json-viewer :value="vehicle.meta.json" sort copyable>
-                  <template #copy="slots">
-                    <v-btn small icon color="secondary">
-                      <v-icon v-if="slots.copied">mdi-clipboard-check</v-icon>
-                      <v-icon v-else>mdi-content-copy</v-icon>
-                    </v-btn>
-                  </template>
-                </json-viewer>
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
+          <v-icon class="ml-4" size="20px">
+            {{ mdiSvg.openInNew }}
+          </v-icon>
+        </v-sheet>
+      </v-slide-item>
+    </v-slide-group>
+
+    <v-list :dense="$vuetify.breakpoint.mdAndDown">
+      <div v-for="(property, index) in properties" :key="index">
+        <v-list-item
+          v-if="
+            property.parent
+              ? vehicle[property.parent][property.name]
+              : vehicle[property.name]
+          "
+          :class="[property.mobileOnly && 'd-md-none']"
+        >
+          <v-list-item-icon>
+            <v-icon v-text="property.icon" />
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title
+              v-if="property.name !== 'timestamp'"
+              class="d-flex align-center justify-space-between"
+            >
+              <p class="mb-0 white-space--normal">
+                <b>
+                  {{
+                    $t(
+                      `mapBottomSheet.properties.${
+                        property.label || property.name
+                      }`
+                    )
+                  }}
+                </b>
+                <span
+                  v-if="
+                    property.name === 'routeId' && vehicle.trip.routeLongName
+                  "
+                >
+                  {{ vehicle.trip.routeShortName }}
+                  {{ vehicle.trip.routeLongName }}
+                  <code v-if="vehicle.trip.routeShortName !== vehicle.routeId">
+                    {{ vehicle.routeId }}
+                  </code>
+                </span>
+                <span v-else :class="property.css">
+                  {{
+                    property.content
+                      ? vehicle[property.content]
+                      : property.parent
+                      ? vehicle[property.parent][property.name]
+                      : vehicle[property.name]
+                  }}
+                </span>
+                <span v-if="property.name === 'odometer'">km</span>
+              </p>
+              <v-btn
+                v-if="property.help"
+                icon
+                small
+                class="float-right"
+                @click="helpToggle[property.name] = !helpToggle[property.name]"
+              >
+                <v-icon color="secondary">
+                  {{
+                    helpToggle[property.name] ? mdiSvg.close : mdiSvg.helpCircle
+                  }}
+                </v-icon>
+              </v-btn>
+            </v-list-item-title>
+            <v-list-item-title v-else>
+              <span
+                v-if="vehicle.timestamp"
+                :class="[
+                  Math.floor(Date.now() / 1000) - parseInt(vehicle.timestamp) >
+                    300 && 'pa-1 rounded red white--text',
+                ]"
+              >
+                <timeago
+                  :datetime="(parseInt(vehicle.timestamp) || 0) * 1000"
+                  :auto-update="30"
+                />
+              </span>
+            </v-list-item-title>
+            <v-list-item-subtitle
+              v-if="helpToggle[property.name]"
+              class="pa-2 secondary darken-3 white--text rounded white-space--normal"
+            >
+              {{ $t(`mapBottomSheet.help.${property.name}`) }}
+            </v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
       </div>
-    </v-sheet>
-  </v-bottom-sheet>
+      <v-list-item v-if="vehicle.meta.json">
+        <v-list-item-icon>
+          <v-icon>mdi-code-json</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>
+            <json-viewer :value="vehicle.meta.json" sort copyable>
+              <template #copy="slots">
+                <v-btn small icon color="secondary">
+                  <v-icon v-if="slots.copied">mdi-clipboard-check</v-icon>
+                  <v-icon v-else>mdi-content-copy</v-icon>
+                </v-btn>
+              </template>
+            </json-viewer>
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+    </v-list>
+    <!-- </div> -->
+  </v-sheet>
+  <!-- </v-bottom-sheet> -->
 </template>
 
 <script>
 // import collect from 'collect.js'
 import JsonViewer from 'vue-json-viewer'
-
+import Vue from 'vue'
+import VueTimeago from 'vue-timeago'
 import {
   mdiBusClock,
   mdiBusStop,
   mdiClose,
-  mdiCompass,
   mdiIdentifier,
   mdiMapMarkerPath,
   mdiNavigation,
@@ -214,16 +190,16 @@ import {
   mdiPin,
   mdiPinOff,
   mdiSignDirection,
-  mdiSpeedometer,
   mdiTicketConfirmation,
   mdiTimetable,
   mdiFormatLetterStartsWith,
   mdiCounter,
-  mdiTrafficLight,
-  mdiSeatPassenger,
   mdiTimelinePlus,
   mdiHelpCircle,
 } from '@mdi/js'
+
+Vue.use(VueTimeago, {})
+
 export default {
   components: { JsonViewer },
   filters: {
@@ -252,6 +228,11 @@ export default {
     },
     properties: [
       {
+        name: 'timestamp',
+        icon: 'mdi-clock',
+        mobileOnly: true,
+      },
+      {
         name: 'label',
         content: 'ref',
         icon: mdiIdentifier,
@@ -269,6 +250,7 @@ export default {
       {
         name: 'routeId',
         icon: mdiMapMarkerPath,
+        mobileOnly: true,
       },
       {
         name: 'headsign',
@@ -296,14 +278,6 @@ export default {
         icon: mdiCounter,
       },
       {
-        name: 'bearing',
-        icon: mdiCompass,
-      },
-      {
-        name: 'speed',
-        icon: mdiSpeedometer,
-      },
-      {
         name: 'label',
         parent: 'currentStatus',
         label: 'currentStatus',
@@ -314,18 +288,6 @@ export default {
         name: 'currentStopSequence',
         icon: mdiTimetable,
         help: true,
-      },
-      {
-        name: 'label',
-        parent: 'congestionLevel',
-        label: 'congestionLevel',
-        icon: mdiTrafficLight,
-      },
-      {
-        name: 'label',
-        parent: 'occupancyStatus',
-        label: 'occupancyStatus',
-        icon: mdiSeatPassenger,
       },
     ],
     helpToggle: {

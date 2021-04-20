@@ -1,5 +1,14 @@
 <template>
-  <div v-if="vehicle && vehicle.id" class="tt-backdrop">
+  <div
+    v-if="vehicle && vehicle.id"
+    class="tt-backdrop rounded-t-lg overflow-hidden"
+  >
+    <v-sheet class="d-flex align-center justify-center">
+      <div
+        class="py-1 px-12 my-1 rounded-xl"
+        :class="[darkMode ? 'grey darken-3' : 'grey lighten-3']"
+      ></div>
+    </v-sheet>
     <v-footer
       :color="darkMode ? '' : 'grey lighten-4'"
       height="80px"
@@ -8,7 +17,7 @@
       <v-avatar
         :color="agency.color"
         :size="$vuetify.breakpoint.mdAndDown ? 36 : 48"
-        class="tt-footer-vehicle"
+        class="tt-footer__vehicle"
       >
         <svg
           v-if="vehicle.bearing"
@@ -36,7 +45,7 @@
         <p class="mb-0 text-caption d-md-none">
           {{ agency.shortName }}
         </p>
-        <p class="mb-0 text-caption d-none d-md-block">
+        <p class="mb-0 text-caption text-md-body-2 d-none d-md-block">
           <span
             v-if="vehicle.timestamp"
             :class="[
@@ -68,54 +77,43 @@
           {{ vehicle.trip.routeLongName }}
         </p>
       </div>
-      <div v-if="vehicle.speed" class="text-center d-none d-md-block">
-        <b class="mb-0">{{ vehicle.speed }} km/h</b>
-        <p class="mb-0 mt-1 text-caption">
-          <v-icon>mdi-speedometer</v-icon>
-        </p>
-      </div>
-      <div
+      <MapProperty
+        v-if="vehicle.speed"
+        desktop
+        icon="mdi-speedometer"
+        :icon-title="$t('mapBottomSheet.properties.speed')"
+        :value="`${vehicle.speed} km/h`"
+      />
+      <MapProperty
         v-if="vehicle.occupancyStatus.data"
-        class="text-center tt-footer-occupancy d-none d-md-block"
-      >
-        <v-progress-linear
-          height="11px"
-          class="progress my-1"
-          :value="(vehicle.occupancyStatus.data / 5) * 100"
-          :color="darkMode ? 'white' : 'primary'"
-          :title="vehicle.occupancyStatus.label"
-        />
-        <p class="mb-0 mt-2 text-caption">
-          <v-icon>mdi-seat-passenger</v-icon>
-        </p>
-      </div>
-      <div
+        desktop
+        progress
+        icon="mdi-seat-passenger"
+        :icon-title="$t('mapBottomSheet.properties.occupancyStatus')"
+        :value="(vehicle.occupancyStatus.data / 5) * 100"
+        :value-title="vehicle.occupancyStatus.label"
+      />
+      <MapProperty
         v-if="vehicle.congestionLevel.data"
-        class="text-center tt-footer-congestion d-none d-md-block"
-      >
-        <v-progress-linear
-          height="11px"
-          class="progress my-1"
-          :value="(vehicle.congestionLevel.data / 5) * 100"
-          :color="darkMode ? 'white' : 'primary'"
-          :title="vehicle.congestionLevel.label"
-        />
-        <p class="mb-0 mt-2 text-caption">
-          <v-icon>mdi-traffic-light</v-icon>
-        </p>
-      </div>
+        desktop
+        progress
+        icon="mdi-traffic-light"
+        :icon-title="$t('mapBottomSheet.properties.congestionLevel')"
+        :value="(vehicle.congestionLevel.data / 5) * 100"
+        :value-title="vehicle.congestionLevel.label"
+      />
       <v-spacer />
-      <v-btn text icon @click="$emit('open-sheet')">
-        <v-icon>
-          {{ mdiSvg.chevronUp }}
-        </v-icon>
-      </v-btn>
+      <v-icon class="tt-footer__chevron"> mdi-chevron-down </v-icon>
     </v-footer>
     <v-sheet color="secondary">
-      <p class="text-h6 pa-6 mb-0">Test</p>
+      <MapBottomSheet />
     </v-sheet>
   </div>
-  <v-footer v-else class="d-flex align-center justify-center tt-backdrop">
+  <v-footer
+    v-else
+    height="96px"
+    class="d-flex align-center justify-center tt-backdrop"
+  >
     <span class="select">{{ $t('mapFooter.select') }}</span>
   </v-footer>
 </template>
@@ -172,7 +170,7 @@ export default {
 .tt-backdrop {
   position: relative;
   padding-bottom: 56px;
-  top: 779px;
+  top: calc(100vh - 212px);
   z-index: 1;
 }
 .v-footer {
@@ -218,7 +216,7 @@ export default {
 .tt-footer {
   column-gap: 32px;
 }
-.tt-footer-vehicle {
+.tt-footer__vehicle {
   margin-right: -16px;
   position: relative;
   overflow: visible;
@@ -240,5 +238,11 @@ export default {
 .tt-footer-occupancy .progress,
 .tt-footer-congestion .progress {
   width: 40px;
+}
+
+@media only screen and (max-width: 960px) {
+  .tt-backdrop {
+    top: calc(100vh - 56px - 96px - 56px);
+  }
 }
 </style>
