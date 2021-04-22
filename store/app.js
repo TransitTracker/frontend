@@ -26,7 +26,7 @@ export const actions = {
     }
 
     await commit(
-      'settins/set',
+      'settings/set',
       { setting: 'currentRegion', value: regionSlug },
       { root: true }
     )
