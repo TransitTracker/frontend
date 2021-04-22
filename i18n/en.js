@@ -17,7 +17,7 @@ export default {
     intro: 'An overview of the public transport network for',
     introCities: 'several Canadian cities',
     body:
-      'There is currently {totalVehicles} active vehicles across {totalAgencies} agencies.',
+      'There are currently {totalVehicles} active vehicles across {totalAgencies} agencies.',
     byodNew: 'New!',
     byodTitle: 'Import your own data',
     byodBody:
@@ -80,11 +80,11 @@ export default {
     },
     help: {
       label:
-        'This is the internal identifier assigned by the agency for this vehicule. Under normal circumstances, the label represents the number displayed to the public on the vehicle while the ID is not displayed.',
+        'This is the internal identifier assigned by the agency for this vehicle. Under normal circumstances, the label represents the number displayed to the public on the vehicle while the ID is not displayed.',
       tripId:
         'This is a unique identifier assigned for this trip. A single trip can be seen multiple times throughout the week, for example from Monday to Friday.',
       scheduleRelationship:
-        'Typically, a trip is planned in advance. But sometimes, when ridership requires it or for other reasons, agencies have to add a trip in between. A vehicle may also have no timetable (a metro system for example) or be canceled for various reasons.',
+        'Typically, a trip is planned in advance. But sometimes, when ridership requires it or for other reasons, agencies have to add a trip in between. A vehicle may also have no timetable (a metro system for example) or be cancelled for various reasons.',
       currentStatus:
         'This is the status of the vehicle in relation to the stops. When a vehicle heads for a stop, it is "In transit to". When approaching, it becomes "incoming". Then at the stop, it is "Stopped at".',
       currentStopSequence:
@@ -105,7 +105,7 @@ export default {
   byod: {
     title: 'Bring Your Own Data',
     subtitle:
-      'You can use the interface of Transit Tracker with your own feeds from your favorite agencies from all over the world.',
+      'You can use the interface of Transit Tracker with your own feeds from your favourite agencies from all over the world.',
     list: 'List of agencies',
     lastUpdated: 'Last updated:',
     noAgencies: 'No agencies',
@@ -116,7 +116,7 @@ export default {
     save: 'Save',
     sync: 'Sync agency with Transit Tracker',
     unSync: 'Remove agency from the current session of Transit Tracker',
-    manage: 'Manage this agency (add static and realtime GTFS files)',
+    manage: 'Manage this agency (add static and real time GTFS files)',
     // Padding
     newAgency: 'New agency',
     removeModule: "Don't need the BYOD module anymore?",
@@ -149,12 +149,12 @@ export default {
       shapes: 'shapes',
       trips: 'trips',
       saved: '{n} {type} saved in your browser.',
-      empty: "You don't have imported any {type} yet.",
+      empty: "You haven't imported any {type} yet.",
       upload: 'Click to select the {file} file',
       message: 'Importing a new file will overwrite any existing {type}.',
       import: 'Import',
       realtimeTitle: 'GTFS Realtime entities',
-      realtimeDesc: 'Upload a GTFS-RT feed in the protocul buffer format.',
+      realtimeDesc: 'Upload a GTFS-RT feed in the protocol buffer format.',
       emptyExisting: 'Empty existing entities:',
       local: 'Local',
       remote: 'Remote',
@@ -174,7 +174,7 @@ export default {
       id: 'ID',
       type: 'Type',
       entity: 'Entity',
-      seoTitle: 'Realtime entitites',
+      seoTitle: 'Real time entities',
     },
   },
   settings: {

@@ -9,8 +9,8 @@ export default {
   error: {
     error: 'Erreur',
     return: "Retourner à l'écran d'accueil",
-    404: 'Êtes vous perdu?',
-    500: 'Oups! Nous avons fait une erreur.',
+    404: 'Êtes-vous perdu?',
+    500: "Oups! Une erreur s'est produite.",
   },
   landing: {
     welcome: 'Bienvenue dans Transit&nbsp;Tracker',
@@ -30,7 +30,7 @@ export default {
     seoTitle:
       "Transit Tracker - Une vue d'ensemble du transport en commun pour plusieurs villes canadiennes",
     seoDescription:
-      "Transit Tracker est une application qui vous permet de retrouvez des centaines d'autobus, de train et de tramway des plus grandes villes canadiennes, comme Montréal et Toronto, sur une seule carte!",
+      "Transit Tracker est une application qui vous permet de retrouver des centaines d'autobus, de trains et de tramways des plus grandes villes canadiennes, comme Montréal et Toronto, sur une seule carte!",
   },
   home: {
     welcome: 'Bienvenue dans ',
@@ -84,15 +84,15 @@ export default {
       tripId:
         "Il s'agit d'un identifiant unique attribué à ce voyage. Un même trajet peut être vu plusieurs fois au cours d'une semaine, par exemple du lundi au vendredi.",
       scheduleRelationship:
-        "En règle générale, un voyage est planifié à l'avance. Mais parfois, lorsque l'achalandage l'exige ou d'autres raisons, il faut ajouter un voyage entre deux. Un véhicule peut aussi ne pas avoir d'horaire (un système de métro par exemple) ou bien être annulé pour diverses raisons.",
+        "En règle générale, un voyage est planifié. Mais parfois, lorsque l'achalandage l'exige ou d'autres raisons, il faut ajouter un voyage entre deux. Un véhicule peut aussi ne pas avoir d'horaire (un système de métro par exemple) ou bien être annulé pour diverses raisons.",
       currentStatus:
         'Il s\'agit du statut du véhicule en relation avec les arrêts. Lorsqu\'un véhicule se dirige vers un arrêt, il est "In transit to". En s\'approchant, il devient "incoming". Puis à l\'arrêt, il est "Stopped at".',
       currentStopSequence:
-        "Ce champ représente la position du véhicule en relation au nombre d'arrêts déservi par le voyage. Plus que le voyage avance et que le véhicule s'approche de son arrêt final, ce chiffre augmente.",
+        "Ce champ représente la position du véhicule en relation au nombre d'arrêts desservis par le voyage. Plus que le voyage avance et que le véhicule s'approche de son arrêt final, ce chiffre augmente.",
     },
   },
   table: {
-    empty: 'Aucun véhicules !',
+    empty: 'Aucun véhicule!',
     dataAgency: 'Agence',
     dataRef: 'Numéro du véhicule',
     dataRoute: 'Route',
@@ -110,8 +110,8 @@ export default {
     lastUpdated: 'Dernière mise à jour:',
     noAgencies: 'Aucune agence',
     getStarted: 'Pour démarrer, cliquez sur le bouton ci-dessous:',
-    isSynced: 'Cette agence est synchronisé avec Transit Tracker',
-    isNotSynced: "Cette agence n'est pas synchronisé avec Transit Tracker",
+    isSynced: 'Cette agence est synchronisée avec Transit Tracker',
+    isNotSynced: "Cette agence n'est pas synchronisée avec Transit Tracker",
     rename: "Renommer l'agence",
     save: 'Sauvegarder',
     sync: "Synchroniser l'agence avec Transit Tracker",
@@ -136,7 +136,7 @@ export default {
     ferry: 'Traversier',
     createAdd: 'Ajouter',
     seoDescription:
-      "Utilisez l'interface de Transit Tracker avec vos propres fluxs GTFS Realtime.",
+      "Utilisez l'interface de Transit Tracker avec vos propres flux GTFS Realtime.",
     agency: {
       back: "Retour à la liste d'agence",
       delete: "Supprimer l'agence",
@@ -160,13 +160,13 @@ export default {
       remote: 'À distance',
       remoteUrl: 'URL',
       realtimeMessage:
-        'Vous pouvez importer autant de fichiers que vous le souhaitez. Les entités avec le même identifiant (ID) seront mises à jours.',
+        'Vous pouvez importer autant de fichiers que vous le souhaitez. Les entités avec le même identifiant (ID) seront mises à jour.',
       realtimeError: 'Il y a eu une erreur en essayant de récupérer le flux :',
       corsError: 'Il est possible que ce soit une erreur CORS.',
       autoRefresh: 'Mise à jour automatique à chaque minute',
-      saveAndFetch: 'Sauvegarder et recupérer le flux',
+      saveAndFetch: 'Sauvegarder et récupérer le flux',
       note:
-        "Une fois l'agence activé et les véhicules importés, ils seront disponibles dans toutes les régions de Transit Tracker. Toutes les données importés sont sauvegardés dans votre navigateur.",
+        "Une fois l'agence activée et les véhicules importés, ils seront disponibles dans toutes les régions de Transit Tracker. Toutes les données importées sont sauvegardées dans votre navigateur.",
       wait: 'Veuillez attendre. Ceci pourrait prendre quelques minutes.',
     },
     data: {
@@ -201,7 +201,7 @@ export default {
   },
   alert: {
     readMore: 'Lire plus',
-    markAsRead: 'Marquer comme lu',
+    markAsRead: 'Marquer comme lue',
     close: 'Fermer',
   },
   download: {
@@ -222,7 +222,7 @@ export default {
     formatActive:
       "Véhicules actifs: ceux que vous pouvez actuellement voir dans l'application",
     formatAll:
-      "Tous les véhicules: ceux enregistrés depuis la création de l'agence dans Transit Tracker - contient des véhicules inactifs (nécéssite un téléchargement - gros fichier)",
+      "Tous les véhicules: ceux enregistrés depuis la création de l'agence dans Transit Tracker - contiens des véhicules inactifs (nécessite un téléchargement - gros fichier)",
     downloadStep: 'Télécharger',
     downloadBtn: 'Télécharger',
     downloadLoading:
@@ -246,15 +246,15 @@ export default {
   aboutDialog: {
     title: 'À propos de Transit Tracker',
     body:
-      "Transit Tracker est une application à code-source ouvert qui permet de transformer et visualier les données en temps réel de plusieurs agences de transport en commun. L'application utilise de nombreux projets à code source ouvert, tel que :",
+      "Transit Tracker est une application à code source ouvert qui permet de transformer et visualiser les données en temps réel de plusieurs agences de transport en commun. L'application utilise de nombreux projets à code source ouvert, tels que :",
     openSource: 'Code source',
     dev: 'Développeurs',
     devBody:
-      "Transit Tracker offre une API qui permet d'accéder facilement aux données en temps-réel dans un format JSON ou GraphQL.",
+      "Transit Tracker offre une API qui permet d'accéder facilement aux données en temps réel dans un format JSON ou GraphQL.",
     devSite: 'Sites pour développeurs',
     illustrations: 'Illustrations',
     illustrationsBody:
-      "Les illustrations sur la page d'accueil ont été créer par Émilie Beaulieu. Les icônes à travers l'application proviennent de Material Design Icons.",
+      "Les illustrations sur la page d'accueil ont été créées par Émilie Beaulieu. Les icônes à travers l'application proviennent de Material Design Icons.",
     by: 'Par Félix Desjardins - @felixinx',
     contact: 'Un problème, un commentaire ou une suggestion?',
     contactBtn: 'Contactez-moi',
