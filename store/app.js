@@ -4,7 +4,6 @@ export const state = () => ({
   installPrompt: null,
   installOutcome: null,
   updateAvailable: false,
-  updateDetail: null,
 })
 
 export const mutations = {
@@ -64,10 +63,9 @@ export const actions = {
       commit('set', { key: 'installPrompt', value: null })
     })
   },
-  installUpdate({ commit, state }) {
+  installUpdate({ commit }) {
     commit('set', { key: 'updateAvailable', value: false })
 
-    if (!state.updateDetail || !state.updateDetail.waiting) return
-    state.updateDetail.waiting.postMessage('skiWaiting')
+    window.location.reload()
   },
 }

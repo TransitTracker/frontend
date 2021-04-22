@@ -123,13 +123,13 @@ export default {
 
   pwa: {
     icon: {
-      source: '[srcDir]/[staticDir]/icon-beta.png',
+      source: '/static/icon-beta.png',
     },
     manifest: {
       name: 'Transit Tracker',
       short_name: 'Transit T',
       description: 'Realtime transit overview for Canadian cities',
-      display: 'minimal-ui',
+      display: 'standalone',
     },
     meta: {
       appleStatusBarStyle: 'black-translucent',

@@ -184,6 +184,8 @@ export default {
       install: 'Installer Transit Tracker',
       success: 'Succès!',
       error: "Erreur lors de l'installation",
+      updateAvailable: 'Une mise à jour est disponible',
+      installUpdate: 'Rafraîchir maintenant',
     },
     agenciesTitle: 'Agences',
     searchAgency: 'Rechercher une agence',

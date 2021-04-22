@@ -86,6 +86,29 @@
       @new-region="listenToUpdates($event)"
     />
     <component :is="byodInjector" />
+    <v-snackbar
+      v-model="updateAvailable"
+      :color="settingsDarkMode ? 'white' : null"
+      app
+      bottom
+      right
+      :timeout="-1"
+    >
+      <span :class="[settingsDarkMode && 'black--text']">
+        {{ $t('settings.pwa.updateAvailable') }}
+      </span>
+      <template #action>
+        <v-btn
+          small
+          depressed
+          block
+          :color="settingsDarkMode ? null : 'primary'"
+          @click="$store.dispatch('app/installUpdate')"
+        >
+          {{ $t('settings.pwa.installUpdate') }}
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-app>
 </template>
 
@@ -142,6 +165,9 @@ export default {
       if (setting === 'dark') return true
       return false
     },
+    updateAvailable() {
+      return this.$store.state.app.updateAvailable
+    },
   },
   mounted() {
     if (this.settingsDarkMode) {
@@ -197,12 +223,12 @@ export default {
       const workbox = await window.$workbox
       if (workbox) {
         workbox.addEventListener('installed', (event) => {
-          console.log(event)
-          if (event.isUpdate)
+          if (event.isUpdate) {
             this.$store.commit('app/set', {
               key: 'updateAvailable',
               value: true,
             })
+          }
         })
       }
     },
