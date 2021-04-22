@@ -186,7 +186,7 @@
             {{ $t('home.version') }} {{ version }}
           </h2>
           <v-btn
-            tile="GitHub"
+            title="GitHub"
             icon
             color="black"
             href="http://github.com/TransitTracker"
