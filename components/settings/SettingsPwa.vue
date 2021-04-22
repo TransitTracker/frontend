@@ -47,8 +47,10 @@ export default {
       return this.$store.state.app.installOutcome
     },
   },
+  methods: {
   promptInstaller() {
     this.$store.dispatch('app/promptInstaller')
+  },
   },
 }
 </script>
