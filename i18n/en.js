@@ -198,9 +198,6 @@ export default {
     themeSystemDesc: 'According to your browser settings',
     defaultScreen: 'Default screen',
     language: 'Language',
-    about: 'By @felixinx',
-    contact: 'A problem, a comment or a suggestion?',
-    contactBtn: 'Contact&nbsp;me',
   },
   alert: {
     readMore: 'Read more',
@@ -245,5 +242,21 @@ export default {
     previous: 'Previous',
     changeTo: 'Change to this region',
     already: 'Already selected',
+  },
+  aboutDialog: {
+    title: 'About Transit Tracker',
+    body:
+      'Transit Tracker is an open-source application that transforms and visualizes real-time data from multiple transit agencies. The application uses many open source projects, such as:',
+    openSource: 'Open source',
+    dev: 'Developers',
+    devBody:
+      'Transit Tracker offers an API that allows easy access to real-time data in JSON or GraphQL format.',
+    devSite: 'Developers site',
+    illustrations: 'Illustrations',
+    illustrationsBody:
+      'The illustrations on the home page were created by Émilie Beaulieu. Icons throughout the app are from Material Design Icons.',
+    by: 'By Félix Desjardins - @felixinx',
+    contact: 'A problem, a comment or a suggestion?',
+    contactBtn: 'Contact&nbsp;me',
   },
 }

@@ -198,9 +198,6 @@ export default {
     themeSystemDesc: 'Selon les préférences de votre navigateur',
     defaultScreen: 'Écran par défaut',
     language: 'Langue',
-    about: 'Par @felixinx',
-    contact: 'Un problème, un commentaire ou une suggestion?',
-    contactBtn: 'Contactez-moi',
   },
   alert: {
     readMore: 'Lire plus',
@@ -245,5 +242,21 @@ export default {
     previous: 'Précédent',
     changeTo: 'Changer pour cette région',
     already: 'Déjà sélectionné',
+  },
+  aboutDialog: {
+    title: 'À propos de Transit Tracker',
+    body:
+      "Transit Tracker est une application à code-source ouvert qui permet de transformer et visualier les données en temps réel de plusieurs agences de transport en commun. L'application utilise de nombreux projets à code source ouvert, tel que :",
+    openSource: 'Code source',
+    dev: 'Développeurs',
+    devBody:
+      "Transit Tracker offre une API qui permet d'accéder facilement aux données en temps-réel dans un format JSON ou GraphQL.",
+    devSite: 'Sites pour développeurs',
+    illustrations: 'Illustrations',
+    illustrationsBody:
+      "Les illustrations sur la page d'accueil ont été créer par Émilie Beaulieu. Les icônes à travers l'application proviennent de Material Design Icons.",
+    by: 'Par Félix Desjardins - @felixinx',
+    contact: 'Un problème, un commentaire ou une suggestion?',
+    contactBtn: 'Contactez-moi',
   },
 }

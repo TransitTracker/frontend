@@ -191,35 +191,19 @@
         </SettingsItemGroup>
       </v-container>
       <v-spacer />
-      <div class="tt-settings__about white--text">
-        <v-container class="d-flex align-center">
-          <img
-            src="https://felixinx.me/favicon.svg"
-            width="40px"
-            height="40px"
-          />
-          <div class="ml-4">
-            <a
-              href="https://felixinx.me"
-              class="font-weight-medium text-decoration-none text-body-1 white--text"
-            >
-              {{ $t('settings.about') }}
-            </a>
-            <br />
-            <span class="text-body-2">
-              {{ $t('settings.contact') }}
-              <!-- eslint-disable vue/no-v-html -->
-              <a
-                href="https://felixinx.me/contact"
-                class="white--text"
-                v-html="$t('settings.contactBtn')"
-              ></a>
-              <!-- eslint-enable vue/no-v-html -->
-            </span>
+      <div class="primary white--text">
+        <v-container
+          class="d-flex align-center cursor-pointer"
+          @click="aboutDialog = true"
+        >
+          <img src="/img/logo-white.svg" height="40px" />
+          <div class="ml-4 font-weight-bold">
+            {{ $t('aboutDialog.title') }}
           </div>
         </v-container>
       </div>
     </div>
+    <SettingsAboutDialog v-model="aboutDialog" />
   </v-navigation-drawer>
 </template>
 
@@ -232,6 +216,7 @@ export default {
     },
   },
   data: () => ({
+    aboutDialog: false,
     agencySearch: null,
   }),
   computed: {
