@@ -2,7 +2,7 @@
   <div class="mb-14">
     <div class="secondary tt-texture--icons">
       <v-container class="py-4 d-flex">
-        <v-icon class="text-h5">mdi-folder-upload</v-icon>
+        <v-icon class="text-h5">{{ mdiFolderUpload }}</v-icon>
         <div class="ml-4">
           <h1 class="text-h5 font-weight-medium">
             {{ $t('byod.title') }}
@@ -16,7 +16,7 @@
     <v-sheet>
       <v-container class="d-flex align-center">
         <v-btn icon nuxt :to="localePath(`/byod/${agency.slug}`)" exact>
-          <v-icon>mdi-arrow-left</v-icon>
+          <v-icon>{{ mdiArrowLeft }}</v-icon>
         </v-btn>
         {{ $t('byod.data.backTo') }} {{ agency.name }}
       </v-container>
@@ -43,6 +43,7 @@
 <script>
 import JsonViewer from 'vue-json-viewer'
 import { agencies, definitions, realtimeGtfs } from '@/utils/byod'
+import { mdiArrowLeft, mdiFolderUpload } from '@mdi/js'
 
 export default {
   components: {
@@ -51,7 +52,7 @@ export default {
   async asyncData({ params, store, redirect }) {
     const agency = await agencies.get(params.agency)
     if (!agency) redirect('/byod')
-    return { agency }
+    return { agency, mdiArrowLeft, mdiFolderUpload }
   },
   data: () => ({
     allData: [],

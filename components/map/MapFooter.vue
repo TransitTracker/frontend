@@ -34,8 +34,11 @@
             />
           </g>
         </svg>
-        <v-icon :color="agency.textColor">
-          mdi-{{ vehicle.vehicleType }}
+        <v-icon
+          :color="agency.textColor"
+          :size="$vuetify.breakpoint.mdAndDown ? 24 : 36"
+        >
+          {{ mdi[vehicle.vehicleType] }}
         </v-icon>
       </v-avatar>
       <div>
@@ -80,7 +83,7 @@
       <MapProperty
         v-if="vehicle.speed"
         desktop
-        icon="mdi-speedometer"
+        :icon="mdiSpeedometer"
         :icon-title="$t('mapBottomSheet.properties.speed')"
         :value="`${vehicle.speed} km/h`"
       />
@@ -88,7 +91,7 @@
         v-if="vehicle.occupancyStatus.data"
         desktop
         progress
-        icon="mdi-seat-passenger"
+        :icon="mdiSeatPassenger"
         :icon-title="$t('mapBottomSheet.properties.occupancyStatus')"
         :value="(vehicle.occupancyStatus.data / 5) * 100"
         :value-title="vehicle.occupancyStatus.label"
@@ -97,13 +100,13 @@
         v-if="vehicle.congestionLevel.data"
         desktop
         progress
-        icon="mdi-traffic-light"
+        :icon="mdiTrafficLight"
         :icon-title="$t('mapBottomSheet.properties.congestionLevel')"
         :value="(vehicle.congestionLevel.data / 5) * 100"
         :value-title="vehicle.congestionLevel.label"
       />
       <v-spacer />
-      <v-icon class="tt-footer__chevron"> mdi-chevron-down </v-icon>
+      <v-icon class="tt-footer__chevron">{{ mdiChevronDown }}</v-icon>
     </v-footer>
     <v-sheet color="secondary">
       <MapBottomSheet />
@@ -121,7 +124,18 @@
 <script>
 import Vue from 'vue'
 import VueTimeago from 'vue-timeago'
-import { mdiNavigation, mdiChevronUp } from '@mdi/js'
+import {
+  mdiBus,
+  mdiChevronDown,
+  mdiChevronUp,
+  mdiFerry,
+  mdiNavigation,
+  mdiSeatPassenger,
+  mdiSpeedometer,
+  mdiTrafficLight,
+  mdiTrain,
+  mdiTram,
+} from '@mdi/js'
 
 Vue.use(VueTimeago, {})
 
@@ -132,9 +146,17 @@ export default {
     },
   },
   data: () => ({
-    mdiSvg: {
-      navigation: mdiNavigation,
-      chevronUp: mdiChevronUp,
+    mdiChevronDown,
+    mdiChevronUp,
+    mdiNavigation,
+    mdiSeatPassenger,
+    mdiSpeedometer,
+    mdiTrafficLight,
+    mdi: {
+      bus: mdiBus,
+      ferry: mdiFerry,
+      train: mdiTrain,
+      tram: mdiTram,
     },
   }),
   computed: {

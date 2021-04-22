@@ -10,7 +10,7 @@
         <v-toolbar-title>{{ $t('aboutDialog.title') }}</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon :title="$t('regionSwitcher.close')" @click="toggle">
-          <v-icon>mdi-close</v-icon>
+          <v-icon>{{ mdiClose }}</v-icon>
         </v-btn>
       </v-toolbar>
       <v-container class="text-body-1">
@@ -30,7 +30,7 @@
           target="_blank"
         >
           {{ $t('aboutDialog.openSource') }}
-          <v-icon right>mdi-github</v-icon>
+          <v-icon right>{{ mdiGithub }}</v-icon>
         </v-btn>
         <b class="d-block text-subtitle-1 mt-4 mb-1">
           {{ $t('aboutDialog.dev') }}
@@ -44,7 +44,7 @@
           target="_blank"
         >
           {{ $t('aboutDialog.devSite') }}
-          <v-icon right>mdi-open-in-new</v-icon>
+          <v-icon right>{{ mdiOpenInNew }}</v-icon>
         </v-btn>
         <b class="d-block text-subtitle-1 mt-4 mb-1">
           {{ $t('aboutDialog.illustrations') }}
@@ -84,6 +84,7 @@
 </template>
 
 <script>
+import { mdiClose, mdiGithub, mdiOpenInNew } from '@mdi/js'
 export default {
   props: {
     value: {
@@ -91,6 +92,11 @@ export default {
       required: true,
     },
   },
+  data: () => ({
+    mdiClose,
+    mdiGithub,
+    mdiOpenInNew,
+  }),
   computed: {
     computedValue: {
       get() {

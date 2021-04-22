@@ -2,7 +2,7 @@
   <v-container class="d-flex align-center justify-center tt-error">
     <v-card class="d-flex tt-error__card" rounded="lg">
       <div class="secondary tt-error__icon d-flex align-center justify-center">
-        <v-icon size="7vw" class="pa-16">mdi-alert</v-icon>
+        <v-icon size="7vw" class="pa-16">{{ mdiAlert }}</v-icon>
       </div>
       <v-card-text class="pa-16">
         <h1 class="text-h4 font-weight-bold">
@@ -13,7 +13,7 @@
           {{ $t('error.title') }} {{ error.statusCode }}
         </p>
         <v-btn nuxt :to="localePath('/')" depressed>
-          <v-icon left>mdi-arrow-left</v-icon> {{ $t('error.return') }}
+          <v-icon left>{{ mdiArrowLeft }}</v-icon> {{ $t('error.return') }}
         </v-btn>
       </v-card-text>
     </v-card>
@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import { mdiAlert, mdiArrowLeft } from '@mdi/js'
 export default {
   props: {
     error: {
@@ -28,6 +29,7 @@ export default {
       default: () => ({}),
     },
   },
+  data: () => ({ mdiAlert, mdiArrowLeft }),
   head() {
     return { title: this.$t('error.title') }
   },

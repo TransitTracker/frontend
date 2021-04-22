@@ -185,15 +185,13 @@
           <h2 class="text-subtitle-1">
             {{ $t('home.version') }} {{ version }}
           </h2>
-          <v-btn icon color="black" href="https://twitter.com/ttrackerca">
-            <v-icon>mdi-twitter</v-icon>
-          </v-btn>
           <v-btn
+            tile="GitHub"
             icon
             color="black"
-            href="http://github.com/felixinx/transit-tracker"
+            href="http://github.com/TransitTracker"
           >
-            <v-icon>mdi-github</v-icon>
+            <v-icon>{{ mdiGithub }}</v-icon>
           </v-btn>
         </div>
         <img
@@ -221,7 +219,7 @@
                 @click="downloadDialog = true"
               >
                 <v-icon :left="$vuetify.breakpoint.mdAndUp">
-                  mdi-download
+                  {{ mdiDownload }}
                 </v-icon>
                 <span class="d-none d-md-block">{{ $t('home.download') }}</span>
               </v-btn>
@@ -273,7 +271,7 @@
           </v-card>
           <v-card v-else>
             <v-card-text class="d-flex flex-column align-center">
-              <v-icon size="100" color="primary">mdi-map-plus</v-icon>
+              <v-icon size="100" color="primary">{{ mdiMapPlus }}</v-icon>
               <div class="text-h6 text-center my-2">
                 {{ $t('home.emptyTitle') }}
               </div>
@@ -317,6 +315,7 @@
 <script>
 import Vue from 'vue'
 import VueTimeago from 'vue-timeago'
+import { mdiDownload, mdiGithub, mdiMapPlus } from '@mdi/js'
 
 Vue.use(VueTimeago, {
   locales: {
@@ -327,7 +326,7 @@ Vue.use(VueTimeago, {
 
 export default {
   asyncData({ params }) {
-    return { regionSlug: params.region }
+    return { regionSlug: params.region, mdiDownload, mdiGithub, mdiMapPlus }
   },
   data: () => ({
     downloadDialog: false,

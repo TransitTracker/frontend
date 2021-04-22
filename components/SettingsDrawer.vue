@@ -18,7 +18,7 @@
       {{ $t('settings.title') }}
       <v-spacer></v-spacer>
       <v-btn icon @click="$emit('input', false)">
-        <v-icon>mdi-close</v-icon>
+        <v-icon>{{ mdiClose }}</v-icon>
       </v-btn>
     </v-toolbar>
     <v-divider />
@@ -54,7 +54,7 @@
                 v-model="agencySearch"
                 :label="$t('settings.searchAgency')"
                 clearable
-                prepend-inner-icon="mdi-magnify"
+                :prepend-inner-icon="mdiMagnify"
                 :color="darkMode ? 'white' : 'primary'"
               ></v-text-field>
               <v-list>
@@ -65,10 +65,11 @@
                   <v-list-item-avatar :color="agency.color">
                     <v-icon
                       class="px-0"
+                      size="24"
                       :style="{ color: agency.textColor }"
                       dark
                     >
-                      mdi-bus
+                      {{ mdi[agency.defaultVehicleType] }}
                     </v-icon>
                   </v-list-item-avatar>
                   <v-list-item-content>
@@ -101,9 +102,9 @@
                   <v-list-item-action v-if="!agency.regions.includes('*')">
                     <v-btn icon @click="toggleAgency(agency)">
                       <v-icon v-if="activeAgencies.includes(slug)">
-                        mdi-minus
+                        {{ mdiMinus }}
                       </v-icon>
-                      <v-icon v-else>mdi-plus</v-icon>
+                      <v-icon v-else>{{ mdiPlus }}</v-icon>
                     </v-btn>
                   </v-list-item-action>
                 </v-list-item>
@@ -123,12 +124,12 @@
         >
           <SettingsItem
             :description="$t('settings.autoRefreshOnDesc')"
-            icon="sync"
+            :icon="mdiSync"
             :value="true"
           >
             {{ $t('settings.autoRefreshOn') }}
           </SettingsItem>
-          <SettingsItem icon="sync-off" :value="false">
+          <SettingsItem :icon="mdiSyncOff" :value="false">
             {{ $t('settings.autoRefreshOff') }}
           </SettingsItem>
         </SettingsItemGroup>
@@ -142,14 +143,14 @@
           :value="settings.theme"
           @input="setSetting('theme', $event)"
         >
-          <SettingsItem icon="white-balance-sunny" value="light">
+          <SettingsItem :icon="mdiWhiteBalanceSunny" value="light">
             {{ $t('settings.themeLight') }}
           </SettingsItem>
-          <SettingsItem icon="weather-night" value="dark">
+          <SettingsItem :icon="mdiWeatherNight" value="dark">
             {{ $t('settings.themeDark') }}
           </SettingsItem>
           <SettingsItem
-            icon="monitor"
+            :icon="mdiMonitor"
             value="system"
             :description="$t('settings.themeSystemDesc')"
           >
@@ -166,13 +167,13 @@
           :value="settings.launch"
           @input="setSetting('launch', $event)"
         >
-          <SettingsItem icon="home" value="/">
+          <SettingsItem :icon="mdiHome" value="/">
             {{ $t('app.tabHome') }}
           </SettingsItem>
-          <SettingsItem icon="map" value="/map">
+          <SettingsItem :icon="mdiMap" value="/map">
             {{ $t('app.tabMap') }}
           </SettingsItem>
-          <SettingsItem icon="table" value="/list">
+          <SettingsItem :icon="mdiTable" value="/list">
             {{ $t('app.tabTable') }}
           </SettingsItem>
         </SettingsItemGroup>
@@ -208,6 +209,25 @@
 </template>
 
 <script>
+import {
+  mdiBus,
+  mdiClose,
+  mdiFerry,
+  mdiHome,
+  mdiMagnify,
+  mdiMap,
+  mdiMinus,
+  mdiMonitor,
+  mdiPlus,
+  mdiSync,
+  mdiSyncOff,
+  mdiWeatherNight,
+  mdiTable,
+  mdiTrain,
+  mdiTram,
+  mdiWhiteBalanceSunny,
+} from '@mdi/js'
+
 export default {
   props: {
     value: {
@@ -218,6 +238,19 @@ export default {
   data: () => ({
     aboutDialog: false,
     agencySearch: null,
+    mdiClose,
+    mdiHome,
+    mdiMagnify,
+    mdiMap,
+    mdiMinus,
+    mdiMonitor,
+    mdiPlus,
+    mdiSync,
+    mdiSyncOff,
+    mdiWeatherNight,
+    mdiTable,
+    mdiWhiteBalanceSunny,
+    mdi: { bus: mdiBus, ferry: mdiFerry, train: mdiTrain, tram: mdiTram },
   }),
   computed: {
     activeAgencies() {

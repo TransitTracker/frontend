@@ -3,7 +3,7 @@
     <div class="secondary tt-texture--icons mb-4">
       <v-container>
         <h1 class="text-h5 font-weight-medium py-4">
-          <v-icon class="text-h5">mdi-folder-upload</v-icon>
+          <v-icon class="text-h5">{{ mdiFolderUpload }}</v-icon>
           {{ $t('byod.title') }}
         </h1>
       </v-container>
@@ -57,7 +57,7 @@
                   :title="$t('byod.save')"
                   @click="saveAgency(agency)"
                 >
-                  <v-icon>mdi-content-save</v-icon>
+                  <v-icon>{{ mdiContentSave }}</v-icon>
                 </v-btn>
                 <v-btn
                   v-else
@@ -65,7 +65,7 @@
                   :title="$t('byod.rename')"
                   @click="editAgency(agency)"
                 >
-                  <v-icon>mdi-pencil</v-icon>
+                  <v-icon>{{ mdiPencil }}</v-icon>
                 </v-btn>
                 <v-btn
                   v-if="agency.slug in loadedAgencies"
@@ -74,7 +74,7 @@
                   :title="$t('byod.unSync')"
                   @click="toggleAgency(agency)"
                 >
-                  <v-icon> mdi-folder-remove </v-icon>
+                  <v-icon>{{ mdiFolderRemove }}</v-icon>
                 </v-btn>
                 <v-btn
                   v-else
@@ -83,7 +83,7 @@
                   :title="$t('byod.sync')"
                   @click="toggleAgency(agency)"
                 >
-                  <v-icon>mdi-folder-sync</v-icon>
+                  <v-icon>{{ mdiFolderSync }}</v-icon>
                 </v-btn>
                 <v-btn
                   icon
@@ -91,14 +91,14 @@
                   :to="`/byod/${agency.slug}`"
                   :title="$t('byod.manage')"
                 >
-                  <v-icon>mdi-wrench</v-icon>
+                  <v-icon>{{ mdiWrench }}</v-icon>
                 </v-btn>
               </v-list-item-action>
             </v-list-item>
           </v-list-item-group>
         </v-list>
         <v-sheet v-else class="px-4 py-8 d-flex flex-column align-center">
-          <v-icon color="primary" size="100">mdi-folder-plus</v-icon>
+          <v-icon color="primary" size="100">{{ mdiFolderPlus }}</v-icon>
           <p class="text-h6 text-center my-2">{{ $t('byod.noAgencies') }}</p>
           <p class="text-subtitle-1 text-center">
             {{ $t('byod.getStarted') }}
@@ -117,7 +117,7 @@
             {{ $t('byod.removeModule') }}
           </p>
           <v-btn text @click="toggleByod(false)">
-            <v-icon left>mdi-folder-remove</v-icon>
+            <v-icon left>{{ mdiFolderRemove }}</v-icon>
             {{ $t('byod.disable') }}
           </v-btn>
         </v-sheet>
@@ -136,7 +136,7 @@
           <p class="mb-0 text-body-2" v-html="$t('byod.addModuleDesc')"></p>
         </div>
         <v-btn text class="ml-4" @click="toggleByod(true)">
-          <v-icon left>mdi-folder-plus</v-icon>
+          <v-icon left>{{ mdiFolderPlus }}</v-icon>
           {{ $t('byod.enable') }}
         </v-btn>
       </v-sheet>
@@ -171,7 +171,7 @@
                 color="secondary"
                 @click="createAgency"
               >
-                <v-icon left>mdi-plus</v-icon>
+                <v-icon left>{{ mdiPlus }}</v-icon>
                 {{ $t('byod.createAdd') }}
               </v-btn>
             </v-form>
@@ -188,7 +188,7 @@
       style="margin-bottom: 66px"
       @click="newAgencyDialog = true"
     >
-      <v-icon>mdi-plus</v-icon>
+      <v-icon>{{ mdiPlus }}</v-icon>
     </v-btn>
   </div>
 </template>
@@ -204,6 +204,16 @@ import {
   realtimeGtfs,
 } from '@/utils/byod'
 import { Agency as AgencyModel } from '@/utils/byod/models'
+import {
+  mdiContentSave,
+  mdiFolderPlus,
+  mdiFolderRemove,
+  mdiFolderSync,
+  mdiFolderUpload,
+  mdiPencil,
+  mdiPlus,
+  mdiWrench,
+} from '@mdi/js'
 
 Vue.use(VueTimeago, {
   locales: {
@@ -216,7 +226,17 @@ export default {
   mixins: [byodMixin],
   async asyncData({ store }) {
     const agencies = await byodAgencies.all()
-    return { agencies }
+    return {
+      agencies,
+      mdiContentSave,
+      mdiFolderPlus,
+      mdiFolderRemove,
+      mdiFolderSync,
+      mdiFolderUpload,
+      mdiPencil,
+      mdiPlus,
+      mdiWrench,
+    }
   },
   data: () => ({
     editingAgency: {},

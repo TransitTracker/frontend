@@ -10,7 +10,7 @@
         <v-toolbar-title>{{ $t('download.title') }}</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon :title="$t('download.close')" @click="toggle">
-          <v-icon>mdi-close</v-icon>
+          <v-icon>{{ mdiClose }}</v-icon>
         </v-btn>
       </v-toolbar>
       <v-stepper v-model="stepper" vertical class="tt-download-stepper">
@@ -162,8 +162,7 @@
             >
               <v-btn color="primary">
                 <v-icon left>
-                  mdi-download
-                  <!-- {{ mdiSvg.download }} -->
+                  {{ mdiDownload }}
                 </v-icon>
                 {{ $t('download.downloadBtn') }}
               </v-btn>
@@ -180,6 +179,8 @@
 
 <script>
 import JsonExcel from 'vue-json-excel'
+import { mdiClose, mdiDownload } from '@mdi/js'
+
 export default {
   components: {
     JsonExcel,
@@ -197,6 +198,8 @@ export default {
     downloadReady: false,
     downloadError: false,
     selectedAgency: null,
+    mdiClose,
+    mdiDownload,
   }),
   computed: {
     computedValue: {

@@ -14,7 +14,7 @@
           <small class="mb-0">{{ description }}</small>
         </div>
         <slot v-else />
-        <v-icon v-if="icon">mdi-{{ icon }}</v-icon>
+        <v-icon v-if="icon">{{ icon }}</v-icon>
       </v-card>
     </v-item>
   </v-col>

@@ -11,7 +11,7 @@
     <template v-slot:group.header="{ group, headers, toggle, isOpen }">
       <td class="text-start" :colspan="headers.length">
         <v-btn icon class="mr-2" @click="toggle">
-          <v-icon>{{ isOpen ? 'mdi-minus' : 'mdi-plus' }}</v-icon>
+          <v-icon>{{ isOpen ? mdiMinus : mdiPlus }}</v-icon>
         </v-btn>
         {{ agencies[group].name }}
       </td>
@@ -22,7 +22,7 @@
         <td :colspan="headers.length">
           <v-text-field
             v-model="search"
-            prepend-icon="mdi-magnify"
+            :prepend-icon="mdiMagnify"
             dense
             label="Rechercher"
             single-line
@@ -34,7 +34,7 @@
     <!-- eslint-disable-next-line -->
     <template v-slot:item.actions="{ item }">
       <v-btn small icon color="secondary" @click="setSelection(item)">
-        <v-icon>mdi-map-marker</v-icon>
+        <v-icon>{{ mdiMapMarker }}</v-icon>
       </v-btn>
     </template>
     <!-- eslint-disable-next-line -->
@@ -57,7 +57,12 @@
 </template>
 
 <script>
+import { mdiMagnify, mdiMapMarker, mdiMinus, mdiPlus } from '@mdi/js'
+
 export default {
+  asyncData() {
+    return { mdiMagnify, mdiMapMarker, mdiMinus, mdiPlus }
+  },
   filter: {
     color(value) {
       if (typeof value !== 'string') return null

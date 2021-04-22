@@ -10,7 +10,7 @@
         <v-toolbar-title>{{ $t('regionSwitcher.title') }}</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon :title="$t('regionSwitcher.close')" @click="toggle">
-          <v-icon>mdi-close</v-icon>
+          <v-icon>{{ mdiClose }}</v-icon>
         </v-btn>
       </v-toolbar>
       <v-window v-model="window" show-arrows>
@@ -24,7 +24,7 @@
             :title="$t('regionSwitcher.previous')"
             v-on="on"
           >
-            <v-icon>mdi-arrow-left</v-icon>
+            <v-icon>{{ mdiArrowLeft }}</v-icon>
           </v-btn>
         </template>
         <template #next="{ on, attrs }">
@@ -37,7 +37,7 @@
             :title="$t('regionSwitcher.next')"
             v-on="on"
           >
-            <v-icon>mdi-arrow-right</v-icon>
+            <v-icon>{{ mdiArrowRight }}</v-icon>
           </v-btn>
         </template>
         <v-window-item v-for="region in regions" :key="region.slug">
@@ -61,7 +61,7 @@
             </v-card-text>
             <v-card-actions>
               <v-btn v-if="currentRegion === region.slug" text disabled>
-                <v-icon left>mdi-check</v-icon>
+                <v-icon left>{{ mdiCheck }}</v-icon>
                 {{ $t('regionSwitcher.already') }}
               </v-btn>
               <v-btn
@@ -70,7 +70,7 @@
                 color="primary"
                 @click="changeTo(region)"
               >
-                <v-icon left>mdi-swap-horizontal</v-icon>
+                <v-icon left>{{ mdiSwapHorizontal }}</v-icon>
                 {{ $t('regionSwitcher.changeTo') }}
               </v-btn>
             </v-card-actions>
@@ -82,6 +82,14 @@
 </template>
 
 <script>
+import {
+  mdiArrowLeft,
+  mdiArrowRight,
+  mdiCheck,
+  mdiClose,
+  mdiSwapHorizontal,
+} from '@mdi/js'
+
 export default {
   props: {
     value: {
@@ -91,6 +99,11 @@ export default {
   },
   data: () => ({
     window: 0,
+    mdiArrowLeft,
+    mdiArrowRight,
+    mdiCheck,
+    mdiClose,
+    mdiSwapHorizontal,
   }),
   computed: {
     currentRegion() {

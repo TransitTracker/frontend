@@ -3,14 +3,14 @@
     <div class="d-flex justify-space-around">
       <MapProperty
         v-if="vehicle.speed"
-        icon="mdi-speedometer"
+        :icon="mdiSpeedometer"
         :icon-title="$t('mapBottomSheet.properties.speed')"
         :value="`${vehicle.speed} km/h`"
       />
       <MapProperty
         v-if="vehicle.occupancyStatus.data"
         progress
-        icon="mdi-seat-passenger"
+        :icon="mdiSeatPassenger"
         :icon-title="$t('mapBottomSheet.properties.occupancyStatus')"
         :value="(vehicle.occupancyStatus.data / 5) * 100"
         :value-title="vehicle.occupancyStatus.label"
@@ -18,7 +18,7 @@
       <MapProperty
         v-if="vehicle.congestionLevel.data"
         progress
-        icon="mdi-traffic-light"
+        :icon="mdiTrafficLight"
         :icon-title="$t('mapBottomSheet.properties.congestionLevel')"
         :value="(vehicle.congestionLevel.data / 5) * 100"
         :value-title="vehicle.congestionLevel.label"
@@ -58,7 +58,7 @@
             </p>
           </div>
           <v-icon class="ml-4" size="20px">
-            {{ mdiSvg.openInNew }}
+            {{ mdiOpenInNew }}
           </v-icon>
         </v-sheet>
       </v-slide-item>
@@ -122,9 +122,7 @@
                 @click="helpToggle[property.name] = !helpToggle[property.name]"
               >
                 <v-icon color="secondary">
-                  {{
-                    helpToggle[property.name] ? mdiSvg.close : mdiSvg.helpCircle
-                  }}
+                  {{ helpToggle[property.name] ? mdiClose : mdiHelpCircle }}
                 </v-icon>
               </v-btn>
             </v-list-item-title>
@@ -153,15 +151,15 @@
       </div>
       <v-list-item v-if="vehicle.meta.json">
         <v-list-item-icon>
-          <v-icon>mdi-code-json</v-icon>
+          <v-icon>{{ mdiCodeJson }}</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
           <v-list-item-title>
             <json-viewer :value="vehicle.meta.json" sort copyable>
               <template #copy="slots">
                 <v-btn small icon color="secondary">
-                  <v-icon v-if="slots.copied">mdi-clipboard-check</v-icon>
-                  <v-icon v-else>mdi-content-copy</v-icon>
+                  <v-icon v-if="slots.copied">{{ mdiClipboardCheck }}</v-icon>
+                  <v-icon v-else>{{ mdiContentCopy }}</v-icon>
                 </v-btn>
               </template>
             </json-viewer>
@@ -182,20 +180,27 @@ import VueTimeago from 'vue-timeago'
 import {
   mdiBusClock,
   mdiBusStop,
+  mdiClipboardCheck,
+  mdiClock,
   mdiClose,
+  mdiCodeJson,
+  mdiContentCopy,
+  mdiCounter,
+  mdiFormatLetterStartsWith,
+  mdiHelpCircle,
   mdiIdentifier,
   mdiMapMarkerPath,
   mdiNavigation,
   mdiOpenInNew,
   mdiPin,
   mdiPinOff,
+  mdiSeatPassenger,
   mdiSignDirection,
+  mdiSpeedometer,
   mdiTicketConfirmation,
-  mdiTimetable,
-  mdiFormatLetterStartsWith,
-  mdiCounter,
   mdiTimelinePlus,
-  mdiHelpCircle,
+  mdiTimetable,
+  mdiTrafficLight,
 } from '@mdi/js'
 
 Vue.use(VueTimeago, {})
@@ -216,20 +221,35 @@ export default {
     sheetOpen: Boolean,
   },
   data: () => ({
+    mdiBusClock,
+    mdiBusStop,
+    mdiClipboardCheck,
+    mdiClock,
+    mdiClose,
+    mdiCodeJson,
+    mdiContentCopy,
+    mdiCounter,
+    mdiFormatLetterStartsWith,
+    mdiHelpCircle,
+    mdiIdentifier,
+    mdiMapMarkerPath,
+    mdiNavigation,
+    mdiOpenInNew,
+    mdiPin,
+    mdiPinOff,
+    mdiSeatPassenger,
+    mdiSignDirection,
+    mdiSpeedometer,
+    mdiTicketConfirmation,
+    mdiTimelinePlus,
+    mdiTimetable,
+    mdiTrafficLight,
     persistent: false,
     links: {},
-    mdiSvg: {
-      pinOff: mdiPinOff,
-      pin: mdiPin,
-      close: mdiClose,
-      openInNew: mdiOpenInNew,
-      navigation: mdiNavigation,
-      helpCircle: mdiHelpCircle,
-    },
     properties: [
       {
         name: 'timestamp',
-        icon: 'mdi-clock',
+        icon: mdiClock,
         mobileOnly: true,
       },
       {

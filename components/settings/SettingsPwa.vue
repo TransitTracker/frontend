@@ -18,9 +18,9 @@
         {{
           installOutcome
             ? installOutcome === 'accepted'
-              ? 'mdi-success'
-              : 'mdi-close'
-            : 'mdi-plus-circle-outline'
+              ? mdiSuccess
+              : mdiClose
+            : mdiPlusCircleOutline
         }}
       </v-icon>
       {{
@@ -38,7 +38,14 @@
 </template>
 
 <script>
+import { mdiClose, mdiPlusCircleOutline, mdiSuccess } from '@mdi/js'
+
 export default {
+  data: () => ({
+    mdiClose,
+    mdiPlusCircleOutline,
+    mdiSuccess,
+  }),
   computed: {
     canInstall() {
       return this.$store.state.app.canInstall
@@ -48,9 +55,9 @@ export default {
     },
   },
   methods: {
-  promptInstaller() {
-    this.$store.dispatch('app/promptInstaller')
-  },
+    promptInstaller() {
+      this.$store.dispatch('app/promptInstaller')
+    },
   },
 }
 </script>

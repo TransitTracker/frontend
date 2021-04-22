@@ -13,7 +13,7 @@
     <template #actions>
       <v-btn text @click="showDialog = true">Lire plus</v-btn>
       <v-btn icon @click="markAsRead(alerts[0].id)">
-        <v-icon>mdi-close</v-icon>
+        <v-icon>{{ mdiClose }}</v-icon>
       </v-btn>
     </template>
     <v-dialog v-model="showDialog" width="500px">
@@ -26,14 +26,14 @@
             :title="$t('regionSwitcher.close')"
             @click="showDialog = false"
           >
-            <v-icon>mdi-close</v-icon>
+            <v-icon>{{ mdiClose }}</v-icon>
           </v-btn>
         </v-toolbar>
         <!-- eslint-disable-next-line -->
         <v-card-text class="mt-4 text-body-1" v-html="alerts[0].body"></v-card-text>
         <v-card-actions>
           <v-btn text color="primary" @click="markAsRead(alerts[0].id)">
-            <v-icon left>mdi-bookmark-check</v-icon>
+            <v-icon left>{{ mdiBookmarkCheck }}</v-icon>
             Marquer comme lu
           </v-btn>
         </v-card-actions>
@@ -43,10 +43,14 @@
 </template>
 
 <script>
+import { mdiBookmarkCheck, mdiClose } from '@mdi/js'
+
 export default {
   data: () => ({
     showBanner: true,
     showDialog: false,
+    mdiBookmarkCheck,
+    mdiClose,
   }),
   computed: {
     alerts() {

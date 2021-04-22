@@ -2,7 +2,7 @@
   <div class="mb-14">
     <div class="secondary tt-texture--icons">
       <v-container class="py-4 d-flex">
-        <v-icon class="text-h5">mdi-folder-upload</v-icon>
+        <v-icon class="text-h5">{{ mdiFolderUpload }}</v-icon>
         <div class="ml-4">
           <h1 class="text-h5 font-weight-medium">
             {{ $t('byod.title') }}
@@ -16,12 +16,12 @@
     <v-sheet class="mb-4">
       <v-container class="d-flex align-center">
         <v-btn icon nuxt to="/byod/" exact>
-          <v-icon>mdi-arrow-left</v-icon>
+          <v-icon>{{ mdiArrowLeft }}</v-icon>
         </v-btn>
         {{ $t('byod.agency.back') }}
         <v-spacer></v-spacer>
         <v-btn text color="error" small @click="deleteAgency">
-          <v-icon left>mdi-delete</v-icon>
+          <v-icon left>{{ mdiDelete }}</v-icon>
           {{ $t('byod.agency.delete') }}
         </v-btn>
       </v-container>
@@ -39,7 +39,7 @@
       <v-alert
         v-else
         class="mb-8"
-        icon="mdi-sync-off"
+        :icon="mdiSyncOff"
         type="warning"
         text
         rounded="lg"
@@ -47,7 +47,7 @@
         {{ $t('byod.isNotSynced') }}
         <template #close>
           <v-btn text color="warning" height="24" small @click="syncAgency">
-            <v-icon left>mdi-folder-sync</v-icon>
+            <v-icon left>{{ mdiFolderSync }}</v-icon>
             {{ $t('byod.agency.syncNow') }}
           </v-btn>
         </template>
@@ -73,7 +73,7 @@
           }}
         </v-card-subtitle>
         <v-card-text v-else class="d-flex align-center pb-0">
-          <v-icon color="warning">mdi-alert</v-icon>
+          <v-icon color="warning">{{ mdiAlert }}</v-icon>
           <p class="mb-0 text-body-1 ml-2">
             {{
               $t('byod.agency.empty', {
@@ -121,7 +121,7 @@
               class="ml-2"
               @click="emptyEntities('vehicles')"
             >
-              <v-icon left>mdi-delete</v-icon>
+              <v-icon left>{{ mdiDelete }}</v-icon>
               vehiclePositions
             </v-btn>
             <v-btn
@@ -130,7 +130,7 @@
               class="ml-1"
               @click="emptyEntities('alerts')"
             >
-              <v-icon left>mdi-delete</v-icon>
+              <v-icon left>{{ mdiDelete }}</v-icon>
               alerts
             </v-btn>
             <v-btn
@@ -139,7 +139,7 @@
               class="ml-1"
               @click="emptyEntities('tripUpdates')"
             >
-              <v-icon left>mdi-delete</v-icon>
+              <v-icon left>{{ mdiDelete }}</v-icon>
               tripUpdates
             </v-btn>
           </div>
@@ -185,8 +185,8 @@
               <div v-for="(url, key) in remote.urls" :key="key">
                 <v-text-field
                   :value="url"
-                  append-outer-icon="mdi-plus"
-                  :append-icon="key > 0 ? 'mdi-close' : ''"
+                  :append-outer-icon="mdiPlus"
+                  :append-icon="key > 0 ? mdiClose : ''"
                   :label="$t('byod.agency.remoteUrl')"
                   @input="remote.urls[key] = $event"
                   @click:append-outer="remote.urls.push('')"
@@ -218,7 +218,7 @@
           >
             <div class="text-h3">
               {{ lengths.vehicles }}
-              <v-icon color="primary">mdi-bus</v-icon>
+              <v-icon color="primary">{{ mdiBus }}</v-icon>
             </div>
             <p class="text-subtitle-1 mb-0">vehiclePositions</p>
           </div>
@@ -228,7 +228,7 @@
           >
             <div class="text-h3">
               {{ lengths.alerts }}
-              <v-icon color="primary">mdi-alert</v-icon>
+              <v-icon color="primary">{{ mdiAlert }}</v-icon>
             </div>
             <p class="text-subtitle-1 mb-0">alerts</p>
           </div>
@@ -238,7 +238,7 @@
           >
             <div class="text-h3">
               {{ lengths.tripUpdates }}
-              <v-icon color="primary">mdi-timeline-clock</v-icon>
+              <v-icon color="primary">{{ mdiTimelineClock }}</v-icon>
             </div>
             <p class="text-subtitle-1 mb-0">tripUpdates</p>
           </div>
@@ -271,6 +271,18 @@ import {
 import { csvParser } from '@/utils/byod/converters'
 import byodMixin from '@/mixins/byod'
 import Vue from 'vue'
+import {
+  mdiAlert,
+  mdiArrowLeft,
+  mdiBus,
+  mdiClose,
+  mdiDelete,
+  mdiFolderUpload,
+  mdiFolderSync,
+  mdiPlus,
+  mdiSyncOff,
+  mdiTimelineClock,
+} from '@mdi/js'
 
 export default {
   mixins: [byodMixin],
@@ -288,6 +300,16 @@ export default {
       staticOptions: staticOptions.filter(
         (model) => model.value.type === 'static'
       ),
+      mdiAlert,
+      mdiArrowLeft,
+      mdiBus,
+      mdiClose,
+      mdiDelete,
+      mdiFolderUpload,
+      mdiFolderSync,
+      mdiPlus,
+      mdiSyncOff,
+      mdiTimelineClock,
     }
   },
   data: () => ({

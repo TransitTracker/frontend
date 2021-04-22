@@ -24,14 +24,14 @@
         @click="regionSwitcher = true"
       >
         {{ regionName }}
-        <v-icon>mdi-menu-down</v-icon>
+        <v-icon>{{ mdiMenuDown }}</v-icon>
       </v-btn>
       <v-btn
         icon
         :title="$t('settings.open')"
         @click="settingsDrawer = !settingsDrawer"
       >
-        <v-icon>mdi-cog</v-icon>
+        <v-icon>{{ mdiCog }}</v-icon>
       </v-btn>
     </v-app-bar>
     <v-main>
@@ -53,7 +53,7 @@
           style="background-color: transparent; height: inherit"
         >
           <span>{{ $t('app.tabHome') }}</span>
-          <v-icon>mdi-view-grid</v-icon>
+          <v-icon>{{ mdiViewGrid }}</v-icon>
         </v-btn>
         <v-btn
           :to="localePath(`/regions/${region}/map`)"
@@ -61,7 +61,7 @@
           style="background-color: transparent; height: inherit"
         >
           <span>{{ $t('app.tabMap') }}</span>
-          <v-icon>mdi-map</v-icon>
+          <v-icon>{{ mdiMap }}</v-icon>
         </v-btn>
         <v-btn
           :to="localePath(`/regions/${region}/table`)"
@@ -69,7 +69,7 @@
           style="background-color: transparent; height: inherit"
         >
           <span>{{ $t('app.tabTable') }}</span>
-          <v-icon>mdi-table</v-icon>
+          <v-icon>{{ mdiTable }}</v-icon>
         </v-btn>
         <v-btn
           :to="localePath('/byod')"
@@ -77,7 +77,7 @@
           style="background-color: transparent; height: inherit"
         >
           <span>{{ $t('app.tabByod') }}</span>
-          <v-icon>mdi-folder-upload</v-icon>
+          <v-icon>{{ mdiFolderUpload }}</v-icon>
         </v-btn>
       </v-bottom-navigation>
     </nav>
@@ -90,12 +90,27 @@
 </template>
 
 <script>
+import {
+  mdiCog,
+  mdiFolderUpload,
+  mdiMap,
+  mdiMenuDown,
+  mdiTable,
+  mdiViewGrid,
+} from '@mdi/js'
+
 export default {
   data: () => ({
     loading: false,
     regionSwitcher: false,
     settingsDrawer: false,
     byodInjector: null,
+    mdiCog,
+    mdiFolderUpload,
+    mdiMap,
+    mdiMenuDown,
+    mdiTable,
+    mdiViewGrid,
   }),
   computed: {
     dataIsLoaded() {
