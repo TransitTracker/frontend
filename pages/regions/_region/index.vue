@@ -247,18 +247,7 @@
                       <span v-if="agency.slug in vehicleCounts">
                         {{ vehicleCounts[agency.slug] }} vehicles &bull;
                       </span>
-                      <span
-                        :class="[
-                          Math.floor(Date.now() / 1000) - times[agency.slug] >
-                            300 && 'pa-0.5 rounded red white--text',
-                        ]"
-                      >
-                        <timeago
-                          :datetime="(times[agency.slug] || 0) * 1000"
-                          :auto-update="30"
-                          :locale="lang"
-                        />
-                      </span>
+                      <TimestampAgo :timestamp="times[agency.slug] || 0" />
                     </v-card-text>
                     <div
                       class="tt-agencies-card__clip-path"
@@ -313,16 +302,7 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import VueTimeago from 'vue-timeago'
 import { mdiDownload, mdiGithub, mdiMapPlus } from '@mdi/js'
-
-Vue.use(VueTimeago, {
-  locales: {
-    en: require('date-fns/locale/en'),
-    fr: require('date-fns/locale/fr'),
-  },
-})
 
 export default {
   asyncData({ params }) {
@@ -367,9 +347,6 @@ export default {
           agencies: [],
         }
       )
-    },
-    lang() {
-      return this.$i18n.locale
     },
     vehicleCounts() {
       return this.$store.getters['vehicles/counts']

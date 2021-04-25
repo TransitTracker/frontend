@@ -130,18 +130,7 @@
               </v-btn>
             </v-list-item-title>
             <v-list-item-title v-else>
-              <span
-                v-if="vehicle.timestamp"
-                :class="[
-                  Math.floor(Date.now() / 1000) - parseInt(vehicle.timestamp) >
-                    300 && 'pa-1 rounded red white--text',
-                ]"
-              >
-                <timeago
-                  :datetime="(parseInt(vehicle.timestamp) || 0) * 1000"
-                  :auto-update="30"
-                />
-              </span>
+              <TimestampAgo :timestamp="parseInt(vehicle.timestamp)" />
             </v-list-item-title>
             <v-list-item-subtitle
               v-if="helpToggle[property.name]"

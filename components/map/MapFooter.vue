@@ -46,18 +46,10 @@
           {{ agency.shortName }}
         </p>
         <p class="mb-0 text-caption text-md-body-2 d-none d-md-block">
-          <span
+          <TimestampAgo
             v-if="vehicle.timestamp"
-            :class="[
-              Math.floor(Date.now() / 1000) - parseInt(vehicle.timestamp) >
-                300 && 'pa-0.5 rounded red white--text',
-            ]"
-          >
-            <timeago
-              :datetime="(parseInt(vehicle.timestamp) || 0) * 1000"
-              :auto-update="30"
-            />
-          </span>
+            :timestamp="parseInt(vehicle.timestamp)"
+          />
           <span v-if="vehicle.timestamp">&bull;</span>
           {{ agency.name }}
         </p>
@@ -125,8 +117,6 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import VueTimeago from 'vue-timeago'
 import {
   mdiBus,
   mdiChevronDown,
@@ -139,8 +129,6 @@ import {
   mdiTrain,
   mdiTram,
 } from '@mdi/js'
-
-Vue.use(VueTimeago, {})
 
 export default {
   filters: {
