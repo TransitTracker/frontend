@@ -112,6 +112,9 @@ export default {
     currentRegion() {
       return this.$store.state.settings.currentRegion
     },
+    darkMode() {
+      return this.$vuetify.theme.dark
+    },
     filteredAgencies() {
       return Object.fromEntries(
         Object.entries(this.$store.state.agencies.data)
