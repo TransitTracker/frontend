@@ -27,8 +27,8 @@ export default {
     vehicles: 'No vehicles | 1 vehicle | {n} vehicles',
     openMap: 'Open map from {region}',
     openTable: 'Open table from {region}',
-    seoTitle:
-      'Transit Tracker - An Overview of Public Transit for Several Canadian Cities',
+    seoTitle: 'An Overview of Public Transit for Several Canadian Cities',
+    // Padding
     seoDescription:
       'Transit Tracker is an app that lets you find hundreds of buses, trains and streetcars from major Canadian cities, such as Montreal and Toronto, on a single map!',
   },

@@ -129,12 +129,42 @@ export default {
   }),
   head() {
     return {
-      titleTemplate: this.$t('landing.seoTitle'),
+      titleTemplate: `Transit Tracker - ${this.$t('landing.seoTitle')}`,
       meta: [
         {
           hid: 'description',
           name: 'description',
           content: this.$t('landing.seoDescription'),
+        },
+        {
+          hid: 'twitter:title',
+          name: 'twitter:title',
+          content: this.$t('landing.seoTitle'),
+        },
+        {
+          hid: 'twitter:description',
+          name: 'twitter:description',
+          content: this.$t('landing.seoDescription'),
+        },
+        {
+          hid: 'twitter:image',
+          name: 'twitter:image',
+          content: `https://transittracker.ca/img/tw-landing-${this.$i18n.locale}.png`,
+        },
+        {
+          hid: 'og:title',
+          name: 'og:title',
+          content: this.$t('landing.seoTitle'),
+        },
+        {
+          hid: 'og:description',
+          name: 'og:description',
+          content: this.$t('landing.seoDescription'),
+        },
+        {
+          hid: 'og:image',
+          name: 'og:image',
+          content: `https://transittracker.ca/img/og-landing-${this.$i18n.locale}.png`,
         },
       ],
     }

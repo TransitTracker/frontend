@@ -285,7 +285,7 @@
             <v-img
               v-if="region.image"
               height="150"
-              :src="region.image"
+              :src="`${backendHost}/content/regions/${region.image}`"
               gradient="to top, transparent 0%, rgba(0,73,123,1) 100%"
             ></v-img>
           </v-card>
@@ -309,7 +309,13 @@ import { mdiDownload, mdiGithub, mdiMapPlus } from '@mdi/js'
 
 export default {
   asyncData({ params }) {
-    return { regionSlug: params.region, mdiDownload, mdiGithub, mdiMapPlus }
+    return {
+      regionSlug: params.region,
+      mdiDownload,
+      mdiGithub,
+      mdiMapPlus,
+      backendHost: process.env.backendHost,
+    }
   },
   data: () => ({
     downloadDialog: false,
@@ -322,6 +328,38 @@ export default {
           hid: 'description',
           name: 'description',
           content: this.region.metaDescription,
+        },
+        {
+          hid: 'twitter:title',
+          name: 'twitter:title',
+          content: this.region.name,
+        },
+        {
+          hid: 'twitter:description',
+          name: 'twitter:description',
+          content: this.region.metaDescription,
+        },
+        {
+          hid: 'twitter:image',
+          name: 'twitter:image',
+          // eslint-disable-next-line prettier/prettier
+          content: `${process.env.imageKit}/tr:n-o_tw_${this.$i18n.locale}:n-t_tw,ot-${this.$i18n.locale === 'en' ? 'Discover' : 'D%C3%A9couvrez'}%20${this.region.name}/${this.region.image || 'default.jpg'}`,
+        },
+        {
+          hid: 'og:title',
+          name: 'og:title',
+          content: this.region.name,
+        },
+        {
+          hid: 'og:description',
+          name: 'og:description',
+          content: this.region.metaDescription,
+        },
+        {
+          hid: 'og:image',
+          name: 'og:image',
+          // eslint-disable-next-line prettier/prettier
+          content: `${process.env.imageKit}/tr:n-o_fb_${this.$i18n.locale}:n-t_fb,ot-${this.$i18n.locale === 'en' ? 'Discover' : 'D%C3%A9couvrez'}%20${this.region.name}/${this.region.image || 'default.jpg'}`,
         },
       ],
     }

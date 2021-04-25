@@ -44,10 +44,7 @@
           <v-card tile>
             <v-img
               height="250"
-              :src="
-                region.image ||
-                'https://source.unsplash.com/Ms6bSWTcVkg/500x250/'
-              "
+              :src="`${host}/content/regions/${region.image || 'default.jpg'}`"
               gradient="to bottom, transparent 0%, rgba(0,73,123,1) 100%"
             ></v-img>
             <v-card-title>{{ region.name }}</v-card-title>
@@ -104,6 +101,7 @@ export default {
     mdiCheck,
     mdiClose,
     mdiSwapHorizontal,
+    host: process.env.backendHost,
   }),
   computed: {
     currentRegion() {

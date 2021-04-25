@@ -119,6 +119,7 @@ export default {
     wsHost: process.env.WS_HOST || 'localhost',
     wsPort: process.env.WS_PORT || 6001,
     wsTls: process.env.WS_TLS || true,
+    imageKit: process.env.IMAGE_KIT,
   },
 
   pwa: {
@@ -128,15 +129,14 @@ export default {
     manifest: {
       name: 'Transit Tracker',
       short_name: 'Transit T',
-      description: 'Realtime transit overview for Canadian cities',
+      description: 'An Overview of Public Transit for Several Canadian Cities',
       display: 'standalone',
     },
     meta: {
       appleStatusBarStyle: 'black-translucent',
       name: 'Transit Tracker',
-      description: 'Realtime transit overview for Canadian cities',
       theme_color: '#00497b',
-      lang: 'en',
+      twitterCard: 'summary_large_image',
     },
   },
 }

@@ -28,7 +28,7 @@ export default {
     openMap: 'Ouvrir la carte de {region}',
     openTable: 'Ouvrir la liste de {region}',
     seoTitle:
-      "Transit Tracker - Une vue d'ensemble du transport en commun pour plusieurs villes canadiennes",
+      "Une vue d'ensemble du transport en commun pour plusieurs villes canadiennes",
     seoDescription:
       "Transit Tracker est une application qui vous permet de retrouver des centaines d'autobus, de trains et de tramways des plus grandes villes canadiennes, comme Montréal et Toronto, sur une seule carte!",
   },
