@@ -1,14 +1,11 @@
 <template>
-  <div
-    v-if="vehicle && vehicle.id"
-    class="tt-backdrop rounded-t-lg overflow-hidden"
-  >
-    <v-sheet class="d-flex align-center justify-center">
+  <div v-if="vehicle && vehicle.id" class="tt-backdrop overflow-hidden">
+    <!-- <v-sheet class="d-flex align-center justify-center">
       <div
         class="py-1 px-12 my-1 rounded-xl"
         :class="[darkMode ? 'grey darken-3' : 'grey lighten-3']"
       ></div>
-    </v-sheet>
+    </v-sheet> -->
     <v-footer
       :color="darkMode ? '' : 'grey lighten-4'"
       height="80px"
@@ -36,7 +33,7 @@
         </svg>
         <v-icon
           :color="agency.textColor"
-          :size="$vuetify.breakpoint.mdAndDown ? 24 : 36"
+          :size="$vuetify.breakpoint.mdAndDown ? 24 : 28"
         >
           {{ mdi[vehicle.vehicleType] }}
         </v-icon>
@@ -73,6 +70,12 @@
         }"
         class="py-2 px-3 rounded tt-footer-line"
       >
+        <small
+          v-if="!vehicle.trip.routeLongName"
+          class="text-caption text-uppercase"
+        >
+          {{ $t('mapBottomSheet.properties.routeId') }}
+        </small>
         <b class="mb-0">
           {{ vehicle.trip.routeShortName || vehicle.routeId }}
         </b>
@@ -114,7 +117,7 @@
   </div>
   <v-footer
     v-else
-    height="96px"
+    height="80px"
     class="d-flex align-center justify-center tt-backdrop"
   >
     <span class="select">{{ $t('mapFooter.select') }}</span>
@@ -192,8 +195,11 @@ export default {
 .tt-backdrop {
   position: relative;
   padding-bottom: 56px;
-  top: calc(100vh - 212px);
+  // top: calc(100vh - 64px - 88px - 56px);
+  top: calc(100vh - 64px - 80px - 56px);
   z-index: 1;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
 }
 .v-footer {
   padding: 0 16px;
@@ -264,7 +270,8 @@ export default {
 
 @media only screen and (max-width: 960px) {
   .tt-backdrop {
-    top: calc(100vh - 56px - 96px - 56px);
+    // top: calc(100vh - 56px - 88px - 56px);
+    top: calc(100vh - 56px - 80px - 56px);
   }
 }
 </style>

@@ -1,6 +1,9 @@
 <template>
   <v-sheet>
-    <div class="d-flex justify-space-around">
+    <v-sheet
+      class="d-flex justify-space-around"
+      :color="darkMode ? '' : 'grey lighten-4'"
+    >
       <MapProperty
         v-if="vehicle.speed"
         :icon="mdiSpeedometer"
@@ -23,7 +26,7 @@
         :value="(vehicle.congestionLevel.data / 5) * 100"
         :value-title="vehicle.congestionLevel.label"
       />
-    </div>
+    </v-sheet>
     <v-slide-group
       v-if="Object.keys(links).length"
       class="px-4 pt-2"

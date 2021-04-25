@@ -286,20 +286,21 @@ export default {
 </script>
 
 <style scoped lang="scss">
-// 64px (toolbar) + 96px (footer) + 52px (bottom bar) - 24px (rounded corner)
+// 64px (toolbar) + 96px (footer) + 56px (bottom bar) - 12px (rounded corner)
 #tt-map {
-  height: calc(100vh - 64px - 96px - 52px + 24px);
+  height: calc(100vh - 64px - 80px - 56px + 12px);
   width: 100%;
   position: fixed;
   top: 64px;
-
-  .mapboxgl-ctrl-bottom-left .mapboxgl-ctrl {
-    margin: 0 0 34px 10px !important;
-  }
 }
+
+.mapboxgl-ctrl-logo {
+  margin-bottom: 60px !important;
+}
+
 @media only screen and (max-width: 960px) {
   #tt-map {
-    height: calc(100vh - 56px - 96px - 56px + 24px);
+    height: calc(100vh - 56px - 80px - 56px + 12px);
     top: 56px;
   }
 }
