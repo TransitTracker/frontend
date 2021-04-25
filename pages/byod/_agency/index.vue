@@ -40,13 +40,12 @@
         v-else
         class="mb-8"
         :icon="mdiSyncOff"
-        type="warning"
-        text
+        color="warning"
         rounded="lg"
       >
         {{ $t('byod.isNotSynced') }}
         <template #close>
-          <v-btn text color="warning" height="24" small @click="syncAgency">
+          <v-btn text height="24" small @click="syncAgency">
             <v-icon left>{{ mdiFolderSync }}</v-icon>
             {{ $t('byod.agency.syncNow') }}
           </v-btn>
