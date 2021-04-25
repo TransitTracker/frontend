@@ -4,7 +4,6 @@
     :headers="headers"
     :items="vehicles"
     :items-per-page="100"
-    :search="search"
     class="mb-14"
   >
     <!-- eslint-disable-next-line -->
@@ -19,16 +18,47 @@
     <!-- eslint-disable-next-line -->
     <template v-slot:body.prepend="{ headers }">
       <tr>
-        <td :colspan="headers.length">
+        <td>
           <v-text-field
-            v-model="search"
+            v-model="searchLabel"
             :prepend-icon="mdiMagnify"
+            :placeholder="$t('table.filter')"
             dense
-            label="Rechercher"
+            hide-details
             single-line
-            hide-details=""
           ></v-text-field>
         </td>
+        <td>
+          <v-text-field
+            v-model="searchRoute"
+            :prepend-icon="mdiMagnify"
+            :placeholder="$t('table.filter')"
+            dense
+            hide-details
+            single-line
+          ></v-text-field>
+        </td>
+        <td>
+          <v-text-field
+            v-model="searchHeadsign"
+            :prepend-icon="mdiMagnify"
+            :placeholder="$t('table.filter')"
+            dense
+            hide-details
+            single-line
+          ></v-text-field>
+        </td>
+        <td>
+          <v-text-field
+            v-model="searchTrip"
+            :prepend-icon="mdiMagnify"
+            :placeholder="$t('table.filter')"
+            dense
+            hide-details
+            single-line
+          ></v-text-field>
+        </td>
+        <td colspan="2"></td>
       </tr>
     </template>
     <!-- eslint-disable-next-line -->
@@ -76,19 +106,39 @@ export default {
         {
           text: this.$t('table.dataRef'),
           value: 'label',
+          filter: (value, search, item) => {
+            return (value || item.ref + '')
+              .toLowerCase()
+              .includes(this.searchLabel.toLowerCase())
+          },
         },
         {
           text: this.$t('table.dataRoute'),
           value: 'routeId',
           sort: this.sortNumber,
+          filter: (value) => {
+            return (value + '')
+              .toLowerCase()
+              .includes(this.searchRoute.toLowerCase())
+          },
         },
         {
           text: this.$t('table.dataHeadsign'),
           value: 'trip.headsign',
+          filter: (value) => {
+            return (value + '')
+              .toLowerCase()
+              .includes(this.searchHeadsign.toLowerCase())
+          },
         },
         {
           text: this.$t('table.dataTripId'),
           value: 'tripId',
+          filter: (value) => {
+            return (value + '')
+              .toLowerCase()
+              .includes(this.searchTrip.toLowerCase())
+          },
         },
         {
           text: this.$t('table.dataStartTime'),
@@ -100,7 +150,10 @@ export default {
           sortable: false,
         },
       ],
-      search: '',
+      searchLabel: '',
+      searchRoute: '',
+      searchHeadsign: '',
+      searchTrip: '',
     }
   },
   head() {

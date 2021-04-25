@@ -100,6 +100,7 @@ export default {
     dataTripId: 'Trip ID',
     dataStartTime: 'Heure de départ',
     actions: 'Actions',
+    filter: 'Filtrer',
     seoTitle: 'Liste des véhicules de {region}',
   },
   byod: {

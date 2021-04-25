@@ -100,6 +100,7 @@ export default {
     dataTripId: 'Trip ID',
     dataStartTime: 'Start time',
     actions: 'Actions',
+    filter: 'Filter',
     seoTitle: 'List of vehicles of {region}',
   },
   byod: {
