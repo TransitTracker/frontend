@@ -269,7 +269,7 @@ export default {
         closeButton: true,
         closeOnMove: true,
         anchor: 'bottom',
-        className: 'tt-landing-map-popup rounded-lg shadow-lg',
+        className: 'tt-landing-map-popup cursor-click rounded-lg shadow-lg',
       })
 
       this.map.on('click', 'landing-layer', (e) => {
@@ -277,7 +277,15 @@ export default {
           .setLngLat(e.features[0].geometry.coordinates.slice())
           .setHTML(
             `
-              <h2 class="text-h6">${e.features[0].properties.name}</h2>
+              <a
+                href="/regions/${e.features[0].properties.slug}"
+                class="text-h6 text-decoration-none d-flex align-center"
+              >
+                ${e.features[0].properties.name}
+                <svg style="width:20px;height:20px" class="ml-1 tt-landing-map-popup__arrow" viewBox="0 0 24 24">
+                  <path fill="currentColor" d="${this.mdiArrowRight}" />
+                </svg>
+              </a>
               <b class="text-subtitle-2">
                 ${this.$t('landing.agencies', {
                   n: e.features[0].properties.agencies,
@@ -396,6 +404,18 @@ export default {
         clip-path: polygon(0 0, 95% 0, 85% 100%, 0 100%);
         position: relative;
         border-radius: 8px;
+      }
+
+      &:hover &__arrow path {
+        transform: translateX(0px);
+      }
+
+      &__arrow {
+        overflow: hidden;
+        path {
+          transform: translateX(-20px);
+          transition: transform ease-in 0.1s;
+        }
       }
 
       &__border {
