@@ -18,7 +18,7 @@
         {{
           installOutcome
             ? installOutcome === 'accepted'
-              ? mdiSuccess
+              ? mdiCheck
               : mdiClose
             : mdiPlusCircleOutline
         }}
@@ -38,13 +38,13 @@
 </template>
 
 <script>
-import { mdiClose, mdiPlusCircleOutline, mdiSuccess } from '@mdi/js'
+import { mdiClose, mdiPlusCircleOutline, mdiCheck } from '@mdi/js'
 
 export default {
   data: () => ({
     mdiClose,
     mdiPlusCircleOutline,
-    mdiSuccess,
+    mdiCheck,
   }),
   computed: {
     canInstall() {
