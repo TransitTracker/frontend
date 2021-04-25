@@ -23,8 +23,8 @@ export default {
     byodBody:
       'You can now use the Transit Tracker interface with any GTFS Realtime dataset.',
     byodStart: 'Start now',
-    agencies: '{n} agencies',
-    vehicles: '{n} vehicles',
+    agencies: 'No agencies | 1 agency | {n} agencies',
+    vehicles: 'No vehicles | 1 vehicle | {n} vehicles',
     openMap: 'Open map from {region}',
     openTable: 'Open table from {region}',
     seoTitle:

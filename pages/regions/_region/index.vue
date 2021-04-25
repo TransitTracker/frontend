@@ -245,7 +245,10 @@
                       <b>{{ agency.name }}</b>
                       <br />
                       <span v-if="agency.slug in vehicleCounts">
-                        {{ vehicleCounts[agency.slug] }} vehicles &bull;
+                        {{
+                          $tc('landing.vehicles', vehicleCounts[agency.slug])
+                        }}
+                        &bull;
                       </span>
                       <TimestampAgo :timestamp="times[agency.slug] || 0" />
                     </v-card-text>

@@ -287,16 +287,18 @@ export default {
                 </svg>
               </a>
               <b class="text-subtitle-2">
-                ${this.$t('landing.agencies', {
-                  n: e.features[0].properties.agencies,
-                })}
+                ${this.$tc(
+                  'landing.agencies',
+                  e.features[0].properties.agencies
+                )}
                 <br>
                 <span class="tt-landing-map-popup__dot success d-inline-block mr-1">
                   <div class="tt-landing-map-popup__dot--animate success"></div>
                 </span>
-                ${this.$t('landing.vehicles', {
-                  n: e.features[0].properties.vehicles,
-                })}
+                ${this.$tc(
+                  'landing.vehicles',
+                  e.features[0].properties.vehicles
+                )}
               </b>
               <div class="d-flex secondark-dark--text mt-1">
                 <a 
