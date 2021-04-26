@@ -16,6 +16,7 @@
         <NuxtLink
           :to="localePath(`/regions/${currentPopup.slug}`)"
           class="text-h6 text-decoration-none d-flex align-center"
+          :class="[`umami--click--landing-${currentPopup.slug}`]"
         >
           {{ currentPopup.name }}
           <svg
@@ -38,6 +39,7 @@
           <NuxtLink
             :to="localePath(`/regions/${currentPopup.slug}/map`)"
             class="mr-2 secondary-dark--text"
+            :class="[`umami--click--landing-${currentPopup.slug}-map`]"
             style="height: 24px"
             :title="$t('landing.openMap', { region: currentPopup.name })"
           >
@@ -48,6 +50,7 @@
           <NuxtLink
             :to="localePath(`/regions/${currentPopup.slug}/table`)"
             class="secondary-dark--text"
+            :class="[`umami--click--landing-${currentPopup.slug}-table`]"
             style="height: 24px"
             :title="$t('landing.openTable', { region: currentPopup.name })"
           >
