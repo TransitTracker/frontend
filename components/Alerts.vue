@@ -3,7 +3,7 @@
     v-if="alerts.length && showBanner"
     class="tt-banner"
     :color="alerts[0] ? alerts[0].color : null"
-    dark
+    :dark="isDark"
     single-line
   >
     <v-icon class="mr-2">
@@ -11,8 +11,26 @@
     </v-icon>
     {{ alerts[0].title }}
     <template #actions>
-      <v-btn text @click="showDialog = true">Lire plus</v-btn>
-      <v-btn icon @click="markAsRead(alerts[0].id)">
+      <v-btn
+        v-if="alerts[0].action === 'openLink'"
+        :href="alerts[0].actionParameters.url"
+        target="_blank"
+        text
+      >
+        {{
+          alerts[0].actionParameters.title &&
+          alerts[0].actionParameters.title[lang]
+        }}
+      </v-btn>
+      <v-btn v-else text @click="showDialog = true">
+        {{ $t('alert.readMore') }}
+      </v-btn>
+      <v-btn
+        v-if="alerts[0].canBeClosed"
+        icon
+        :title="$t('alert.close')"
+        @click="markAsRead(alerts[0].id)"
+      >
         <v-icon>{{ mdiClose }}</v-icon>
       </v-btn>
     </template>
@@ -36,9 +54,14 @@
         <!-- eslint-disable-next-line -->
         <v-card-text class="mt-4 text-body-1" v-html="alerts[0].body"></v-card-text>
         <v-card-actions>
-          <v-btn text color="primary" @click="markAsRead(alerts[0].id)">
+          <v-btn
+            v-if="alerts[0].canBeClosed"
+            text
+            color="primary"
+            @click="markAsRead(alerts[0].id)"
+          >
             <v-icon left>{{ mdiBookmarkCheck }}</v-icon>
-            Marquer comme lu
+            {{ $t('alert.markAsRead') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -56,6 +79,7 @@ export default {
     mdiBookmarkCheck,
     mdiClose,
     backendHost: process.env.backendHost,
+    color: 'primary',
   }),
   computed: {
     alerts() {
@@ -68,13 +92,29 @@ export default {
     currentRegion() {
       return this.$store.state.settings.currentRegion
     },
+    isDark() {
+      let dark = false
+
+      switch (this.color) {
+        case 'primary':
+        case 'primary-dark':
+        case 'secondary-dark':
+          dark = true
+          break
+      }
+
+      return dark
+    },
+    lang() {
+      return this.$i18n.locale
+    },
     readAlerts() {
       return this.$store.state.settings.readAlerts
     },
   },
   methods: {
     markAsRead(id) {
-      const value = this.readAlerts
+      const value = [...this.readAlerts]
       value.push(id)
 
       this.$store.commit('settings/set', {
