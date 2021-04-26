@@ -8,7 +8,57 @@
       class="flex-grow-1 tt-landing-map tt-landing-map--dynamic"
       :class="[dataIsLoaded && 'tt-landing__short']"
       :style="{ visibility: mapLoaded ? 'visible' : 'hidden' }"
-    ></div>
+    >
+      <div
+        ref="popup"
+        class="tt-landing-map-popup tt-landing-map-popup--inactive"
+      >
+        <NuxtLink
+          :to="localePath(`/regions/${currentPopup.slug}`)"
+          class="text-h6 text-decoration-none d-flex align-center"
+        >
+          {{ currentPopup.name }}
+          <svg
+            style="width: 20px; height: 20px"
+            class="ml-1 tt-landing-map-popup__arrow"
+            viewBox="0 0 24 24"
+          >
+            <path fill="currentColor" :d="mdiArrowRight" />
+          </svg>
+        </NuxtLink>
+        <b class="text-subtitle-2">
+          {{ $tc('landing.agencies', currentPopup.agencies) }}
+          <br />
+          <span class="tt-landing-map-popup__dot success d-inline-block mr-1">
+            <div class="tt-landing-map-popup__dot--animate success"></div>
+          </span>
+          {{ $tc('landing.vehicles', currentPopup.vehicles) }}
+        </b>
+        <div class="d-flex secondark-dark--text mt-1">
+          <NuxtLink
+            :to="localePath(`/regions/${currentPopup.slug}/map`)"
+            class="mr-2 secondary-dark--text"
+            style="height: 24px"
+            :title="$t('landing.openMap', { region: currentPopup.name })"
+          >
+            <v-btn icon small>
+              <v-icon>{{ mdiMap }}</v-icon>
+            </v-btn>
+          </NuxtLink>
+          <NuxtLink
+            :to="localePath(`/regions/${currentPopup.slug}/table`)"
+            class="secondary-dark--text"
+            style="height: 24px"
+            :title="$t('landing.openTable', { region: currentPopup.name })"
+          >
+            <v-btn icon small>
+              <v-icon>{{ mdiTable }}</v-icon>
+            </v-btn>
+          </NuxtLink>
+        </div>
+        <div class="tt-landing-map-popup__border primary"></div>
+      </div>
+    </div>
     <div
       ref="staticMap"
       class="tt-landing-map tt-landing-map--static flex-grow-1"
@@ -126,6 +176,7 @@ export default {
       features: [],
     },
     staticMapUrl: '',
+    currentPopup: {},
   }),
   head() {
     return {
@@ -302,69 +353,16 @@ export default {
         className: 'tt-landing-map-popup cursor-click rounded-lg shadow-lg',
       })
 
+      popup.setDOMContent(this.$refs.popup)
+
       this.map.on('click', 'landing-layer', (e) => {
+        this.currentPopup = e.features[0].properties
+
         popup
           .setLngLat(e.features[0].geometry.coordinates.slice())
-          .setHTML(
-            `
-              <a
-                href="/regions/${e.features[0].properties.slug}"
-                class="text-h6 text-decoration-none d-flex align-center"
-              >
-                ${e.features[0].properties.name}
-                <svg style="width:20px;height:20px" class="ml-1 tt-landing-map-popup__arrow" viewBox="0 0 24 24">
-                  <path fill="currentColor" d="${this.mdiArrowRight}" />
-                </svg>
-              </a>
-              <b class="text-subtitle-2">
-                ${this.$tc(
-                  'landing.agencies',
-                  e.features[0].properties.agencies
-                )}
-                <br>
-                <span class="tt-landing-map-popup__dot success d-inline-block mr-1">
-                  <div class="tt-landing-map-popup__dot--animate success"></div>
-                </span>
-                ${this.$tc(
-                  'landing.vehicles',
-                  e.features[0].properties.vehicles
-                )}
-              </b>
-              <div class="d-flex secondark-dark--text mt-1">
-                <a 
-                  href="${this.localePath(
-                    `/regions/${e.features[0].properties.slug}/map`
-                  )}"
-                  class="mr-2 secondary-dark--text"
-                  style="height: 24px;"
-                  title="${this.$t('landing.openMap', {
-                    region: e.features[0].properties.name,
-                  })}"
-                >
-                  <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="${this.mdiMap}" />
-                  </svg>
-                </a>
-                <a
-                  href="${this.localePath(
-                    `/regions/${e.features[0].properties.slug}/table`
-                  )}"
-                  class="secondary-dark--text"
-                  style="height: 24px;"
-                  title="${this.$t('landing.openTable', {
-                    region: e.features[0].properties.name,
-                  })}"
-                >
-                  <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="${this.mdiTable}" />
-                  </svg>
-                </a>
-              </div>
-              <div class="tt-landing-map-popup__border primary"></div>
-            `
-          )
           .addTo(this.map)
       })
+
       this.map.on('mouseenter', 'landing-layer', (e) => {
         this.map.getCanvas().style.cursor = 'pointer'
       })
