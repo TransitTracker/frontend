@@ -1,7 +1,7 @@
-export default function ({ $axios, app }) {
+export default function ({ $axios, app, store }) {
   $axios.onRequest((config) => {
     config.headers = {
-      'Content-Language': app.i18n.locale,
+      'Content-Language': store.state.settings.lang || app.i18n.locale,
     }
   })
 
