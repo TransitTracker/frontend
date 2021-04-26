@@ -285,13 +285,13 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 // 64px (toolbar) + 96px (footer) + 56px (bottom bar) - 12px (rounded corner)
 #tt-map {
   height: calc(100vh - 64px - 80px - 56px + 12px);
   width: 100%;
-  position: fixed;
-  top: 64px;
+  // position: fixed;
+  // top: 64px;
 }
 
 .mapboxgl-ctrl-logo {

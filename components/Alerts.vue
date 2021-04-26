@@ -128,6 +128,6 @@ export default {
 
 <style>
 .tt-banner {
-  z-index: 10;
+  z-index: 6;
 }
 </style>

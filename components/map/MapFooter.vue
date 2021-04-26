@@ -181,7 +181,8 @@ export default {
 
 <style lang="scss" scoped>
 .tt-backdrop {
-  position: relative;
+  position: absolute;
+  width: 100%;
   padding-bottom: 56px;
   // top: calc(100vh - 64px - 88px - 56px);
   top: calc(100vh - 64px - 80px - 56px);
