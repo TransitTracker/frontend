@@ -22,22 +22,23 @@ const defaultGeojsonShapeData = {
 
 export default {
   name: 'PagesRegionMap',
-  async asyncData({ params, store }) {
-    const regionSlug = params.region
-
-    const mapStyle = (await store.state.settings.darkMode)
-      ? process.env.mabboxStyleDark
-      : process.env.mabboxStyleLight
-
-    const mapAccessToken = process.env.mapboxAccessToken
-
-    return { regionSlug, mapStyle, mapAccessToken }
+  asyncData({ params }) {
+    return {
+      regionSlug: params.region,
+      mapStyle: {
+        dark: process.env.mabboxStyleDark,
+        light: process.env.mabboxStyleLight,
+      },
+      mapAccessToken: process.env.mapboxAccessToken,
+    }
   },
   data: () => ({
     map: {},
     mapReady: false,
     mapStyleReady: false,
     sheetOpen: false,
+    baseSources: [],
+    baseLayers: [],
   }),
   head() {
     return {
@@ -55,6 +56,9 @@ export default {
     agencies() {
       return this.$store.state.agencies.data
     },
+    darkMode() {
+      return this.$vuetify.theme.dark
+    },
     features() {
       return this.$store.state.vehicles.features
     },
@@ -66,36 +70,30 @@ export default {
     },
   },
   watch: {
-    agencies(oldValue, value) {
+    agencies(value) {
       Object.keys(value).forEach((agencySlug) => {
         // Create the source if it dosen't exist
-        if (!this.map.getSource(`source-${agencySlug}`)) {
+        if (!this.map.getSource(`tt-source-${agencySlug}`)) {
           this.addAgencyLayers(this.features[agencySlug], value[agencySlug])
         }
       })
     },
-    features(oldValue, value) {
+    darkMode(value) {
+      if (!this.mapReady) return
+
+      this.switchBaseStyle(value ? this.mapStyle.dark : this.mapStyle.light)
+    },
+    features(value) {
       Object.keys(value).forEach((agencySlug) => {
         const features = value[agencySlug]
 
         // If the source dosen't exist, create it
-        if (!this.map.getSource(`source-${agencySlug}`)) {
-          this.addAgencyLayers(
-            features,
-            Object.values(this.agencies).find(
-              (agency) => agency.slug === agencySlug
-            )
-          )
+        if (!this.map.getSource(`tt-source-${agencySlug}`)) {
+          this.addAgencyLayers(features, this.agencies[agencySlug])
         } else {
           // Update the source data
-          this.map.getSource(`source-${agencySlug}`).setData(features)
+          this.map.getSource(`tt-source-${agencySlug}`).setData(features)
         }
-      })
-    },
-    currentRegion(value) {
-      this.map.flyTo({
-        center: value.mapCenter,
-        zoom: value.mapZoom,
       })
     },
   },
@@ -103,12 +101,11 @@ export default {
     mapboxgl.accessToken = this.mapAccessToken
     this.map = new mapboxgl.Map({
       container: 'tt-map',
-      style: this.mapStyle,
-      center: this.currentRegion.mapCenter || {
-        lat: 58.27,
-        lon: -96.56,
-      },
-      zoom: 3,
+      style: this.darkMode ? this.mapStyle.dark : this.mapStyle.light,
+      bounds: this.currentRegion.mapBox || [
+        [-85.9, 41.5],
+        [-66.7, 49.7],
+      ],
       attributionControl: false,
       maxPitch: 0,
       pitchWithRotate: false,
@@ -131,8 +128,27 @@ export default {
     )
 
     this.map.on('styledata', () => {
-      // console.log('Map style ready!')
       this.mapStyleReady = true
+
+      // After a base style change (light to dark, dark to light)
+      // Add the previous layers
+      this.baseLayers.forEach((layer) => {
+        // If the layer is still there, don't change it
+        if (this.map.getLayer(layer.id)) return
+
+        // If the source isn't there anymore, add it
+        if (!this.map.getSource(layer.source)) {
+          this.map.addSource(layer.source, {
+            type: 'geojson',
+            data: this.baseSources[layer.source],
+          })
+        }
+
+        this.map.addLayer(layer)
+      })
+
+      this.baseSources = []
+      this.baseLayers = []
     })
 
     this.map.on('load', () => {
@@ -140,14 +156,14 @@ export default {
       this.mapReady = true
 
       // Add route shape source and layer
-      this.map.addSource('shape-source', {
+      this.map.addSource('tt-shape-source', {
         type: 'geojson',
         data: defaultGeojsonShapeData,
       })
       this.map.addLayer({
-        id: 'shape-layer',
+        id: 'tt-shape-layer',
         type: 'line',
-        source: 'shape-source',
+        source: 'tt-shape-source',
         layout: {
           'line-join': 'round',
           'line-cap': 'round',
@@ -170,6 +186,10 @@ export default {
       if (this.selectedVehicle.id) {
         this.selectVehicle(this.selectedVehicle)
       }
+
+      // Dark mode can change after the initial loading
+      // If it's the case, switch the base style now
+      // TODO: fix this
     })
   },
   methods: {
@@ -181,7 +201,7 @@ export default {
       }
 
       // Don't create a second source if it already exists
-      if (this.map.getSource(`source-${agency.slug}`)) {
+      if (this.map.getSource(`tt-source-${agency.slug}`)) {
         // console.log('reject no source', agency.name)
         return
       }
@@ -197,15 +217,15 @@ export default {
 
       // console.log(features, agency)
       // Add map source
-      this.map.addSource(`source-${agency.slug}`, {
+      this.map.addSource(`tt-source-${agency.slug}`, {
         type: 'geojson',
         data: features,
       })
       // Add map layers
       this.map.addLayer({
-        id: `layer-${agency.slug}`,
+        id: `tt-layer-${agency.slug}`,
         type: 'symbol',
-        source: `source-${agency.slug}`,
+        source: `tt-source-${agency.slug}`,
         minzoom: 11,
         layout: {
           'icon-allow-overlap': true,
@@ -214,9 +234,9 @@ export default {
         },
       })
       this.map.addLayer({
-        id: `circles-${agency.slug}`,
+        id: `tt-circles-${agency.slug}`,
         type: 'circle',
-        source: `source-${agency.slug}`,
+        source: `tt-source-${agency.slug}`,
         maxzoom: 11,
         paint: {
           'circle-radius': 5,
@@ -226,7 +246,7 @@ export default {
         },
       })
       // Add map events
-      this.map.on('click', `layer-${agency.slug}`, (e) => {
+      this.map.on('click', `tt-layer-${agency.slug}`, (e) => {
         this.$store
           .dispatch('vehicles/setSelectionById', {
             id: e.features[0].properties.id,
@@ -236,10 +256,10 @@ export default {
             if (vehicle.id) this.selectVehicle(vehicle)
           })
       })
-      this.map.on('mouseenter', `layer-${agency.slug}`, () => {
+      this.map.on('mouseenter', `tt-layer-${agency.slug}`, () => {
         this.map.getCanvas().style.cursor = 'pointer'
       })
-      this.map.on('mouseleave', `layer-${agency.slug}`, () => {
+      this.map.on('mouseleave', `tt-layer-${agency.slug}`, () => {
         this.map.getCanvas().style.cursor = ''
       })
     },
@@ -247,10 +267,10 @@ export default {
       this.map.flyTo({ center: vehicle.position, zoom: 12 })
       if (vehicle.trip.shapeLink) {
         this.map
-          .getSource('shape-source')
+          .getSource('tt-shape-source')
           .setData(`${process.env.backendHost}${vehicle.trip.shapeLink}`)
         this.map.setPaintProperty(
-          'shape-layer',
+          'tt-shape-layer',
           'line-color',
           vehicle.trip.routeColor || '#000000'
         )
@@ -269,7 +289,7 @@ export default {
         //       )
         //     })
       } else {
-        this.map.getSource('shape-source').setData(defaultGeojsonShapeData)
+        this.map.getSource('tt-shape-source').setData(defaultGeojsonShapeData)
       }
 
       new mapboxgl.Popup({ offset: [0, -35], closeButton: false })
@@ -280,6 +300,28 @@ export default {
           </p>`
         )
         .addTo(this.map)
+    },
+    switchBaseStyle(to) {
+      // Changing the base style will remove existing layers
+      // Save them and add them after the style change
+      this.map
+        .getStyle()
+        .layers.filter(({ id }) => {
+          return id.includes('tt-')
+        })
+        .forEach((layer) => {
+          this.baseLayers.push(layer)
+        })
+
+      this.baseLayers
+        .map(({ source }) => {
+          return source
+        })
+        .forEach((sourceId) => {
+          this.baseSources[sourceId] = this.map.getSource(sourceId)._data
+        })
+
+      this.map.setStyle(to)
     },
   },
 }
