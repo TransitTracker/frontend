@@ -1,8 +1,9 @@
 <template>
-  <v-sheet>
+  <div>
     <v-sheet
       class="d-flex justify-space-around"
       :color="darkMode ? '' : 'grey lighten-4'"
+      :style="{ backgroundColor: darkMode && '#272727' }"
     >
       <MapProperty
         v-if="vehicle.speed"
@@ -30,6 +31,7 @@
     <v-slide-group
       v-if="Object.keys(links).length"
       class="px-4 pt-2"
+      :class="[darkMode ? 'dark' : 'white']"
       show-arrows
     >
       <v-slide-item v-for="(link, index) in links" :key="index">
@@ -160,7 +162,7 @@
       </v-list-item>
     </v-list>
     <!-- </div> -->
-  </v-sheet>
+  </div>
   <!-- </v-bottom-sheet> -->
 </template>
 

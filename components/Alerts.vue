@@ -16,11 +16,14 @@
         :href="alerts[0].actionParameters.url"
         target="_blank"
         text
+        :title="alerts[0].actionParameters.title[lang]"
+        :icon="$vuetify.breakpoint.smAndDown"
       >
-        {{
+        <v-icon class="d-md-none">{{ mdiOpenInNew }}</v-icon>
+        <span class="d-none d-md-block">{{
           alerts[0].actionParameters.title &&
           alerts[0].actionParameters.title[lang]
-        }}
+        }}</span>
       </v-btn>
       <v-btn v-else text @click="showDialog = true">
         {{ $t('alert.readMore') }}
@@ -70,7 +73,7 @@
 </template>
 
 <script>
-import { mdiBookmarkCheck, mdiClose } from '@mdi/js'
+import { mdiBookmarkCheck, mdiClose, mdiOpenInNew } from '@mdi/js'
 
 export default {
   data: () => ({
@@ -78,6 +81,7 @@ export default {
     showDialog: false,
     mdiBookmarkCheck,
     mdiClose,
+    mdiOpenInNew,
     backendHost: process.env.backendHost,
     color: 'primary',
   }),

@@ -332,8 +332,6 @@ export default {
 #tt-map {
   height: calc(100vh - 64px - 80px - 56px + 12px);
   width: 100%;
-  // position: fixed;
-  // top: 64px;
 }
 
 .mapboxgl-ctrl-logo {
@@ -343,7 +341,6 @@ export default {
 @media only screen and (max-width: 960px) {
   #tt-map {
     height: calc(100vh - 56px - 80px - 56px + 12px);
-    top: 56px;
   }
 }
 </style>

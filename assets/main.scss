@@ -28,3 +28,8 @@ html {
 .pa-0\.5 {
   padding: 2px;
 }
+
+// Fix for Vuetify default css
+.v-list-item__avatar {
+  justify-content: center !important;
+}

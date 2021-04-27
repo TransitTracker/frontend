@@ -20,7 +20,7 @@
           v-if="vehicle.bearing"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 16.933 16.938"
-          class="arrow d-none d-md-block"
+          class="tt-footer__vehicle__arrow d-md-block"
           :style="{ transform: `rotate(${vehicle.bearing}deg)` }"
         >
           <g :transform="`translate(-44.26 -44.948)`">
@@ -38,7 +38,7 @@
           {{ mdi[vehicle.vehicleType] }}
         </v-icon>
       </v-avatar>
-      <div>
+      <div class="ml-4">
         <p class="mb-0 text-subtitle-1 text-md-h6">
           {{ vehicle.label || vehicle.ref }}
         </p>
@@ -61,12 +61,14 @@
           backgroundColor: vehicle.trip.routeColor,
         }"
         class="py-2 px-3 rounded tt-footer-line"
+        :class="[!vehicle.trip.routeLongName && 'text-center']"
       >
         <small
           v-if="!vehicle.trip.routeLongName"
           class="text-caption text-uppercase"
         >
           {{ $t('mapBottomSheet.properties.routeId') }}
+          <br class="d-md-none" />
         </small>
         <b class="mb-0">
           {{ vehicle.trip.routeShortName || vehicle.routeId }}
@@ -103,16 +105,14 @@
       <v-spacer />
       <v-icon class="tt-footer__chevron">{{ mdiChevronDown }}</v-icon>
     </v-footer>
-    <v-sheet color="secondary">
-      <MapBottomSheet />
-    </v-sheet>
+    <MapBottomSheet />
   </div>
   <v-footer
     v-else
     height="80px"
-    class="d-flex align-center justify-center tt-backdrop"
+    class="justify-center text-center tt-backdrop py-0"
   >
-    <span class="select">{{ $t('mapFooter.select') }}</span>
+    {{ $t('mapFooter.select') }}
   </v-footer>
 </template>
 
@@ -186,81 +186,48 @@ export default {
   padding-bottom: 56px;
   // top: calc(100vh - 64px - 88px - 56px);
   top: calc(100vh - 64px - 80px - 56px);
-  z-index: 1;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
+  z-index: 3;
 }
-.v-footer {
-  padding: 0 16px;
-  min-height: 76px;
-}
-.col {
-  margin: auto;
-  text-align: center;
-}
-.agency {
-  text-align: left;
-}
-.trip {
-  white-space: nowrap;
-  overflow: hidden;
-}
-.trip .route {
-  padding: 5px;
-  border-radius: 3px;
-  font-size: 14px;
-  text-align: center;
-  border-width: 3px;
-  border-style: solid;
-}
-.trip .route span,
-.trip .route {
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.trip .second-line {
-  text-align: center;
-}
-.expand {
-  text-align: right;
-}
-.bearing {
-  max-width: 105px;
-}
-.speed {
-  max-width: 105px;
-}
+
 .tt-footer {
-  column-gap: 32px;
-}
-.tt-footer__vehicle {
-  margin-right: -16px;
-  position: relative;
-  overflow: visible;
-  .arrow {
-    position: absolute;
-    top: -8px;
-    bottom: -8px;
-    left: -8px;
-    right: -8px;
-    width: 64px;
-    height: 64px;
+  padding: 0 16px;
+
+  &__vehicle {
+    position: relative;
+    overflow: visible;
+
+    &__arrow {
+      position: absolute;
+      top: -8px;
+      bottom: -8px;
+      left: -8px;
+      right: -8px;
+      width: 64px;
+      height: 64px;
+    }
   }
 }
+
 @media (min-width: 600px) {
   .tt-footer-line {
     min-width: 200px;
   }
-}
-.tt-footer-occupancy .progress,
-.tt-footer-congestion .progress {
-  width: 40px;
 }
 
 @media only screen and (max-width: 960px) {
   .tt-backdrop {
     // top: calc(100vh - 56px - 88px - 56px);
     top: calc(100vh - 56px - 80px - 56px);
+  }
+  .tt-footer__vehicle__arrow {
+    top: -6px;
+    bottom: -6px;
+    left: -6px;
+    right: -6px;
+    height: 48px;
+    width: 48px;
   }
 }
 </style>

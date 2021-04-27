@@ -477,6 +477,10 @@ export default {
       }
     }
   }
+
+  &__short {
+    height: calc(100% - 56px);
+  }
 }
 
 .theme--dark .tt-landing-map-popup {
@@ -530,22 +534,18 @@ export default {
         min-height: 64px;
       }
     }
-  }
 
-  .tt-landing-map {
-    width: 55%;
-    position: absolute;
-    left: 45%;
-    height: 100%;
+    &-map {
+      width: 55%;
+      position: absolute;
+      left: 45%;
+      height: 100%;
 
-    &--static {
-      background-position: center center;
-      background-size: cover;
+      &--static {
+        background-position: center center;
+        background-size: cover;
+      }
     }
-  }
-
-  .tt-landing__short {
-    height: calc(100% - 56px);
   }
 
   .theme--dark .tt-landing-content {
