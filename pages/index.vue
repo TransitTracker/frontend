@@ -7,7 +7,6 @@
       id="tt-landing-map"
       class="flex-grow-1 tt-landing-map tt-landing-map--dynamic"
       :class="[dataIsLoaded && 'tt-landing__short']"
-      :style="{ visibility: mapLoaded ? 'visible' : 'hidden' }"
     >
       <div
         ref="popup"
@@ -62,15 +61,6 @@
         <div class="tt-landing-map-popup__border primary"></div>
       </div>
     </div>
-    <div
-      ref="staticMap"
-      class="tt-landing-map tt-landing-map--static flex-grow-1"
-      :class="[dataIsLoaded && 'tt-landing__short']"
-      :style="{
-        backgroundImage: staticMapUrl,
-        visibility: mapLoaded ? 'hidden' : 'visible',
-      }"
-    ></div>
     <div
       class="tt-landing-content d-flex flex-column justify-md-center px-8 pt-8 pt-md-0 mb-14 mb-md-0 pb-4 pb-md-0"
     >
@@ -173,12 +163,10 @@ export default {
     }
   },
   data: () => ({
-    mapLoaded: false,
     features: {
       type: 'FeatureCollection',
       features: [],
     },
-    staticMapUrl: '',
     currentPopup: {},
   }),
   head() {
@@ -232,14 +220,6 @@ export default {
     },
   },
   mounted() {
-    // Create static map
-    const height = this.$refs.staticMap.clientHeight
-    const width = this.$refs.staticMap.clientWidth
-    const mapStyle = this.darkMode ? this.mapStyle.dark : this.mapStyle.light
-
-    // eslint-disable-next-line prettier/prettier
-    this.staticMapUrl = `url('https://api.mapbox.com/styles/v1/${mapStyle.substr(16, 34)}/static/[-85.9,37.5649,-66.7,52.8902]/${width}x${height}@2x?access_token=${this.mapAccessToken}')`
-
     setTimeout(() => {
       this.createMap()
     }, 10)
@@ -375,8 +355,6 @@ export default {
       this.map.moveLayer('landing-layer')
 
       this.map.getSource('landing-source').setData(this.features)
-
-      this.mapLoaded = true
     },
   },
 }
@@ -540,11 +518,6 @@ export default {
       position: absolute;
       left: 45%;
       height: 100%;
-
-      &--static {
-        background-position: center center;
-        background-size: cover;
-      }
     }
   }
 
