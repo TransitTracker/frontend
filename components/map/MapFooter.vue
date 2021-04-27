@@ -13,7 +13,7 @@
     >
       <v-avatar
         :color="agency.color"
-        :size="$vuetify.breakpoint.mdAndDown ? 36 : 48"
+        :size="$vuetify.breakpoint.smAndDown ? 36 : 48"
         class="tt-footer__vehicle"
       >
         <svg
@@ -33,12 +33,12 @@
         </svg>
         <v-icon
           :color="agency.textColor"
-          :size="$vuetify.breakpoint.mdAndDown ? 24 : 28"
+          :size="$vuetify.breakpoint.smAndDown ? 24 : 28"
         >
           {{ mdi[vehicle.vehicleType] }}
         </v-icon>
       </v-avatar>
-      <div class="ml-4">
+      <div class="ml-4 ml-md-0">
         <p class="mb-0 text-subtitle-1 text-md-h6">
           {{ vehicle.label || vehicle.ref }}
         </p>
@@ -60,7 +60,7 @@
           color: vehicle.trip.routeTextColor,
           backgroundColor: vehicle.trip.routeColor,
         }"
-        class="py-2 px-3 rounded tt-footer-line"
+        class="py-2 px-3 rounded tt-footer__line"
         :class="[!vehicle.trip.routeLongName && 'text-center']"
       >
         <small
@@ -210,9 +210,13 @@ export default {
   }
 }
 
-@media (min-width: 600px) {
-  .tt-footer-line {
-    min-width: 200px;
+@media (min-width: 960px) {
+  .tt-footer {
+    column-gap: 32px;
+
+    &__line {
+      min-width: 200px;
+    }
   }
 }
 
