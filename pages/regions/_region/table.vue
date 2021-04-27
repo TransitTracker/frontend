@@ -4,6 +4,7 @@
     :headers="headers"
     :items="vehicles"
     :items-per-page="100"
+    :search="searchAll"
     class="mb-14"
   >
     <!-- eslint-disable-next-line -->
@@ -16,8 +17,20 @@
       </td>
     </template>
     <!-- eslint-disable-next-line -->
-    <template v-slot:body.prepend="{ headers }">
-      <tr>
+    <template v-slot:body.prepend="{ headers, isMobile }">
+      <tr v-if="isMobile">
+        <td colspan="6">
+          <v-text-field
+            v-model="searchAll"
+            :prepend-icon="mdiMagnify"
+            :placeholder="$t('table.filter')"
+            dense
+            hide-details
+            single-line
+          />
+        </td>
+      </tr>
+      <tr v-else>
         <td>
           <v-text-field
             v-model="searchLabel"
@@ -26,7 +39,7 @@
             dense
             hide-details
             single-line
-          ></v-text-field>
+          />
         </td>
         <td>
           <v-text-field
@@ -154,6 +167,7 @@ export default {
       searchRoute: '',
       searchHeadsign: '',
       searchTrip: '',
+      searchAll: '',
     }
   },
   head() {
