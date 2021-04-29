@@ -62,7 +62,8 @@
       </div>
     </div>
     <div
-      class="tt-landing-content d-flex flex-column justify-md-center px-8 pt-8 pt-md-0 mb-14 mb-md-0 pb-4 pb-md-0"
+      class="tt-landing-content d-flex flex-column justify-md-center px-8 pt-8 pt-md-0 mb-md-0 pb-4 pb-md-0"
+      :class="[dataIsLoaded && 'mb-14']"
     >
       <!-- eslint-disable vue/no-v-html -->
       <h1
@@ -303,7 +304,13 @@ export default {
           [-85.9, 41.5],
           [-66.7, 49.7],
         ],
-        interactive: false,
+        maxPitch: 0,
+        pitchWithRotate: false,
+        scollZoom: false,
+        dragRotate: false,
+        doubleClickZoom: false,
+        touchZoomRotate: false,
+        touchPich: false,
         logoPosition: 'top-right',
       })
 
@@ -380,6 +387,10 @@ export default {
       .v-badge__badge {
         inset: auto auto calc(100% - 12px) 12px !important;
       }
+    }
+
+    &__border {
+      display: none;
     }
 
     &__subtitle {
