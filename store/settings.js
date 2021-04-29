@@ -6,7 +6,7 @@ export const state = () => ({
   readAlerts: [],
   currentRegion: 'montreal',
   launch: '/',
-  lang: 'en',
+  lang: null,
   theme: 'system',
   activateByod: false,
 })

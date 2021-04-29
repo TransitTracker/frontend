@@ -1,4 +1,7 @@
+import Vuetify from 'vuetify/es5/locale/en'
+
 export default {
+  $vuetify: Vuetify,
   app: {
     tabHome: 'Home',
     tabMap: 'Map',

@@ -135,6 +135,9 @@ export default {
     mdiTable,
     mdiViewGrid,
   }),
+  head() {
+    return this.$nuxtI18nHead({ addSeoAttributes: true })
+  },
   computed: {
     dataIsLoaded() {
       return this.$store.state.app.dataIsLoaded
@@ -174,8 +177,11 @@ export default {
       // https://csabaszabo.dev/blog/dark-mode-for-website-with-nuxtjs-and-vuetify/
       setTimeout(() => (this.$vuetify.theme.dark = true), 0)
     }
-    this.$i18n.setLocale(this.settingsLang)
-    // this.$vuetify.lang.current = this.settingsLang
+
+    // Set language only if defined
+    if (this.settingsLang) {
+      this.$i18n.setLocale(this.settingsLang)
+    }
 
     this.handlePwa()
   },

@@ -1,4 +1,7 @@
+import Vuetify from 'vuetify/es5/locale/fr'
+
 export default {
+  $vuetify: Vuetify,
   app: {
     tabHome: 'Accueil',
     tabMap: 'Carte',

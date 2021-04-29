@@ -64,15 +64,17 @@ export default {
 
   // i18n module configuration
   i18n: {
-    useCookie: false,
-    locales: ['en', 'fr'],
+    locales: [
+      { code: 'en', iso: 'en-CA', file: 'en.js' },
+      { code: 'fr', iso: 'fr-CA', file: 'fr.js' },
+    ],
     defaultLocale: 'en',
-    vueI18n: {
+    lazy: true,
+    langDir: '~/i18n',
+    detectBrowserLanguage: {
       fallbackLocale: 'en',
-      messages: {
-        en: { ...en, $vuetify: VuetifyEn },
-        fr: { ...fr, $vuetify: VuetifyFr },
-      },
+      onlyOnRoot: true,
+      useCookie: false,
     },
   },
 
