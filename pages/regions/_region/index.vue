@@ -261,20 +261,7 @@
               </v-row>
             </v-card-text>
           </v-card>
-          <v-card v-else>
-            <v-card-text class="d-flex flex-column align-center">
-              <v-icon size="100" color="primary">{{ mdiMapPlus }}</v-icon>
-              <div class="text-h6 text-center my-2">
-                {{ $t('home.emptyTitle') }}
-              </div>
-              <div class="text-subtitle1 text-center mb-6">
-                {{ $t('home.emptyBody') }}
-              </div>
-              <v-btn large color="primary" :to="localePath('/')">
-                {{ $t('home.emptyButton') }}
-              </v-btn>
-            </v-card-text>
-          </v-card>
+          <HomeEmptyState v-else :region="region" />
         </v-col>
         <v-col v-if="region.name" cols="12" md="6">
           <v-card dark>
@@ -300,12 +287,12 @@
         </v-col>
       </v-row>
     </v-container>
-    <DownloadDialog v-model="downloadDialog" />
+    <HomeDownloadDialog v-model="downloadDialog" />
   </div>
 </template>
 
 <script>
-import { mdiDownload, mdiGithub, mdiMapPlus } from '@mdi/js'
+import { mdiDownload, mdiGithub } from '@mdi/js'
 
 export default {
   asyncData({ params }) {
@@ -313,7 +300,6 @@ export default {
       regionSlug: params.region,
       mdiDownload,
       mdiGithub,
-      mdiMapPlus,
       backendHost: process.env.backendHost,
     }
   },

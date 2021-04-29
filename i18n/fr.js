@@ -47,7 +47,7 @@ export default {
     outdated: 'Pas à jour',
     emptyTitle: 'Aucune agence sélectionnée',
     emptyBody:
-      "Vous n'avez pas sélectionné d'agence pour cette région. Rendez-vous dans les réglages pour ajouter des agences (coin supérieur droit) ou changez de région.",
+      "Vous n'avez pas sélectionné d'agence pour cette région. Ajoutez l'agence proposée ci-dessous, utilisez les réglagles pour voir tous les choix (coin supérieur droit) ou changez de région.",
     emptyButton: 'Changer de région',
     creditsTitle: 'Crédits',
     refreshAriaLabel: 'Rafraîchir',
