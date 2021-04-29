@@ -52,7 +52,7 @@
         </v-toolbar>
         <v-img
           v-if="alerts[0].image"
-          :src="`${backendHost}/content/alerts/${alerts[0].image}`"
+          :src="`${backendHost}/storage/content/alerts/${alerts[0].image}`"
         ></v-img>
         <!-- eslint-disable-next-line -->
         <v-card-text class="mt-4 text-body-1" v-html="alerts[0].body"></v-card-text>

@@ -285,7 +285,7 @@
             <v-img
               v-if="region.image"
               height="150"
-              :src="`${backendHost}/content/regions/${region.image}`"
+              :src="`${backendHost}/storage/content/regions/${region.image}`"
               gradient="to top, transparent 0%, rgba(0,73,123,1) 100%"
             ></v-img>
           </v-card>
