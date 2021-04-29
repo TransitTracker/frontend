@@ -44,7 +44,9 @@
           <v-card tile>
             <v-img
               height="250"
-              :src="`${host}/storage/content/regions/${region.image || 'default.jpg'}`"
+              :src="`${host}/storage/content/regions/${
+                region.image || 'default.jpg'
+              }`"
               gradient="to bottom, transparent 0%, rgba(0,73,123,1) 100%"
             ></v-img>
             <v-card-title>{{ region.name }}</v-card-title>
