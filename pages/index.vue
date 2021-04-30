@@ -510,6 +510,7 @@ export default {
       }
 
       &__border {
+        display: block;
         position: absolute;
         width: 55%;
         clip-path: polygon(95% 0, 98% 0, 88% 100%, 85% 100%);
