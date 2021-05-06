@@ -88,7 +88,7 @@
                 <v-btn
                   icon
                   nuxt
-                  :to="`/byod/${agency.slug}`"
+                  :to="localePath(`/byod/${agency.slug}`)"
                   :title="$t('byod.manage')"
                 >
                   <v-icon>{{ mdiWrench }}</v-icon>

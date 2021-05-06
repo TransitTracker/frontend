@@ -62,7 +62,7 @@
       </div>
     </div>
     <div
-      class="tt-landing-content d-flex flex-column justify-md-center px-8 pt-8 pt-md-0 mb-md-0 pb-4 pb-md-0"
+      class="tt-landing-content flex-shrink-0 d-flex flex-column justify-md-center px-8 pt-8 pt-md-0 mb-md-0 pb-4 pb-md-0"
       :class="[dataIsLoaded && 'mb-14']"
     >
       <!-- eslint-disable vue/no-v-html -->
@@ -113,7 +113,7 @@
           </v-card-text>
         </v-badge>
         <v-card-actions>
-          <v-btn text small nuxt to="/byod">
+          <v-btn text small nuxt :to="localePath('/byod')">
             {{ $t('landing.byodStart') }}
             <v-icon right>{{ mdiArrowRight }}</v-icon>
           </v-btn>
