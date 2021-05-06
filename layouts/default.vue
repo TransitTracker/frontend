@@ -27,6 +27,13 @@
         <v-icon>{{ mdiMenuDown }}</v-icon>
       </v-btn>
       <v-btn
+        v-else
+        text
+        @click="switchLanguage(settingsLang === 'en' ? 'fr' : 'en')"
+      >
+        {{ settingsLang === 'en' ? 'FR' : 'EN' }}
+      </v-btn>
+      <v-btn
         icon
         :title="$t('settings.open')"
         @click="settingsDrawer = !settingsDrawer"
@@ -180,7 +187,7 @@ export default {
 
     // Set language only if defined
     if (this.settingsLang) {
-      this.$i18n.setLocale(this.settingsLang)
+      this.$i18n.setLocale(this.settingsLang, false)
     }
 
     this.handlePwa()
@@ -237,6 +244,11 @@ export default {
           }
         })
       }
+    },
+    switchLanguage(lang) {
+      this.$i18n.setLocale(lang)
+
+      this.$store.commit('settings/set', { setting: 'lang', value: lang })
     },
   },
 }
