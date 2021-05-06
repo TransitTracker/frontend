@@ -1,16 +1,18 @@
 <template>
   <div v-if="vehicle && vehicle.id" class="tt-backdrop overflow-hidden">
     <!-- <v-sheet class="d-flex align-center justify-center">
-      <div
-        class="py-1 px-12 my-1 rounded-xl"
-        :class="[darkMode ? 'grey darken-3' : 'grey lighten-3']"
-      ></div>
     </v-sheet> -->
     <v-footer
       :color="darkMode ? '' : 'grey lighten-4'"
       height="80px"
       class="d-flex align-center tt-footer px-4"
     >
+      <div class="d-flex justify-center tt-footer__slider">
+        <div
+          class="py-0.5 px-10 my-1 rounded-xl"
+          :class="[darkMode ? 'grey darken-3' : 'grey lighten-2']"
+        ></div>
+      </div>
       <v-avatar
         :color="agency.color"
         :size="$vuetify.breakpoint.smAndDown ? 36 : 48"
@@ -60,7 +62,7 @@
           color: vehicle.trip.routeTextColor,
           backgroundColor: vehicle.trip.routeColor,
         }"
-        class="py-2 px-3 rounded tt-footer__line"
+        class="py-1.5 px-3 rounded tt-footer__line"
         :class="[!vehicle.trip.routeLongName && 'text-center']"
       >
         <small
@@ -103,7 +105,14 @@
         :value-title="vehicle.congestionLevel.label"
       />
       <v-spacer />
-      <v-icon class="tt-footer__chevron">{{ mdiChevronDown }}</v-icon>
+      <v-tooltip left>
+        <template #activator="{ on, attrs }">
+          <v-icon class="tt-footer__chevron" v-bind="attrs" v-on="on">
+            {{ mdiArrowDown }}
+          </v-icon>
+        </template>
+        <span>{{ $t('mapFooter.scroll') }}</span>
+      </v-tooltip>
     </v-footer>
     <MapBottomSheet />
   </div>
@@ -118,9 +127,8 @@
 
 <script>
 import {
+  mdiArrowDown,
   mdiBus,
-  mdiChevronDown,
-  mdiChevronUp,
   mdiFerry,
   mdiNavigation,
   mdiSeatPassenger,
@@ -137,8 +145,7 @@ export default {
     },
   },
   data: () => ({
-    mdiChevronDown,
-    mdiChevronUp,
+    mdiArrowDown,
     mdiNavigation,
     mdiSeatPassenger,
     mdiSpeedometer,
@@ -184,7 +191,6 @@ export default {
   position: absolute;
   width: 100%;
   padding-bottom: 56px;
-  // top: calc(100vh - 64px - 88px - 56px);
   top: calc(100vh - 64px - 80px - 56px);
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
@@ -193,6 +199,14 @@ export default {
 
 .tt-footer {
   padding: 0 16px;
+  position: relative;
+
+  &__slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
 
   &__vehicle {
     position: relative;
@@ -222,7 +236,6 @@ export default {
 
 @media only screen and (max-width: 960px) {
   .tt-backdrop {
-    // top: calc(100vh - 56px - 88px - 56px);
     top: calc(100vh - 56px - 80px - 56px);
   }
   .tt-footer__vehicle__arrow {

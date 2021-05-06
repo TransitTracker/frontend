@@ -328,7 +328,7 @@ export default {
 </script>
 
 <style lang="scss">
-// 64px (toolbar) + 96px (footer) + 56px (bottom bar) - 12px (rounded corner)
+// 64px (toolbar) + 80px (footer) + 56px (bottom bar) - 12px (rounded corner)
 #tt-map {
   height: calc(100vh - 64px - 80px - 56px + 12px);
   width: 100%;

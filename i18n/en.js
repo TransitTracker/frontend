@@ -58,6 +58,7 @@ export default {
   mapFooter: {
     select: 'Please select a vehicle to see more information',
     // Padding
+    scroll: 'Scroll down',
   },
   mapBottomSheet: {
     close: 'Close',

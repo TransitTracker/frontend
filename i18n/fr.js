@@ -58,6 +58,7 @@ export default {
   mapFooter: {
     select:
       'Veuillez sélectionner un véhicule pour y consulter toutes les informations',
+    scroll: 'Défilez vers le bas',
   },
   mapBottomSheet: {
     close: 'Fermer',
