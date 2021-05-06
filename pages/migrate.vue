@@ -5,6 +5,17 @@
 <script>
 export default {
   asyncData({ app, query, redirect, store }) {
+    if (
+      !query.ag ||
+      !query.ar ||
+      !query.dm ||
+      !query.dp ||
+      !query.la ||
+      !query.re
+    ) {
+      return redirect(app.localePath('/'))
+    }
+
     store.commit('settings/set', {
       setting: 'activeAgencies',
       value: query.ag.split(','),
