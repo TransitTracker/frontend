@@ -239,7 +239,6 @@
                     :color="`${agency.color}26`"
                     :loading="!(agency.slug in vehicleCounts)"
                     class="tt-agencies-card"
-                    rounded="lg"
                   >
                     <v-card-text class="px-3 py-2 tt-agencies-card__text">
                       <b>{{ agency.name }}</b>
@@ -398,6 +397,7 @@ export default {
 <style lang="scss">
 .tt-agencies-card {
   overflow: clip;
+  border-radius: 6px !important;
 
   &__clip-path {
     height: 100%;
