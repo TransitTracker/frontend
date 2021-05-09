@@ -32,15 +32,14 @@
         <h2 class="text-subtitle-1 font-weight-bold">
           {{ $t('settings.autoRefresh') }}
         </h2>
+        <p class="text-body-2 mb-2">
+          {{ $t('settings.autoRefreshDesc') }}
+        </p>
         <SettingsItemGroup
           :value="settings.autoRefresh"
           @input="setSetting('autoRefresh', $event)"
         >
-          <SettingsItem
-            :description="$t('settings.autoRefreshOnDesc')"
-            :icon="mdiSync"
-            :value="true"
-          >
+          <SettingsItem :icon="mdiSync" :value="true">
             {{ $t('settings.autoRefreshOn') }}
           </SettingsItem>
           <SettingsItem :icon="mdiSyncOff" :value="false">
@@ -212,11 +211,17 @@ export default {
   }
 
   &__container {
-    height: calc(100vh - 65px);
+    height: calc(100vh - 56px);
   }
 
   &__about {
     background-color: #1f5784;
+  }
+}
+
+@media (min-width: 960px) {
+  .tt-settings__container {
+    height: calc(100vh - 65px);
   }
 }
 

@@ -195,8 +195,9 @@ export default {
     agenciesTitle: 'Agences',
     searchAgency: 'Rechercher une agence',
     autoRefresh: 'Rafraichissement automatique',
+    autoRefreshDesc:
+      "Mise à jour toutes les 60 ou 120 secondes, selon l'agence.",
     autoRefreshOn: 'Activé',
-    autoRefreshOnDesc: 'Mise à jour toutes les 60 secondes',
     autoRefreshOff: 'Désactivé',
     theme: 'Thème',
     themeLight: 'Thème clair',
