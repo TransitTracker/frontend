@@ -29,6 +29,8 @@
       <v-btn
         v-else
         text
+        nuxt
+        :to="switchLocalePath(settingsLang === 'en' ? 'fr' : 'en')"
         @click="switchLanguage(settingsLang === 'en' ? 'fr' : 'en')"
       >
         {{ settingsLang === 'en' ? 'FR' : 'EN' }}
@@ -163,9 +165,6 @@ export default {
     settingsByod() {
       return this.$store.state.settings.activateByod
     },
-    settingsLang() {
-      return this.$store.state.settings.lang
-    },
     settingsDarkMode() {
       const setting = this.$store.state.settings.theme
       if (setting === 'system') {
@@ -175,20 +174,26 @@ export default {
       if (setting === 'dark') return true
       return false
     },
+    settingsLang() {
+      return this.$store.state.settings.lang
+    },
+    settingsLaunch() {
+      return this.$store.state.settings.launch
+    },
     updateAvailable() {
       return this.$store.state.app.updateAvailable
     },
   },
   mounted() {
+    this.redirect()
+
     if (this.settingsDarkMode) {
       // https://csabaszabo.dev/blog/dark-mode-for-website-with-nuxtjs-and-vuetify/
       setTimeout(() => (this.$vuetify.theme.dark = true), 0)
     }
 
     // Set language only if defined
-    if (this.settingsLang) {
-      this.$i18n.setLocale(this.settingsLang, false)
-    }
+    if (this.settingsLang) this.$i18n.setLocale(this.settingsLang)
 
     this.handlePwa()
   },
@@ -245,9 +250,15 @@ export default {
         })
       }
     },
-    switchLanguage(lang) {
-      this.$i18n.setLocale(lang)
+    redirect() {
+      if (!this.settingsLaunch) return
+      if (this.settingsLaunch === 'no') return
 
+      this.$router.push(
+        this.localePath(`/regions/${this.region}${this.settingsLaunch}`)
+      )
+    },
+    switchLanguage(lang) {
       this.$store.commit('settings/set', { setting: 'lang', value: lang })
     },
   },

@@ -81,13 +81,16 @@
           :value="settings.launch"
           @input="setSetting('launch', $event)"
         >
-          <SettingsItem :icon="mdiHome" value="/">
+          <SettingsItem :icon="mdiCloseCircleOutline" value="no">
+            {{ $t('settings.noRedirect') }}
+          </SettingsItem>
+          <SettingsItem :icon="mdiViewGrid" value="/">
             {{ $t('app.tabHome') }}
           </SettingsItem>
           <SettingsItem :icon="mdiMap" value="/map">
             {{ $t('app.tabMap') }}
           </SettingsItem>
-          <SettingsItem :icon="mdiTable" value="/list">
+          <SettingsItem :icon="mdiTable" value="/table">
             {{ $t('app.tabTable') }}
           </SettingsItem>
         </SettingsItemGroup>
@@ -126,8 +129,8 @@
 import {
   mdiBus,
   mdiClose,
+  mdiCloseCircleOutline,
   mdiFerry,
-  mdiHome,
   mdiMagnify,
   mdiMap,
   mdiMinus,
@@ -135,10 +138,11 @@ import {
   mdiPlus,
   mdiSync,
   mdiSyncOff,
-  mdiWeatherNight,
   mdiTable,
   mdiTrain,
   mdiTram,
+  mdiViewGrid,
+  mdiWeatherNight,
   mdiWhiteBalanceSunny,
 } from '@mdi/js'
 
@@ -152,7 +156,7 @@ export default {
   data: () => ({
     aboutDialog: false,
     mdiClose,
-    mdiHome,
+    mdiCloseCircleOutline,
     mdiMagnify,
     mdiMap,
     mdiMinus,
@@ -160,8 +164,9 @@ export default {
     mdiPlus,
     mdiSync,
     mdiSyncOff,
-    mdiWeatherNight,
     mdiTable,
+    mdiViewGrid,
+    mdiWeatherNight,
     mdiWhiteBalanceSunny,
     mdi: { bus: mdiBus, ferry: mdiFerry, train: mdiTrain, tram: mdiTram },
   }),

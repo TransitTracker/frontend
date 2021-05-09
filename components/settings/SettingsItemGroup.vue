@@ -1,5 +1,5 @@
 <template>
-  <v-item-group :value="value" @change="$emit('input', $event)">
+  <v-item-group :value="value" mandatory @change="$emit('input', $event)">
     <v-row dense>
       <slot />
     </v-row>

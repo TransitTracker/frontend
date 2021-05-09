@@ -1,11 +1,10 @@
-// TODO: remove default values
 export const state = () => ({
-  activeAgencies: ['stm'],
+  activeAgencies: [],
   autoRefresh: false,
   configurationDone: false,
   readAlerts: [],
-  currentRegion: 'montreal',
-  launch: '/',
+  currentRegion: 'mtl',
+  launch: 'no',
   lang: null,
   theme: 'system',
   activateByod: false,

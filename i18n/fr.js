@@ -204,6 +204,7 @@ export default {
     themeSystem: 'Système',
     themeSystemDesc: 'Selon les préférences de votre navigateur',
     defaultScreen: 'Écran par défaut',
+    noRedirect: 'Ne pas rediriger',
     language: 'Langue',
   },
   alert: {
