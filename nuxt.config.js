@@ -101,8 +101,11 @@ export default {
         data.data.forEach(({ slug }) => {
           routes.push(
             `/regions/${slug}`,
+            `/fr/regions/${slug}`,
             `/regions/${slug}/map`,
-            `/regions/${slug}/table`
+            `/fr/regions/${slug}/map`,
+            `/regions/${slug}/table`,
+            `/fr/regions/${slug}/table`
           )
         })
 
