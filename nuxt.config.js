@@ -1,9 +1,5 @@
-import VuetifyEn from 'vuetify/es5/locale/en'
-import VuetifyFr from 'vuetify/es5/locale/fr'
 import axios from 'axios'
 import { version } from './package.json'
-import en from './i18n/en'
-import fr from './i18n/fr'
 
 export default {
   // Target (https://go.nuxtjs.dev/config-target)
@@ -54,6 +50,7 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+    '@nuxtjs/sentry',
     'nuxt-i18n',
   ],
 
@@ -148,5 +145,10 @@ export default {
       theme_color: '#00497b',
       twitterCard: 'summary_large_image',
     },
+  },
+
+  sentry: {
+    dsn: process.env.SENTRY_DSN,
+    lazy: true,
   },
 }
