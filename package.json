@@ -21,7 +21,7 @@
     "gtfs-realtime-bindings": "^0.0.6",
     "mapbox-gl": "^2.2.0",
     "nuxt": "^2.15.4",
-    "nuxt-i18n": "^6.26.0",
+    "nuxt-i18n": "^6.27.0",
     "papaparse": "^5.3.0",
     "uuid": "^8.3.2",
     "vue-json-excel": "^0.3.0",
