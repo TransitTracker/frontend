@@ -7,8 +7,6 @@ export default (context, inject) => {
     broadcaster: 'pusher',
     key: process.env.wsKey,
     wsHost: process.env.wsHost,
-    wsPort: process.env.wsPort,
-    wssPort: process.env.wsPort,
     forceTLS: true,
     disableStats: true,
     enabledTransports: ['ws', 'wss'],
