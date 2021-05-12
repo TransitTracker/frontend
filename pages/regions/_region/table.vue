@@ -4,6 +4,9 @@
     :headers="headers"
     :items="vehicles"
     :items-per-page="100"
+    :footer-props="{
+      itemsPerPageOptions: [25, 50, 100, 150, 200, -1],
+    }"
     :search="searchAll"
     class="mb-14"
   >
@@ -34,7 +37,7 @@
         <td>
           <v-text-field
             v-model="searchLabel"
-            :prepend-icon="mdiMagnify"
+            :prepend-inner-icon="mdiMagnify"
             :placeholder="$t('table.filter')"
             dense
             hide-details
@@ -44,7 +47,7 @@
         <td>
           <v-text-field
             v-model="searchRoute"
-            :prepend-icon="mdiMagnify"
+            :prepend-inner-icon="mdiMagnify"
             :placeholder="$t('table.filter')"
             dense
             hide-details
@@ -54,7 +57,7 @@
         <td>
           <v-text-field
             v-model="searchHeadsign"
-            :prepend-icon="mdiMagnify"
+            :prepend-inner-icon="mdiMagnify"
             :placeholder="$t('table.filter')"
             dense
             hide-details
@@ -64,7 +67,7 @@
         <td>
           <v-text-field
             v-model="searchTrip"
-            :prepend-icon="mdiMagnify"
+            :prepend-inner-icon="mdiMagnify"
             :placeholder="$t('table.filter')"
             dense
             hide-details
@@ -86,15 +89,10 @@
     </template>
     <!-- eslint-disable-next-line -->
     <template v-slot:item.routeId="{ item }">
-      <v-chip
-        :color="colorFilter(item.trip.routeColor)"
-        :text-color="colorFilter(item.trip.routeTextColor)"
-      >
-        {{ item.routeId }}
-        <span v-if="item.trip.routeLongName">
-          &nbsp;{{ item.trip.routeLongName }}
-        </span>
-      </v-chip>
+      {{ item.trip.routeShortName || item.routeId }}
+      <span v-if="item.trip.routeLongName">
+        &nbsp;{{ item.trip.routeLongName }}
+      </span>
     </template>
   </v-data-table>
 </template>
@@ -119,6 +117,7 @@ export default {
         {
           text: this.$t('table.dataRef'),
           value: 'label',
+          divider: true,
           filter: (value, search, item) => {
             return (value || item.ref + '')
               .toLowerCase()
@@ -128,6 +127,7 @@ export default {
         {
           text: this.$t('table.dataRoute'),
           value: 'routeId',
+          divider: true,
           sort: this.sortNumber,
           filter: (value) => {
             return (value + '')
@@ -138,6 +138,7 @@ export default {
         {
           text: this.$t('table.dataHeadsign'),
           value: 'trip.headsign',
+          divider: true,
           filter: (value) => {
             return (value + '')
               .toLowerCase()
@@ -147,6 +148,7 @@ export default {
         {
           text: this.$t('table.dataTripId'),
           value: 'tripId',
+          divider: true,
           filter: (value) => {
             return (value + '')
               .toLowerCase()
@@ -156,10 +158,12 @@ export default {
         {
           text: this.$t('table.dataStartTime'),
           value: 'startTime',
+          divider: true,
         },
         {
           text: this.$t('table.actions'),
           value: 'actions',
+          divider: true,
           sortable: false,
         },
       ],
@@ -200,11 +204,6 @@ export default {
     },
   },
   methods: {
-    colorFilter(value) {
-      if (typeof value !== 'string') return null
-      if (value.startsWith('#')) return value
-      return '#'.concat(value)
-    },
     setSelection(vehicle) {
       this.$store.commit('vehicles/setSelection', vehicle)
       this.$router.push(
