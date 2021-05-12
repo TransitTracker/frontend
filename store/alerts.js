@@ -4,6 +4,18 @@ export const state = () => ({
   data: [],
 })
 
+export const getters = {
+  getCurrentAlert: (state, getters, rootState) => {
+    const result = state.data.filter((alert) => {
+      return !rootState.settings.readAlerts.includes(alert.id)
+    })
+
+    if (!result.length) return null
+
+    return result[0]
+  },
+}
+
 export const mutations = {
   add(state, alert) {
     Vue.set(state.data, alert.id, alert)

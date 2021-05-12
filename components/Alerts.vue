@@ -1,38 +1,37 @@
 <template>
   <v-banner
-    v-if="alerts.length && showBanner"
+    v-if="alert && showBanner"
     class="tt-banner"
-    :color="alerts[0] ? alerts[0].color : null"
+    :color="alert ? alert.color : null"
     :dark="isDark"
     single-line
   >
     <v-icon class="mr-2">
-      {{ alerts[0].icon }}
+      {{ alert.icon }}
     </v-icon>
-    {{ alerts[0].title }}
+    {{ alert.title }}
     <template #actions>
       <v-btn
-        v-if="alerts[0].action === 'openLink'"
-        :href="alerts[0].actionParameters.url"
+        v-if="alert.action === 'openLink'"
+        :href="alert.actionParameters.url"
         target="_blank"
         text
-        :title="alerts[0].actionParameters.title[lang]"
+        :title="alert.actionParameters.title[lang]"
         :icon="$vuetify.breakpoint.smAndDown"
       >
         <v-icon class="d-md-none">{{ mdiOpenInNew }}</v-icon>
         <span class="d-none d-md-block">{{
-          alerts[0].actionParameters.title &&
-          alerts[0].actionParameters.title[lang]
+          alert.actionParameters.title && alert.actionParameters.title[lang]
         }}</span>
       </v-btn>
       <v-btn v-else text @click="showDialog = true">
         {{ $t('alert.readMore') }}
       </v-btn>
       <v-btn
-        v-if="alerts[0].canBeClosed"
+        v-if="alert.canBeClosed"
         icon
         :title="$t('alert.close')"
-        @click="markAsRead(alerts[0].id)"
+        @click="markAsRead(alert.id)"
       >
         <v-icon>{{ mdiClose }}</v-icon>
       </v-btn>
@@ -40,7 +39,7 @@
     <v-dialog v-model="showDialog" width="500px">
       <v-card>
         <v-toolbar>
-          <v-toolbar-title>{{ alerts[0].title }}</v-toolbar-title>
+          <v-toolbar-title>{{ alert.title }}</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-btn
             icon
@@ -51,17 +50,17 @@
           </v-btn>
         </v-toolbar>
         <v-img
-          v-if="alerts[0].image"
-          :src="`${backendHost}/storage/content/alerts/${alerts[0].image}`"
+          v-if="alert.image"
+          :src="`${backendHost}/storage/content/alerts/${alert.image}`"
         ></v-img>
         <!-- eslint-disable-next-line -->
-        <v-card-text class="mt-4 text-body-1" v-html="alerts[0].body"></v-card-text>
+        <v-card-text class="mt-4 text-body-1" v-html="alert.body"></v-card-text>
         <v-card-actions>
           <v-btn
-            v-if="alerts[0].canBeClosed"
+            v-if="alert.canBeClosed"
             text
             color="primary"
-            @click="markAsRead(alerts[0].id)"
+            @click="markAsRead(alert.id)"
           >
             <v-icon left>{{ mdiBookmarkCheck }}</v-icon>
             {{ $t('alert.markAsRead') }}
@@ -86,12 +85,8 @@ export default {
     color: 'primary',
   }),
   computed: {
-    alerts() {
-      const readAlerts = this.$store.state.settings.readAlerts
-      const alerts = this.$store.state.alerts.data
-      return alerts.filter((alert) => {
-        return !readAlerts.includes(alert.id)
-      })
+    alert() {
+      return this.$store.getters['alerts/getCurrentAlert']
     },
     currentRegion() {
       return this.$store.state.settings.currentRegion
@@ -132,6 +127,6 @@ export default {
 
 <style>
 .tt-banner {
-  z-index: 6;
+  z-index: 4;
 }
 </style>

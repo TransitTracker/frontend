@@ -1,6 +1,12 @@
 <template>
   <v-app class="tt-app">
-    <v-app-bar fixed app color="primary" dark>
+    <v-app-bar
+      fixed
+      app
+      color="primary"
+      dark
+      :elevation="hasAlert ? 0 : undefined"
+    >
       <img
         src="/img/logo-white.svg"
         loading="lazy"
@@ -148,6 +154,9 @@ export default {
     return this.$nuxtI18nHead({ addSeoAttributes: true })
   },
   computed: {
+    hasAlert() {
+      return this.$store.getters['alerts/getCurrentAlert']
+    },
     dataIsLoaded() {
       return this.$store.state.app.dataIsLoaded
     },
