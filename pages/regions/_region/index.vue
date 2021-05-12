@@ -7,7 +7,14 @@
             {{ $t('home.welcome') }} Transit&nbsp;Tracker
           </h1>
           <h2 class="text-subtitle-1">
-            {{ $t('home.version') }} {{ version }}
+            {{ $t('home.version') }} {{ version }} -
+            <a
+              href="#"
+              :class="[!darkMode && 'black--text']"
+              @click="changelogDialog = true"
+            >
+              {{ $t('home.whatsNew') }}
+            </a>
           </h2>
           <v-btn
             title="GitHub"
@@ -110,6 +117,7 @@
         </v-col>
       </v-row>
     </v-container>
+    <HomeChangelog v-model="changelogDialog" />
     <HomeDownloadDialog v-model="downloadDialog" />
   </div>
 </template>
@@ -127,6 +135,7 @@ export default {
     }
   },
   data: () => ({
+    changelogDialog: false,
     downloadDialog: false,
   }),
   head() {

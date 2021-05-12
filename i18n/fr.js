@@ -37,6 +37,7 @@ export default {
   home: {
     welcome: 'Bienvenue dans ',
     version: 'Version',
+    whatsNew: 'Quoi de neuf?',
     exitBeta: 'Quitter la version bêta',
     download: 'Télécharger',
     downloadTitle: 'Télécharger les données',

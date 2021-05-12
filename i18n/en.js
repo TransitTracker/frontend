@@ -37,6 +37,7 @@ export default {
   home: {
     welcome: 'Welcome to ',
     version: 'Version',
+    whatsNew: "What's new?",
     exitBeta: 'Exit beta version',
     vehicleTotal: 'vehicles are active',
     download: 'Download',
