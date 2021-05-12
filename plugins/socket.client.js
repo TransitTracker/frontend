@@ -9,7 +9,7 @@ export default (context, inject) => {
     wsHost: process.env.wsHost,
     wsPort: process.env.wsPort,
     wssPort: process.env.wsPort,
-    forceTLS: false,
+    forceTLS: true,
     disableStats: true,
     enabledTransports: ['ws', 'wss'],
   })
