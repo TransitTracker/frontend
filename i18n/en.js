@@ -19,8 +19,7 @@ export default {
     welcome: 'Welcome to Transit&nbsp;Tracker',
     intro: 'An overview of the public transport network for',
     introCities: 'several Canadian cities',
-    body:
-      'There are currently {totalVehicles} active vehicles across {totalAgencies} agencies.',
+    body: 'There are currently {totalVehicles} active vehicles across {totalAgencies} agencies.',
     byodNew: 'New!',
     byodTitle: 'Import your own data',
     byodBody:
@@ -58,7 +57,7 @@ export default {
   mapFooter: {
     select: 'Please select a vehicle to see more information',
     // Padding
-    scroll: 'Scroll down',
+    scroll: 'Scroll',
   },
   mapBottomSheet: {
     close: 'Close',
@@ -170,8 +169,7 @@ export default {
       corsError: 'This could be a CORS error.',
       autoRefresh: 'Auto refresh every minute',
       saveAndFetch: 'Save and fetch feed',
-      note:
-        'If the agency is activated, and the vehicles imported, they will be accessible in every region of Transit Tracker. All imported data is saved directly in your browser.',
+      note: 'If the agency is activated, and the vehicles imported, they will be accessible in every region of Transit Tracker. All imported data is saved directly in your browser.',
       wait: 'Please wait. It could take a couple of minutes.',
     },
     data: {
@@ -254,8 +252,7 @@ export default {
   },
   aboutDialog: {
     title: 'About Transit Tracker',
-    body:
-      'Transit Tracker is an open-source application that transforms and visualizes real-time data from multiple transit agencies. The application uses many open source projects, such as:',
+    body: 'Transit Tracker is an open-source application that transforms and visualizes real-time data from multiple transit agencies. The application uses many open source projects, such as:',
     openSource: 'Open source',
     dev: 'Developers',
     devBody:

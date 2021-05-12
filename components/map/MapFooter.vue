@@ -56,13 +56,12 @@
           {{ agency.name }}
         </p>
       </div>
-      <v-spacer></v-spacer>
       <div
         :style="{
           color: vehicle.trip.routeTextColor,
           backgroundColor: vehicle.trip.routeColor,
         }"
-        class="py-1.5 px-3 rounded tt-footer__line"
+        class="py-1.5 px-3 rounded tt-footer__line ml-4 ml-md-0"
         :class="[!vehicle.trip.routeLongName && 'text-center']"
       >
         <small
@@ -75,8 +74,13 @@
         <b class="mb-0">
           {{ vehicle.trip.routeShortName || vehicle.routeId }}
         </b>
-        <p class="mb-0 text-body-2 d-none d-md-block">
+        <p class="mb-0 text-body-2 d-none d-md-block text-truncate">
           {{ vehicle.trip.routeLongName }}
+          {{
+            vehicle.trip.headsign !== vehicle.trip.routeLongName
+              ? vehicle.trip.headsign
+              : ''
+          }}
         </p>
       </div>
       <MapProperty
@@ -105,14 +109,12 @@
         :value-title="vehicle.congestionLevel.label"
       />
       <v-spacer />
-      <v-tooltip left>
-        <template #activator="{ on, attrs }">
-          <v-icon class="tt-footer__chevron" v-bind="attrs" v-on="on">
-            {{ mdiArrowDown }}
-          </v-icon>
-        </template>
-        <span>{{ $t('mapFooter.scroll') }}</span>
-      </v-tooltip>
+      <div class="d-flex flex-column align-center">
+        <span class="text-caption">{{ $t('mapFooter.scroll') }}</span>
+        <v-icon class="tt-footer__chevron" size="20">
+          {{ mdiArrowDown }}
+        </v-icon>
+      </div>
     </v-footer>
     <MapBottomSheet />
   </div>
@@ -201,6 +203,10 @@ export default {
   padding: 0 16px;
   position: relative;
 
+  &__chevron {
+    animation: bounce 1s infinite;
+  }
+
   &__slider {
     position: absolute;
     top: 0;
@@ -214,13 +220,25 @@ export default {
 
     &__arrow {
       position: absolute;
-      top: -8px;
-      bottom: -8px;
-      left: -8px;
-      right: -8px;
-      width: 64px;
-      height: 64px;
+      top: -12px;
+      bottom: -12px;
+      left: -12px;
+      right: -12px;
+      width: 72px;
+      height: 72px;
     }
+  }
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(-15%);
+    animationtimingfunction: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateY(0);
+    animationtimingfunction: cubic-bezier(0, 0, 0.2, 1);
   }
 }
 
@@ -230,6 +248,7 @@ export default {
 
     &__line {
       min-width: 200px;
+      max-width: 250px;
     }
   }
 }
@@ -239,12 +258,12 @@ export default {
     top: calc(100vh - 56px - 80px - 56px);
   }
   .tt-footer__vehicle__arrow {
-    top: -6px;
-    bottom: -6px;
-    left: -6px;
-    right: -6px;
-    height: 48px;
-    width: 48px;
+    top: -10px;
+    bottom: -10px;
+    left: -10px;
+    right: -10px;
+    height: 56px;
+    width: 56px;
   }
 }
 </style>

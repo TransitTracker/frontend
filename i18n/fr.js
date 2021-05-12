@@ -19,8 +19,7 @@ export default {
     welcome: 'Bienvenue dans Transit&nbsp;Tracker',
     intro: "Une vue d'ensemble du réseau de transport en commun pour",
     introCities: 'plusieurs villes Canadiennes',
-    body:
-      'En ce moment, il y a {totalVehicles} véhicules actifs à travers {totalAgencies} agences.',
+    body: 'En ce moment, il y a {totalVehicles} véhicules actifs à travers {totalAgencies} agences.',
     byodNew: 'Nouveau!',
     byodTitle: 'Importez vos propres données',
     byodBody:
@@ -58,7 +57,7 @@ export default {
   mapFooter: {
     select:
       'Veuillez sélectionner un véhicule pour y consulter toutes les informations',
-    scroll: 'Défilez vers le bas',
+    scroll: 'Défilez',
   },
   mapBottomSheet: {
     close: 'Fermer',
@@ -170,8 +169,7 @@ export default {
       corsError: 'Il est possible que ce soit une erreur CORS.',
       autoRefresh: 'Mise à jour automatique à chaque minute',
       saveAndFetch: 'Sauvegarder et récupérer le flux',
-      note:
-        "Une fois l'agence activée et les véhicules importés, ils seront disponibles dans toutes les régions de Transit Tracker. Toutes les données importées sont sauvegardées dans votre navigateur.",
+      note: "Une fois l'agence activée et les véhicules importés, ils seront disponibles dans toutes les régions de Transit Tracker. Toutes les données importées sont sauvegardées dans votre navigateur.",
       wait: 'Veuillez attendre. Ceci pourrait prendre quelques minutes.',
     },
     data: {
@@ -254,8 +252,7 @@ export default {
   },
   aboutDialog: {
     title: 'À propos de Transit Tracker',
-    body:
-      "Transit Tracker est une application à code source ouvert qui permet de transformer et visualiser les données en temps réel de plusieurs agences de transport en commun. L'application utilise de nombreux projets à code source ouvert, tels que :",
+    body: "Transit Tracker est une application à code source ouvert qui permet de transformer et visualiser les données en temps réel de plusieurs agences de transport en commun. L'application utilise de nombreux projets à code source ouvert, tels que :",
     openSource: 'Code source',
     dev: 'Développeurs',
     devBody:
