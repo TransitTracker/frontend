@@ -127,6 +127,7 @@ export default {
     wsPort: process.env.WS_PORT || 6001,
     wsTls: process.env.WS_TLS || true,
     imageKit: process.env.IMAGE_KIT,
+    commitHash: process.env.COMMIT_REF,
   },
 
   pwa: {

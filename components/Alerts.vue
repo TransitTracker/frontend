@@ -13,7 +13,7 @@
     <template #actions>
       <v-btn
         v-if="alert.action === 'openLink'"
-        :href="alert.actionParameters.url"
+        :href="actionUrl"
         target="_blank"
         text
         :title="alert.actionParameters.title[lang]"
@@ -85,6 +85,17 @@ export default {
     color: 'primary',
   }),
   computed: {
+    actionUrl() {
+      if (!this.alert.actionParameters.url) return
+      if (typeof this.alert.actionParameters.url !== 'object') {
+        return this.alert.actionParameters.url
+      }
+
+      return this.alert.actionParameters.url[this.lang]
+        .replace(':version', encodeURIComponent(process.env.version))
+        .replace(':commit', encodeURIComponent(process.env.commitHash))
+        .replace(':region', encodeURIComponent(this.currentRegion))
+    },
     alert() {
       return this.$store.getters['alerts/getCurrentAlert']
     },
