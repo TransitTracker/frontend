@@ -264,7 +264,16 @@ export default {
       })
     },
     selectVehicle(vehicle) {
-      this.map.flyTo({ center: vehicle.position, zoom: 12 })
+      // Zoom only if map only if zoom < 12
+      if (this.map.getZoom() < 12) {
+        this.map.flyTo({
+          center: vehicle.position,
+          zoom: 12,
+        })
+      } else {
+        this.map.panTo(vehicle.position)
+      }
+
       if (vehicle.trip.shapeLink) {
         this.map
           .getSource('tt-shape-source')
