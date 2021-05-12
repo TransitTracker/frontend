@@ -1,6 +1,7 @@
 <template>
   <v-data-table
     group-by="agency"
+    :custom-filter="filterAllFields"
     :headers="headers"
     :items="vehicles"
     :items-per-page="100"
@@ -104,13 +105,6 @@ export default {
   asyncData() {
     return { mdiMagnify, mdiMapMarker, mdiMinus, mdiPlus }
   },
-  filter: {
-    color(value) {
-      if (typeof value !== 'string') return null
-      if (value.startsWith('#')) return value
-      return '#'.concat(value)
-    },
-  },
   data() {
     return {
       headers: [
@@ -129,8 +123,13 @@ export default {
           value: 'routeId',
           divider: true,
           sort: this.sortNumber,
-          filter: (value) => {
-            return (value + '')
+          filter: (value, search, item) => {
+            return (
+              value +
+              item.trip.routeShortName +
+              item.trip.routeLongName +
+              ''
+            )
               .toLowerCase()
               .includes(this.searchRoute.toLowerCase())
           },
@@ -158,6 +157,7 @@ export default {
         {
           text: this.$t('table.dataStartTime'),
           value: 'startTime',
+          width: 105,
           divider: true,
         },
         {
@@ -204,6 +204,23 @@ export default {
     },
   },
   methods: {
+    filterAllFields(value, search, item) {
+      if (!search) return true
+
+      return [
+        item.ref,
+        item.label,
+        item.routeId,
+        item.trip.routeShortName,
+        item.trip.routeLongName,
+        item.trip.headsign,
+        item.tripId,
+      ]
+        .filter(Boolean)
+        .join('')
+        .toLowerCase()
+        .includes(search.toLowerCase())
+    },
     setSelection(vehicle) {
       this.$store.commit('vehicles/setSelection', vehicle)
       this.$router.push(
