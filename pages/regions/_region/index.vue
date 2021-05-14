@@ -126,6 +126,7 @@
 import { mdiDownload, mdiGithub } from '@mdi/js'
 
 export default {
+  middleware: 'loadData',
   asyncData({ params }) {
     return {
       regionSlug: params.region,

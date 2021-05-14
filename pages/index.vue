@@ -62,7 +62,17 @@
       </div>
     </div>
     <div
-      class="tt-landing-content flex-shrink-0 d-flex flex-column justify-md-center px-8 pt-8 pt-md-0 mb-md-0 pb-4 pb-md-0"
+      class="
+        tt-landing-content
+        flex-shrink-0
+        d-flex
+        flex-column
+        justify-md-center
+        px-8
+        pt-8 pt-md-0
+        mb-md-0
+        pb-4 pb-md-0
+      "
       :class="[dataIsLoaded && 'mb-14']"
     >
       <!-- eslint-disable vue/no-v-html -->
@@ -136,6 +146,23 @@ import { mdiArrowRight, mdiMap, mdiTable } from '@mdi/js'
 
 export default {
   name: 'Landing',
+  middleware: ({ store, redirect }) => {
+    // Redirct users if they want to
+    if (!store.state.app.firstLoad) return
+
+    store.commit('app/set', { key: 'firstLoad', value: false })
+
+    const launch = store.state.settings.launch
+
+    // If no settings or settings is no, don't redirect
+    if (!launch || launch === 'no') return
+
+    return redirect(
+      `${store.state.settings.lang === 'fr' ? '/fr' : ''}/regions/${
+        store.state.settings.currentRegion
+      }${launch}`
+    )
+  },
   async asyncData({ app }) {
     const mapStyle = {
       dark: process.env.mabboxStyleDark,

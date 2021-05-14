@@ -1,4 +1,5 @@
 export const state = () => ({
+  firstLoad: true,
   dataIsLoaded: false,
   canInstall: false,
   installPrompt: null,

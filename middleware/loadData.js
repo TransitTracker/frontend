@@ -1,15 +1,4 @@
 export default async ({ error, route, store, params }) => {
-  // Save language if not set
-  if (!store.state.settings.lang) {
-    store.commit('settings/set', {
-      setting: 'lang',
-      value: route.path.includes('fr') ? 'fr' : 'en ',
-    })
-  }
-
-  // User is visiting a route where data is not neccessary
-  if (!params.region) return
-
   // User has never loaded app
   if (!store.state.app.dataIsLoaded) {
     await store.dispatch('app/loadData', params.region)

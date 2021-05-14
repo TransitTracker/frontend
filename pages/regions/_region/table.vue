@@ -102,6 +102,7 @@
 import { mdiMagnify, mdiMapMarker, mdiMinus, mdiPlus } from '@mdi/js'
 
 export default {
+  middleware: 'loadData',
   asyncData() {
     return { mdiMagnify, mdiMapMarker, mdiMinus, mdiPlus }
   },

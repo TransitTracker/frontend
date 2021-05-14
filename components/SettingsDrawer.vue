@@ -185,13 +185,13 @@ export default {
   },
   methods: {
     setSetting(setting, value) {
-      this.$store.commit('settings/set', { setting, value })
-
       if (setting === 'theme') {
         this.$vuetify.theme.dark = this.getTheme(value)
       } else if (setting === 'lang') {
-        this.$i18n.setLocale(value)
+        return this.$i18n.setLocale(value)
       }
+
+      this.$store.commit('settings/set', { setting, value })
     },
     getTheme(value) {
       if (value === 'system') {

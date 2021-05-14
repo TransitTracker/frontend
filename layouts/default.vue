@@ -194,8 +194,6 @@ export default {
     },
   },
   mounted() {
-    this.redirect()
-
     if (this.settingsDarkMode) {
       // https://csabaszabo.dev/blog/dark-mode-for-website-with-nuxtjs-and-vuetify/
       setTimeout(() => (this.$vuetify.theme.dark = true), 0)
@@ -258,14 +256,6 @@ export default {
           }
         })
       }
-    },
-    redirect() {
-      if (!this.settingsLaunch) return
-      if (this.settingsLaunch === 'no') return
-
-      this.$router.push(
-        this.localePath(`/regions/${this.region}${this.settingsLaunch}`)
-      )
     },
     switchLanguage(lang) {
       this.$store.commit('settings/set', { setting: 'lang', value: lang })
