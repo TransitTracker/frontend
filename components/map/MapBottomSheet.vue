@@ -1,38 +1,11 @@
 <template>
   <div>
-    <v-sheet
-      class="d-flex justify-space-around"
-      :color="darkMode ? '' : 'grey lighten-4'"
-      :style="{ backgroundColor: darkMode && '#272727' }"
-    >
-      <MapProperty
-        v-if="vehicle.speed"
-        :icon="mdiSpeedometer"
-        :icon-title="$t('mapBottomSheet.properties.speed')"
-        :value="`${vehicle.speed} km/h`"
-      />
-      <MapProperty
-        v-if="vehicle.occupancyStatus.data"
-        progress
-        :icon="mdiSeatPassenger"
-        :icon-title="$t('mapBottomSheet.properties.occupancyStatus')"
-        :value="(vehicle.occupancyStatus.data / 5) * 100"
-        :value-title="vehicle.occupancyStatus.label"
-      />
-      <MapProperty
-        v-if="vehicle.congestionLevel.data"
-        progress
-        :icon="mdiTrafficLight"
-        :icon-title="$t('mapBottomSheet.properties.congestionLevel')"
-        :value="(vehicle.congestionLevel.data / 5) * 100"
-        :value-title="vehicle.congestionLevel.label"
-      />
-    </v-sheet>
     <v-slide-group
       v-if="Object.keys(links).length"
-      class="px-4 pt-2"
+      class="px-4 pt-2 tt-links-slider"
       :class="[darkMode ? 'dark' : 'white']"
       show-arrows
+      :prev-icon="null"
     >
       <v-slide-item v-for="(link, index) in links" :key="index">
         <v-skeleton-loader
@@ -118,6 +91,10 @@
                   }}
                 </span>
                 <span v-if="property.name === 'odometer'">km</span>
+                <span v-if="property.name === 'speed'">km/h</span>
+                <code v-if="property.showRaw">
+                  {{ vehicle[property.parent].data }}
+                </code>
               </p>
               <v-btn
                 v-if="property.help"
@@ -126,7 +103,7 @@
                 class="float-right"
                 @click="helpToggle[property.name] = !helpToggle[property.name]"
               >
-                <v-icon color="secondary">
+                <v-icon color="secondary-dark">
                   {{ helpToggle[property.name] ? mdiClose : mdiHelpCircle }}
                 </v-icon>
               </v-btn>
@@ -136,7 +113,13 @@
             </v-list-item-title>
             <v-list-item-subtitle
               v-if="helpToggle[property.name]"
-              class="pa-2 secondary darken-3 white--text rounded white-space--normal"
+              class="
+                pa-2
+                secondary-dark
+                white--text
+                rounded
+                white-space--normal
+              "
             >
               {{ $t(`mapBottomSheet.help.${property.name}`) }}
             </v-list-item-subtitle>
@@ -297,11 +280,30 @@ export default {
         label: 'currentStatus',
         icon: mdiBusStop,
         help: true,
+        showRaw: true,
       },
       {
         name: 'currentStopSequence',
         icon: mdiTimetable,
         help: true,
+      },
+      {
+        name: 'speed',
+        icon: mdiSpeedometer,
+      },
+      {
+        name: 'label',
+        parent: 'occupancyStatus',
+        label: 'occupancyStatus',
+        icon: mdiSeatPassenger,
+        showRaw: true,
+      },
+      {
+        name: 'label',
+        parent: 'congestionLevel',
+        label: 'congestionLevel',
+        icon: mdiTrafficLight,
+        showRaw: true,
       },
     ],
     helpToggle: {
@@ -396,5 +398,14 @@ export default {
 }
 .jv-light .jv-tooltip.right {
   right: 0;
+}
+.tt-links-slider .v-slide-group__prev {
+  display: none;
+}
+.tt-links-slider .v-slide-group__next {
+  min-width: unset;
+}
+.tt-links-slider .v-slide-group__content .v-sheet:first-child {
+  margin-left: 4px;
 }
 </style>

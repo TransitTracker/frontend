@@ -111,12 +111,18 @@
       <v-spacer />
       <div class="d-flex flex-column align-center">
         <span class="text-caption">{{ $t('mapFooter.scroll') }}</span>
-        <v-icon class="tt-footer__chevron" size="20">
-          {{ mdiArrowDown }}
-        </v-icon>
+        <v-btn
+          :title="$t('mapFooter.scroll')"
+          icon
+          @click="scrollToBottomSheet"
+        >
+          <v-icon class="tt-footer__chevron" size="20">
+            {{ mdiArrowDown }}
+          </v-icon>
+        </v-btn>
       </div>
     </v-footer>
-    <MapBottomSheet />
+    <MapBottomSheet ref="bottomSheet" />
   </div>
   <v-footer
     v-else
@@ -183,6 +189,11 @@ export default {
       if (typeof value !== 'string') return null
       if (value.startsWith('#')) return value
       return '#'.concat(value)
+    },
+    scrollToBottomSheet() {
+      this.$refs.bottomSheet?.$el?.scrollIntoView({
+        behavior: 'smooth',
+      })
     },
   },
 }
