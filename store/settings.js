@@ -40,6 +40,8 @@ export const actions = {
     activeAgencies.forEach((agency) => {
       dispatch('vehicles/load', agency, { root: true })
     })
+
+    dispatch('regions/connectToAutoRefresh', region, { root: true })
   },
   toggleAgency({ commit, dispatch, rootState, state }, agency) {
     const setting = [...state.activeAgencies]

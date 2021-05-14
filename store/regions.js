@@ -28,4 +28,27 @@ export const actions = {
 
     return slugs
   },
+  connectToAutoRefresh({ rootState, dispatch }, region) {
+    // Remove any existing channels
+    Object.keys(this.$echo.connector?.channels).forEach((channel) => {
+      this.$echo.leave(channel)
+    })
+
+    // Add the new channel
+    this.$echo.channel(region.slug).listen('VehiclesUpdated', (event) => {
+      // Check if autoRefresh is enabled and if agency is selected in settings
+      if (!rootState.settings.autoRefresh) return false
+      if (!rootState.settings.activeAgencies.includes(event.slug)) {
+        return false
+      }
+
+      // Find agency
+      const agency = rootState.agencies.data[event.slug]
+
+      // If dosen't exist, don't proceed
+      if (!agency) return false
+
+      dispatch('vehicles/load', agency, { root: true })
+    })
+  },
 }

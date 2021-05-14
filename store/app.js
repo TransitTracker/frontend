@@ -47,6 +47,14 @@ export const actions = {
     dispatch('alerts/load', regionSlug, { root: true })
 
     commit('setDataAsLoaded')
+
+    // Connect to auto refresh
+    dispatch(
+      'regions/connectToAutoRefresh',
+      { slug: regionSlug },
+      { root: true }
+    )
+
     return true
   },
   promptInstaller({ commit, state }) {

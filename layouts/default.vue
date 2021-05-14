@@ -96,10 +96,7 @@
         </v-btn>
       </v-bottom-navigation>
     </nav>
-    <RegionSwitcher
-      v-model="regionSwitcher"
-      @new-region="listenToUpdates($event)"
-    />
+    <RegionSwitcher v-model="regionSwitcher" />
     <component :is="byodInjector" />
     <v-snackbar
       v-model="updateAvailable"
@@ -205,29 +202,6 @@ export default {
     this.handlePwa()
   },
   methods: {
-    listenToUpdates(region) {
-      // Remove any existing channels
-      Object.keys(this.$echo.connector?.channels).forEach((channel) => {
-        this.$echo.leave(channel)
-      })
-
-      // Add the new channel
-      this.$echo.channel(region.slug).listen('VehiclesUpdated', (event) => {
-        // Check if autoRefresh is enabled and if agency is selected in settings
-        if (!this.settingsAutoRefresh) return false
-        if (!this.$store.state.settings.activeAgencies.includes(event.slug)) {
-          return false
-        }
-
-        // Find agency
-        const agency = this.$store.state.agencies.data[event.slug]
-
-        // If dosen't exist, don't proceed
-        if (!agency) return false
-
-        this.$store.dispatch('vehicles/load', agency)
-      })
-    },
     async handlePwa() {
       // Install prompt
       window.addEventListener('beforeinstallprompt', (event) => {
