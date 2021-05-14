@@ -48,7 +48,7 @@ export default {
       value: query.re,
     })
 
-    return redirect(app.localePath('/'))
+    return redirect(app.localePath(`/regions/${query.re}${query.dp}`))
   },
   head() {
     return {
