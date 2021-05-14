@@ -32,7 +32,7 @@ export const mutations = {
 }
 
 export const actions = {
-  async load({ commit }, agency) {
+  async load({ commit, state }, agency) {
     const response = await this.$axios.get(`/agencies/${agency.slug}/vehicles`)
     commit('set', {
       agency,
@@ -46,6 +46,15 @@ export const actions = {
       { agency, timestamp: response.data.timestamp },
       { root: true }
     )
+
+    // If selected vehicle is from this agency, replace it or erase it
+    if (state.selection.agency === agency.slug) {
+      const vehicle = response.data.data.find(
+        ({ id }) => id === state.selection.id
+      )
+      if (vehicle) commit('setSelection', vehicle)
+      else commit('setSelection', {})
+    }
   },
   setSelectionById({ commit, state }, { id, agency }) {
     const vehicle = state.data[agency.slug].find((vehicle) => vehicle.id === id)
