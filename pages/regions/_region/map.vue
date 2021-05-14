@@ -7,10 +7,34 @@
       :sheet-open="sheetOpen"
       @close-sheet="sheetOpen = false"
     />
+    <div
+      ref="mapPopup"
+      class="
+        tt-map__popup
+        black--text
+        text-subtitle-1
+        d-flex
+        align-center
+        mt-n1
+        mb-n2
+      "
+    >
+      <v-icon
+        v-if="selectedVehicle.bearing"
+        color="black"
+        size="20"
+        class="mr-1"
+        :style="{ transform: `rotate(${selectedVehicle.bearing}deg)` }"
+      >
+        {{ mdiNavigation }}
+      </v-icon>
+      <span>{{ selectedVehicle.label || selectedVehicle.ref }}</span>
+    </div>
   </div>
 </template>
 
 <script>
+import { mdiNavigation } from '@mdi/js'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 
@@ -30,6 +54,7 @@ export default {
         light: process.env.mabboxStyleLight,
       },
       mapAccessToken: process.env.mapboxAccessToken,
+      mdiNavigation,
     }
   },
   data: () => ({
@@ -303,11 +328,7 @@ export default {
 
       new mapboxgl.Popup({ offset: [0, -35], closeButton: false })
         .setLngLat(vehicle.position)
-        .setHTML(
-          `<p class="text-caption black--text mb-0">
-          ${vehicle.label || vehicle.ref}
-          </p>`
-        )
+        .setDOMContent(this.$refs.mapPopup)
         .addTo(this.map)
     },
     switchBaseStyle(to) {
@@ -345,6 +366,10 @@ export default {
 
 .mapboxgl-ctrl-logo {
   margin-bottom: 60px !important;
+}
+
+.tt-map__popup {
+  display: none;
 }
 
 @media only screen and (max-width: 960px) {
