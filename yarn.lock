@@ -11286,10 +11286,10 @@ vue-json-excel@^0.3.0:
   dependencies:
     downloadjs "^1.4.7"
 
-vue-json-viewer@^2.2.18:
-  version "2.2.18"
-  resolved "https://registry.yarnpkg.com/vue-json-viewer/-/vue-json-viewer-2.2.18.tgz#a9bf5e17492793ba484c6bf67bd00468896982e3"
-  integrity sha512-OytvjRrnmH2cUfz8hbXM34GuYW08LFCQIr7tppQRJIaqGfVpn96F0cOuV+8ezwoEpeRT8xmldpeATBhiimNYDQ==
+vue-json-viewer@^2.2.19:
+  version "2.2.19"
+  resolved "https://registry.yarnpkg.com/vue-json-viewer/-/vue-json-viewer-2.2.19.tgz#be848e97a32d3598329442d3b71892ca4905a11d"
+  integrity sha512-zXbnYwADWB7THcn17HBw9PhyXZDgvBFtfG0QE1cASr2vzXeTPtIKp0vkjuDdxOcvlHKU5Sj1uaLYiMCX+ULPOQ==
   dependencies:
     clipboard "^2.0.4"
     vue "^2.6.9"
