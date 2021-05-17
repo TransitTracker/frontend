@@ -109,18 +109,30 @@ export default {
 
       this.switchBaseStyle(value ? this.mapStyle.dark : this.mapStyle.light)
     },
-    features(value) {
-      Object.keys(value).forEach((agencySlug) => {
-        const features = value[agencySlug]
+    features: {
+      deep: true,
+      handler(value) {
+        Object.keys(value).forEach((agencySlug) => {
+          const features = value[agencySlug]
 
-        // If the source dosen't exist, create it
-        if (!this.map.getSource(`tt-source-${agencySlug}`)) {
-          this.addAgencyLayers(features, this.agencies[agencySlug])
-        } else {
-          // Update the source data
-          this.map.getSource(`tt-source-${agencySlug}`).setData(features)
-        }
-      })
+          // If not valid GeoJSON
+          if (
+            !features.type ||
+            !features.features ||
+            typeof features.features !== 'object'
+          ) {
+            return
+          }
+
+          // If the source dosen't exist, create it
+          if (!this.map.getSource(`tt-source-${agencySlug}`)) {
+            this.addAgencyLayers(features, this.agencies[agencySlug])
+          } else {
+            // Update the source data
+            this.map.getSource(`tt-source-${agencySlug}`).setData(features)
+          }
+        })
+      },
     },
   },
   mounted() {
