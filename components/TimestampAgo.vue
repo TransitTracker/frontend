@@ -1,5 +1,6 @@
 <template>
   <span
+    v-if="timestamp"
     :class="[
       Math.floor(Date.now() / 1000) - timestamp > 300 &&
         'pa-0.5 rounded red white--text',
