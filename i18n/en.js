@@ -266,4 +266,11 @@ export default {
     contact: 'A problem, a comment or a suggestion?',
     contactBtn: 'Contact&nbsp;me',
   },
+  maintenance: {
+    title: 'Maintenance',
+    description: 'The server is currently in maintenance mode.',
+    wait: 'Please try again in a few minutes.',
+    statusPage: 'Status page',
+    statusPageUrl: 'https://status.transittracker.ca',
+  },
 }

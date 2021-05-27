@@ -10,7 +10,7 @@ export default {
     tabSettings: 'Paramètres',
   },
   error: {
-    error: 'Erreur',
+    title: 'Erreur',
     return: "Retourner à l'écran d'accueil",
     404: 'Êtes-vous perdu?',
     500: "Oups! Une erreur s'est produite.",
@@ -265,5 +265,12 @@ export default {
     by: 'Par Félix Desjardins - @felixinx',
     contact: 'Un problème, un commentaire ou une suggestion?',
     contactBtn: 'Contactez-moi',
+  },
+  maintenance: {
+    title: 'Maintenance',
+    description: 'Le serveur est présentement en mode de maintenance.',
+    wait: 'Veuillez réessayer dans quelques minutes.',
+    statusPage: "Voir l'état de l'application",
+    statusPageUrl: 'https://ohdear.app/status-page/transittracker-fr',
   },
 }

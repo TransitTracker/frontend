@@ -1,8 +1,8 @@
 <template>
   <v-container class="d-flex align-center justify-center tt-error">
     <v-card class="d-flex tt-error__card" rounded="lg">
-      <div class="secondary tt-error__icon d-flex align-center justify-center">
-        <v-icon size="7vw" class="pa-16">{{ mdiAlert }}</v-icon>
+      <div class="warning tt-error__icon d-flex align-center justify-center">
+        <v-icon size="64" class="mx-8 my-4">{{ mdiAlert }}</v-icon>
       </div>
       <v-card-text class="pa-16">
         <h1 class="text-h4 font-weight-bold">
