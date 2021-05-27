@@ -61,7 +61,8 @@
                   v-for="agency in activeAgencies"
                   :key="agency.slug"
                   cols="12"
-                  md="4"
+                  sm="6"
+                  lg="4"
                 >
                   <v-card
                     elevation="0"
