@@ -133,9 +133,10 @@ export default {
     },
     manifest: {
       name: 'Transit Tracker',
-      short_name: 'Transit T',
+      short_name: 'Transit T.',
       description: 'An Overview of Public Transit for Several Canadian Cities',
-      display: 'standalone',
+      display: 'fullscreen',
+      background_color: '#2374ab',
     },
     meta: {
       appleStatusBarStyle: 'black-translucent',
