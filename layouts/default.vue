@@ -201,7 +201,22 @@ export default {
     // Set language only if defined
     if (this.settingsLang) this.$i18n.setLocale(this.settingsLang)
 
-    this.handlePwa()
+    this.handleWorkboxUpdate()
+
+    // Install prompt
+    window.addEventListener('beforeinstallprompt', (event) => {
+      console.log(event)
+
+      event.preventDefault()
+      this.$store.commit('app/set', {
+        key: 'installPrompt',
+        value: event,
+      })
+      this.$store.commit('app/set', {
+        key: 'canInstall',
+        value: true,
+      })
+    })
   },
   methods: {
     checkForOldSettings() {
@@ -247,22 +262,7 @@ export default {
       )
       window.localStorage.removeItem('vuex')
     },
-    async handlePwa() {
-      // Install prompt
-      window.addEventListener('beforeinstallprompt', (event) => {
-        console.log(event)
-
-        event.preventDefault()
-        this.$store.commit('app/set', {
-          key: 'installPrompt',
-          value: event,
-        })
-        this.$store.commit('app/set', {
-          key: 'canInstall',
-          value: true,
-        })
-      })
-
+    async handleWorkboxUpdate() {
       // Workbox update
       const workbox = await window.$workbox
       if (workbox) {
