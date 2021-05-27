@@ -316,10 +316,15 @@ export default {
         this.map
           .getSource('tt-shape-source')
           .setData(`${process.env.backendHost}${vehicle.trip.shapeLink}`)
+
+        const routeColor = vehicle.trip.routeColor.toLowerCase()
+
         this.map.setPaintProperty(
           'tt-shape-layer',
           'line-color',
-          vehicle.trip.routeColor || '#000000'
+          routeColor === '#ffffff'
+            ? this.agencies[vehicle.agency].color
+            : routeColor ?? '#000000'
         )
         // } else if (vehicle.meta.json?.trip?.shape_id) {
         //   this.$store
