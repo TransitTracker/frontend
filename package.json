@@ -18,7 +18,7 @@
     "@nuxtjs/sentry": "^5.0.3",
     "@sentry/tracing": "^6.3.6",
     "animejs": "^3.2.1",
-    "core-js": "^3.12.1",
+    "core-js": "^3.13.1",
     "dexie": "^3.0.3",
     "gtfs-realtime-bindings": "^0.0.6",
     "mapbox-gl": "^2.2.0",
