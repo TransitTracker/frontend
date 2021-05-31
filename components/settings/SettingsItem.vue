@@ -2,7 +2,14 @@
   <v-col cols="6">
     <v-item v-slot="{ active, toggle }" :value="value">
       <v-card
-        class="d-flex justify-space-between align-center px-4 py-3 tt-settings-card"
+        class="
+          d-flex
+          justify-space-between
+          align-center
+          px-4
+          py-3
+          tt-settings-card
+        "
         :color="
           active ? 'secondary' : darkMode ? 'grey darken-3' : 'grey lighten-3'
         "

@@ -61,7 +61,11 @@
           <div class="ml-4">
             <a
               href="https://felixinx.me"
-              class="font-weight-medium text-decoration-none text-body-1 white--text"
+              class="
+                font-weight-medium
+                text-decoration-none text-body-1
+                white--text
+              "
             >
               {{ $t('aboutDialog.by') }}
             </a>
