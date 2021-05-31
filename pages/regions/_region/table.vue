@@ -1,110 +1,137 @@
 <template>
-  <v-data-table
-    group-by="agency"
-    :custom-filter="filterAllFields"
-    :headers="headers"
-    :items="vehicles"
-    :items-per-page="100"
-    :footer-props="{
-      itemsPerPageOptions: [25, 50, 100, 150, 200, -1],
-    }"
-    :search="searchAll"
-    class="mb-14"
-  >
-    <!-- eslint-disable-next-line -->
+  <div>
+    <v-data-table
+      group-by="agency"
+      :custom-filter="filterAllFields"
+      :headers="headers"
+      :items="vehicles"
+      :items-per-page="100"
+      :footer-props="{
+        itemsPerPageOptions: [25, 50, 100, 150, 200, -1],
+      }"
+      :search="searchAll"
+      class="mb-14"
+    >
+      <!-- eslint-disable-next-line -->
     <template v-slot:group.header="{ group, headers, toggle, isOpen }">
-      <td class="text-start" :colspan="headers.length">
-        <v-btn icon class="mr-2" @click="toggle">
-          <v-icon>{{ isOpen ? mdiMinus : mdiPlus }}</v-icon>
-        </v-btn>
-        {{ agencies[group].name }}
-      </td>
-    </template>
-    <!-- eslint-disable-next-line -->
+        <td class="text-start" :colspan="headers.length">
+          <v-btn icon class="mr-2" @click="toggle">
+            <v-icon>{{ isOpen ? mdiMinus : mdiPlus }}</v-icon>
+          </v-btn>
+          {{ agencies[group].name }}
+        </td>
+      </template>
+      <!-- eslint-disable-next-line -->
     <template v-slot:body.prepend="{ headers, isMobile }">
-      <tr v-if="isMobile">
-        <td colspan="6">
-          <v-text-field
-            v-model="searchAll"
-            :prepend-icon="mdiMagnify"
-            :placeholder="$t('table.filter')"
-            dense
-            hide-details
-            single-line
-          />
-        </td>
-      </tr>
-      <tr v-else>
-        <td>
-          <v-text-field
-            v-model="searchLabel"
-            :prepend-inner-icon="mdiMagnify"
-            :placeholder="$t('table.filter')"
-            dense
-            hide-details
-            single-line
-          />
-        </td>
-        <td>
-          <v-text-field
-            v-model="searchRoute"
-            :prepend-inner-icon="mdiMagnify"
-            :placeholder="$t('table.filter')"
-            dense
-            hide-details
-            single-line
-          ></v-text-field>
-        </td>
-        <td>
-          <v-text-field
-            v-model="searchHeadsign"
-            :prepend-inner-icon="mdiMagnify"
-            :placeholder="$t('table.filter')"
-            dense
-            hide-details
-            single-line
-          ></v-text-field>
-        </td>
-        <td>
-          <v-text-field
-            v-model="searchTrip"
-            :prepend-inner-icon="mdiMagnify"
-            :placeholder="$t('table.filter')"
-            dense
-            hide-details
-            single-line
-          ></v-text-field>
-        </td>
-        <td colspan="2"></td>
-      </tr>
-    </template>
-    <!-- eslint-disable-next-line -->
+        <tr v-if="isMobile">
+          <td colspan="6">
+            <v-text-field
+              v-model="searchAll"
+              :prepend-icon="mdiMagnify"
+              :placeholder="$t('table.filter')"
+              dense
+              hide-details
+              single-line
+            />
+          </td>
+        </tr>
+        <tr v-else>
+          <td>
+            <v-text-field
+              v-model="searchLabel"
+              :prepend-inner-icon="mdiMagnify"
+              :placeholder="$t('table.filter')"
+              dense
+              hide-details
+              single-line
+            />
+          </td>
+          <td>
+            <v-text-field
+              v-model="searchRoute"
+              :prepend-inner-icon="mdiMagnify"
+              :placeholder="$t('table.filter')"
+              dense
+              hide-details
+              single-line
+            ></v-text-field>
+          </td>
+          <td>
+            <v-text-field
+              v-model="searchHeadsign"
+              :prepend-inner-icon="mdiMagnify"
+              :placeholder="$t('table.filter')"
+              dense
+              hide-details
+              single-line
+            ></v-text-field>
+          </td>
+          <td>
+            <v-text-field
+              v-model="searchTrip"
+              :prepend-inner-icon="mdiMagnify"
+              :placeholder="$t('table.filter')"
+              dense
+              hide-details
+              single-line
+            ></v-text-field>
+          </td>
+          <td colspan="2"></td>
+        </tr>
+      </template>
+      <!-- eslint-disable-next-line -->
     <template v-slot:item.actions="{ item }">
-      <v-btn small icon color="secondary" @click="setSelection(item)">
-        <v-icon>{{ mdiMapMarker }}</v-icon>
-      </v-btn>
-    </template>
-    <!-- eslint-disable-next-line -->
+        <div class="d-flex items-center">
+          <v-btn
+            small
+            icon
+            color="secondary"
+            :title="$t('table.viewOnMap')"
+            @click="setSelection(item)"
+          >
+            <v-icon>{{ mdiMapMarker }}</v-icon>
+          </v-btn>
+          <v-btn
+            v-if="item.links.length"
+            small
+            icon
+            color="secondary"
+            :title="$t('table.openLinks')"
+            @click="setSelection(item, true)"
+          >
+            <v-icon>{{ mdiOpenInNew }}</v-icon>
+          </v-btn>
+        </div>
+      </template>
+      <!-- eslint-disable-next-line -->
     <template v-slot:item.label="{ item }">
-      {{ item.label || item.ref }}
-    </template>
-    <!-- eslint-disable-next-line -->
+        {{ item.label || item.ref }}
+      </template>
+      <!-- eslint-disable-next-line -->
     <template v-slot:item.routeId="{ item }">
-      {{ item.trip.routeShortName || item.routeId }}
-      <span v-if="item.trip.routeLongName">
-        &nbsp;{{ item.trip.routeLongName }}
-      </span>
-    </template>
-  </v-data-table>
+        {{ item.trip.routeShortName || item.routeId }}
+        <span v-if="item.trip.routeLongName">
+          &nbsp;{{ item.trip.routeLongName }}
+        </span>
+      </template>
+    </v-data-table>
+    <TableLinksDialog v-model="linksDialog" />
+  </div>
 </template>
 
 <script>
-import { mdiMagnify, mdiMapMarker, mdiMinus, mdiPlus } from '@mdi/js'
+import {
+  mdiMagnify,
+  mdiMapMarker,
+  mdiMinus,
+  mdiOpenInNew,
+  mdiPlus,
+} from '@mdi/js'
 
 export default {
   middleware: 'loadData',
   asyncData() {
-    return { mdiMagnify, mdiMapMarker, mdiMinus, mdiPlus }
+    return { mdiMagnify, mdiMapMarker, mdiMinus, mdiOpenInNew, mdiPlus }
   },
   data() {
     return {
@@ -168,6 +195,7 @@ export default {
           sortable: false,
         },
       ],
+      linksDialog: false,
       searchLabel: '',
       searchRoute: '',
       searchHeadsign: '',
@@ -222,11 +250,15 @@ export default {
         .toLowerCase()
         .includes(search.toLowerCase())
     },
-    setSelection(vehicle) {
+    setSelection(vehicle, openLinks = false) {
       this.$store.commit('vehicles/setSelection', vehicle)
-      this.$router.push(
-        this.localePath(`/regions/${this.$route.params.region}/map`)
-      )
+      if (openLinks) {
+        this.linksDialog = true
+      } else {
+        this.$router.push(
+          this.localePath(`/regions/${this.$route.params.region}/map`)
+        )
+      }
     },
     sortNumber(a, b) {
       const cook = (c) => {
