@@ -108,7 +108,7 @@
         {{ item.label || item.ref }}
       </template>
       <!-- eslint-disable-next-line -->
-    <template v-slot:item.routeId="{ item }">
+    <template v-slot:item.trip.routeShortName="{ item }">
         {{ item.trip.routeShortName || item.routeId }}
         <span v-if="item.trip.routeLongName">
           &nbsp;{{ item.trip.routeLongName }}
@@ -141,14 +141,14 @@ export default {
           value: 'label',
           divider: true,
           filter: (value, search, item) => {
-            return (value || item.ref + '')
+            return (value + '')
               .toLowerCase()
               .includes(this.searchLabel.toLowerCase())
           },
         },
         {
           text: this.$t('table.dataRoute'),
-          value: 'routeId',
+          value: 'trip.routeShortName',
           divider: true,
           sort: this.sortNumber,
           filter: (value, search, item) => {

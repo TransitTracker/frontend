@@ -50,7 +50,14 @@
               ? vehicle[property.parent][property.name]
               : vehicle[property.name]
           "
-          :class="[property.mobileOnly && 'd-md-none']"
+          :class="[
+            property.mobileOnly && 'd-md-none',
+            // The API will always return a label, even if it's the same as ref.
+            // Do not show if label and ref are equal.
+            property.name === 'label' &&
+              vehicle.label === vehicle.ref &&
+              'd-md-none',
+          ]"
         >
           <v-list-item-icon>
             <v-icon v-text="property.icon" />
