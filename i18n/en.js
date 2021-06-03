@@ -208,6 +208,12 @@ export default {
     themeSystemDesc: 'According to your browser settings',
     defaultScreen: 'Default screen',
     noRedirect: 'Do not redirect',
+    mobileTable: 'Table page - mobile layout',
+    mobileTableDesc: 'Setting applicable only to small screens.',
+    mobileTableSimple: 'Simple view',
+    mobileTablePrefrerDesktop: 'Table view',
+    mobileTablePrefrerDesktopDesc: 'Like on a computer and older version',
+    // Padding
     language: 'Language',
   },
   alert: {

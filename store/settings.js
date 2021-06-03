@@ -8,6 +8,7 @@ export const state = () => ({
   lang: null,
   theme: 'system',
   activateByod: false,
+  preferDesktopView: false,
 })
 
 export const mutations = {

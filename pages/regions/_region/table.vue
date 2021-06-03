@@ -10,6 +10,7 @@
         itemsPerPageOptions: [25, 50, 100, 150, 200, -1],
       }"
       :search="searchAll"
+      :mobile-breakpoint="preferDesktopView ? 1 : 600"
       class="mb-14"
     >
       <!-- eslint-disable-next-line -->
@@ -220,6 +221,9 @@ export default {
   computed: {
     agencies() {
       return this.$store.state.agencies.data
+    },
+    preferDesktopView() {
+      return this.$store.state.settings.preferDesktopView
     },
     region() {
       return this.$store.state.regions.data[this.$route.params.region] || {}

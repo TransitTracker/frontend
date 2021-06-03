@@ -2,26 +2,20 @@
   <v-col cols="6">
     <v-item v-slot="{ active, toggle }" :value="value">
       <v-card
-        class="
-          d-flex
-          justify-space-between
-          align-center
-          px-4
-          py-3
-          tt-settings-card
-        "
+        class="px-4 py-3 d-flex flex-column justify-center tt-settings-card"
         :color="
           active ? 'secondary' : darkMode ? 'grey darken-3' : 'grey lighten-3'
         "
         flat
         @click="toggle"
       >
+        <div class="d-flex justify-space-between align-center">
+          <slot />
+          <v-icon v-if="icon" class="ml-1">{{ icon }}</v-icon>
+        </div>
         <div v-if="description">
-          <p class="mb-0"><slot /></p>
           <small class="mb-0">{{ description }}</small>
         </div>
-        <slot v-else />
-        <v-icon v-if="icon">{{ icon }}</v-icon>
       </v-card>
     </v-item>
   </v-col>
@@ -53,7 +47,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .tt-settings-card {
   height: 100%;
 }

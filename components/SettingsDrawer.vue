@@ -97,6 +97,28 @@
           <v-divider />
         </div>
         <h2 class="text-subtitle-1 font-weight-bold">
+          {{ $t('settings.mobileTable') }}
+        </h2>
+        <p class="text-body-2 mb-2">{{ $t('settings.mobileTableDesc') }}</p>
+        <SettingsItemGroup
+          :value="settings.preferDesktopView"
+          @input="setSetting('preferDesktopView', $event)"
+        >
+          <SettingsItem :icon="mdiViewList" :value="false">
+            {{ $t('settings.mobileTableSimple') }}
+          </SettingsItem>
+          <SettingsItem
+            :icon="mdiTable"
+            :value="true"
+            :description="$t('settings.mobileTablePrefrerDesktopDesc')"
+          >
+            {{ $t('settings.mobileTablePrefrerDesktop') }}
+          </SettingsItem>
+        </SettingsItemGroup>
+        <div class="my-3 mx-n3">
+          <v-divider />
+        </div>
+        <h2 class="text-subtitle-1 font-weight-bold">
           {{ $t('settings.language') }}
         </h2>
         <SettingsItemGroup
@@ -141,6 +163,7 @@ import {
   mdiTrain,
   mdiTram,
   mdiViewGrid,
+  mdiViewList,
   mdiWeatherNight,
   mdiWhiteBalanceSunny,
 } from '@mdi/js'
@@ -165,6 +188,7 @@ export default {
     mdiSyncOff,
     mdiTable,
     mdiViewGrid,
+    mdiViewList,
     mdiWeatherNight,
     mdiWhiteBalanceSunny,
     mdi: { bus: mdiBus, ferry: mdiFerry, train: mdiTrain, tram: mdiTram },
