@@ -154,7 +154,9 @@ export default {
           filter: (value, search, item) => {
             return (
               value +
+              ' ' +
               item.trip.routeShortName +
+              ' ' +
               item.trip.routeLongName +
               ''
             )
