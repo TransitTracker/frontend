@@ -57,21 +57,21 @@ export default {
     },
   },
   mounted() {
-    this.$axios
-      .get(
-        `https://api.github.com/repos/transittracker/frontend/commits/${
-          process.env.commitHash || '62d3fe175b41240fbeb9e531d865a5864a7f8f4e'
-        }`
-      )
-      .then(({ data }) => {
-        this.data = data
-        const messages = data.commit.message.match(/[^\n]+/g)
-        this.title = messages.shift()
-        this.body = messages
-      })
-      .catch((error) => {
-        console.error(error)
-      })
+    // this.$axios
+    //   .get(
+    //     `https://api.github.com/repos/transittracker/frontend/commits/${
+    //       process.env.commitHash || '62d3fe175b41240fbeb9e531d865a5864a7f8f4e'
+    //     }`
+    //   )
+    //   .then(({ data }) => {
+    //     this.data = data
+    //     const messages = data.commit.message.match(/[^\n]+/g)
+    //     this.title = messages.shift()
+    //     this.body = messages
+    //   })
+    //   .catch((error) => {
+    //     console.error(error)
+    //   })
   },
   methods: {
     toggle(value = false) {

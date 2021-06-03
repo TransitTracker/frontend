@@ -7,14 +7,14 @@
             {{ $t('home.welcome') }} Transit&nbsp;Tracker
           </h1>
           <h2 class="text-subtitle-1">
-            {{ $t('home.version') }} {{ version }} -
-            <a
+            {{ $t('home.version') }} {{ version }}
+            <!-- <a
               href="#"
               :class="[!darkMode && 'black--text']"
               @click="changelogDialog = true"
             >
               {{ $t('home.whatsNew') }}
-            </a>
+            </a> -->
           </h2>
           <v-btn
             title="GitHub"
@@ -86,7 +86,20 @@
                     <div
                       class="tt-agencies-card__clip-path"
                       :style="{ backgroundColor: agency.color }"
-                    ></div>
+                    >
+                      <div
+                        class="
+                          tt-agencies-card__refresh
+                          d-flex
+                          flex-column
+                          justify-space-around
+                        "
+                      >
+                        <v-btn x-small icon :color="agency.textColor">
+                          <v-icon>{{ mdiRefresh }}</v-icon>
+                        </v-btn>
+                      </div>
+                    </div>
                   </v-card>
                 </v-col>
               </v-row>
@@ -124,7 +137,7 @@
 </template>
 
 <script>
-import { mdiDownload, mdiGithub } from '@mdi/js'
+import { mdiDownload, mdiGithub, mdiRefresh } from '@mdi/js'
 
 export default {
   middleware: 'loadData',
@@ -133,6 +146,7 @@ export default {
       regionSlug: params.region,
       mdiDownload,
       mdiGithub,
+      mdiRefresh,
       backendHost: process.env.backendHost,
     }
   },
@@ -243,6 +257,13 @@ export default {
     left: 0;
     position: absolute;
     clip-path: polygon(85% 0, 101% -1%, 101% 101%, 95% 100%);
+  }
+
+  &__refresh {
+    height: 100%;
+    width: 20px;
+    position: absolute;
+    right: 4px;
   }
 
   &__text {
