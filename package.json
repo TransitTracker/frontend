@@ -1,6 +1,6 @@
 {
   "name": "transit-tracker-frontend",
-  "version": "2.4.0+008",
+  "version": "2.4.0",
   "private": true,
   "scripts": {
     "dev": "nuxt",
