@@ -30,14 +30,15 @@
         <div v-for="(link, index) in links" :key="index">
           <v-skeleton-loader
             v-if="link.loading || !link.url"
-            class="mr-4 my-2"
-            width="200px"
+            class="mt-4"
+            width="100%"
             min-height="62px"
             max-height="62px"
             type="image"
           ></v-skeleton-loader>
 
           <v-sheet
+            v-else
             rounded
             elevation="2"
             :class="[darkMode ? 'grey darken-3' : 'grey lighten-4']"
