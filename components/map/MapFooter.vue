@@ -71,17 +71,17 @@
           {{ $t('mapBottomSheet.properties.routeId') }}
           <br class="d-md-none" />
         </small>
-        <b class="mb-0">
+        <span class="font-weight-bold">
           {{ vehicle.trip.routeShortName || vehicle.routeId }}
-        </b>
-        <p class="mb-0 text-body-2 d-none d-md-block text-truncate">
+        </span>
+        <span class="text-body-2 d-none d-md-block text-truncate">
           {{ vehicle.trip.routeLongName }}
           {{
             vehicle.trip.headsign !== vehicle.trip.routeLongName
-              ? vehicle.trip.headsign
+              ? `&rsaquo; ${vehicle.trip.headsign}`
               : ''
           }}
-        </p>
+        </span>
       </div>
       <MapProperty
         v-if="vehicle.speed"
