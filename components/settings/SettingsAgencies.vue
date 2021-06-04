@@ -31,6 +31,10 @@
           :prepend-inner-icon="mdiMagnify"
           :color="darkMode ? 'white' : 'primary'"
         ></v-text-field>
+        <v-btn block depressed dark :loading="addAllLoading" @click="addAll">
+          <v-icon left>{{ mdiPlus }}</v-icon>
+          {{ $t('settings.agenciesAddAll') }}
+        </v-btn>
         <v-list>
           <v-list-item v-for="(agency, slug) in filteredAgencies" :key="slug">
             <v-list-item-avatar :color="agency.color">
@@ -96,6 +100,7 @@ import {
 
 export default {
   data: () => ({
+    addAllLoading: false,
     search: null,
     mdiMagnify,
     mdiMinus,
@@ -137,6 +142,20 @@ export default {
     },
   },
   methods: {
+    addAll() {
+      this.addAllLoading = true
+
+      Object.keys(this.availableAgencies)
+        .filter((slug) => !this.activeAgencies.includes(slug))
+        .forEach((slug) => {
+          this.$store.dispatch(
+            'settings/toggleAgency',
+            this.availableAgencies[slug]
+          )
+        })
+
+      this.addAllLoading = false
+    },
     toggleAgency(agency) {
       this.$store.dispatch('settings/toggleAgency', agency)
     },

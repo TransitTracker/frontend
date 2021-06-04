@@ -196,6 +196,7 @@ export default {
     },
     agenciesTitle: 'Agences',
     searchAgency: 'Rechercher une agence',
+    agenciesAddAll: 'Ajouter toutes les agences',
     autoRefresh: 'Rafraichissement automatique',
     autoRefreshDesc:
       "Mise à jour toutes les 60 ou 120 secondes, selon l'agence.",

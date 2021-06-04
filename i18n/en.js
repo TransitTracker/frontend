@@ -196,6 +196,7 @@ export default {
     },
     agenciesTitle: 'Agencies',
     searchAgency: 'Search for an agency',
+    agenciesAddAll: 'Add all agencies',
     autoRefresh: 'Auto refresh',
     autoRefreshDesc: 'Update every 60 or 120 seconds, depending on the agency.',
     // Padding
