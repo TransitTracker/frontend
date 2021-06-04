@@ -132,33 +132,7 @@
               type="csv"
               :name="downloadName"
               class="d-inline-flex mr-2"
-              :fields="{
-                agency: 'agency',
-                ref: 'ref',
-                isActive: 'isActive',
-                label: 'label',
-                timestamp: 'timestamp',
-                tripId: 'tripId',
-                routeId: 'routeId',
-                startTime: 'startTime',
-                lat: 'position.lat',
-                lon: 'position.lon',
-                bearing: 'bearing',
-                speed: 'speed',
-                vehicleType: 'vehicleType',
-                plate: 'plate',
-                odometer: 'odometer',
-                currentStopSequence: 'currentStopSequence',
-                currentStatus: 'currentStatus.label',
-                scheduleRelationship: 'scheduleRelationship.label',
-                congestionLevel: 'congestionLevel.label',
-                occupancyStatus: 'occupancyStatus.label',
-                tripHeadsign: 'trip.headsign',
-                tripShortName: 'trip.tripShortName',
-                routeShortName: 'trip.routeShortName',
-                routeLongName: 'trip.routeLongName',
-                serviceId: 'trip.serviceID',
-              }"
+              :fields="jsonFields"
             >
               <v-btn color="primary">
                 <v-icon left>
@@ -237,6 +211,43 @@ export default {
         pad(date.getHours()) +
         pad(date.getMinutes())
       return `tt-export-${dateTime}.csv`
+    },
+    jsonFields() {
+      const fields = {
+        agency: 'agency',
+        ref: 'ref',
+        isActive: 'isActive',
+        label: 'label',
+        timestamp: 'timestamp',
+        tripId: 'tripId',
+        routeId: 'routeId',
+        startTime: 'startTime',
+        lat: 'position.lat',
+        lon: 'position.lon',
+        bearing: 'bearing',
+        speed: 'speed',
+        vehicleType: 'vehicleType',
+        plate: 'plate',
+        odometer: 'odometer',
+        currentStopSequence: 'currentStopSequence',
+        currentStatus: 'currentStatus.label',
+        scheduleRelationship: 'scheduleRelationship.label',
+        congestionLevel: 'congestionLevel.label',
+        occupancyStatus: 'occupancyStatus.label',
+        tripHeadsign: 'trip.headsign',
+        tripShortName: 'trip.tripShortName',
+        routeShortName: 'trip.routeShortName',
+        routeLongName: 'trip.routeLongName',
+        serviceId: 'trip.serviceID',
+      }
+
+      if (this.format === 'active') return fields
+
+      return {
+        ...fields,
+        updatedAt: 'updatedAt',
+        createdAt: 'createdAt',
+      }
     },
     vehicles() {
       return this.$store.state.vehicles.data
