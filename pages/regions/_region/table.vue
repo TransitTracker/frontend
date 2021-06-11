@@ -15,7 +15,7 @@
     >
       <!-- eslint-disable-next-line -->
     <template v-slot:group.header="{ group, headers, toggle, isOpen }">
-        <td class="text-start" :colspan="headers.length">
+        <td :colspan="headers.length">
           <v-btn icon class="mr-2" @click="toggle">
             <v-icon>{{ isOpen ? mdiMinus : mdiPlus }}</v-icon>
           </v-btn>
@@ -23,7 +23,7 @@
         </td>
       </template>
       <!-- eslint-disable-next-line -->
-    <template v-slot:body.prepend="{ headers, isMobile }">
+      <template v-slot:body.prepend="{ headers, isMobile }">
         <tr v-if="isMobile">
           <td colspan="6">
             <v-text-field
@@ -36,7 +36,7 @@
             />
           </td>
         </tr>
-        <tr v-else>
+        <tr v-else class="tt-table__filters">
           <td>
             <v-text-field
               v-model="searchLabel"
@@ -56,6 +56,17 @@
               hide-details
               single-line
             ></v-text-field>
+            <v-checkbox
+              v-model="filterOnlyRouteId"
+              hide-details
+              class="mt-0"
+              color="secondary"
+              :ripple="false"
+            >
+              <template #label>
+                <div class="text-caption">{{ $t('table.filterRouteId') }}</div>
+              </template>
+            </v-checkbox>
           </td>
           <td>
             <v-text-field
@@ -153,14 +164,13 @@ export default {
           divider: true,
           sort: this.sortNumber,
           filter: (value, search, item) => {
-            return (
-              value +
-              ' ' +
-              item.trip.routeShortName +
-              ' ' +
-              item.trip.routeLongName +
-              ''
-            )
+            if (this.filterOnlyRouteId) {
+              return (value + '')
+                .toLowerCase()
+                .includes(this.searchRoute.toLowerCase())
+            }
+
+            return (value + ' ' + item.trip.routeLongName + '')
               .toLowerCase()
               .includes(this.searchRoute.toLowerCase())
           },
@@ -204,6 +214,7 @@ export default {
       searchHeadsign: '',
       searchTrip: '',
       searchAll: '',
+      filterOnlyRouteId: false,
     }
   },
   head() {
@@ -281,3 +292,9 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+.tt-table__filters td {
+  vertical-align: top;
+}
+</style>
