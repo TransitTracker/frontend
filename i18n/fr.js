@@ -109,6 +109,8 @@ export default {
     linksTitle: 'Liens externes',
     filter: 'Filtrer',
     seoTitle: 'Liste des véhicules de {region}',
+    filterRouteId: "Filter uniquement l'ID de la route",
+    routeId: 'ID de la route',
   },
   byod: {
     title: 'Apportez vos propres données',

@@ -15,7 +15,7 @@
     >
       <!-- eslint-disable-next-line -->
     <template v-slot:group.header="{ group, headers, toggle, isOpen }">
-        <td class="text-start" :colspan="headers.length">
+        <td :colspan="headers.length">
           <v-btn icon class="mr-2" @click="toggle">
             <v-icon>{{ isOpen ? mdiMinus : mdiPlus }}</v-icon>
           </v-btn>
@@ -23,7 +23,7 @@
         </td>
       </template>
       <!-- eslint-disable-next-line -->
-    <template v-slot:body.prepend="{ headers, isMobile }">
+      <template v-slot:body.prepend="{ headers, isMobile }">
         <tr v-if="isMobile">
           <td colspan="6">
             <v-text-field
@@ -36,7 +36,7 @@
             />
           </td>
         </tr>
-        <tr v-else>
+        <tr v-else class="tt-table__filters">
           <td>
             <v-text-field
               v-model="searchLabel"
@@ -56,6 +56,17 @@
               hide-details
               single-line
             ></v-text-field>
+            <v-checkbox
+              v-model="filterOnlyRouteId"
+              hide-details
+              class="mt-0"
+              color="secondary"
+              :ripple="false"
+            >
+              <template #label>
+                <div class="text-caption">{{ $t('table.filterRouteId') }}</div>
+              </template>
+            </v-checkbox>
           </td>
           <td>
             <v-text-field
@@ -109,11 +120,32 @@
         {{ item.label || item.ref }}
       </template>
       <!-- eslint-disable-next-line -->
-    <template v-slot:item.trip.routeShortName="{ item }">
-        {{ item.trip.routeShortName || item.routeId }}
-        <span v-if="item.trip.routeLongName">
-          &nbsp;{{ item.trip.routeLongName }}
-        </span>
+    <template v-slot:item.routeId="{ item }">
+        <div>
+          <span
+            v-if="
+              item.trip.routeShortName &&
+              item.trip.routeShortName !== item.routeId
+            "
+            :title="$t('table.routeId')"
+            class="
+              text-caption
+              grey
+              px-1
+              rounded
+              mr-2
+              d-inline-flex
+              items-center
+            "
+            :class="[darkMode ? 'darken-3' : 'lighten-3']"
+          >
+            {{ item.routeId }}
+          </span>
+          <span>{{ item.trip.routeShortName || item.routeId }}</span>
+          <span v-if="item.trip.routeLongName">
+            &nbsp;{{ item.trip.routeLongName }}
+          </span>
+        </div>
       </template>
     </v-data-table>
     <TableLinksDialog v-model="linksDialog" />
@@ -149,10 +181,16 @@ export default {
         },
         {
           text: this.$t('table.dataRoute'),
-          value: 'trip.routeShortName',
+          value: 'routeId',
           divider: true,
           sort: this.sortNumber,
           filter: (value, search, item) => {
+            if (this.filterOnlyRouteId) {
+              return (value + '')
+                .toLowerCase()
+                .includes(this.searchRoute.toLowerCase())
+            }
+
             return (
               value +
               ' ' +
@@ -204,6 +242,7 @@ export default {
       searchHeadsign: '',
       searchTrip: '',
       searchAll: '',
+      filterOnlyRouteId: false,
     }
   },
   head() {
@@ -221,6 +260,9 @@ export default {
   computed: {
     agencies() {
       return this.$store.state.agencies.data
+    },
+    darkMode() {
+      return this.$vuetify.theme.dark
     },
     preferDesktopView() {
       return this.$store.state.settings.preferDesktopView
@@ -246,7 +288,7 @@ export default {
         item.ref,
         item.label,
         item.routeId,
-        item.trip.routeShortName,
+        item.routeId,
         item.trip.routeLongName,
         item.trip.headsign,
         item.tripId,
@@ -281,3 +323,9 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+.tt-table__filters td {
+  vertical-align: top;
+}
+</style>
