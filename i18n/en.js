@@ -110,6 +110,7 @@ export default {
     filter: 'Filter',
     seoTitle: 'List of vehicles of {region}',
     filterRouteId: 'Apply filter only on route ID',
+    routeId: 'Route ID',
   },
   byod: {
     title: 'Bring Your Own Data',

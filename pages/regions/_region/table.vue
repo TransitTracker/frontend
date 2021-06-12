@@ -120,11 +120,32 @@
         {{ item.label || item.ref }}
       </template>
       <!-- eslint-disable-next-line -->
-    <template v-slot:item.trip.routeShortName="{ item }">
-        {{ item.trip.routeShortName || item.routeId }}
-        <span v-if="item.trip.routeLongName">
-          &nbsp;{{ item.trip.routeLongName }}
-        </span>
+    <template v-slot:item.routeId="{ item }">
+        <div>
+          <span
+            v-if="
+              item.trip.routeShortName &&
+              item.trip.routeShortName !== item.routeId
+            "
+            :title="$t('table.routeId')"
+            class="
+              text-caption
+              grey
+              px-1
+              rounded
+              mr-2
+              d-inline-flex
+              items-center
+            "
+            :class="[darkMode ? 'darken-3' : 'lighten-3']"
+          >
+            {{ item.routeId }}
+          </span>
+          <span>{{ item.trip.routeShortName || item.routeId }}</span>
+          <span v-if="item.trip.routeLongName">
+            &nbsp;{{ item.trip.routeLongName }}
+          </span>
+        </div>
       </template>
     </v-data-table>
     <TableLinksDialog v-model="linksDialog" />
@@ -160,7 +181,7 @@ export default {
         },
         {
           text: this.$t('table.dataRoute'),
-          value: 'trip.routeShortName',
+          value: 'routeId',
           divider: true,
           sort: this.sortNumber,
           filter: (value, search, item) => {
@@ -170,7 +191,14 @@ export default {
                 .includes(this.searchRoute.toLowerCase())
             }
 
-            return (value + ' ' + item.trip.routeLongName + '')
+            return (
+              value +
+              ' ' +
+              item.trip.routeShortName +
+              ' ' +
+              item.trip.routeLongName +
+              ''
+            )
               .toLowerCase()
               .includes(this.searchRoute.toLowerCase())
           },
@@ -233,6 +261,9 @@ export default {
     agencies() {
       return this.$store.state.agencies.data
     },
+    darkMode() {
+      return this.$vuetify.theme.dark
+    },
     preferDesktopView() {
       return this.$store.state.settings.preferDesktopView
     },
@@ -257,7 +288,7 @@ export default {
         item.ref,
         item.label,
         item.routeId,
-        item.trip.routeShortName,
+        item.routeId,
         item.trip.routeLongName,
         item.trip.headsign,
         item.tripId,
