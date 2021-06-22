@@ -20,7 +20,7 @@
     "core-js": "^3.13.1",
     "dexie": "^3.0.3",
     "gtfs-realtime-bindings": "^0.0.6",
-    "mapbox-gl": "^2.3.0",
+    "mapbox-gl": "^2.3.1",
     "nuxt": "^2.15.4",
     "nuxt-i18n": "^6.27.0",
     "papaparse": "^5.3.1",
