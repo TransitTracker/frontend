@@ -94,6 +94,7 @@ export default {
       currentStopSequence:
         'This field represents the position of the vehicle in relation to the number of stops served by the trip. As the journey progresses and the vehicle approaches its final stop, this number increases.',
     },
+    habs: 'This bus wears the colors of the Canadiens, during the playoffs.',
   },
   table: {
     empty: 'No vehicles!',

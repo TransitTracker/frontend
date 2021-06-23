@@ -94,6 +94,7 @@ export default {
       currentStopSequence:
         "Ce champ représente la position du véhicule en relation au nombre d'arrêts desservis par le voyage. Plus que le voyage avance et que le véhicule s'approche de son arrêt final, ce chiffre augmente.",
     },
+    habs: 'Ce bus porte les couleurs du Canadiens, pendant les séries.',
   },
   table: {
     empty: 'Aucun véhicule!',

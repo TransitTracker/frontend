@@ -1,5 +1,16 @@
 <template>
   <div>
+    <div v-if="vehicle.meta.habsBus" class="d-flex items-center tt-habs">
+      <div class="tt-habs__box tt-habs__box--blue ml-n4"></div>
+      <div class="ml-4 py-1">
+        <p class="text-subtitle-2 mb-0">GO HABS GO!</p>
+        <p class="text-body-2 mb-0">
+          {{ $t('mapBottomSheet.habs') }}
+        </p>
+      </div>
+      <div class="flex-grow-1"></div>
+      <div class="tt-habs__box tt-habs__box--red mr-n4"></div>
+    </div>
     <v-slide-group
       v-if="Object.keys(links).length"
       class="px-4 pt-2 tt-links-slider"
@@ -384,7 +395,23 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.tt-habs {
+  background-color: rgba(175, 30, 45, 0.15);
+
+  &__box {
+    transform: skewX(-15deg);
+    width: 50px;
+
+    &--red {
+      background-color: #af1e2d;
+    }
+    &--blue {
+      background-color: #192168;
+    }
+  }
+}
+
 .bottom-sheet-overflow {
   max-height: calc(50vh - 80px);
   overflow: auto;
