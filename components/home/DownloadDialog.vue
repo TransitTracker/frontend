@@ -69,7 +69,7 @@
             :disabled="
               !selectedAgency || !selectedAgency.license.isDownloadable
             "
-            @click="stepper = 2"
+            @click="stepperNextFromChoose"
           >
             {{ $t('download.btnNext') }}
           </v-btn>
@@ -185,10 +185,32 @@ export default {
       },
     },
     agencies() {
-      return Object.entries(this.$store.state.agencies.data).map((agency) => ({
-        text: agency[1].name,
-        value: agency[1],
-      }))
+      return [
+        {
+          text: this.$t('download.snapshotName'),
+          value: {
+            cities: [''],
+            color: '#00497b',
+            defaultVehicleType: 'bus',
+            id: 999,
+            license: {
+              isDownloadable: true,
+              title: this.$t('download.snapshotLicense'),
+              url: '',
+            },
+            meta: {},
+            name: this.$t('download.snapshotName'),
+            regions: ['*'],
+            shortName: this.$t('download.snapshotName'),
+            slug: 'snapshot',
+            textColor: '#ffffff',
+          },
+        },
+        ...Object.entries(this.$store.state.agencies.data).map((agency) => ({
+          text: agency[1].name,
+          value: agency[1],
+        })),
+      ]
     },
     agencyIsNotLoaded() {
       return this.selectedAgency
@@ -247,6 +269,7 @@ export default {
         ...fields,
         updatedAt: 'updatedAt',
         createdAt: 'createdAt',
+        agencyName: 'agencyName',
       }
     },
     vehicles() {
@@ -254,11 +277,26 @@ export default {
     },
   },
   methods: {
-    toggle(value = false) {
-      if (typeof value !== 'boolean') {
-        value = false
+    downloadSnapshot() {
+      this.downloadReady = false
+      this.data = []
+      this.format = 'all'
+      this.stepper = 3
+
+      this.downloadPartOfSnapshot('/vehicles').then(() => {
+        this.downloadReady = true
+      })
+    },
+    async downloadPartOfSnapshot(url) {
+      const response = await this.$axios.get(url)
+
+      this.data.push(...response.data.data)
+
+      if (response.data.links?.next) {
+        await this.downloadPartOfSnapshot(response.data.links.next)
       }
-      this.$emit('input', value)
+
+      return this.data
     },
     prepareDownload() {
       this.downloadReady = false
@@ -284,6 +322,19 @@ export default {
         this.data = this.vehicles[this.selectedAgency.slug]
         this.downloadReady = true
       }
+    },
+    stepperNextFromChoose() {
+      if (this.selectedAgency.id === 999) {
+        return this.downloadSnapshot()
+      }
+
+      this.stepper = 2
+    },
+    toggle(value = false) {
+      if (typeof value !== 'boolean') {
+        value = false
+      }
+      this.$emit('input', value)
     },
   },
 }
