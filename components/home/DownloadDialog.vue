@@ -277,13 +277,18 @@ export default {
     },
   },
   methods: {
-    downloadSnapshot() {
+    downloadSnapshot(agency = null) {
       this.downloadReady = false
       this.data = []
       this.format = 'all'
       this.stepper = 3
 
-      this.downloadPartOfSnapshot('/vehicles').then(() => {
+      let url = '/vehicles'
+      if (agency) {
+        url = `/agencies/${agency}/vehicles?include=all&geojson=false`
+      }
+
+      this.downloadPartOfSnapshot(url).then(() => {
         this.downloadReady = true
       })
     },
@@ -302,15 +307,7 @@ export default {
       this.downloadReady = false
       this.stepper = 3
       if (this.format === 'all') {
-        this.$axios
-          .get(`/agencies/${this.selectedAgency.slug}/vehicles?include=all`)
-          .then((response) => {
-            this.data = response.data.data
-            this.downloadReady = true
-          })
-          .catch((error) => {
-            this.downloadError = error.status
-          })
+        this.downloadSnapshot(this.selectedAgency.slug)
       } else if (!(this.selectedAgency.slug in this.vehicles)) {
         this.$axios
           .get(`/agencies/${this.selectedAgency.slug}/vehicles`)
