@@ -133,6 +133,7 @@
               :name="downloadName"
               class="d-inline-flex mr-2"
               :fields="jsonFields"
+              :escape-csv="false"
             >
               <v-btn color="primary">
                 <v-icon left>
