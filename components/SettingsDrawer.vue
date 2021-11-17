@@ -239,7 +239,11 @@ export default {
   }
 
   &__about {
-    background-color: #1f5784;
+    background-color: #cfe5ff;
+    color: #001d36;
+    a {
+      color: #001d36;
+    }
   }
 }
 
