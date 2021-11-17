@@ -51,10 +51,10 @@
         </b>
         {{ $t('aboutDialog.illustrationsBody') }}
       </v-container>
-      <div class="tt-settings__about white--text">
+      <div class="tt-settings__about">
         <v-container class="d-flex align-center">
           <img
-            src="https://felixinx.me/favicon.svg"
+            src="https://felixinx.me/wp-content/uploads/2021/11/cropped-Logo-FD-270x270.png"
             width="40px"
             height="40px"
           />
@@ -64,7 +64,6 @@
               class="
                 font-weight-medium
                 text-decoration-none text-body-1
-                white--text
               "
             >
               {{ $t('aboutDialog.by') }}
@@ -74,8 +73,7 @@
               {{ $t('aboutDialog.contact') }}
               <!-- eslint-disable vue/no-v-html -->
               <a
-                href="https://felixinx.me/contact"
-                class="white--text"
+                href="https://felixinx.me/en/contact-me/"
                 v-html="$t('aboutDialog.contactBtn')"
               ></a>
               <!-- eslint-enable vue/no-v-html -->
