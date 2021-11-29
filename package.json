@@ -15,7 +15,7 @@
     "@mdi/js": "^5.9.55",
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/pwa": "^3.3.5",
-    "@nuxtjs/sentry": "^5.1.0",
+    "@nuxtjs/sentry": "^5.1.6",
     "animejs": "^3.2.1",
     "core-js": "^3.17.2",
     "dexie": "^3.0.3",
