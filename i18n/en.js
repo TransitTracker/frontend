@@ -281,8 +281,8 @@ export default {
   },
   maintenance: {
     title: 'Maintenance',
-    description: 'The server is currently in maintenance mode.',
-    wait: 'Please try again in a few minutes.',
+    description:
+      'The server is currently in maintenance mode. Please try again in a few minutes.',
     statusPage: 'Status page',
     statusPageUrl: 'https://status.transittracker.ca',
   },

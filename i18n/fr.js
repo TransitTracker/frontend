@@ -281,10 +281,10 @@ export default {
   },
   maintenance: {
     title: 'Maintenance',
-    description: 'Le serveur est présentement en mode de maintenance.',
-    wait: 'Veuillez réessayer dans quelques minutes.',
+    description:
+      'Le serveur est présentement en mode de maintenance. Veuillez réessayer dans quelques minutes.',
     statusPage: "Voir l'état de l'application",
-    statusPageUrl: 'https://ohdear.app/status-page/transittracker-fr',
+    statusPageUrl: 'https://statut.transittracker.ca',
   },
   notifications: {
     title: 'Notifications',
