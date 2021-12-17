@@ -125,6 +125,7 @@ export default {
     wsTls: process.env.WS_TLS || true,
     imageKit: process.env.IMAGE_KIT,
     commitHash: process.env.COMMIT_REF,
+    vapidKey: process.env.VAPID_KEY,
   },
 
   pwa: {
@@ -143,6 +144,10 @@ export default {
       name: 'Transit Tracker',
       theme_color: '#00497b',
       twitterCard: 'summary_large_image',
+    },
+    workbox: {
+      enabled: true,
+      importScripts: ['sw-push.js'],
     },
   },
 

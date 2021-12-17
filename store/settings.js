@@ -9,6 +9,7 @@ export const state = () => ({
   theme: 'system',
   activateByod: false,
   preferDesktopView: false,
+  pushSubscriptionUuid: null,
 })
 
 export const mutations = {

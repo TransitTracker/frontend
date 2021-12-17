@@ -46,6 +46,22 @@
                 :fab="$vuetify.breakpoint.smAndDown"
                 :small="$vuetify.breakpoint.smAndDown"
                 elevation="0"
+                :title="$t('notifications.title')"
+                class="mr-2"
+                @click="openNotificationsCentre()"
+              >
+                <v-icon :left="$vuetify.breakpoint.mdAndUp">
+                  {{ mdiBell }}
+                </v-icon>
+                <span class="d-none d-md-block">
+                  {{ $t('notifications.title') }}
+                </span>
+              </v-btn>
+              <v-btn
+                color="primary"
+                :fab="$vuetify.breakpoint.smAndDown"
+                :small="$vuetify.breakpoint.smAndDown"
+                elevation="0"
                 :title="$t('home.downloadTitle')"
                 @click="downloadDialog = true"
               >
@@ -137,13 +153,14 @@
 </template>
 
 <script>
-import { mdiDownload, mdiGithub } from '@mdi/js'
+import { mdiBell, mdiDownload, mdiGithub } from '@mdi/js'
 
 export default {
   middleware: 'loadData',
   asyncData({ params }) {
     return {
       regionSlug: params.region,
+      mdiBell,
       mdiDownload,
       mdiGithub,
       backendHost: process.env.backendHost,
@@ -237,6 +254,11 @@ export default {
     },
     times() {
       return this.$store.state.agencies.times
+    },
+  },
+  methods: {
+    openNotificationsCentre() {
+      this.$store.commit('app/set', { key: 'notificationsCentre', value: true })
     },
   },
 }

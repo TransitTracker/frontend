@@ -1,7 +1,7 @@
-import Vuetify from 'vuetify/es5/locale/fr'
+import fr from 'vuetify/lib/locale/fr'
 
 export default {
-  $vuetify: Vuetify,
+  $vuetify: fr,
   app: {
     tabHome: 'Accueil',
     tabMap: 'Carte',
@@ -285,5 +285,46 @@ export default {
     wait: 'Veuillez réessayer dans quelques minutes.',
     statusPage: "Voir l'état de l'application",
     statusPageUrl: 'https://ohdear.app/status-page/transittracker-fr',
+  },
+  notifications: {
+    title: 'Notifications',
+    warning: 'Attention!',
+    warning429:
+      'Veillez attendre quelques minutes avant de réessayer à nouveau.',
+    unavailable:
+      'Les notifications ne sont pas disponibles dans votre navigateur.',
+    betaTitle: 'Fonctionnalité bêta',
+    betaBody:
+      'Cette fonctionnalité est encore en cours de développement. Testez-là et partagez-nous vos commentaires.',
+    authorize: 'Autoriser',
+    authorizeTitle: 'Autorisez les notifications dans votre navigateur',
+    authorizeBody:
+      "Vous pourez ensuite choisir quel type de notifications vous souhaitez. Pour l'instant, vous pouvez vous abonnez à trois types de notifications : nouveaux véhicules, alertes générales et déploiement des New Flyer de la STM.",
+    authorizeError: 'La demande a été refusée :',
+    selectNotifications: 'Sélectionnez les notifications',
+    newVehicles: 'Nouveaux véhicules',
+    newVehiclesCount:
+      'Aucune agence activée | Une agence activée | {n} agences activées',
+    newVehiclesDesc:
+      'Obtenez une notification pour chaque nouveau véhicule, des agences de votre choix',
+    generalNews: 'Nouvelles générales',
+    generalNewsDesc:
+      "Recevez des notifications pour de l'information sur les mises à jour, nouveautés, perturbations et autres de Transit Tracker",
+    electricStm: 'STM - Déploiement des New Flyer',
+    electricStmDesc:
+      "Recevez une notification lorsqu'un des nouveaux New Flyer électriques commence une journée en service",
+    chooseAgencies: 'Sélectionnez vos agences',
+    newVehiclesWeek:
+      'Aucun nouveau véhicule récemment | Un nouveau véhicule dans la dernière semaine | {n} nouveaux véhicules dans la dernière semaine',
+    agencyNotSelected:
+      "Cette agence n'est pas visible dans Transit Tracker, vous pouvez l'ajouter dans les paramètres",
+    save: 'Sauvegarder',
+    inactive: 'Abonnement inactif',
+    inactiveDesc:
+      "Votre abonnement a été désactivé par votre navigateur et n'a pas pu être réactivé automatiquement. Veuillez vous désabonner et vous réabonner.",
+    hideUuid: 'cacher',
+    showUuid: 'montrer votre identifiant secret',
+    unsubscribe: 'Se désabonner',
+    active: 'Abonnement actif',
   },
 }

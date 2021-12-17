@@ -36,9 +36,17 @@
           {{ $t('settings.agenciesAddAll') }}
         </v-btn>
         <v-list>
-          <v-list-item v-for="(agency, slug) in filteredAgencies" :key="slug">
-            <v-list-item-avatar :color="agency.color">
+          <v-list-item
+            v-for="(agency, slug) in filteredAgencies"
+            :key="slug"
+            class="mx-n2 md:mx-n0"
+          >
+            <v-list-item-avatar
+              :color="agency.color"
+              :size="$vuetify.breakpoint.smAndDown ? 24 : 40"
+            >
               <v-icon
+                :small="$vuetify.breakpoint.smAndDown"
                 class="px-0"
                 size="24"
                 :style="{ color: agency.textColor }"
@@ -73,7 +81,11 @@
               </v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-action v-if="!agency.regions.includes('*')">
-              <v-btn icon @click="toggleAgency(agency)">
+              <v-btn
+                icon
+                :small="$vuetify.breakpoint.smAndDown"
+                @click="toggleAgency(agency)"
+              >
                 <v-icon v-if="activeAgencies.includes(slug)">
                   {{ mdiMinus }}
                 </v-icon>
