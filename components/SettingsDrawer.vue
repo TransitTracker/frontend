@@ -264,9 +264,9 @@ export default {
 
   &__about {
     background-color: #cfe5ff;
-
-    &-by {
-      color: #001d36 !important;
+    color: #001d36;
+    a {
+      color: #001d36;
     }
   }
 }

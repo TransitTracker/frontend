@@ -69,7 +69,7 @@
             :disabled="
               !selectedAgency || !selectedAgency.license.isDownloadable
             "
-            @click="stepper = 2"
+            @click="stepperNextFromChoose"
           >
             {{ $t('download.btnNext') }}
           </v-btn>
@@ -133,6 +133,7 @@
               :name="downloadName"
               class="d-inline-flex mr-2"
               :fields="jsonFields"
+              :escape-csv="false"
             >
               <v-btn color="primary">
                 <v-icon left>
@@ -185,10 +186,32 @@ export default {
       },
     },
     agencies() {
-      return Object.entries(this.$store.state.agencies.data).map((agency) => ({
-        text: agency[1].name,
-        value: agency[1],
-      }))
+      return [
+        {
+          text: this.$t('download.snapshotName'),
+          value: {
+            cities: [''],
+            color: '#00497b',
+            defaultVehicleType: 'bus',
+            id: 999,
+            license: {
+              isDownloadable: true,
+              title: this.$t('download.snapshotLicense'),
+              url: '',
+            },
+            meta: {},
+            name: this.$t('download.snapshotName'),
+            regions: ['*'],
+            shortName: this.$t('download.snapshotName'),
+            slug: 'snapshot',
+            textColor: '#ffffff',
+          },
+        },
+        ...Object.entries(this.$store.state.agencies.data).map((agency) => ({
+          text: agency[1].name,
+          value: agency[1],
+        })),
+      ]
     },
     agencyIsNotLoaded() {
       return this.selectedAgency
@@ -247,6 +270,7 @@ export default {
         ...fields,
         updatedAt: 'updatedAt',
         createdAt: 'createdAt',
+        agencyName: 'agencyName',
       }
     },
     vehicles() {
@@ -254,25 +278,37 @@ export default {
     },
   },
   methods: {
-    toggle(value = false) {
-      if (typeof value !== 'boolean') {
-        value = false
+    downloadSnapshot(agency = null) {
+      this.downloadReady = false
+      this.data = []
+      this.format = 'all'
+      this.stepper = 3
+
+      let url = '/vehicles'
+      if (agency) {
+        url = `/agencies/${agency}/vehicles?include=all&geojson=false`
       }
-      this.$emit('input', value)
+
+      this.downloadPartOfSnapshot(url).then(() => {
+        this.downloadReady = true
+      })
+    },
+    async downloadPartOfSnapshot(url) {
+      const response = await this.$axios.get(url)
+
+      this.data.push(...response.data.data)
+
+      if (response.data.links?.next) {
+        await this.downloadPartOfSnapshot(response.data.links.next)
+      }
+
+      return this.data
     },
     prepareDownload() {
       this.downloadReady = false
       this.stepper = 3
       if (this.format === 'all') {
-        this.$axios
-          .get(`/agencies/${this.selectedAgency.slug}/vehicles?include=all`)
-          .then((response) => {
-            this.data = response.data.data
-            this.downloadReady = true
-          })
-          .catch((error) => {
-            this.downloadError = error.status
-          })
+        this.downloadSnapshot(this.selectedAgency.slug)
       } else if (!(this.selectedAgency.slug in this.vehicles)) {
         this.$axios
           .get(`/agencies/${this.selectedAgency.slug}/vehicles`)
@@ -284,6 +320,19 @@ export default {
         this.data = this.vehicles[this.selectedAgency.slug]
         this.downloadReady = true
       }
+    },
+    stepperNextFromChoose() {
+      if (this.selectedAgency.id === 999) {
+        return this.downloadSnapshot()
+      }
+
+      this.stepper = 2
+    },
+    toggle(value = false) {
+      if (typeof value !== 'boolean') {
+        value = false
+      }
+      this.$emit('input', value)
     },
   },
 }
