@@ -47,7 +47,6 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
-    '@nuxtjs/sentry',
     'nuxt-i18n',
   ],
 
@@ -149,10 +148,5 @@ export default {
       enabled: true,
       importScripts: ['sw-push.js'],
     },
-  },
-
-  sentry: {
-    dsn: process.env.SENTRY_DSN,
-    lazy: true,
   },
 }
