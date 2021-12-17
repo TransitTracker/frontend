@@ -238,6 +238,10 @@ export default {
     agencyNotDownloadable:
       "La licence de cette agence n'autorise pas le téléchargement.",
     agencyRead: 'Lire la licence complète',
+    snapshot: 'Archive',
+    snapshotName: 'Archive de toutes les agences',
+    snapshotLicense:
+      'Les licences varient. Consultez chaque agence dans le menu ci-haut pour voir les licences.',
     formatStep: 'Choisissez le format',
     formatDesc: 'Les deux options sont des fichiers CSV.',
     formatActive:

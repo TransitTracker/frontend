@@ -238,6 +238,10 @@ export default {
     agencyNotDownloadable:
       'The license of this agency does not authorize download.',
     agencyRead: 'Read the complete license',
+    snapshot: 'Snapshot',
+    snapshotName: 'Snapshot of all agencies',
+    snapshotLicense:
+      'Licenses vary. Consult each agency in the menu above to see the licenses.',
     formatStep: 'Choose the format',
     formatDesc: 'Both options are CSV files.',
     formatActive:
