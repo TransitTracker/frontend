@@ -8,36 +8,44 @@
       <div class="text-subtitle1 text-center mb-6 tt-empty-space__body">
         {{ $t('home.emptyBody') }}
       </div>
-      <v-card
-        elevation="0"
-        class="mb-4"
-        rounded="lg"
-        :color="`${randomAgency.color}26`"
-        :loading="loading"
+      <div class="d-flex align-center">
+        <v-slide-group multiple show-arrows>
+          <v-slide-item v-for="agency in agencies" :key="agency.slug">
+            <v-tooltip bottom>
+              <template #activator="{ on, attrs }">
+                <v-hover v-slot="{ hover }">
+                  <v-avatar
+                    :color="agency.color"
+                    class="mx-2"
+                    v-bind="attrs"
+                    v-on="on"
+                    @click="addAgency(agency)"
+                  >
+                    <v-icon v-if="hover" size="32">
+                      {{ mdiPlus }}
+                    </v-icon>
+                    <v-icon v-else :color="agency.textColor" size="32">
+                      {{ mdi[agency.defaultVehicleType] }}
+                    </v-icon>
+                  </v-avatar>
+                </v-hover>
+              </template>
+              <span>{{ agency.name }}</span>
+            </v-tooltip>
+          </v-slide-item>
+        </v-slide-group>
+        <v-btn rounded color="primary" class="ml-4">
+          <v-icon left>{{ mdiPlus }}</v-icon>
+          Ajouter toutes les agences
+        </v-btn>
+      </div>
+      <v-btn
+        large
+        color="secondary"
+        :to="localePath('/')"
+        depressed
+        class="mt-8"
       >
-        <v-card-text
-          class="d-flex align-center px-3 py-2 tt-empty-state__suggestion"
-        >
-          <v-avatar :color="randomAgency.color">
-            <v-icon size="32" :color="randomAgency.textColor">
-              {{ mdi[randomAgency.defaultVehicleType] }}
-            </v-icon>
-          </v-avatar>
-          <div class="mx-4 flex-shrink-1">
-            <b class="text-subtitle-1 font-weight-medium">
-              {{ randomAgency.name }}
-            </b>
-            <p class="text-caption mb-0 text-truncate">
-              {{ randomAgency.cities.join(', ') }}
-            </p>
-          </div>
-          <v-spacer />
-          <v-btn icon @click="addAgency">
-            <v-icon>{{ mdiPlusCircle }}</v-icon>
-          </v-btn>
-        </v-card-text>
-      </v-card>
-      <v-btn large color="primary" :to="localePath('/')">
         {{ $t('home.emptyButton') }}
       </v-btn>
     </v-card-text>
@@ -45,7 +53,7 @@
 </template>
 
 <script>
-import { mdiBus, mdiMapPlus, mdiPlusCircle, mdiTrain, mdiTram } from '@mdi/js'
+import { mdiBus, mdiMapPlus, mdiPlus, mdiTrain, mdiTram } from '@mdi/js'
 
 export default {
   props: {
@@ -62,25 +70,21 @@ export default {
       tram: mdiTram,
     },
     mdiMapPlus,
-    mdiPlusCircle,
+    mdiPlus,
   }),
   computed: {
-    randomAgency() {
-      if (!this.region.agencies) return {}
-      return this.region.agencies[
-        Math.floor(Math.random() * this.region.agencies.length)
-      ]
+    agencies() {
+      if (!this.region.agencies) return []
+      return this.region.agencies
     },
   },
   methods: {
-    addAgency() {
+    addAgency(agency) {
       this.loading = true
 
-      this.$store
-        .dispatch('settings/toggleAgency', this.randomAgency)
-        .then(() => {
-          this.loading = false
-        })
+      this.$store.dispatch('settings/toggleAgency', agency).then(() => {
+        this.loading = false
+      })
     },
   },
 }
