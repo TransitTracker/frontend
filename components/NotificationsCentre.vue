@@ -123,63 +123,83 @@
       </v-container>
 
       <!-- Step: choose agencies -->
-      <v-container v-if="state === 'agencies'" class="text-body-1">
-        <p class="text-h6 font-weight-medium">
+      <v-container
+        v-if="state === 'agencies'"
+        class="text-body-1 d-flex flex-column tt-notifications-centre__agencies"
+      >
+        <p class="text-h6 font-weight-medium flex-grow-0 flex-shrink-0">
           {{ $t('notifications.chooseAgencies') }}
         </p>
-        <v-list-item v-for="agency in agencies" :key="agency.slug" dense>
-          <v-list-item-action>
-            <v-checkbox
-              v-model="selectedAgencies"
-              :value="agency.slug"
-              color="primary"
-            ></v-checkbox>
-          </v-list-item-action>
-          <v-list-item-content style="flex: 0 0 32px" class="mr-2 ml-n2">
-            <v-list-item-avatar :color="agency.color" size="32">
-              <v-icon :color="agency.textColor" size="24">
-                {{ mdi[agency.defaultVehicleType] }}
-              </v-icon>
-            </v-list-item-avatar>
-          </v-list-item-content>
-          <v-list-item-content>
-            <v-list-item-title>
-              {{ agency.name }}
-              <v-chip
-                v-for="region in agency.regions"
-                :key="region"
-                x-small
-                label
-              >
-                {{ regions[region].name }}
-              </v-chip>
-            </v-list-item-title>
-            <v-list-item-subtitle>
-              {{
-                $tc(
-                  'notifications.newVehiclesWeek',
-                  agenciesStats[agency.slug] || 0
-                )
-              }}
-            </v-list-item-subtitle>
-          </v-list-item-content>
-          <v-tooltip bottom>
-            <template #activator="{ on, attrs }">
-              <v-list-item-avatar
-                v-if="!activeAgencies.includes(agency.slug)"
-                v-bind="attrs"
-                size="32"
-                v-on="on"
-              >
-                <v-icon size="24">
-                  {{ mdiEyeOff }}
-                </v-icon>
-              </v-list-item-avatar>
+        <v-list-item-group
+          v-model="selectedAgencies"
+          multiple
+          class="flex-shrink-1 flex-grow-1 overflow-y-auto"
+        >
+          <v-list-item
+            v-for="agency in agencies"
+            :key="agency.slug"
+            dense
+            :value="agency.slug"
+          >
+            <template #default="{ active }">
+              <v-list-item-action>
+                <v-checkbox
+                  :input-value="active"
+                  :color="$vuetify.theme.dark ? 'white' : 'primary'"
+                ></v-checkbox>
+              </v-list-item-action>
+              <v-list-item-content style="flex: 0 0 32px" class="mr-2 ml-n2">
+                <v-list-item-avatar :color="agency.color" size="32">
+                  <v-icon :color="agency.textColor" size="24">
+                    {{ mdi[agency.defaultVehicleType] }}
+                  </v-icon>
+                </v-list-item-avatar>
+              </v-list-item-content>
+              <v-list-item-content>
+                <v-list-item-title>
+                  {{ agency.name }}
+                  <v-chip
+                    v-for="region in agency.regions"
+                    :key="region"
+                    x-small
+                    label
+                  >
+                    {{ regions[region].name }}
+                  </v-chip>
+                </v-list-item-title>
+                <v-list-item-subtitle>
+                  {{
+                    $tc(
+                      'notifications.newVehiclesWeek',
+                      agenciesStats[agency.slug] || 0
+                    )
+                  }}
+                </v-list-item-subtitle>
+              </v-list-item-content>
+              <v-tooltip bottom>
+                <template #activator="{ on, attrs }">
+                  <v-list-item-avatar
+                    v-if="!activeAgencies.includes(agency.slug)"
+                    v-bind="attrs"
+                    size="32"
+                    v-on="on"
+                  >
+                    <v-icon size="24">
+                      {{ mdiEyeOff }}
+                    </v-icon>
+                  </v-list-item-avatar>
+                </template>
+                <span>{{ $t('notifications.agencyNotSelected') }}</span>
+              </v-tooltip>
             </template>
-            <span>{{ $t('notifications.agencyNotSelected') }}</span>
-          </v-tooltip>
-        </v-list-item>
-        <v-btn color="primary" depressed class="mt-4" @click="saveProfile">
+          </v-list-item>
+        </v-list-item-group>
+        <v-btn
+          color="primary"
+          depressed
+          class="mt-4 flex-grow-0 flex-shrink-0"
+          @click="saveProfile"
+        >
           <v-icon left>{{ mdiCheck }}</v-icon>
           {{ $t('notifications.save') }}
         </v-btn>
@@ -269,12 +289,6 @@ import {
 import { urlBase64ToUint8Array } from '@/utils/push'
 
 export default {
-  props: {
-    value: {
-      type: Boolean,
-      required: true,
-    },
-  },
   data: () => ({
     state: 'authorize',
     mdiArrowLeft,
@@ -480,6 +494,14 @@ export default {
 </script>
 
 <style lang="scss">
+.v-dialog .tt-notifications-centre__agencies {
+  height: calc(90vh - 64px);
+}
+
+.v-dialog--fullscreen .tt-notifications-centre__agencies {
+  height: calc(100vh - 56px);
+}
+
 .v-banner__wrapper {
   padding: 16px !important;
 }
