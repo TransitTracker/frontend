@@ -491,7 +491,7 @@ export default {
         this.globalLoading = false
         this.subscribeError = error
 
-        if (error.includes('unsubscribe')) {
+        if (error.message.includes('unsubscribe')) {
           const registration = await navigator.serviceWorker.ready
           const sub = await registration.pushManager.getSubscription()
           await sub.unsubscribe()
