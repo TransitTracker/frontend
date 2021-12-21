@@ -81,6 +81,9 @@
               </v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-action v-if="!agency.regions.includes('*')">
+              <v-list-item-action-text>
+                {{ agency.shortName }}
+              </v-list-item-action-text>
               <v-btn
                 icon
                 :small="$vuetify.breakpoint.smAndDown"
