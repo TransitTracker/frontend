@@ -130,6 +130,23 @@
         <p class="text-h6 font-weight-medium flex-grow-0 flex-shrink-0">
           {{ $t('notifications.chooseAgencies') }}
         </p>
+        <v-list-item-group>
+          <v-list-item @click="selectAllAgencies">
+            <v-list-item-action>
+              <v-checkbox
+                :value="
+                  selectedAgencies.length === Object.entries(agencies).length
+                "
+                :color="$vuetify.theme.dark ? 'white' : 'primary'"
+              ></v-checkbox>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-subtitle>
+                {{ $t('notifications.selectAll') }}
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-item-group>
         <v-list-item-group
           v-model="selectedAgencies"
           multiple
@@ -425,6 +442,13 @@ export default {
 
       this.state = 'notifications'
       this.globalLoading = false
+    },
+    selectAllAgencies() {
+      this.selectedAgencies = []
+
+      Object.entries(this.agencies).forEach(([slug]) => {
+        this.selectedAgencies.push(slug)
+      })
     },
     async unsubscribe() {
       this.globalLoading = true

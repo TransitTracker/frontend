@@ -319,6 +319,7 @@ export default {
     electricStmDesc:
       "Recevez une notification lorsqu'un des nouveaux New Flyer électriques commence une journée en service",
     chooseAgencies: 'Sélectionnez vos agences',
+    selectAll: 'Tout sélectionner',
     newVehiclesWeek:
       'Aucun nouveau véhicule récemment | Un nouveau véhicule dans la dernière semaine | {n} nouveaux véhicules dans la dernière semaine',
     agencyNotSelected:
