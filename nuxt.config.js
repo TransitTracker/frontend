@@ -135,7 +135,7 @@ export default {
       name: 'Transit Tracker',
       short_name: 'Transit T.',
       description: 'An Overview of Public Transit for Several Canadian Cities',
-      display: 'fullscreen',
+      display: 'standalone',
       background_color: '#2374ab',
     },
     meta: {
