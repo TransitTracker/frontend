@@ -44,8 +44,8 @@
           @click="addAll"
         >
           <v-icon left>{{ mdiPlus }}</v-icon>
-          <span class="d-md-none">Toutes</span>
-          <span class="d-none d-md-inline">Ajouter toutes les agences</span>
+          <span class="d-md-none">{{ $t('home.emptyButtonShort') }}</span>
+          <span class="d-none d-md-inline">{{ $t('home.emptyButton') }}</span>
         </v-btn>
       </div>
     </v-card-text>

@@ -48,7 +48,8 @@ export default {
     emptyTitle: 'Aucune agence sélectionnée',
     emptyBody:
       "Vous n'avez pas sélectionné d'agence pour cette région. Ajoutez l'agence proposée ci-dessous, utilisez les réglagles pour voir tous les choix (coin supérieur droit) ou changez de région.",
-    emptyButton: 'Changer de région',
+    emptyButton: 'Ajouter toutes les agences',
+    emptyButtonShort: 'Toutes',
     creditsTitle: 'Crédits',
     refreshAriaLabel: 'Rafraîchir',
   },

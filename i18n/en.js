@@ -48,7 +48,8 @@ export default {
     emptyTitle: 'No agencies selected',
     emptyBody:
       "You didn't select any agencies for this region. Add the suggested agency below, use the settings to add more agencies (top-right button) or change region.",
-    emptyButton: 'Change region',
+    emptyButton: 'Add all agencies',
+    emptyButtonShort: 'All',
     creditsTitle: 'Credits',
     refreshAriaLabel: 'Refresh',
   },
