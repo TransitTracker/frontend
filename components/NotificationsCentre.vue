@@ -445,6 +445,10 @@ export default {
         this.selectedAgencies = []
         this.profileAgenciesCount = 0
 
+        const registration = await navigator.serviceWorker.ready
+        const sub = await registration.pushManager.getSubscription()
+        await sub.unsubscribe()
+
         this.state = 'authorize'
       } catch (e) {
         if (e.response && e.response.status === 429) {
@@ -486,6 +490,13 @@ export default {
       } catch (error) {
         this.globalLoading = false
         this.subscribeError = error
+
+        if (error.includes('unsubscribe')) {
+          const registration = await navigator.serviceWorker.ready
+          const sub = await registration.pushManager.getSubscription()
+          await sub.unsubscribe()
+        }
+
         return false
       }
     },
