@@ -1,15 +1,17 @@
 <template>
-  <v-card>
+  <v-card :loading="loading" :disabled="loading">
     <v-card-text class="d-flex flex-column align-center">
       <v-icon size="100" color="primary">{{ mdiMapPlus }}</v-icon>
       <div class="text-h6 text-center my-2">
         {{ $t('home.emptyTitle') }}
       </div>
-      <div class="text-subtitle1 text-center mb-6 tt-empty-space__body">
+      <div class="text-subtitle1 text-center tt-empty-space__body">
         {{ $t('home.emptyBody') }}
       </div>
-      <div class="d-flex align-center">
-        <v-slide-group multiple show-arrows>
+    </v-card-text>
+    <v-card-text>
+      <div class="d-flex align-center justify-center tt-empty-state__agencies">
+        <v-slide-group center-active show-arrows="always" class="flex-grow-1">
           <v-slide-item v-for="agency in agencies" :key="agency.slug">
             <v-tooltip bottom>
               <template #activator="{ on, attrs }">
@@ -21,7 +23,7 @@
                     v-on="on"
                     @click="addAgency(agency)"
                   >
-                    <v-icon v-if="hover" size="32">
+                    <v-icon v-if="hover" :color="agency.textColor" size="32">
                       {{ mdiPlus }}
                     </v-icon>
                     <v-icon v-else :color="agency.textColor" size="32">
@@ -34,20 +36,18 @@
             </v-tooltip>
           </v-slide-item>
         </v-slide-group>
-        <v-btn rounded color="primary" class="ml-4">
+        <v-btn
+          rounded
+          color="primary"
+          class="ml-4 flex-shrink-0"
+          :small="$vuetify.breakpoint.smAndDown"
+          @click="addAll"
+        >
           <v-icon left>{{ mdiPlus }}</v-icon>
-          Ajouter toutes les agences
+          <span class="d-md-none">Toutes</span>
+          <span class="d-none d-md-inline">Ajouter toutes les agences</span>
         </v-btn>
       </div>
-      <v-btn
-        large
-        color="secondary"
-        :to="localePath('/')"
-        depressed
-        class="mt-8"
-      >
-        {{ $t('home.emptyButton') }}
-      </v-btn>
     </v-card-text>
   </v-card>
 </template>
@@ -73,6 +73,9 @@ export default {
     mdiPlus,
   }),
   computed: {
+    activeAgencies() {
+      return this.$store.state.settings.activeAgencies
+    },
     agencies() {
       if (!this.region.agencies) return []
       return this.region.agencies
@@ -86,13 +89,29 @@ export default {
         this.loading = false
       })
     },
+    addAll() {
+      this.loading = true
+      setTimeout(() => {
+        Object.keys(this.agencies)
+          .filter((slug) => !this.activeAgencies.includes(slug))
+          .forEach((slug) => {
+            this.$store.dispatch('settings/toggleAgency', this.agencies[slug])
+          })
+
+        this.loading = false
+      }, 1000)
+    },
   },
 }
 </script>
 
 <style lang="scss">
-.tt-empty-state__suggestion > div {
-  min-width: 0;
+.tt-empty-state__agencies {
+  width: 100%;
+
+  div {
+    min-width: 0;
+  }
 }
 
 @media (min-width: 960px) {
