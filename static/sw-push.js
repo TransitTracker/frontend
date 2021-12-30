@@ -23,18 +23,14 @@ self.addEventListener('push', (event) => {
 self.addEventListener('notificationclick', (event) => {
   event.notification.close()
 
-  const [action, param] = event.action.split('.')
+  const [action, param, secondParam] = event.action.split('.')
 
-  if (action === 'open_region') {
+  if (action === 'open_vehicle') {
     event.waitUntil(
-      clients.matchAll({ type: 'window' }).then((clientList) => {
-        for (const client of clientList) {
-          if (client.url.includes(param)) {
-            return client.focus()
-          }
-        }
-
-        return clients.openWindow(`/regions/${param}`)
+      clients.matchAll({ type: 'window' }).then(() => {
+        return clients.openWindow(
+          `/regions/${param}/map?vehicle=${secondParam}`
+        )
       })
     )
   }

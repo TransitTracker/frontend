@@ -9,15 +9,7 @@
     />
     <div
       ref="mapPopup"
-      class="
-        tt-map__popup
-        black--text
-        text-subtitle-1
-        d-flex
-        align-center
-        mt-n1
-        mb-n2
-      "
+      class="tt-map__popup black--text text-subtitle-1 d-flex align-center mt-n1 mb-n2"
     >
       <v-icon
         v-if="selectedVehicle.bearing"
@@ -47,7 +39,15 @@ const defaultGeojsonShapeData = {
 export default {
   name: 'PagesRegionMap',
   middleware: 'loadData',
-  asyncData({ params }) {
+  async asyncData({ $axios, params, query, store }) {
+    if (query.vehicle) {
+      const { data } = await $axios.get(`/vehicles/${query.vehicle}`)
+
+      if (data.data.isActive) {
+        store.commit('vehicles/setSelection', data.data)
+      }
+    }
+
     return {
       regionSlug: params.region,
       mapStyle: {
