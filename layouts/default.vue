@@ -51,6 +51,7 @@
     </v-app-bar>
     <v-main>
       <Alerts />
+      <NotificationsCentre v-if="dataIsLoaded" />
       <settings-drawer v-model="settingsDrawer" />
       <nuxt />
     </v-main>
@@ -133,6 +134,7 @@ import {
   mdiTable,
   mdiViewGrid,
 } from '@mdi/js'
+import { urlBase64ToUint8Array } from '@/utils/push'
 
 export default {
   data: () => ({
@@ -186,6 +188,9 @@ export default {
     settingsLaunch() {
       return this.$store.state.settings.launch
     },
+    settingsPushSubscriptionUuid() {
+      return this.$store.state.settings.pushSubscriptionUuid
+    },
     updateAvailable() {
       return this.$store.state.app.updateAvailable
     },
@@ -201,7 +206,7 @@ export default {
     // Set language only if defined
     if (this.settingsLang) this.$i18n.setLocale(this.settingsLang)
 
-    this.handleWorkboxUpdate()
+    this.handleWorkboxEvents()
 
     // Install prompt
     window.addEventListener('beforeinstallprompt', (event) => {
@@ -217,6 +222,11 @@ export default {
         value: true,
       })
     })
+
+    // Update push subscription
+    if (this.settingsPushSubscriptionUuid) {
+      this.verifyNotificationSubscriptionStatus()
+    }
   },
   methods: {
     checkForOldSettings() {
@@ -262,17 +272,50 @@ export default {
       )
       window.localStorage.removeItem('vuex')
     },
-    async handleWorkboxUpdate() {
+    async handleWorkboxEvents() {
       // Workbox update
       const workbox = await window.$workbox
-      if (workbox) {
-        workbox.addEventListener('installed', (event) => {
-          if (event.isUpdate) {
-            this.$store.commit('app/set', {
-              key: 'updateAvailable',
-              value: true,
-            })
-          }
+
+      if (!workbox) {
+        return
+      }
+
+      workbox.addEventListener('installed', (event) => {
+        if (!event.isUpdate) {
+          return
+        }
+
+        this.$store.commit('app/set', {
+          key: 'updateAvailable',
+          value: true,
+        })
+      })
+    },
+    async verifyNotificationSubscriptionStatus() {
+      try {
+        await Notification.requestPermission()
+
+        const registration = await navigator.serviceWorker.ready
+
+        const pushSubscription = await registration.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: urlBase64ToUint8Array(process.env.vapidKey),
+        })
+
+        const { data } = await this.$axios.post('/push/profile/verify', {
+          ...pushSubscription.toJSON(),
+          uuid: this.settingsPushSubscriptionUuid,
+          isFrench: this.$i18n.locale === 'fr',
+        })
+
+        this.$store.commit('settings/set', {
+          setting: 'pushSubscriptionUuid',
+          value: data.data.uuid,
+        })
+      } catch (error) {
+        this.$store.commit('settings/set', {
+          setting: 'pushSubscriptionUuid',
+          value: undefined,
         })
       }
     },

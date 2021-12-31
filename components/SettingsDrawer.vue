@@ -23,6 +23,23 @@
     </v-toolbar>
     <v-divider />
     <div class="d-flex flex-column tt-settings__container">
+      <div v-if="dataIsLoaded" class="primary-dark white--text">
+        <v-container
+          class="d-flex align-center cursor-pointer"
+          @click="openNotificationsCentre()"
+        >
+          <v-icon dark>{{ mdiBell }}</v-icon>
+          <div class="ml-4 text-subtitle-1 font-weight-bold">
+            {{ $t('notifications.title') }}
+          </div>
+          <div class="ml-2 px-1 text-caption white primary-dark--text">
+            BETA
+          </div>
+          <v-spacer />
+          <v-icon dark>{{ mdiArrowRight }}</v-icon>
+        </v-container>
+      </div>
+      <v-divider />
       <v-container>
         <SettingsPwa />
         <SettingsAgencies v-if="dataIsLoaded" />
@@ -148,6 +165,8 @@
 
 <script>
 import {
+  mdiArrowRight,
+  mdiBell,
   mdiBus,
   mdiClose,
   mdiCloseCircleOutline,
@@ -177,6 +196,8 @@ export default {
   },
   data: () => ({
     aboutDialog: false,
+    mdiArrowRight,
+    mdiBell,
     mdiClose,
     mdiCloseCircleOutline,
     mdiMagnify,
@@ -208,6 +229,9 @@ export default {
     },
   },
   methods: {
+    openNotificationsCentre() {
+      this.$store.commit('app/set', { key: 'notificationsCentre', value: true })
+    },
     setSetting(setting, value) {
       if (setting === 'theme') {
         this.$vuetify.theme.dark = this.getTheme(value)
@@ -253,7 +277,23 @@ export default {
   }
 }
 
-.theme--dark .tt-settings__agencies {
-  background-color: #363636 !important;
+.theme--dark .tt-settings {
+  &__agencies {
+    background-color: #363636 !important;
+  }
+
+  &__about {
+    background-color: #00497a;
+    color: #cfe5ff !important;
+
+    &-by {
+      color: #cfe5ff !important;
+    }
+
+    .text-body-2,
+    .black--text {
+      color: white !important;
+    }
+  }
 }
 </style>

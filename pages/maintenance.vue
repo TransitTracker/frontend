@@ -1,19 +1,23 @@
 <template>
-  <v-container class="d-flex align-center justify-center tt-error">
-    <v-card class="d-flex overflow-hidden" rounded="lg">
-      <div class="warning d-flex align-center justify-center rounded-0">
-        <v-icon size="64" class="mx-8 my-4">{{ mdiAlert }}</v-icon>
-      </div>
-      <v-card-text class="px-8 px-md-16 py-4 py-md-12">
-        <h1 class="text-h4 font-weight-bold">{{ $t('maintenance.title') }}</h1>
-        <h2 class="text-h6 mt-1 mb-4">
-          {{ $t('maintenance.description') }} <br />
-          {{ $t('maintenance.wait') }}
-        </h2>
-        <p class="text-subtitle-2">{{ query.code }}</p>
+  <div>
+    <div class="text-center py-8 px-4 warning w-full d-block">
+      <v-icon size="64">{{ mdiServerNetworkOff }}</v-icon>
+    </div>
+    <v-card rounded="0" elevation="0">
+      <v-card-title>
+        {{ $t('maintenance.title') }}
+      </v-card-title>
+      <v-card-subtitle>
+        {{ $t('error.title') }} {{ query.code }}
+      </v-card-subtitle>
+      <v-card-text>
+        {{ $t('maintenance.description') }}
+      </v-card-text>
+      <v-card-text>
         <v-btn
+          block
           depressed
-          color="primary"
+          color="secondary"
           :href="$t('maintenance.statusPageUrl')"
           target="_blank"
         >
@@ -22,14 +26,14 @@
         </v-btn>
       </v-card-text>
     </v-card>
-  </v-container>
+  </div>
 </template>
 
 <script>
-import { mdiAlert, mdiOpenInNew } from '@mdi/js'
+import { mdiOpenInNew, mdiServerNetworkOff } from '@mdi/js'
 export default {
   asyncData: ({ query }) => {
-    return { mdiAlert, mdiOpenInNew, query }
+    return { mdiOpenInNew, mdiServerNetworkOff, query }
   },
   head: {
     title: 'Maintenance',

@@ -1,6 +1,6 @@
 <template>
   <div class="mb-14">
-    <div class="secondary tt-texture--icons">
+    <div class="secondary tt-brand tt-texture--icons">
       <v-container class="d-flex align-center pa-6">
         <div class="flex-grow-1">
           <h1 class="text-h5 font-weight-medium">
@@ -32,6 +32,9 @@
           class="welcome-logo ml-4"
         />
       </v-container>
+      <div class="tt-winter overflow-hidden">
+        <div v-for="i in 50" :key="i" class="tt-winter__snowflake"></div>
+      </div>
     </div>
     <v-container>
       <v-row>
@@ -41,6 +44,22 @@
               <span class="flex-grow-1">
                 {{ totalCount }} {{ $t('home.vehicleTotal') }}
               </span>
+              <v-btn
+                color="primary"
+                :fab="$vuetify.breakpoint.smAndDown"
+                :small="$vuetify.breakpoint.smAndDown"
+                elevation="0"
+                :title="$t('notifications.title')"
+                class="mr-2"
+                @click="openNotificationsCentre()"
+              >
+                <v-icon :left="$vuetify.breakpoint.mdAndUp">
+                  {{ mdiBell }}
+                </v-icon>
+                <span class="d-none d-md-block">
+                  {{ $t('notifications.title') }}
+                </span>
+              </v-btn>
               <v-btn
                 color="primary"
                 :fab="$vuetify.breakpoint.smAndDown"
@@ -137,13 +156,14 @@
 </template>
 
 <script>
-import { mdiDownload, mdiGithub } from '@mdi/js'
+import { mdiBell, mdiDownload, mdiGithub } from '@mdi/js'
 
 export default {
   middleware: 'loadData',
   asyncData({ params }) {
     return {
       regionSlug: params.region,
+      mdiBell,
       mdiDownload,
       mdiGithub,
       backendHost: process.env.backendHost,
@@ -239,6 +259,11 @@ export default {
       return this.$store.state.agencies.times
     },
   },
+  methods: {
+    openNotificationsCentre() {
+      this.$store.commit('app/set', { key: 'notificationsCentre', value: true })
+    },
+  },
 }
 </script>
 
@@ -261,6 +286,50 @@ export default {
   &__text {
     height: 100%;
     max-width: 90%;
+  }
+}
+
+.tt-brand {
+  position: relative;
+}
+
+.tt-winter {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+
+  &__snowflake {
+    --size: 1vw;
+    width: var(--size);
+    height: var(--size);
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: -5vh;
+  }
+}
+
+@keyframes snowfall {
+  0% {
+    transform: translate3d(var(--left-ini), 0, 0);
+  }
+  100% {
+    transform: translate3d(var(--left-end), 110vh, 0);
+  }
+}
+
+@for $i from 1 through 50 {
+  .tt-winter__snowflake:nth-child(#{$i}) {
+    --size: #{random(10) + 4}px;
+    --left-ini: #{random(20) - 10}vw;
+    --left-end: #{random(20) - 10}vw;
+    left: #{random(100)}vw;
+    animation: snowfall #{5 + random(10)}s linear infinite;
+    animation-delay: -#{random(10)}s;
   }
 }
 </style>

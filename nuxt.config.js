@@ -47,7 +47,6 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
-    '@nuxtjs/sentry',
     'nuxt-i18n',
   ],
 
@@ -125,6 +124,7 @@ export default {
     wsTls: process.env.WS_TLS || true,
     imageKit: process.env.IMAGE_KIT,
     commitHash: process.env.COMMIT_REF,
+    vapidKey: process.env.VAPID_KEY,
   },
 
   pwa: {
@@ -135,7 +135,7 @@ export default {
       name: 'Transit Tracker',
       short_name: 'Transit T.',
       description: 'An Overview of Public Transit for Several Canadian Cities',
-      display: 'fullscreen',
+      display: 'standalone',
       background_color: '#2374ab',
     },
     meta: {
@@ -144,10 +144,9 @@ export default {
       theme_color: '#00497b',
       twitterCard: 'summary_large_image',
     },
-  },
-
-  sentry: {
-    dsn: process.env.SENTRY_DSN,
-    lazy: true,
+    workbox: {
+      enabled: true,
+      importScripts: ['sw-push.js'],
+    },
   },
 }

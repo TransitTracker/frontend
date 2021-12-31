@@ -59,6 +59,7 @@
             height="40px"
           />
           <div class="ml-4">
+            <!-- eslint-disable -->
             <a
               href="https://felixinx.me"
               class="
@@ -66,6 +67,7 @@
                 text-decoration-none text-body-1
               "
             >
+            <!-- eslint-enable -->
               {{ $t('aboutDialog.by') }}
             </a>
             <br />

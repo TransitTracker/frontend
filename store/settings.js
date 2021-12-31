@@ -8,7 +8,8 @@ export const state = () => ({
   lang: null,
   theme: 'system',
   activateByod: false,
-  preferDesktopView: false,
+  preferDesktopView: true,
+  pushSubscriptionUuid: null,
 })
 
 export const mutations = {
@@ -60,7 +61,9 @@ export const actions = {
       }
     } else {
       setting.push(agency.slug)
-      dispatch('vehicles/load', agency, { root: true })
+      if (agency.regions.includes(state.currentRegion)) {
+        dispatch('vehicles/load', agency, { root: true })
+      }
     }
 
     commit('set', { setting: 'activeAgencies', value: setting })

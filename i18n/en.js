@@ -1,7 +1,7 @@
-import Vuetify from 'vuetify/es5/locale/en'
+import en from 'vuetify/lib/locale/en'
 
 export default {
-  $vuetify: Vuetify,
+  $vuetify: en,
   app: {
     tabHome: 'Home',
     tabMap: 'Map',
@@ -48,7 +48,8 @@ export default {
     emptyTitle: 'No agencies selected',
     emptyBody:
       "You didn't select any agencies for this region. Add the suggested agency below, use the settings to add more agencies (top-right button) or change region.",
-    emptyButton: 'Change region',
+    emptyButton: 'Add all agencies',
+    emptyButtonShort: 'All',
     creditsTitle: 'Credits',
     refreshAriaLabel: 'Refresh',
   },
@@ -285,9 +286,51 @@ export default {
   },
   maintenance: {
     title: 'Maintenance',
-    description: 'The server is currently in maintenance mode.',
-    wait: 'Please try again in a few minutes.',
+    description:
+      'The server is currently in maintenance mode. Please try again in a few minutes.',
     statusPage: 'Status page',
     statusPageUrl: 'https://status.transittracker.ca',
+  },
+  notifications: {
+    title: 'Notifications',
+    warning: 'Wait!',
+    warning429: 'Wait a few minutes before trying again.',
+    // Padding
+    unavailable: 'Notifications are not available in your browser.',
+    // Padding
+    betaTitle: 'Beta functionality',
+    betaBody:
+      'This feature is still under development. Test it out and share your feedback with us.',
+    authorize: 'Authorize',
+    authorizeTitle: 'Allow notifications in your browser',
+    authorizeBody:
+      "You can then choose what type of notifications you want. For now, you can subscribe to three types of notifications: new vehicles, general alerts and deployment of the STM's New Flyers.",
+    authorizeError: 'The request was refused:',
+    selectNotifications: 'Select notifications',
+    newVehicles: 'New vehicles',
+    newVehiclesCount:
+      'No agency activated | One agency activated | {n} agencies activated',
+    newVehiclesDesc:
+      'Get a notification for each new vehicle, from the agencies of your choice',
+    generalNews: 'General news',
+    generalNewsDesc:
+      'Receive notifications for information on Transit Tracker updates, news, disruptions and more',
+    electricStm: 'STM - Introduction of New Flyers',
+    electricStmDesc:
+      'Receive a notification when one of the new electric New Flyers starts a day in service',
+    chooseAgencies: 'Select your agencies',
+    selectAll: 'Select all',
+    newVehiclesWeek:
+      'No new vehicle recently | No new vehicles recently | {n} new vehicles in the last week',
+    agencyNotSelected:
+      'This agency is not visible in Transit Tracker, you can activate it in the settings',
+    save: 'Save',
+    inactive: 'Inactive subscription',
+    inactiveDesc:
+      'Your subscription was deactivated by your browser and could not be reactivated automatically. Please unsubscribe and resubscribe.',
+    hideUuid: 'hide',
+    showUuid: 'show your secret id',
+    unsubscribe: 'Unsubscribe',
+    active: 'Active subscription',
   },
 }

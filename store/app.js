@@ -5,6 +5,7 @@ export const state = () => ({
   installPrompt: null,
   installOutcome: null,
   updateAvailable: false,
+  notificationsCentre: false,
 })
 
 export const mutations = {
