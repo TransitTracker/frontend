@@ -108,10 +108,10 @@
                 icon
                 small
                 class="float-right"
-                @click="helpToggle[property.name] = !helpToggle[property.name]"
+                @click="helpToggle[property.help] = !helpToggle[property.help]"
               >
                 <v-icon color="secondary-dark">
-                  {{ helpToggle[property.name] ? mdiClose : mdiHelpCircle }}
+                  {{ helpToggle[property.help] ? mdiClose : mdiHelpCircle }}
                 </v-icon>
               </v-btn>
             </v-list-item-title>
@@ -119,10 +119,10 @@
               <TimestampAgo :timestamp="parseInt(vehicle.timestamp)" />
             </v-list-item-title>
             <v-list-item-subtitle
-              v-if="helpToggle[property.name]"
+              v-if="helpToggle[property.help]"
               class="pa-2 secondary-dark white--text rounded white-space--normal"
             >
-              {{ $t(`mapBottomSheet.help.${property.name}`) }}
+              {{ $t(`mapBottomSheet.help.${property.help}`) }}
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
@@ -234,7 +234,7 @@ export default {
         name: 'label',
         content: 'ref',
         icon: mdiIdentifier,
-        help: true,
+        help: 'label',
       },
       {
         name: 'plate',
@@ -243,7 +243,7 @@ export default {
       {
         name: 'tripId',
         icon: mdiIdentifier,
-        help: true,
+        help: 'tripId',
       },
       {
         name: 'routeId',
@@ -269,7 +269,7 @@ export default {
         parent: 'scheduleRelationship',
         label: 'scheduleRelationship',
         icon: mdiTimelinePlus,
-        help: true,
+        help: 'scheduleRelationship',
       },
       {
         name: 'odometer',
@@ -280,13 +280,13 @@ export default {
         parent: 'currentStatus',
         label: 'currentStatus',
         icon: mdiBusStop,
-        help: true,
+        help: 'currentStatus',
         showRaw: true,
       },
       {
         name: 'currentStopSequence',
         icon: mdiTimetable,
-        help: true,
+        help: 'currentStopSequence',
       },
       {
         name: 'speed',
