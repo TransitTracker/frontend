@@ -61,6 +61,10 @@ export default {
     // Padding
     scroll: 'Scroll',
   },
+  mapTag: {
+    electric: 'Electric',
+    mirrorCameras: 'Mirror cameras',
+  },
   mapBottomSheet: {
     close: 'Close',
     vehicle: 'Vehicle',

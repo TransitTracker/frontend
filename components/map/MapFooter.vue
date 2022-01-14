@@ -54,6 +54,25 @@
           />
           <span v-if="vehicle.timestamp">&bull;</span>
           {{ agency.name }}
+          <span v-if="vehicle.vehicleType === 'bus-electric'">
+            &bull;
+            <span class="tt-footer__electric-bus px-1 py-0.5 rounded">
+              <v-icon size="16" color="white">{{ mdiLightningBolt }}</v-icon>
+              {{ $t('mapTag.electric') }}
+            </span>
+          </span>
+          <span
+            v-if="
+              (vehicle.ref === '39050' || vehicle.ref === '39055') &&
+              vehicle.agency === 'stm'
+            "
+          >
+            &bull;
+            <span class="tt-footer__camera-bus px-1 py-0.5 rounded">
+              <v-icon size="16" color="black">{{ mdiCctv }}</v-icon>
+              {{ $t('mapTag.mirrorCameras') }}
+            </span>
+          </span>
         </p>
       </div>
       <div
@@ -122,6 +141,25 @@
         </v-btn>
       </div>
     </v-footer>
+    <div
+      class="px-4 py-2 d-md-none"
+      :class="[darkMode ? '' : 'grey lighten-4']"
+    >
+      <span
+        v-if="vehicle.vehicleType === 'bus-electric'"
+        class="tt-footer__electric-bus px-1 py-0.5 rounded"
+      >
+        <v-icon size="16" color="white">{{ mdiLightningBolt }}</v-icon>
+        {{ $t('mapTag.electric') }}
+      </span>
+      <span
+        v-if="vehicle.ref === '39050' && vehicle.agency === 'stm'"
+        class="tt-footer__camera-bus px-1 py-0.5 rounded"
+      >
+        <v-icon size="16" color="black">{{ mdiCctv }}</v-icon>
+        {{ $t('mapTag.mirrorCameras') }}
+      </span>
+    </div>
     <MapBottomSheet ref="bottomSheet" />
   </div>
   <v-footer
@@ -137,7 +175,10 @@
 import {
   mdiArrowDown,
   mdiBus,
+  mdiBusElectric,
+  mdiCctv,
   mdiFerry,
+  mdiLightningBolt,
   mdiNavigation,
   mdiSeatPassenger,
   mdiSpeedometer,
@@ -154,12 +195,15 @@ export default {
   },
   data: () => ({
     mdiArrowDown,
+    mdiCctv,
+    mdiLightningBolt,
     mdiNavigation,
     mdiSeatPassenger,
     mdiSpeedometer,
     mdiTrafficLight,
     mdi: {
       bus: mdiBus,
+      'bus-electric': mdiBusElectric,
       ferry: mdiFerry,
       train: mdiTrain,
       tram: mdiTram,
@@ -214,8 +258,18 @@ export default {
   padding: 0 16px;
   position: relative;
 
+  &__camera-bus {
+    background-color: #82cad1;
+    color: black;
+  }
+
   &__chevron {
     animation: bounce 1s infinite;
+  }
+
+  &__electric-bus {
+    background-color: #5cbf1a;
+    color: white;
   }
 
   &__slider {

@@ -61,6 +61,10 @@ export default {
       'Veuillez sélectionner un véhicule pour y consulter toutes les informations',
     scroll: 'Défilez',
   },
+  mapTag: {
+    electric: 'Électrique',
+    mirrorCameras: 'Caméras-rétroviseurs',
+  },
   mapBottomSheet: {
     close: 'Fermer',
     vehicle: 'Véhicule',
