@@ -32,9 +32,6 @@
           class="welcome-logo ml-4"
         />
       </v-container>
-      <div class="tt-winter overflow-hidden">
-        <div v-for="i in 50" :key="i" class="tt-winter__snowflake"></div>
-      </div>
     </div>
     <v-container>
       <v-row>
@@ -291,45 +288,5 @@ export default {
 
 .tt-brand {
   position: relative;
-}
-
-.tt-winter {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-
-  &__snowflake {
-    --size: 1vw;
-    width: var(--size);
-    height: var(--size);
-    background: white;
-    border-radius: 50%;
-    position: absolute;
-    top: -5vh;
-  }
-}
-
-@keyframes snowfall {
-  0% {
-    transform: translate3d(var(--left-ini), 0, 0);
-  }
-  100% {
-    transform: translate3d(var(--left-end), 110vh, 0);
-  }
-}
-
-@for $i from 1 through 50 {
-  .tt-winter__snowflake:nth-child(#{$i}) {
-    --size: #{random(10) + 4}px;
-    --left-ini: #{random(20) - 10}vw;
-    --left-end: #{random(20) - 10}vw;
-    left: #{random(100)}vw;
-    animation: snowfall #{5 + random(10)}s linear infinite;
-    animation-delay: -#{random(10)}s;
-  }
 }
 </style>
