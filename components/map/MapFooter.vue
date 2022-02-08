@@ -142,6 +142,11 @@
       </div>
     </v-footer>
     <div
+      v-if="
+        vehicle.vehicleType === 'bus-electric' ||
+        ((vehicle.ref === '39050' || vehicle.ref === '39055') &&
+          vehicle.agency === 'stm')
+      "
       class="px-4 py-2 d-md-none"
       :class="[darkMode ? '' : 'grey lighten-4']"
     >
@@ -153,7 +158,10 @@
         {{ $t('mapTag.electric') }}
       </span>
       <span
-        v-if="vehicle.ref === '39050' && vehicle.agency === 'stm'"
+        v-if="
+          (vehicle.ref === '39050' || vehicle.ref === '39055') &&
+          vehicle.agency === 'stm'
+        "
         class="tt-footer__camera-bus px-1 py-0.5 rounded"
       >
         <v-icon size="16" color="black">{{ mdiCctv }}</v-icon>
