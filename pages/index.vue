@@ -62,17 +62,7 @@
       </div>
     </div>
     <div
-      class="
-        tt-landing-content
-        flex-shrink-0
-        d-flex
-        flex-column
-        justify-md-center
-        px-8
-        pt-8 pt-md-0
-        mb-md-0
-        pb-4 pb-md-0
-      "
+      class="tt-landing-content flex-shrink-0 d-flex flex-column justify-md-center px-8 pt-8 pt-md-0 mb-md-0 pb-4 pb-md-0"
       :class="[dataIsLoaded && 'mb-14']"
     >
       <!-- eslint-disable vue/no-v-html -->
@@ -104,32 +94,6 @@
           })
         }}
       </h2>
-      <v-card
-        class="mt-4 tt-landing-content-message"
-        :color="darkMode ? 'secondary-dark' : 'secondary'"
-      >
-        <v-badge
-          color="primary"
-          :content="$t('landing.byodNew')"
-          left
-          overlap
-          class="tt-landing-content-message__badge"
-        >
-          <v-card-text class="pb-0 pt-4">
-            <b> {{ $t('landing.byodTitle') }} </b><br />
-            <span class="d-none d-md-block">
-              {{ $t('landing.byodBody') }}
-            </span>
-          </v-card-text>
-        </v-badge>
-        <v-card-actions>
-          <v-btn text small nuxt :to="localePath('/byod')">
-            {{ $t('landing.byodStart') }}
-            <v-icon right>{{ mdiArrowRight }}</v-icon>
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-      <LandingAnimations />
     </div>
     <div
       class="tt-landing-content__border secondary-dark"
@@ -165,10 +129,8 @@ export default {
   },
   async asyncData({ app }) {
     const mapStyle = {
-      dark:
-        'mapbox://styles/felixinx/ckv0dpig31p0516omjnkhbg4m?optimize=true',
-      light:
-        'mapbox://styles/felixinx/cklvgeorj2t4417rtcbtk8lki?optimize=true',
+      dark: 'mapbox://styles/felixinx/ckv0dpig31p0516omjnkhbg4m?optimize=true',
+      light: 'mapbox://styles/felixinx/cklvgeorj2t4417rtcbtk8lki?optimize=true',
     }
     const mapAccessToken = process.env.mapboxAccessToken
 
