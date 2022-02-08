@@ -11,7 +11,7 @@
         <v-skeleton-loader
           v-if="link.loading || !link.url"
           class="mr-4 my-2"
-          width="200px"
+          width="275px"
           min-height="62px"
           max-height="62px"
           type="image"
