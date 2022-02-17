@@ -17,7 +17,7 @@
     "@nuxtjs/pwa": "^3.3.5",
     "animejs": "^3.2.1",
     "core-js": "^3.17.2",
-    "dexie": "^3.0.3",
+    "dexie": "^3.2.1",
     "gtfs-realtime-bindings": "^0.0.6",
     "mapbox-gl": "^2.4.1",
     "nuxt": "^2.15.8",
