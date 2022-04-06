@@ -272,10 +272,10 @@ export default {
   &__clip-path {
     height: 100%;
     width: 100%;
+    max-width: 250px;
     top: 0;
     right: 0;
     bottom: 0;
-    left: 0;
     position: absolute;
     clip-path: polygon(85% 0, 101% -1%, 101% 101%, 95% 100%);
   }
