@@ -73,14 +73,8 @@
       <!-- eslint-enable vue/no-v-html -->
       <h2 class="text-h6 text-md-h5 my-4 tt-landing-content__subtitle">
         {{ $t('landing.intro') }} <br />
-        <span
-          class="font-weight-medium tt-landing-content__cities"
-          :class="[darkMode ? 'secondary--text' : 'primary-dark--text']"
-        >
-          <span
-            class="tt-landing-content__cities__line"
-            :class="[darkMode ? 'secondary' : 'primary-dark']"
-          ></span>
+        <span class="font-weight-medium tt-landing-content__cities">
+          <span class="tt-landing-content__cities__line"></span>
           <span ref="letters" class="tt-landing-content__cities__letters"
             >Montréal</span
           >
@@ -94,11 +88,20 @@
           })
         }}
       </h2>
+      <v-chip-group>
+        <v-chip
+          v-for="feature in features.features"
+          :key="feature.properties.slug"
+          label
+          outlined
+          nuxt
+          :to="localePath(`/regions/${feature.properties.slug}/`)"
+        >
+          {{ feature.properties.name }}
+        </v-chip>
+      </v-chip-group>
     </div>
-    <div
-      class="tt-landing-content__border secondary-dark"
-      :class="[dataIsLoaded && 'tt-landing__short']"
-    ></div>
+    <div class="tt-landing-overlay"></div>
   </div>
 </template>
 
@@ -358,14 +361,40 @@ export default {
 </script>
 
 <style lang="scss">
+@use 'sass:selector';
+
+@mixin nest($parent) {
+  @at-root #{selector.nest($parent, &)} {
+    @content;
+  }
+}
+
 .tt-landing {
   width: 100%;
   height: 100%;
   display: flex;
+  position: relative;
 
   &-content {
     overflow: hidden;
     position: relative;
+
+    @include nest('.theme--light') {
+      color: #011d32;
+      background-color: #91ccff;
+    }
+
+    @include nest('.theme--dark') {
+      color: #cbe5ff;
+      background-color: #011d32;
+
+      &__cities {
+        color: #91ccff;
+        &__line {
+          background-color: #91ccff;
+        }
+      }
+    }
 
     h1,
     h2,
@@ -377,10 +406,6 @@ export default {
       .v-badge__badge {
         inset: auto auto calc(100% - 12px) 12px !important;
       }
-    }
-
-    &__border {
-      display: none;
     }
 
     &__subtitle {
@@ -481,33 +506,45 @@ export default {
   }
 }
 
-.theme--light .tt-landing-content {
-  background: #c0ede7;
-}
-
 @media (min-width: 960px) {
   .tt-landing {
+    &-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+
+      @include nest('.theme--light') {
+        background: linear-gradient(
+          100deg,
+          rgba(222, 236, 249, 1) 0%,
+          rgba(222, 236, 249, 1) 50%,
+          rgba(222, 236, 249, 0) 70%,
+          rgba(222, 236, 249, 0) 100%
+        );
+      }
+
+      @include nest('.theme--dark') {
+        background: linear-gradient(
+          100deg,
+          rgba(0, 60, 94, 1) 0%,
+          rgba(0, 60, 94, 1) 50%,
+          rgba(0, 60, 94, 0) 70%,
+          rgba(0, 60, 94, 0) 100%
+        );
+      }
+    }
     &-content {
       height: 100%;
       z-index: 2;
-      width: 55%;
-      clip-path: polygon(0 0, 95% 0, 85% 100%, 0 100%);
+      width: 50%;
 
       h1,
       h2,
       .tt-landing-content-message {
         max-width: 85%;
-      }
-
-      &__border {
-        display: block;
-        position: absolute;
-        width: 55%;
-        clip-path: polygon(95% 0, 98% 0, 88% 100%, 85% 100%);
-        top: 0;
-        left: 0;
-        bottom: 0;
-        z-index: 2;
       }
 
       &__subtitle {
@@ -521,10 +558,6 @@ export default {
       left: 45%;
       height: 100%;
     }
-  }
-
-  .theme--dark .tt-landing-content {
-    background: #121212;
   }
 }
 </style>
