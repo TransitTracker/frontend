@@ -16,7 +16,7 @@
         @click="$router.push(localePath('/'))"
       />
       <v-toolbar-title
-        class="cursor-pointer"
+        class="cursor-pointer font-weight-bold"
         @click="$router.push(localePath('/'))"
       >
         Transit Tracker

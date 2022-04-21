@@ -5,7 +5,7 @@
   >
     <div
       id="tt-landing-map"
-      class="flex-grow-1 tt-landing-map tt-landing-map--dynamic"
+      class="tt-landing-map tt-landing-map--dynamic"
       :class="[dataIsLoaded && 'tt-landing__short']"
     >
       <div
@@ -62,8 +62,8 @@
       </div>
     </div>
     <div
-      class="tt-landing-content flex-shrink-0 d-flex flex-column justify-md-center px-8 pt-8 pt-md-0 mb-md-0 pb-4 pb-md-0"
-      :class="[dataIsLoaded && 'mb-14']"
+      class="tt-landing-content flex-shrink-0 flex-grow-1 d-flex flex-column justify-md-center px-8 pt-8 pt-md-0 mb-md-0 pb-4 pb-md-0"
+      :class="[dataIsLoaded && 'mb-md-14']"
     >
       <!-- eslint-disable vue/no-v-html -->
       <h1
@@ -381,12 +381,19 @@ export default {
 
     @include nest('.theme--light') {
       color: #011d32;
-      background-color: #91ccff;
+      background-color: #deecf9;
+
+      &__cities {
+        color: #2374ab;
+        &__line {
+          background-color: #2374ab;
+        }
+      }
     }
 
     @include nest('.theme--dark') {
       color: #cbe5ff;
-      background-color: #011d32;
+      background-color: #003c5e;
 
       &__cities {
         color: #91ccff;
@@ -397,15 +404,8 @@ export default {
     }
 
     h1,
-    h2,
-    &-message {
+    h2 {
       z-index: 2;
-    }
-
-    &-message {
-      .v-badge__badge {
-        inset: auto auto calc(100% - 12px) 12px !important;
-      }
     }
 
     &__subtitle {
@@ -539,11 +539,10 @@ export default {
     &-content {
       height: 100%;
       z-index: 2;
-      width: 50%;
+      width: 45%;
 
       h1,
-      h2,
-      .tt-landing-content-message {
+      h2 {
         max-width: 85%;
       }
 
