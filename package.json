@@ -16,7 +16,7 @@
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/pwa": "^3.3.5",
     "animejs": "^3.2.1",
-    "core-js": "^3.17.2",
+    "core-js": "^3.22.3",
     "dexie": "^3.0.3",
     "gtfs-realtime-bindings": "^0.0.6",
     "mapbox-gl": "^2.4.1",
