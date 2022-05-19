@@ -23,7 +23,7 @@
     "nuxt": "^2.15.8",
     "nuxt-i18n": "^6.28.1",
     "papaparse": "^5.3.1",
-    "sass-loader": "^10.1.1",
+    "sass-loader": "^13.0.0",
     "uuid": "^8.3.2",
     "vue-json-excel": "^0.3.0",
     "vue-json-viewer": "^2.2.19",
