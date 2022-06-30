@@ -1280,10 +1280,10 @@
   resolved "https://registry.yarnpkg.com/@mapbox/whoots-js/-/whoots-js-3.1.0.tgz#497c67a1cef50d1a2459ba60f315e448d2ad87fe"
   integrity sha512-Es6WcD0nO5l+2BOQS4uLfNPYQaNDfbot3X1XUoloz+x0mPDS3eeORZJl06HXjwBG1fOGwCRnzK88LMdxKRrd6Q==
 
-"@mdi/js@^6.5.95":
-  version "6.6.96"
-  resolved "https://registry.yarnpkg.com/@mdi/js/-/js-6.6.96.tgz#119f79fa9327359421167a7d4b8bde26e84702ce"
-  integrity sha512-ke9PN5DjPCOlMfhioxeZYADz8Yiz6v47W0IYRza01SSJD7y1EwESVpwFnnFUso+eCoWtE1CO9cTIvQF6sEreuA==
+"@mdi/js@^6.8.96":
+  version "6.8.96"
+  resolved "https://registry.yarnpkg.com/@mdi/js/-/js-6.8.96.tgz#53b912f48c493fcfea14156d74103d1d1ba01d21"
+  integrity sha512-f1LOuwXc7kOY/YWXlky3TCsWYV6GnQDU5xTYpfkRLRaIkMldsI09/Y2IwYuI+hLfob9UEU6nviNRdWa3mKuB5Q==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
