@@ -5,7 +5,7 @@
   >
     <div
       id="tt-landing-map"
-      class="tt-landing-map tt-landing-map--dynamic"
+      class="tt-landing-map tt-landing-map--dynamic flex-grow-1"
       :class="[dataIsLoaded && 'tt-landing__short']"
     >
       <div
@@ -88,7 +88,7 @@
           })
         }}
       </h2>
-      <v-chip-group>
+      <v-chip-group column>
         <v-chip
           v-for="feature in features.features"
           :key="feature.properties.slug"
@@ -537,6 +537,8 @@ export default {
       }
     }
     &-content {
+      pointer-events: none;
+      background-color: transparent !important;
       height: 100%;
       z-index: 2;
       width: 45%;
@@ -548,6 +550,10 @@ export default {
 
       &__subtitle {
         min-height: 64px;
+      }
+
+      .v-item-group {
+        pointer-events: all;
       }
     }
 
