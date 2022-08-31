@@ -210,8 +210,6 @@ export default {
 
     // Install prompt
     window.addEventListener('beforeinstallprompt', (event) => {
-      console.log(event)
-
       event.preventDefault()
       this.$store.commit('app/set', {
         key: 'installPrompt',

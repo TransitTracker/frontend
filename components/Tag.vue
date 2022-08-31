@@ -31,6 +31,9 @@ export default {
       default: false,
     },
   },
+  data: () => ({
+    expand: false,
+  }),
   computed: {
     darkMode() {
       return this.$vuetify.theme.dark
@@ -42,8 +45,5 @@ export default {
       return this.small && !this.tag.short_label && !this.expand
     },
   },
-  data: () => ({
-    expand: false,
-  }),
 }
 </script>
