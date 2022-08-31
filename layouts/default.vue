@@ -227,6 +227,9 @@ export default {
     if (this.settingsPushSubscriptionUuid) {
       this.verifyNotificationSubscriptionStatus()
     }
+
+    // Import tag data
+    this.$store.dispatch('tags/getAll')
   },
   methods: {
     checkForOldSettings() {
