@@ -383,7 +383,7 @@ export default {
 }
 
 .mapboxgl-ctrl-logo {
-  margin-bottom: 60px !important;
+  margin-bottom: 0.5rem !important;
 }
 
 .tt-map__popup {
