@@ -10,8 +10,11 @@
     </div>
     <v-slide-group
       v-if="Object.keys(links).length"
-      class="px-4 pt-2 tt-links-slider"
-      :class="[darkMode ? 'dark' : 'white']"
+      class="px-4 tt-links-slider"
+      :class="[
+        darkMode ? 'dark' : 'white',
+        vehicle.tags && vehicle.tags.length ? 'pt-2' : 'mt-n1',
+      ]"
       show-arrows
       :prev-icon="null"
     >
