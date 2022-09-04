@@ -107,6 +107,11 @@
           {{ $t('download.downloadStep') }}
         </v-stepper-step>
         <v-stepper-content step="3">
+          <v-progress-linear
+            v-if="snapshotTotal"
+            :value="(snapshotTo / snapshotTotal) * 100"
+            class="mb-1"
+          />
           <p v-if="data.length && downloadReady" class="body-1">
             {{ $t('download.downloadReady') }}
           </p>
@@ -172,6 +177,8 @@ export default {
     stepper: 1,
     downloadReady: false,
     downloadError: false,
+    snapshotTotal: null,
+    snapshotTo: null,
     selectedAgency: null,
     mdiClose,
     mdiDownload,
@@ -289,17 +296,20 @@ export default {
         url = `/agencies/${agency}/vehicles?include=all&geojson=false`
       }
 
-      this.downloadPartOfSnapshot(url).then(() => {
-        this.downloadReady = true
-      })
+      this.downloadPartOfSnapshot(url)
     },
     async downloadPartOfSnapshot(url) {
       const response = await this.$axios.get(url)
 
       this.data.push(...response.data.data)
 
+      this.snapshotTotal = response.data.meta.total
+      this.snapshotTo = response.data.meta.to
+
       if (response.data.links?.next) {
         await this.downloadPartOfSnapshot(response.data.links.next)
+      } else {
+        this.downloadReady = true
       }
 
       return this.data
