@@ -6,11 +6,10 @@
       :text-color="darkMode ? tag.dark_text_color : tag.text_color"
       :small="small"
       :class="{ 'pr-0': removeRightPadidng }"
-      @click="expand = !expand"
       :id="`tag-${uuid}`"
     >
       <v-icon v-if="tag.icon" left :small="small">{{ tag.icon }}</v-icon>
-      {{ expand ? tag.label : small ? tag.short_label : tag.label }}
+      {{ small ? tag.short_label : tag.label }}
     </v-chip>
     <v-tooltip
       v-if="tag.description"
@@ -40,7 +39,6 @@ export default {
     },
   },
   data: () => ({
-    expand: false,
     uuid: null,
   }),
   computed: {
@@ -51,7 +49,7 @@ export default {
       return this.$store.state.tags.data[this.tagId] ?? {}
     },
     removeRightPadidng() {
-      return this.small && !this.tag.short_label && !this.expand
+      return this.small && !this.tag.short_label
     },
   },
   mounted() {
