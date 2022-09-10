@@ -14,7 +14,7 @@
       class="mb-14"
     >
       <!-- eslint-disable-next-line -->
-    <template v-slot:group.header="{ group, headers, toggle, isOpen }">
+      <template v-slot:group.header="{ group, headers, toggle, isOpen }">
         <td :colspan="headers.length">
           <v-btn icon class="mr-2" @click="toggle">
             <v-icon>{{ isOpen ? mdiMinus : mdiPlus }}</v-icon>
@@ -92,7 +92,7 @@
         </tr>
       </template>
       <!-- eslint-disable-next-line -->
-    <template v-slot:item.actions="{ item }">
+      <template v-slot:item.actions="{ item }">
         <div class="d-flex items-center">
           <v-btn
             small
@@ -116,11 +116,19 @@
         </div>
       </template>
       <!-- eslint-disable-next-line -->
-    <template v-slot:item.label="{ item }">
-        {{ item.label || item.ref }}
+      <template v-slot:item.label="{ item }">
+        <div class="d-flex align-center flex-wrap gap-2">
+          {{ item.label || item.ref }}
+          <Tag
+            v-for="tag in item.tags"
+            :key="tag"
+            :tag-id="tag"
+            :small="true"
+          ></Tag>
+        </div>
       </template>
       <!-- eslint-disable-next-line -->
-    <template v-slot:item.routeId="{ item }">
+      <template v-slot:item.routeId="{ item }">
         <div>
           <span
             v-if="
@@ -128,15 +136,7 @@
               item.trip.routeShortName !== item.routeId
             "
             :title="$t('table.routeId')"
-            class="
-              text-caption
-              grey
-              px-1
-              rounded
-              mr-2
-              d-inline-flex
-              items-center
-            "
+            class="text-caption grey px-1 rounded mr-2 d-inline-flex items-center"
             :class="[darkMode ? 'darken-3' : 'lighten-3']"
           >
             {{ item.routeId }}
@@ -190,7 +190,6 @@ export default {
                 .toLowerCase()
                 .includes(this.searchRoute.toLowerCase())
             }
-
             return (
               value +
               ' ' +
@@ -276,14 +275,12 @@ export default {
       Object.keys(state).forEach((agency) => {
         vehicles = [...vehicles, ...state[agency]]
       })
-
       return vehicles
     },
   },
   methods: {
     filterAllFields(value, search, item) {
       if (!search) return true
-
       return [
         item.ref,
         item.label,
@@ -313,7 +310,6 @@ export default {
         if (c === undefined || c === null) return -Infinity
         return c.indexOf('.') ? parseFloat(c) : parseInt(c, 10)
       }
-
       a = typeof a === 'number' ? a : cook(a)
       b = typeof b === 'number' ? b : cook(b)
       if (a < b) return -1
@@ -327,5 +323,8 @@ export default {
 <style lang="scss">
 .tt-table__filters td {
   vertical-align: top;
+}
+.gap-2 {
+  gap: 0.5rem;
 }
 </style>

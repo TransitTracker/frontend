@@ -1,9 +1,20 @@
 <template>
   <div>
+    <div class="px-5 pt-4" :class="[darkMode ? 'dark' : 'white']">
+      <Tag
+        v-for="tag in vehicle.tags"
+        :key="tag"
+        :tag-id="tag"
+        class="mr-2"
+      ></Tag>
+    </div>
     <v-slide-group
       v-if="Object.keys(links).length"
-      class="px-4 pt-2 tt-links-slider"
-      :class="[darkMode ? 'dark' : 'white']"
+      class="px-4 tt-links-slider"
+      :class="[
+        darkMode ? 'dark' : 'white',
+        vehicle.tags && vehicle.tags.length ? 'pt-2' : 'mt-n1',
+      ]"
       show-arrows
       :prev-icon="null"
     >
