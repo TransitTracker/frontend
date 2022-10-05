@@ -108,10 +108,17 @@
       :timeout="-1"
     >
       <span :class="[settingsDarkMode && 'black--text']">
-        {{ $t('settings.pwa.updateAvailable') }}
+        {{
+          $t(
+            `settings.pwa.${
+              updateWaiting ? 'updateWaiting' : 'updateAvailable'
+            }`
+          )
+        }}
       </span>
       <template #action>
         <v-btn
+          :disabled="updateWaiting"
           small
           depressed
           block
@@ -193,6 +200,9 @@ export default {
     },
     updateAvailable() {
       return this.$store.state.app.updateAvailable
+    },
+    updateWaiting() {
+      return this.$store.state.app.updateWaiting
     },
   },
   mounted() {
@@ -281,13 +291,20 @@ export default {
         return
       }
 
-      workbox.addEventListener('installed', (event) => {
+      workbox.addEventListener('activated', (event) => {
         if (!event.isUpdate) {
           return
         }
 
         this.$store.commit('app/set', {
           key: 'updateAvailable',
+          value: true,
+        })
+      })
+
+      workbox.addEventListener('waiting', (event) => {
+        this.$store.commit('app/set', {
+          key: 'updateWaiting',
           value: true,
         })
       })

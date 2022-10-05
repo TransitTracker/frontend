@@ -200,6 +200,7 @@ export default {
       success: 'Success!',
       error: 'Error while installing',
       updateAvailable: 'An update is available',
+      updateWaiting: 'An update is available, but you have to close all tabs running Transit Tracker before proceeding',
       installUpdate: 'Refresh to update now',
     },
     agenciesTitle: 'Agencies',

@@ -200,6 +200,7 @@ export default {
       success: 'Succès!',
       error: "Erreur lors de l'installation",
       updateAvailable: 'Une mise à jour est disponible',
+      updateWaiting: 'Une mise à jour est disponible, mais vous devez fermer tous les onglets exécutant Transit Tracker avant de continuer',
       installUpdate: 'Rafraîchir maintenant',
     },
     agenciesTitle: 'Agences',
