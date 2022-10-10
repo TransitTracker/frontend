@@ -48,6 +48,7 @@ export default {
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
     'nuxt-i18n',
+    '@nuxtjs/tailwindcss',
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)

@@ -39,6 +39,15 @@ html {
   padding-bottom: 6px;
 }
 
+.text-subheader {
+  font-size: .875rem !important;
+  color: rgba(0, 0, 0, 0.6) !important;
+}
+
+.theme--dark .text-subheader {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
 // Fix for Vuetify default css
 .v-list-item__avatar {
   justify-content: center !important;

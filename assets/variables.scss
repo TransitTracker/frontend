@@ -2,3 +2,14 @@
 //
 // The variables you want to modify
 // $font-size-root: 20px;
+
+$rounded: (
+  0: 0,
+  'sm': $border-radius-root / 2,
+  null: $border-radius-root,
+  'lg': $border-radius-root * 2,
+  'medium': $border-radius-root * 4,
+  'xl': $border-radius-root * 6,
+  'pill': 9999px,
+  'circle': 50%
+);

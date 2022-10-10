@@ -1,9 +1,17 @@
 <template>
-  <div>
+  <div class="tt-map-container">
     <div id="tt-map"></div>
-    <MapFooter @open-sheet="sheetOpen = true" />
+    <MapSidebar v-if="$vuetify.breakpoint.mdAndUp" />
+    <VehicleSheetLargeSheet
+      v-if="selectedVehicle.id"
+      :vehicle="selectedVehicle"
+    />
+    <MapFooter
+      @open-sheet="sheetOpen = true"
+      v-if="$vuetify.breakpoint.smAndDown"
+    />
     <MapBottomSheet
-      v-if="sheetOpen"
+      v-if="sheetOpen && $vuetify.breakpoint.smAndDown"
       :sheet-open="sheetOpen"
       @close-sheet="sheetOpen = false"
     />
@@ -26,6 +34,7 @@
 </template>
 
 <script>
+// eslint-disable-next-line
 import { mdiNavigation } from '@mdi/js'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
@@ -96,7 +105,7 @@ export default {
     },
   },
   watch: {
-    agencies(value) {
+    /* agencies(value) {
       Object.keys(value).forEach((agencySlug) => {
         // Create the source if it dosen't exist
         if (!this.map.getSource(`tt-source-${agencySlug}`)) {
@@ -133,10 +142,10 @@ export default {
           }
         })
       },
-    },
+    }, */
   },
   mounted() {
-    mapboxgl.accessToken = this.mapAccessToken
+    /* mapboxgl.accessToken = this.mapAccessToken
     this.map = new mapboxgl.Map({
       container: 'tt-map',
       style: this.darkMode ? this.mapStyle.dark : this.mapStyle.light,
@@ -149,6 +158,7 @@ export default {
       pitchWithRotate: false,
       dragRotate: false,
       touchZoomRotate: false,
+      hash: true,
     })
     this.map.addControl(new mapboxgl.AttributionControl(), 'top-right')
     this.map.addControl(
@@ -158,11 +168,11 @@ export default {
         },
         trackUserLocation: true,
       }),
-      'top-left'
+      'bottom-right'
     )
     this.map.addControl(
       new mapboxgl.NavigationControl({ showCompass: false }),
-      'top-left'
+      'bottom-right'
     )
 
     this.map.on('styledata', () => {
@@ -228,7 +238,7 @@ export default {
       // Dark mode can change after the initial loading
       // If it's the case, switch the base style now
       // TODO: fix this
-    })
+    }) */
   },
   methods: {
     addAgencyLayers(features, agency) {
@@ -307,9 +317,14 @@ export default {
         this.map.flyTo({
           center: vehicle.position,
           zoom: 12,
+          padding: {
+            left: this.$vuetify.breakpoint.mdAndUp ? 188 : 0,
+          },
         })
       } else {
-        this.map.panTo(vehicle.position)
+        this.map.panTo(vehicle.position, {
+          offset: [this.$vuetify.breakpoint.mdAndUp ? 188 : 0, 0],
+        })
       }
 
       if (vehicle.trip.shapeLink) {
@@ -376,9 +391,9 @@ export default {
 </script>
 
 <style lang="scss">
-// 64px (toolbar) + 80px (footer) + 56px (bottom bar) - 12px (rounded corner)
+// 64px (toolbar) + 56px (bottom bar)
 #tt-map {
-  height: calc(100vh - 64px - 80px - 56px + 12px);
+  height: calc(100vh - 64px - 56px);
   width: 100%;
 }
 
@@ -386,8 +401,14 @@ export default {
   margin-bottom: 0.5rem !important;
 }
 
-.tt-map__popup {
-  display: none;
+.tt-map {
+  &-container {
+    position: relative;
+  }
+
+  &__popup {
+    display: none;
+  }
 }
 
 @media only screen and (max-width: 960px) {

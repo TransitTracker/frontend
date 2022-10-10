@@ -13,33 +13,7 @@
           :class="[darkMode ? 'grey darken-3' : 'grey lighten-2']"
         ></div>
       </div>
-      <v-avatar
-        :color="agency.color"
-        :size="$vuetify.breakpoint.smAndDown ? 36 : 48"
-        class="tt-footer__vehicle"
-      >
-        <svg
-          v-if="vehicle.bearing"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 16.933 16.938"
-          class="tt-footer__vehicle__arrow d-md-block"
-          :style="{ transform: `rotate(${vehicle.bearing}deg)` }"
-        >
-          <g :transform="`translate(-44.26 -44.948)`">
-            <circle cx="52.726" cy="53.42" r="6.33" fill="none" />
-            <path
-              d="m 51.667608,47.188774 1.001731,-2.116158 a 0.06262326,0.06262326 0 0 1 0.113204,0 l 1.001731,2.116158 z"
-              :fill="agency.color"
-            />
-          </g>
-        </svg>
-        <v-icon
-          :color="agency.textColor"
-          :size="$vuetify.breakpoint.smAndDown ? 24 : 28"
-        >
-          {{ mdi[vehicle.vehicleType] }}
-        </v-icon>
-      </v-avatar>
+      <MapVehicleAvatar />
       <div class="ml-4 ml-md-0">
         <p class="mb-0 text-subtitle-1 text-md-h6">
           {{ vehicle.label || vehicle.ref }}
@@ -194,6 +168,7 @@ import {
   mdiTrain,
   mdiTram,
 } from '@mdi/js'
+import MapVehicleAvatar from './MapVehicleAvatar.vue'
 
 export default {
   filters: {
@@ -248,6 +223,7 @@ export default {
       })
     },
   },
+  components: { MapVehicleAvatar },
 }
 </script>
 
@@ -285,21 +261,6 @@ export default {
     top: 0;
     left: 0;
     right: 0;
-  }
-
-  &__vehicle {
-    position: relative;
-    overflow: visible;
-
-    &__arrow {
-      position: absolute;
-      top: -12px;
-      bottom: -12px;
-      left: -12px;
-      right: -12px;
-      width: 72px;
-      height: 72px;
-    }
   }
 }
 
