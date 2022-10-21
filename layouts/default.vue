@@ -217,7 +217,7 @@ export default {
     // Set language only if defined
     if (this.settingsLang) this.$i18n.setLocale(this.settingsLang)
 
-    this.handleWorkboxEvents()
+    //this.handleWorkboxEvents()
 
     // Install prompt
     window.addEventListener('beforeinstallprompt', (event) => {
