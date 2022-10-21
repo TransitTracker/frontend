@@ -200,7 +200,8 @@ export default {
       success: 'Succès!',
       error: "Erreur lors de l'installation",
       updateAvailable: 'Une mise à jour est disponible',
-      updateWaiting: 'Une mise à jour est disponible, mais vous devez fermer tous les onglets exécutant Transit Tracker avant de continuer',
+      updatePending:
+        "La mise à jour est en cours d'installation! Lorsque prête, la page rafraîchira.",
       installUpdate: 'Rafraîchir maintenant',
     },
     agenciesTitle: 'Agences',
@@ -284,7 +285,7 @@ export default {
     devSite: 'Sites pour développeurs',
     illustrations: 'Illustrations',
     illustrationsBody:
-      "Les illustrations sur la page d'accueil ont été créées par Émilie Beaulieu. Les icônes à travers l'application proviennent de Material Design Icons.",
+      "Les icônes à travers l'application proviennent de Material Design Icons.",
     by: 'Par Félix Desjardins - @felixinx',
     contact: 'Un problème, un commentaire ou une suggestion?',
     contactBtn: 'Contactez-moi',

@@ -54,14 +54,15 @@
       <div class="tt-settings__about">
         <v-container class="d-flex align-center">
           <img
-            src="https://felixinx.me/wp-content/uploads/2021/11/cropped-Logo-FD-270x270.png"
+            src="https://www.gravatar.com/avatar/6e45287de1e42819a97f91bfe4477b1f"
             width="40px"
             height="40px"
+            class="rounded-circle"
           />
           <div class="ml-4">
             <!-- eslint-disable -->
             <a
-              href="https://felixinx.me"
+              href="https://read.cv/felixinx"
               class="
                 font-weight-medium
                 text-decoration-none text-body-1
@@ -75,7 +76,7 @@
               {{ $t('aboutDialog.contact') }}
               <!-- eslint-disable vue/no-v-html -->
               <a
-                href="https://felixinx.me/en/contact-me/"
+                href="https://docs.google.com/forms/d/e/1FAIpQLSda-86sV12itRXPhLaw-WDDJI38GOSefq_7X006s1YP6pN4eg/viewform?usp=sf_link"
                 v-html="$t('aboutDialog.contactBtn')"
               ></a>
               <!-- eslint-enable vue/no-v-html -->

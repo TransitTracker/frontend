@@ -111,19 +111,19 @@
         {{
           $t(
             `settings.pwa.${
-              updateWaiting ? 'updateWaiting' : 'updateAvailable'
+              updatePending ? 'updatePending' : 'updateAvailable'
             }`
           )
         }}
       </span>
       <template #action>
         <v-btn
-          :disabled="updateWaiting"
+          v-if="!updatePending"
           small
           depressed
           block
           :color="settingsDarkMode ? null : 'primary'"
-          @click="$store.dispatch('app/installUpdate')"
+          @click="installUpdate"
         >
           {{ $t('settings.pwa.installUpdate') }}
         </v-btn>
@@ -155,6 +155,7 @@ export default {
     mdiMenuDown,
     mdiTable,
     mdiViewGrid,
+    workbox: null,
   }),
   head() {
     return this.$nuxtI18nHead({ addSeoAttributes: true })
@@ -201,8 +202,8 @@ export default {
     updateAvailable() {
       return this.$store.state.app.updateAvailable
     },
-    updateWaiting() {
-      return this.$store.state.app.updateWaiting
+    updatePending() {
+      return this.$store.state.app.updatePending
     },
   },
   mounted() {
@@ -285,29 +286,35 @@ export default {
     },
     async handleWorkboxEvents() {
       // Workbox update
-      const workbox = await window.$workbox
+      this.workbox = await window.$workbox
 
-      if (!workbox) {
+      if (!this.workbox) {
         return
       }
 
-      workbox.addEventListener('activated', (event) => {
-        if (!event.isUpdate) {
-          return
-        }
+      // Occurs when the user accepts the update and the new SW is ready to take control
+      this.workbox.addEventListener('controlling', () => {
+        console.log('WB Controlling')
+        window.location.reload()
+      })
 
+      // The new SW is installing but is waiting for activation
+      this.workbox.addEventListener('waiting', (event) => {
+        console.log('WB Waiting')
         this.$store.commit('app/set', {
           key: 'updateAvailable',
           value: true,
         })
       })
-
-      workbox.addEventListener('waiting', (event) => {
-        this.$store.commit('app/set', {
-          key: 'updateWaiting',
-          value: true,
-        })
+    },
+    installUpdate() {
+      console.log('WB skip waiting')
+      this.$store.commit('app/set', {
+        key: 'updatePending',
+        value: true,
       })
+
+      this.workbox.messageSkipWaiting()
     },
     async verifyNotificationSubscriptionStatus() {
       try {

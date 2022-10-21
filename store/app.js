@@ -5,7 +5,7 @@ export const state = () => ({
   installPrompt: null,
   installOutcome: null,
   updateAvailable: false,
-  updateWaiting: false,
+  updatePending: false,
   notificationsCentre: false,
 })
 
@@ -73,10 +73,5 @@ export const actions = {
 
       commit('set', { key: 'installPrompt', value: null })
     })
-  },
-  installUpdate({ commit }) {
-    commit('set', { key: 'updateAvailable', value: false })
-
-    window.location.reload()
   },
 }

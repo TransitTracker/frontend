@@ -200,7 +200,8 @@ export default {
       success: 'Success!',
       error: 'Error while installing',
       updateAvailable: 'An update is available',
-      updateWaiting: 'An update is available, but you have to close all tabs running Transit Tracker before proceeding',
+      updatePending:
+        'The update is being installed! When ready, the page will refresh.',
       installUpdate: 'Refresh to update now',
     },
     agenciesTitle: 'Agencies',
@@ -284,7 +285,7 @@ export default {
     devSite: 'Developers site',
     illustrations: 'Illustrations',
     illustrationsBody:
-      'The illustrations on the home page were created by Émilie Beaulieu. Icons throughout the app are from Material Design Icons.',
+      'Icons throughout the app are from Material Design Icons.',
     by: 'By Félix Desjardins - @felixinx',
     contact: 'A problem, a comment or a suggestion?',
     contactBtn: 'Contact&nbsp;me',
