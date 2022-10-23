@@ -57,6 +57,16 @@ export default {
       }
     }
 
+    if (query.ref && query.agency) {
+      const { data } = await $axios.get(
+        `/agencies/${query.agency}/vehicles/${query.ref}`
+      )
+
+      if (data.data.isActive) {
+        store.commit('vehicles/setSelection', data.data)
+      }
+    }
+
     return {
       regionSlug: params.region,
       mapStyle: {
