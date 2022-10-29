@@ -55,7 +55,8 @@
       <settings-drawer v-model="settingsDrawer" />
       <nuxt />
     </v-main>
-    <nav>
+    <TwNavigationBar v-if="dataIsLoaded" />
+    <!-- <nav>
       <v-bottom-navigation
         v-if="dataIsLoaded"
         grow
@@ -96,7 +97,7 @@
           <v-icon>{{ mdiFolderUpload }}</v-icon>
         </v-btn>
       </v-bottom-navigation>
-    </nav>
+    </nav> -->
     <RegionSwitcher v-model="regionSwitcher" />
     <component :is="byodInjector" />
     <v-snackbar
