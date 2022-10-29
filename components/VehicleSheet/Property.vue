@@ -1,14 +1,19 @@
 <template>
   <div
-    class="tw-h-14 tw-flex tw-items-center"
+    class="tw-flex tw-h-14 tw-items-center"
     :class="[property.mobileOnly && 'md:tw-hidden']"
   >
-    <TwIcon :path="property.icon" />
+    <TwIcon
+      :path="property.icon"
+      class="tw-text-primary-40 dark:tw-text-primary-80"
+    />
     <div class="tw-ml-3">
-      <dt class="tw-leading-4 tw-text-xs tw-font-medium">
+      <dt
+        class="tw-text-xs tw-font-medium tw-leading-4 tw-text-neutralVariant-30 dark:tw-text-neutralVariant-80"
+      >
         {{ $t(`mapBottomSheet.properties.${property.label || property.name}`) }}
       </dt>
-      <dd class="tw-leading-6 tw-mb-0">
+      <dd class="tw-mb-0 tw-leading-6">
         {{
           property.content
             ? vehicle[property.content]
@@ -19,7 +24,20 @@
       </dd>
     </div>
     <div class="flex-grow-1"></div>
-    <TwOutlinedIconButton v-if="property.help" :icon-path="mdiHelp" />
+    <TwStandardIconButton
+      v-if="property.help"
+      class="tw-h-10 tw-w-10"
+      @click="openHelp"
+    >
+      <TwIcon :path="mdiHelp" class="tw-h-6 tw-w-6" />
+    </TwStandardIconButton>
+    <TwBasicDialog v-if="property.help" v-model="helpOpen">
+      <template #header>
+        À propos de
+        {{ $t(`mapBottomSheet.properties.${property.label || property.name}`) }}
+      </template>
+      {{ $t(`mapBottomSheet.help.${property.label || property.name}`) }}
+    </TwBasicDialog>
   </div>
 </template>
 
@@ -39,6 +57,12 @@ export default {
   },
   data: () => ({
     mdiHelp,
+    helpOpen: false,
   }),
+  methods: {
+    openHelp() {
+      this.helpOpen = true
+    },
+  },
 }
 </script>

@@ -1,24 +1,20 @@
 <template>
   <li
     v-if="!tag.label"
-    class="tw-h-8 tw-w-52 tw-animate-pulse tw-rounded tw-bg-neutralVariant-90 dark:tw-bg-neutral-30 tw-inline-flex"
+    class="tw-inline-flex tw-h-8 tw-w-52 tw-animate-pulse tw-rounded tw-bg-neutralVariant-90 dark:tw-bg-neutral-30"
   ></li>
   <li
     v-else
     ref="tag"
     class="tw-group tw-relative tw-inline-flex tw-items-center tw-gap-1 tw-rounded tw-px-2 tw-py-1"
-    :aria-describedby="tag.description ? tooltipId : false"
+    :title="tag.description ?? false"
     :style="{
       backgroundColor: darkMode ? tag.dark_color : tag.color,
       color: darkMode ? tag.dark_text_color : tag.text_color,
     }"
   >
-    <!-- :class="{ 'pr-0': removeRightPadidng }" -->
     <TwIcon v-if="tag.icon" :path="tag.icon" />
     {{ small ? tag.short_label : tag.label }}
-    <TwTooltip v-if="tag.description" :reference="$refs.tag" :id="tooltipId">
-      {{ tag.description }}
-    </TwTooltip>
   </li>
 </template>
 
