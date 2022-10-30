@@ -1,84 +1,37 @@
 <template>
   <nav
-    class="tw-fixed tw-bottom-0 tw-w-full tw-bg-neutral-99 tw-text-[.6875rem] tw-font-medium tw-leading-4 tw-text-neutralVariant-30 dark:tw-bg-neutral-10 dark:tw-text-neutralVariant-80"
+    class="tw-fixed tw-bottom-0 tw-w-full tw-bg-neutral-99 tw-text-sm tw-font-medium tw-leading-4 tw-tracking-wider dark:tw-bg-neutral-10 md:tw-left-0 md:tw-top-0 md:tw-h-full md:tw-w-20"
   >
     <ul
-      class="tw-mt-3 tw-mb-4 tw-flex tw-list-none tw-items-center tw-justify-center tw-gap-x-2"
+      class="tw-flex tw-list-none tw-items-center tw-justify-around tw-gap-x-2 tw-bg-primary-40/12 tw-pt-3 tw-pb-4 dark:tw-bg-primary-80/12 md:tw-h-full md:tw-flex-row"
     >
-      <NuxtLink
-        v-slot="{ isActive, navigate }"
+      <TwNavigationBarButton
         :to="localePath(`/regions/${region}/`)"
-        tag="button"
-        exact
+        :icon="mdiHomeOutline"
+        :active-icon="mdiHome"
       >
-        <li @click="navigate">
-          <div
-            class="tw-flex tw-h-8 tw-w-16 tw-items-center tw-justify-center tw-rounded-2xl hover:tw-bg-neutralVariant-30/8 dark:hover:tw-bg-neutralVariant-80/8"
-            :class="{
-              'tw-bg-secondary-90 tw-text-secondary-10 dark:tw-bg-secondary-30 dark:tw-text-secondary-90':
-                isActive,
-            }"
-          >
-            <TwIcon :path="isActive ? mdiHome : mdiHomeOutline" />
-          </div>
-          <p
-            class="!tw-mb-0 tw-pt-1 tw-text-center"
-            :class="{ 'tw-text-neutral-10 dark:tw-text-neutral-90': isActive }"
-          >
-            {{ $t('app.tabHome') }}
-          </p>
-        </li>
-      </NuxtLink>
-
-      <NuxtLink
-        v-slot="{ isActive, navigate }"
+        {{ $t('app.tabHome') }}
+      </TwNavigationBarButton>
+      <TwNavigationBarButton
         :to="localePath(`/regions/${region}/map`)"
-        tag="button"
-        exact
+        :icon="mdiMapOutline"
+        :active-icon="mdiMap"
       >
-        <li @click="navigate">
-          <div
-            class="tw-flex tw-h-8 tw-w-16 tw-items-center tw-justify-center tw-rounded-2xl hover:tw-bg-neutralVariant-30/8 dark:hover:tw-bg-neutralVariant-80/8"
-            :class="{
-              'tw-bg-secondary-90 tw-text-secondary-10 dark:tw-bg-secondary-30 dark:tw-text-secondary-90':
-                isActive,
-            }"
-          >
-            <TwIcon :path="isActive ? mdiMap : mdiMapOutline" />
-          </div>
-          <p
-            class="!tw-mb-0 tw-pt-1 tw-text-center"
-            :class="{ 'tw-text-neutral-10 dark:tw-text-neutral-90': isActive }"
-          >
-            {{ $t('app.tabMap') }}
-          </p>
-        </li>
-      </NuxtLink>
-
-      <NuxtLink
-        v-slot="{ isActive, navigate }"
+        {{ $t('app.tabMap') }}
+      </TwNavigationBarButton>
+      <TwNavigationBarButton
         :to="localePath(`/regions/${region}/table`)"
-        tag="button"
-        exact
+        :icon="mdiTable"
       >
-        <li @click="navigate">
-          <div
-            class="tw-flex tw-h-8 tw-w-16 tw-items-center tw-justify-center tw-rounded-2xl hover:tw-bg-neutralVariant-30/8 dark:hover:tw-bg-neutralVariant-80/8"
-            :class="{
-              'tw-bg-secondary-90 tw-text-secondary-10 dark:tw-bg-secondary-30 dark:tw-text-secondary-90':
-                isActive,
-            }"
-          >
-            <TwIcon :path="isActive ? mdiTable : mdiTable" />
-          </div>
-          <p
-            class="!tw-mb-0 tw-pt-1 tw-text-center"
-            :class="{ 'tw-text-neutral-10 dark:tw-text-neutral-90': isActive }"
-          >
-            {{ $t('app.tabTable') }}
-          </p>
-        </li>
-      </NuxtLink>
+        {{ $t('app.tabTable') }}
+      </TwNavigationBarButton>
+      <TwNavigationBarButton
+        :to="localePath(`/regions/${region}/`)"
+        :icon="mdiHomeOutline"
+        :active-icon="mdiHome"
+      >
+        {{ $t('app.tabByod') }}
+      </TwNavigationBarButton>
     </ul>
   </nav>
 </template>

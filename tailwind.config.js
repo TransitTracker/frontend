@@ -9,6 +9,12 @@ module.exports = {
   content: [`components/tw/**/*.vue`, `components/VehicleSheet/**/*.vue`],
   theme: {
     extend: {
+      keyframes: {
+        navbarGrow: {
+          '0%': { transform: 'scaleX(50%) '},
+          '100%': { transform: 'scaleX(100%) '},
+        },
+      },
       opacity: {
         8: '.08',
         12: '.12',
