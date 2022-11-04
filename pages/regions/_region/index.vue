@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-14">
+  <div class="mb-20 mb-md-0 ml-md-20">
     <div class="secondary tt-brand tt-texture--icons">
       <v-container class="d-flex align-center pa-6">
         <div class="flex-grow-1">
@@ -193,7 +193,11 @@ export default {
           hid: 'twitter:image',
           name: 'twitter:image',
           // eslint-disable-next-line prettier/prettier
-          content: `${process.env.imageKit}/tr:n-o_tw_${this.$i18n.locale}:n-t_tw,ot-${this.$i18n.locale === 'en' ? 'Discover' : 'D%C3%A9couvrez'}%20${this.region.name}/${this.region.image || 'default.jpg'}`,
+          content: `${process.env.imageKit}/tr:n-o_tw_${
+            this.$i18n.locale
+          }:n-t_tw,ot-${
+            this.$i18n.locale === 'en' ? 'Discover' : 'D%C3%A9couvrez'
+          }%20${this.region.name}/${this.region.image || 'default.jpg'}`,
         },
         {
           hid: 'og:title',
@@ -209,7 +213,11 @@ export default {
           hid: 'og:image',
           name: 'og:image',
           // eslint-disable-next-line prettier/prettier
-          content: `${process.env.imageKit}/tr:n-o_fb_${this.$i18n.locale}:n-t_fb,ot-${this.$i18n.locale === 'en' ? 'Discover' : 'D%C3%A9couvrez'}%20${this.region.name}/${this.region.image || 'default.jpg'}`,
+          content: `${process.env.imageKit}/tr:n-o_fb_${
+            this.$i18n.locale
+          }:n-t_fb,ot-${
+            this.$i18n.locale === 'en' ? 'Discover' : 'D%C3%A9couvrez'
+          }%20${this.region.name}/${this.region.image || 'default.jpg'}`,
         },
       ],
     }

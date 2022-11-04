@@ -10,9 +10,9 @@ module.exports = {
   theme: {
     extend: {
       keyframes: {
-        navbarGrow: {
-          '0%': { transform: 'scaleX(50%) '},
-          '100%': { transform: 'scaleX(100%) '},
+        navbar: {
+          '0%': { width: '50%' },
+          '100%': { width: '100%' },
         },
       },
       opacity: {

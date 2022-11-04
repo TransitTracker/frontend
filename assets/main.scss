@@ -39,6 +39,16 @@ html {
   padding-bottom: 6px;
 }
 
+.mb-20 {
+  margin-bottom: 80px;
+}
+
+@media (min-width: 960px) {
+  .ml-md-20 {
+    margin-left: 80px;
+  }
+}
+
 .text-subheader {
   font-size: .875rem !important;
   color: rgba(0, 0, 0, 0.6) !important;

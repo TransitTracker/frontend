@@ -1,6 +1,6 @@
 <template>
   <aside
-    class="tt-large-sheet tw-absolute tw-top-4 tw-right-4 tw-w-96 tw-space-y-4 tw-overflow-y-auto tw-rounded-xl tw-bg-neutral-99 tw-p-4 tw-text-neutral-10 dark:tw-bg-neutral-10 dark:tw-text-neutral-90"
+    class="tt-large-sheet tw-absolute tw-top-4 tw-left-4 tw-hidden tw-w-96 tw-space-y-4 tw-overflow-y-auto tw-rounded-xl tw-bg-neutral-99 tw-p-4 tw-text-neutral-10 dark:tw-bg-neutral-10 dark:tw-text-neutral-90 md:tw-block md:tw-max-h-max"
   >
     <div class="tw-flex tw-items-center tw-gap-x-6">
       <MapVehicleAvatar />
@@ -64,7 +64,12 @@
         <TwIcon :path="mdiChevronDown" class="group-open:tw-rotate-180" />
       </summary>
       <div class="tw-mt-4 tw-space-y-2">
-        <TwLink v-for="link in vehicle.links" :key="link" :vehicle="vehicle" />
+        <TwLink
+          v-for="link in vehicle.links"
+          :key="link"
+          :link-id="link"
+          :vehicle="vehicle"
+        />
       </div>
     </details>
     <div class="-tw-mx-4 tw-h-px tw-border-t tw-bg-neutralVariant-80" />
@@ -105,6 +110,6 @@ export default {
 <style>
 .tt-large-sheet {
   /* 64px (toolbar) + 56px (bottom bar) + 41px (Mapbox logo) + 32px vertical padding */
-  max-height: calc(100vh - 64px - 56px - 41px - 32px);
+  max-height: calc(100vh - 41px - 32px);
 }
 </style>

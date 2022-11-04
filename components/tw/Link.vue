@@ -1,9 +1,12 @@
 <template>
   <a
-    class="tw-flex tw-animate-pulse tw-cursor-wait tw-items-center tw-justify-between tw-gap-4 tw-rounded-lg tw-border tw-border-solid tw-border-neutralVariant-50 tw-px-4 tw-py-2 dark:tw-border-neutralVariant-60 tw-pointer-events-none"
+    class="tw-flex tw-items-center tw-justify-between tw-gap-4 tw-rounded-lg tw-border tw-border-solid tw-border-neutralVariant-50 tw-px-4 tw-py-2 dark:tw-border-neutralVariant-60"
     :title="$t('mapBottomSheet.openLink')"
     :href="generatedUrl"
     target="_blank"
+    :class="[
+      !link.title && 'tw-pointer-events-none tw-animate-pulse tw-cursor-wait',
+    ]"
   >
     <div class="tw-grow tw-space-y-1">
       <p class="tw-text-sm tw-leading-5" v-if="link.title">

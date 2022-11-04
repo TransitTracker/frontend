@@ -1,54 +1,7 @@
 <template>
   <v-app class="tt-app">
-    <v-app-bar
-      fixed
-      app
-      color="primary"
-      dark
-      :elevation="hasAlert ? 0 : undefined"
-    >
-      <img
-        src="/img/logo-white.svg"
-        loading="lazy"
-        alt="Logo"
-        width="18px"
-        class="ml-2 mr-3 cursor-pointer"
-        @click="$router.push(localePath('/'))"
-      />
-      <v-toolbar-title
-        class="cursor-pointer font-weight-bold"
-        @click="$router.push(localePath('/'))"
-      >
-        Transit Tracker
-      </v-toolbar-title>
-      <v-spacer />
-      <v-btn
-        v-if="dataIsLoaded"
-        text
-        :title="$t('regionSwitcher.title')"
-        :small="$vuetify.breakpoint.smAndDown"
-        @click="regionSwitcher = true"
-      >
-        {{ regionName }}
-        <v-icon>{{ mdiMenuDown }}</v-icon>
-      </v-btn>
-      <v-btn
-        v-else
-        text
-        nuxt
-        :to="switchLocalePath(settingsLang === 'en' ? 'fr' : 'en')"
-        @click="switchLanguage(settingsLang === 'en' ? 'fr' : 'en')"
-      >
-        {{ settingsLang === 'en' ? 'FR' : 'EN' }}
-      </v-btn>
-      <v-btn
-        icon
-        :title="$t('settings.open')"
-        @click="settingsDrawer = !settingsDrawer"
-      >
-        <v-icon>{{ mdiCog }}</v-icon>
-      </v-btn>
-    </v-app-bar>
+    <TwTopAppBar />
+    <TwNavigationRail />
     <v-main>
       <Alerts />
       <NotificationsCentre v-if="dataIsLoaded" />

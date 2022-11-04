@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="content"
     class="tw-flex tw-h-14 tw-items-center"
     :class="[property.mobileOnly && 'md:tw-hidden']"
   >
@@ -14,13 +15,7 @@
         {{ $t(`mapBottomSheet.properties.${property.label || property.name}`) }}
       </dt>
       <dd class="tw-mb-0 tw-leading-6">
-        {{
-          property.content
-            ? vehicle[property.content]
-            : property.parent
-            ? vehicle[property.parent][property.name]
-            : vehicle[property.name]
-        }}
+        {{ content }}
       </dd>
     </div>
     <div class="flex-grow-1"></div>
@@ -62,6 +57,15 @@ export default {
   methods: {
     openHelp() {
       this.helpOpen = true
+    },
+  },
+  computed: {
+    content() {
+      return this.property.content
+        ? this.vehicle[this.property.content]
+        : this.property.parent
+        ? this.vehicle[this.property.parent][this.property.name]
+        : this.vehicle[this.property.name]
     },
   },
 }

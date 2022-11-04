@@ -1,7 +1,7 @@
 <template>
   <div
     class="tt-landing flex-column flex-md-row"
-    :class="[dataIsLoaded && 'tt-landing__short']"
+    :class="[dataIsLoaded && 'tt-landing__short mb-20 mb-md-0 ml-md-20']"
   >
     <div
       id="tt-landing-map"
@@ -63,7 +63,7 @@
     </div>
     <div
       class="tt-landing-content flex-shrink-0 flex-grow-1 d-flex flex-column justify-md-center px-8 pt-8 pt-md-0 mb-md-0 pb-4 pb-md-0"
-      :class="[dataIsLoaded && 'mb-md-14']"
+      :class="[dataIsLoaded && '']"
     >
       <!-- eslint-disable vue/no-v-html -->
       <h1
@@ -480,10 +480,6 @@ export default {
         }
       }
     }
-  }
-
-  &__short {
-    height: calc(100% - 56px);
   }
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-14">
+  <div class="mb-20 mb-md-0 ml-md-20">
     <div class="secondary tt-texture--icons mb-4">
       <v-container>
         <h1 class="text-h5 font-weight-medium py-4">
@@ -196,14 +196,6 @@
 <script>
 import Vue from 'vue'
 import VueTimeago from 'vue-timeago'
-import byodMixin from '@/mixins/byod'
-import {
-  agencies,
-  agencies as byodAgencies,
-  definitions,
-  realtimeGtfs,
-} from '@/utils/byod'
-import { Agency as AgencyModel } from '@/utils/byod/models'
 import {
   mdiContentSave,
   mdiFolderPlus,
@@ -214,6 +206,14 @@ import {
   mdiPlus,
   mdiWrench,
 } from '@mdi/js'
+import byodMixin from '@/mixins/byod'
+import {
+  agencies,
+  agencies as byodAgencies,
+  definitions,
+  realtimeGtfs,
+} from '@/utils/byod'
+import { Agency as AgencyModel } from '@/utils/byod/models'
 
 Vue.use(VueTimeago, {
   locales: {

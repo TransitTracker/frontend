@@ -10,8 +10,9 @@
         itemsPerPageOptions: [25, 50, 100, 150, 200, -1],
       }"
       :search="searchAll"
+      M
       :mobile-breakpoint="preferDesktopView ? 1 : 600"
-      class="mb-14"
+      class="mb-20 mb-md-0 ml-md-20"
     >
       <!-- eslint-disable-next-line -->
       <template v-slot:group.header="{ group, headers, toggle, isOpen }">

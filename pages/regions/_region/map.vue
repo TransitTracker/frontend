@@ -1,11 +1,11 @@
 <template>
-  <div class="tt-map-container">
+  <div class="tt-map-container mb-20 mb-md-0 ml-md-20">
     <div id="tt-map"></div>
-    <MapSidebar v-if="$vuetify.breakpoint.mdAndUp" />
+    <!-- <MapSidebar v-if="$vuetify.breakpoint.mdAndUp" /> -->
     <VehicleSheetLargeSheet
       v-if="selectedVehicle.id"
       :vehicle="selectedVehicle"
-    />
+    /><!--
     <MapFooter
       @open-sheet="sheetOpen = true"
       v-if="$vuetify.breakpoint.smAndDown"
@@ -14,7 +14,7 @@
       v-if="sheetOpen && $vuetify.breakpoint.smAndDown"
       :sheet-open="sheetOpen"
       @close-sheet="sheetOpen = false"
-    />
+    /> -->
     <div
       ref="mapPopup"
       class="tt-map__popup black--text text-subtitle-1 d-flex align-center mt-n1 mb-n2"
@@ -115,7 +115,7 @@ export default {
     },
   },
   watch: {
-    /* agencies(value) {
+    agencies(value) {
       Object.keys(value).forEach((agencySlug) => {
         // Create the source if it dosen't exist
         if (!this.map.getSource(`tt-source-${agencySlug}`)) {
@@ -152,10 +152,10 @@ export default {
           }
         })
       },
-    }, */
+    },
   },
   mounted() {
-    /* mapboxgl.accessToken = this.mapAccessToken
+    mapboxgl.accessToken = this.mapAccessToken
     this.map = new mapboxgl.Map({
       container: 'tt-map',
       style: this.darkMode ? this.mapStyle.dark : this.mapStyle.light,
@@ -248,7 +248,7 @@ export default {
       // Dark mode can change after the initial loading
       // If it's the case, switch the base style now
       // TODO: fix this
-    }) */
+    })
   },
   methods: {
     addAgencyLayers(features, agency) {
@@ -401,9 +401,8 @@ export default {
 </script>
 
 <style lang="scss">
-// 64px (toolbar) + 56px (bottom bar)
 #tt-map {
-  height: calc(100vh - 64px - 56px);
+  height: 100vh;
   width: 100%;
 }
 

@@ -1,10 +1,45 @@
 <template>
   <button
-    class="overflow-hiddenfull group relative h-10 px-6 text-sm font-medium leading-5 tw-text-primary-40 dark:tw-text-primary-80"
+    class="tw-overflow-hiddenfull tw-group tw-relative tw-flex tw-h-10 tw-items-center tw-px-6 tw-text-sm tw-font-medium tw-leading-5 focus:tw-outline-none"
+    :class="[buttonClasses]"
+    @click="$emit('click')"
   >
     <div
-      class="absolute inset-0 h-full w-full rounded-full bg-opacity-0 transition-colors duration-200 group-hover:bg-opacity-[0.08] group-focus:bg-opacity-[0.12] tw-bg-primary-40 dark:tw-bg-primary-80"
+      class="tw-absolute tw-inset-0 tw-h-full tw-w-full tw-rounded-full tw-bg-opacity-0 tw-transition-colors tw-duration-200 group-hover:tw-bg-opacity-8 group-focus:tw-bg-opacity-12 dark:tw-bg-opacity-0"
+      :class="[stateLayerClasses]"
     ></div>
     <slot />
   </button>
 </template>
+
+<script>
+export default {
+  props: {
+    color: {
+      type: String,
+      required: false,
+      default: null,
+    },
+  },
+  computed: {
+    buttonClasses() {
+      switch (this.color) {
+        case 'onPrimary':
+          return 'tw-text-white dark:tw-text-primary-20'
+
+        default:
+          return 'tw-text-primary-40 dark:tw-text-primary-80'
+      }
+    },
+    stateLayerClasses() {
+      switch (this.color) {
+        case 'onPrimary':
+          return 'tw-bg-white dark:tw-bg-primary-20'
+
+        default:
+          return 'tw-bg-primary-40 dark:tw-bg-primary-80'
+      }
+    },
+  },
+}
+</script>

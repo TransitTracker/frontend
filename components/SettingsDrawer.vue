@@ -254,6 +254,8 @@ export default {
 
 <style lang="scss">
 .tt-settings {
+  z-index: 11;
+
   .v-expansion-panel-content__wrap {
     padding: 0 !important;
   }
