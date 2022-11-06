@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-20 mb-md-0 ml-md-20">
+  <div>
     <div class="secondary tt-texture--icons mb-4">
       <v-container>
         <h1 class="text-h5 font-weight-medium py-4">

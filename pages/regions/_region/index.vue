@@ -1,5 +1,121 @@
 <template>
-  <div class="mb-20 mb-md-0 ml-md-20">
+  <div class="tw-bg-neutral-99 dark:tw-bg-neutral-10">
+    <div
+      class="tw-full tw-relative tw-flex tw-h-80 tw-flex-col tw-justify-between tw-bg-cover tw-bg-center tw-bg-no-repeat after:tw-absolute after:tw-inset-0 after:tw-h-full after:tw-w-full after:tw-bg-gradient-to-t after:tw-from-primary-20 after:tw-to-transparent"
+      :style="{
+        backgroundImage: `url(${backendHost}/storage/content/regions/${region.image})`,
+      }"
+    >
+      <div
+        class="tw-h-[4.5rem] tw-bg-white/75 tw-text-primary-20 tw-backdrop-blur-md"
+      >
+        <div
+          class="tw-container tw-mx-auto tw-flex tw-h-full tw-items-center tw-justify-between tw-px-4"
+        >
+          <p class="!tw-mb-0">
+            {{ $t('home.welcome') }} <b>Transit&nbsp;Tracker</b>
+          </p>
+          <small class="tw-mb-0">
+            {{ $t('home.version') }} {{ version }}
+          </small>
+        </div>
+      </div>
+      <div
+        class="tw-absolute tw-inset-0 tw-h-full tw-w-full tw-bg-gradient-to-t tw-from-primary-20 tw-to-transparent"
+      >
+        <h1
+          class="leading-[2.75rem] md:leading-[4rem] tw-container tw-absolute tw-bottom-0 tw-mx-auto tw-px-4 tw-text-4xl tw-text-white md:tw-text-6xl"
+        >
+          {{ region.name }}
+        </h1>
+      </div>
+    </div>
+    <div class="tw-p-4">
+      <h2 class="text-[2rem] tw-font-medium tw-leading-10">
+        {{ totalCount }} {{ $t('home.vehicleTotal') }}
+        <TwOutlinedIconButton class="tw-float-right">
+          <TwIcon :path="mdiTune" />
+        </TwOutlinedIconButton>
+      </h2>
+      <ul
+        class="tw-mt-4 tw-grid tw-list-none tw-grid-cols-2 !tw-pl-0 md:tw-grid-cols-3 xl:tw-grid-cols-4"
+      >
+        <TwHomeAgencyBadge
+          v-for="agency in activeAgencies"
+          :key="agency.slug"
+          :agency="agency"
+        />
+      </ul>
+    </div>
+    <div
+      class="tw-grid tw-gap-x-2 md:tw-container md:tw-mx-auto md:tw-grid-cols-2 xl:tw-grid-cols-3"
+    >
+      <div
+        class="tw-bg-primary-90 tw-p-4 tw-text-primary-10 dark:tw-bg-primary-30 dark:tw-text-primary-90 md:tw-rounded-xl"
+      >
+        <h2 class="text-[2rem] tw-font-medium tw-leading-10">
+          Vos véhicules favoris
+        </h2>
+        <p class="tw-leading-6 tw-tracking-wide">
+          Suivez vos préférés juste ici.
+        </p>
+      </div>
+      <details
+        class="tw-bg-neutralVariant-90 tw-p-4 tw-text-neutralVariant-30 dark:tw-bg-neutralVariant-30 dark:tw-text-neutral-80 md:tw-rounded-xl"
+        :open="creditsOpen"
+      >
+        <summary class="tw-list-none">
+          <h2 class="text-[2rem] tw-font-medium tw-leading-10">
+            Crédits et licenses d'utilisations
+            <TwStandardIconButton
+              :class="{ 'tw-rotate-180': creditsOpen }"
+              @click="creditsOpen = !creditsOpen"
+              class="tw-float-right tw-transition-transform tw-duration-200 tw-ease-linear"
+            >
+              <TwIcon :path="mdiChevronUp" />
+            </TwStandardIconButton>
+          </h2>
+        </summary>
+        <p v-html="region.credits" class="tw-leading-6 tw-tracking-wide"></p>
+        <ul>
+          <li v-for="agency in activeAgencies" :key="agency.slug">
+            {{ agency.name }}
+          </li>
+        </ul>
+      </details>
+    </div>
+    <div
+      class="tw-container tw-mx-auto tw-flex tw-flex-wrap tw-items-center tw-p-4 tw-leading-6 tw-tracking-wide"
+    >
+      <b class="tw-font-medium">
+        Transit&nbsp;Tracker
+        <span class="tw-font-normal">
+          Making realtime transit data accessible
+        </span>
+      </b>
+      <div class="tw-grow"></div>
+      <a
+        href="https://api.transittracker.ca"
+        target="_blank"
+        class="tw-text-primary-40 tw-no-underline hover:tw-text-primary-30 hover:tw-underline dark:tw-text-primary-80 dark:hover:tw-text-primary-90"
+      >
+        For developers </a
+      >&bull;
+      <a
+        href="https://api.transittracker.ca/vin"
+        target="_blank"
+        class="tw-text-primary-40 tw-no-underline hover:tw-text-primary-30 hover:tw-underline dark:tw-text-primary-80 dark:hover:tw-text-primary-90"
+      >
+        exo VIN Project </a
+      >&bull;
+      <a
+        href="https://github.com/TransitTracker"
+        target="_blank"
+        class="tw-text-primary-40 tw-no-underline hover:tw-text-primary-30 hover:tw-underline dark:tw-text-primary-80 dark:hover:tw-text-primary-90"
+      >
+        On GitHub
+      </a>
+    </div>
     <div class="secondary tt-brand tt-texture--icons">
       <v-container class="d-flex align-center pa-6">
         <div class="flex-grow-1">
@@ -153,16 +269,19 @@
 </template>
 
 <script>
-import { mdiBell, mdiDownload, mdiGithub } from '@mdi/js'
+import { mdiBell, mdiDownload, mdiGithub, mdiTune, mdiChevronUp } from '@mdi/js'
 
 export default {
   middleware: 'loadData',
   asyncData({ params }) {
     return {
       regionSlug: params.region,
+      creditsOpen: false,
       mdiBell,
       mdiDownload,
       mdiGithub,
+      mdiTune,
+      mdiChevronUp,
       backendHost: process.env.backendHost,
     }
   },

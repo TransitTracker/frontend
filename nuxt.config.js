@@ -146,7 +146,6 @@ export default {
       twitterCard: 'summary_large_image',
     },
     workbox: {
-      enabled: true,
       importScripts: ['sw-push.js'],
     },
   },

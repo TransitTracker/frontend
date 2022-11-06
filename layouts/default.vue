@@ -2,7 +2,7 @@
   <v-app class="tt-app">
     <TwTopAppBar />
     <TwNavigationRail />
-    <v-main>
+    <v-main class="mb-20 mb-md-0 ml-md-20">
       <Alerts />
       <NotificationsCentre v-if="dataIsLoaded" />
       <settings-drawer v-model="settingsDrawer" />
