@@ -230,7 +230,10 @@ export default {
   },
   methods: {
     openNotificationsCentre() {
-      this.$store.commit('app/set', { key: 'notificationsCentre', value: true })
+      this.$store.commit('app/set', {
+        key: 'openNotificationsCentre',
+        value: true,
+      })
     },
     setSetting(setting, value) {
       if (setting === 'theme') {

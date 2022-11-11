@@ -46,10 +46,6 @@
           {{ $t('aboutDialog.devSite') }}
           <v-icon right>{{ mdiOpenInNew }}</v-icon>
         </v-btn>
-        <b class="d-block text-subtitle-1 mt-4 mb-1">
-          {{ $t('aboutDialog.illustrations') }}
-        </b>
-        {{ $t('aboutDialog.illustrationsBody') }}
       </v-container>
       <div class="tt-settings__about">
         <v-container class="d-flex align-center">
@@ -62,12 +58,9 @@
             <!-- eslint-disable -->
             <a
               href="https://felixinx.me"
-              class="
-                font-weight-medium
-                text-decoration-none text-body-1
-              "
+              class="font-weight-medium text-decoration-none text-body-1"
             >
-            <!-- eslint-enable -->
+              <!-- eslint-enable -->
               {{ $t('aboutDialog.by') }}
             </a>
             <br />

@@ -52,17 +52,15 @@
         {{ $t('app.tabByod') }}
       </TwNavigationBarButton>
       <div class="tw-grow"></div>
-      <TwStandardIconButton @click="settingsDrawer = true">
+      <TwStandardIconButton @click="open('SettingsDrawer')" v-if="dataIsLoaded">
         <TwIcon :path="mdiBell" />
       </TwStandardIconButton>
-      <TwStandardIconButton @click="regionSwitcher = true">
+      <TwStandardIconButton @click="open('RegionSwitcher')" v-if="dataIsLoaded">
         <TwIcon :path="mdiCity" />
       </TwStandardIconButton>
-      <TwStandardIconButton @click="settingsDrawer = true">
+      <TwStandardIconButton @click="open('SettingsDrawer')">
         <TwIcon :path="mdiCog" />
       </TwStandardIconButton>
-      <RegionSwitcher v-model="regionSwitcher" />
-      <SettingsDrawer v-model="settingsDrawer" />
     </ul>
   </nav>
 </template>
@@ -94,14 +92,20 @@ export default {
     mdiBell,
     mdiCity,
     mdiCog,
-    regionSwitcher: false,
-    settingsDrawer: false,
   }),
   computed: {
     region() {
       return (
         this.$route.params.region || this.$store.state.settings.currentRegion
       )
+    },
+    dataIsLoaded() {
+      return this.$store.state.app.dataIsLoaded
+    },
+  },
+  methods: {
+    open(setting) {
+      this.$store.commit('app/set', { key: 'open' + setting, value: true })
     },
   },
 }

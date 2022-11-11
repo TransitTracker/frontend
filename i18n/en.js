@@ -282,9 +282,6 @@ export default {
     devBody:
       'Transit Tracker offers an API that allows easy access to real-time data in JSON or GraphQL format.',
     devSite: 'Developers site',
-    illustrations: 'Illustrations',
-    illustrationsBody:
-      'The illustrations on the home page were created by Émilie Beaulieu. Icons throughout the app are from Material Design Icons.',
     by: 'By Félix Desjardins - @felixinx',
     contact: 'A problem, a comment or a suggestion?',
     contactBtn: 'Contact&nbsp;me',

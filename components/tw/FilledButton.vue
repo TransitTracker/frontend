@@ -1,6 +1,6 @@
 <template>
   <button
-    class="tw-overflow-hiddenfull tw-group tw-relative tw-flex tw-h-10 tw-items-center tw-text-sm tw-font-medium tw-leading-5 focus:tw-outline-none"
+    class="tw-overflow-hiddenfull tw-group tw-relative tw-flex tw-h-10 tw-items-center tw-rounded-full tw-text-sm tw-font-medium tw-leading-5 focus:tw-outline-none"
     :class="[buttonClasses, withIcon ? 'tw-gap-2 tw-pl-4 tw-pr-6' : 'tw-px-6']"
     @click="$emit('click')"
   >
@@ -29,10 +29,8 @@ export default {
   computed: {
     buttonClasses() {
       switch (this.color) {
-        case 'onPrimary':
-          return 'tw-text-white dark:tw-text-primary-20'
-        case 'onNavbar':
-          return 'tw-text-white dark:tw-text-neutral-90'
+        case 'tonal':
+          return 'tw-bg-secondary-90 tw-text-secondary-10 dark:tw-bg-secondary-30 dark:tw-text-secondary-90'
 
         default:
           return 'tw-text-primary-40 dark:tw-text-primary-80'
@@ -40,10 +38,8 @@ export default {
     },
     stateLayerClasses() {
       switch (this.color) {
-        case 'onPrimary':
-          return 'tw-bg-white dark:tw-bg-primary-20'
-        case 'onNavbar':
-          return 'tw-text-white dark:tw-text-neutral-90'
+        case 'tonal':
+          return 'tw-bg-secondary-10 dark:tw-bg-secondary-90'
 
         default:
           return 'tw-bg-primary-40 dark:tw-bg-primary-80'

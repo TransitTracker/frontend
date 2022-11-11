@@ -1,9 +1,9 @@
 <template>
   <nav
-    class="tw-inset-x-0 tw-top-0 tw-z-20 tw-flex tw-h-16 tw-w-full tw-items-center tw-gap-x-4 tw-bg-primary-40 tw-px-4 dark:tw-bg-primary-80 md:tw-hidden"
+    class="tw-inset-x-0 tw-top-0 tw-z-20 tw-flex tw-h-16 tw-w-full tw-items-center tw-gap-x-4 tw-bg-primary-40 tw-px-4 dark:tw-bg-neutral-10 md:tw-hidden"
   >
     <NuxtLink
-      class="tw-group tw-relative -tw-my-2 -tw-mx-2 tw-flex tw-items-center tw-gap-4 tw-py-2 tw-px-2 !tw-text-white tw-no-underline focus:tw-outline-none dark:!tw-text-primary-20 md:-tw-mr-4 md:tw-pr-4"
+      class="tw-group tw-relative -tw-my-2 -tw-mx-2 tw-flex tw-items-center tw-gap-4 tw-py-2 tw-px-2 !tw-text-white tw-no-underline focus:tw-outline-none dark:!tw-text-neutral-90 md:-tw-mr-4 md:tw-pr-4"
       :to="localePath('/')"
     >
       <div
@@ -25,27 +25,21 @@
       </h1>
     </NuxtLink>
     <div class="tw-grow"></div>
-    <TwOutlinedIconButton
+    <TwStandardIconButton
       :title="$t('regionSwitcher.title')"
-      color="onPrimary"
+      color="onNavbar"
       v-if="dataIsLoaded"
-      @click="regionSwitcher = true"
+      @click="open('RegionSwitcher')"
     >
       <!-- {{ region }} -->
       <TwIcon :path="mdiCity" />
-    </TwOutlinedIconButton>
-    <TwTextButton
-      color="onPrimary"
-      v-else
-      @click="switchLanguage(settingsLang === 'en' ? 'fr' : 'en')"
-    >
+    </TwStandardIconButton>
+    <TwTextButton color="onNavbar" v-else @click="switchLanguage">
       {{ settingsLang === 'en' ? 'FR' : 'EN' }}
     </TwTextButton>
-    <TwOutlinedIconButton @click="settingsDrawer = true" color="onPrimary">
+    <TwStandardIconButton @click="open('SettingsDrawer')" color="onNavbar">
       <TwIcon :path="mdiCog" />
-    </TwOutlinedIconButton>
-    <RegionSwitcher v-model="regionSwitcher" />
-    <SettingsDrawer v-model="settingsDrawer" />
+    </TwStandardIconButton>
   </nav>
 </template>
 
@@ -56,8 +50,6 @@ export default {
   data: () => ({
     mdiCog,
     mdiCity,
-    regionSwitcher: false,
-    settingsDrawer: false,
   }),
   computed: {
     dataIsLoaded() {
@@ -70,6 +62,14 @@ export default {
     },
     settingsLang() {
       return this.$store.state.settings.lang
+    },
+  },
+  methods: {
+    open(setting) {
+      this.$store.commit('app/set', { key: 'open' + setting, value: true })
+    },
+    switchLanguage() {
+      this.$i18n.setLocale(this.settingsLang === 'en' ? 'fr' : 'en')
     },
   },
 }

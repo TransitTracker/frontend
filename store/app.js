@@ -5,7 +5,10 @@ export const state = () => ({
   installPrompt: null,
   installOutcome: null,
   updateAvailable: false,
-  notificationsCentre: false,
+  openNotificationsCentre: false,
+  openRegionSwitcher: false,
+  openSettingsDrawer: false,
+  openDownloadAssistant: false,
 })
 
 export const mutations = {

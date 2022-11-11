@@ -1,7 +1,7 @@
 <template>
   <div
     class="tt-landing flex-column flex-md-row"
-    :class="[dataIsLoaded && 'tt-landing__short mb-20 mb-md-0 ml-md-20']"
+    :class="[dataIsLoaded && 'tt-landing__short']"
   >
     <div
       id="tt-landing-map"
@@ -75,9 +75,9 @@
         {{ $t('landing.intro') }} <br />
         <span class="font-weight-medium tt-landing-content__cities">
           <span class="tt-landing-content__cities__line"></span>
-          <span ref="letters" class="tt-landing-content__cities__letters"
-            >Montréal</span
-          >
+          <span ref="letters" class="tt-landing-content__cities__letters">
+            Montréal
+          </span>
         </span>
       </h2>
       <h2 class="text-subtitle-2 text-md-subtitle-1">

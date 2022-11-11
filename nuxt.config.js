@@ -70,6 +70,7 @@ export default {
       onlyOnRoot: true,
       useCookie: false,
     },
+    vueI18nLoader: true,
   },
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)

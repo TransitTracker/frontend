@@ -339,10 +339,10 @@ export default {
   computed: {
     computedValue: {
       get() {
-        return this.$store.state.app.notificationsCentre
+        return this.$store.state.app.openNotificationsCentre
       },
       set(value) {
-        this.$store.commit('app/set', { key: 'notificationsCentre', value })
+        this.$store.commit('app/set', { key: 'openNotificationsCentre', value })
       },
     },
     activeAgencies() {
@@ -394,7 +394,7 @@ export default {
       if (typeof value !== 'boolean') {
         value = false
       }
-      this.$store.commit('app/set', { key: 'notificationsCentre', value })
+      this.$store.commit('app/set', { key: 'openNotificationsCentre', value })
     },
     async loadProfile(data) {
       if (!data) {

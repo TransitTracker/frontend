@@ -5,53 +5,12 @@
     <v-main class="mb-20 mb-md-0 ml-md-20">
       <Alerts />
       <NotificationsCentre v-if="dataIsLoaded" />
-      <settings-drawer v-model="settingsDrawer" />
+      <RegionSwitcher v-model="openRegionSwitcher" />
+      <SettingsDrawer v-model="openSettingsDrawer" />
+      <HomeDownloadDialog v-model="openDownloadAssistant" />
       <nuxt />
     </v-main>
     <TwNavigationBar v-if="dataIsLoaded" />
-    <!-- <nav>
-      <v-bottom-navigation
-        v-if="dataIsLoaded"
-        grow
-        :color="settingsDarkMode ? null : 'primary'"
-        fixed
-      >
-        <v-btn
-          :to="localePath(`/regions/${region}/`)"
-          nuxt
-          exact
-          style="background-color: transparent; height: inherit"
-        >
-          <span>{{ $t('app.tabHome') }}</span>
-          <v-icon>{{ mdiViewGrid }}</v-icon>
-        </v-btn>
-        <v-btn
-          :to="localePath(`/regions/${region}/map`)"
-          nuxt
-          style="background-color: transparent; height: inherit"
-        >
-          <span>{{ $t('app.tabMap') }}</span>
-          <v-icon>{{ mdiMap }}</v-icon>
-        </v-btn>
-        <v-btn
-          :to="localePath(`/regions/${region}/table`)"
-          nuxt
-          style="background-color: transparent; height: inherit"
-        >
-          <span>{{ $t('app.tabTable') }}</span>
-          <v-icon>{{ mdiTable }}</v-icon>
-        </v-btn>
-        <v-btn
-          :to="localePath('/byod')"
-          nuxt
-          style="background-color: transparent; height: inherit"
-        >
-          <span>{{ $t('app.tabByod') }}</span>
-          <v-icon>{{ mdiFolderUpload }}</v-icon>
-        </v-btn>
-      </v-bottom-navigation>
-    </nav> -->
-    <RegionSwitcher v-model="regionSwitcher" />
     <component :is="byodInjector" />
     <v-snackbar
       v-model="updateAvailable"
@@ -94,7 +53,6 @@ export default {
   data: () => ({
     loading: false,
     regionSwitcher: false,
-    settingsDrawer: false,
     byodInjector: null,
     mdiCog,
     mdiFolderUpload,
@@ -147,6 +105,30 @@ export default {
     },
     updateAvailable() {
       return this.$store.state.app.updateAvailable
+    },
+    openRegionSwitcher: {
+      get() {
+        return this.$store.state.app.openRegionSwitcher
+      },
+      set(value) {
+        this.$store.commit('app/set', { key: 'openRegionSwitcher', value })
+      },
+    },
+    openSettingsDrawer: {
+      get() {
+        return this.$store.state.app.openSettingsDrawer
+      },
+      set(value) {
+        this.$store.commit('app/set', { key: 'openSettingsDrawer', value })
+      },
+    },
+    openDownloadAssistant: {
+      get() {
+        return this.$store.state.app.openDownloadAssistant
+      },
+      set(value) {
+        this.$store.commit('app/set', { key: 'openDownloadAssistant', value })
+      },
     },
   },
   mounted() {

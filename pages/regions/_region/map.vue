@@ -1,5 +1,5 @@
 <template>
-  <div class="tt-map-container mb-20 mb-md-0 ml-md-20">
+  <div class="tt-map-container">
     <div id="tt-map"></div>
     <!-- <MapSidebar v-if="$vuetify.breakpoint.mdAndUp" /> -->
     <VehicleSheetLargeSheet
