@@ -18,16 +18,16 @@
           class="tw-absolute tw-inset-y-0 tw-inset-x-auto tw-h-full tw-w-1/2 tw-rounded-full tw-bg-secondary-90 dark:tw-bg-secondary-30"
         ></div> -->
         <Transition
-          enter-from-class=" tw-scale-x-50 tw-bg-opacity-25"
-          enter-active-class="tw-transition-transform tw-duration-400 tw-ease-emphasized-accelerate"
-          enter-to-class="tw-scale-100 tw-bg-opacity-100"
-          leave-from-class="tw-scale-x-100 tw-opacity-100"
-          leave-active-class="tw-transition tw-duration-200 tw-ease-emphasized-decelerate"
-          leave-to-class="tw-scale-x-50 tw-bg-opacity-25"
+          enter-from-class="tw-w-4 tw-bg-opacity-25"
+          enter-active-class="tw-duration-400 tw-ease-emphasized-accelerate"
+          enter-to-class="tw-bg-opacity-100"
+          leave-from-class="tw-bg-opacity-100"
+          leave-active-class="tw-duration-200 tw-ease-emphasized-decelerate"
+          leave-to-class="tw-w-4 tw-bg-opacity-25"
         >
           <div
-            v-if="isActive"
-            class="tw-absolute tw-flex tw-h-8 tw-w-full tw-items-center tw-justify-center tw-rounded-2xl tw-bg-secondary-90 tw-text-secondary-10 dark:tw-bg-secondary-30 dark:tw-text-secondary-90"
+            v-show="isActive"
+            class="tw-absolute tw-flex tw-h-8 tw-w-full tw-items-center tw-justify-center tw-rounded-2xl tw-bg-secondary-90 tw-text-secondary-10 tw-transition-[width] dark:tw-bg-secondary-30 dark:tw-text-secondary-90"
           />
         </Transition>
         <TwIcon :path="isActive ? activeIcon ?? icon : icon" />

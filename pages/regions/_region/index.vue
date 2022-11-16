@@ -1,42 +1,3 @@
-<i18n>
-{
-  "en": {
-    "welcome": "Welcome to",
-    "version": "Version {version}",
-    "changeRegion": "Change region",
-    "vehicleTotal": "No vehicle | 1 vehicle is active | {n} vehicles are active",
-    "manageAgenciesTrick": "Add or remove agencies right here ⟶",
-    "manageAgencies": "Add or remove currently visible agencies",
-    "creditsTitle": "Credits and licenses",
-    "creditsBody": "For each agency, all intellectual property rights relating to the data belong to them. Here are the respective licenses for agencies in this region:",
-    "downloadTitle": "Download data",
-    "downloadBody": "Transit Tracker allows you to download either the data you see on the screen or an archive of all the data recorded by the server.",
-    "openDownload": "Open download wizard",
-    "brandSlogan": "Making real time transit data accessible",
-    "forDevelopers": "For Developers",
-    "exoVin": "exo VIN Project",
-    "github": "On GitHub"
-  },
-  "fr": {
-    "welcome": "Bienvenue sur",
-    "version": "Version {version}",
-    "changeRegion": "Changer de région",
-    "vehicleTotal": "Aucun véhicule | 1 véhicule est actif | {n} véhicules sont actifs",
-    "manageAgenciesTrick": "Ajouter ou retirer des agences juste ici ⟶",
-    "manageAgencies": "Ajouter ou retirer les agences présentement visible",
-    "creditsTitle": "Crédits et licences",
-    "creditsBody": "Pour chaque agence, tous les droits de propriété intellectuelle relatifs aux données leur appartiennent. Voici les licenses respectivent pour les agences de cette région :",
-    "downloadTitle": "Télécharger des données",
-    "downloadBody": "Transit Tracker vous permet de télécharger soit les données que vous voyez à l'écran, soit une archive de toutes les données enregistrées par le serveur. ",
-    "openDownload": "Ouvrir l'assistant de téléchargement",
-    "brandSlogan": "Rendre accessibles les données de transport en temps réel",
-    "forDevelopers": "Pour les développeurs",
-    "exoVin": "Projet exo VIN",
-    "github": "Sur GitHub"
-  }
-}
-</i18n>
-
 <template>
   <div
     class="tw-flex tw-min-h-screen tw-flex-col tw-bg-neutral-99 dark:tw-bg-neutral-10"
@@ -104,6 +65,7 @@
         </TwOutlinedIconButton>
       </div>
       <ul
+        v-if="activeAgencies.length"
         class="tw-mt-4 tw-grid tw-list-none tw-grid-cols-2 tw-gap-2 !tw-pl-0 md:tw-grid-cols-3 md:tw-gap-4 xl:tw-grid-cols-4"
       >
         <TwHomeAgencyBadge
@@ -113,6 +75,26 @@
           :timestamp="times[agency.slug] || 0"
         />
       </ul>
+      <div
+        v-else
+        class="tw-relative -tw-mx-4 tw-mt-4 tw-space-y-4 tw-bg-primary-90 tw-p-4 tw-text-center tw-text-primary-10 dark:tw-bg-primary-30 dark:tw-text-primary-90 md:tw-mx-0 md:tw-rounded-xl md:tw-text-left"
+      >
+        <!-- TODO come back icon! -->
+        <!-- <TwIcon
+          class="tw-absolute -tw-right-4 -tw-bottom-4 !tw-h-64 !tw-w-64 tw-bg-opacity-50"
+          :path="mdiBusMultiple"
+        /> -->
+        <p class="tw-mb-0 tw-text-4xl tw-font-bold tw-leading-[2.75rem]">
+          {{ $t('emptyTitle', { region: region.name }) }}
+        </p>
+        <p class="tw-mb-0 tw-leading-6 tw-tracking-wide">
+          {{ $tc('emptyDescription', region.agencies.length) }}
+        </p>
+        <TwFilledButton with-icon class="tw-mx-auto md:tw-mx-0">
+          <TwIcon :path="mdiPlus" />
+          {{ $t('addAllAgencies') }}
+        </TwFilledButton>
+      </div>
     </div>
     <div
       class="md:tw-container md:tw-mx-auto md:tw-mt-8 md:tw-flex md:tw-items-start md:tw-justify-center md:tw-gap-x-4 md:tw-px-4"
@@ -212,7 +194,14 @@
 </template>
 
 <script>
-import { mdiCity, mdiTune, mdiChevronDown, mdiDownload } from '@mdi/js'
+import {
+  mdiCity,
+  mdiTune,
+  mdiBusMultiple,
+  mdiPlus,
+  mdiChevronDown,
+  mdiDownload,
+} from '@mdi/js'
 
 export default {
   middleware: 'loadData',
@@ -222,6 +211,8 @@ export default {
       creditsOpen: false,
       mdiCity,
       mdiTune,
+      mdiBusMultiple,
+      mdiPlus,
       mdiChevronDown,
       mdiDownload,
       backendHost: process.env.backendHost,
@@ -332,3 +323,48 @@ export default {
   },
 }
 </script>
+
+<i18n>
+{
+  "en": {
+    "welcome": "Welcome to",
+    "version": "Version {version}",
+    "changeRegion": "Change region",
+    "vehicleTotal": "No vehicle | 1 vehicle is active | {n} vehicles are active",
+    "manageAgenciesTrick": "Add or remove agencies right here ⟶",
+    "manageAgencies": "Add or remove currently visible agencies",
+    "emptyTitle": "Welcome here!",
+    "emptyDescription": "It looks like you haven't added any agencies for this region yet. To get the full Transit Tracker experience, we recommend adding the {n} available agencies. Don't worry, you can change your available agencies at any time in the settings.",
+    "addAllAgencies": "Add all agencies",
+    "creditsTitle": "Credits and licenses",
+    "creditsBody": "For each agency, all intellectual property rights relating to the data belong to them. Here are the respective licenses for agencies in this region:",
+    "downloadTitle": "Download data",
+    "downloadBody": "Transit Tracker allows you to download either the data you see on the screen or an archive of all the data recorded by the server.",
+    "openDownload": "Open download wizard",
+    "brandSlogan": "Making real time transit data accessible",
+    "forDevelopers": "For Developers",
+    "exoVin": "exo VIN Project",
+    "github": "On GitHub"
+  },
+  "fr": {
+    "welcome": "Bienvenue sur",
+    "version": "Version {version}",
+    "changeRegion": "Changer de région",
+    "vehicleTotal": "Aucun véhicule | 1 véhicule est actif | {n} véhicules sont actifs",
+    "manageAgenciesTrick": "Ajouter ou retirer des agences juste ici ⟶",
+    "manageAgencies": "Ajouter ou retirer les agences présentement visible",
+    "emptyTitle": "Bienvenue ici!",
+    "emptyDescription": "Il semble que vous n'avez pas encore ajouté d'agences pour cette région. Pour vivre l'expérience complète de Transit Tracker, nous vous recommandons d'ajouter les {n} agences disponibles. Pas de panique, vous pouvez changer vos agences disponibles en tout temps dans les paramètres.",
+    "addAllAgencies": "Ajouter toutes les agences",
+    "creditsTitle": "Crédits et licences",
+    "creditsBody": "Pour chaque agence, tous les droits de propriété intellectuelle relatifs aux données leur appartiennent. Voici les licenses respectivent pour les agences de cette région :",
+    "downloadTitle": "Télécharger des données",
+    "downloadBody": "Transit Tracker vous permet de télécharger soit les données que vous voyez à l'écran, soit une archive de toutes les données enregistrées par le serveur. ",
+    "openDownload": "Ouvrir l'assistant de téléchargement",
+    "brandSlogan": "Rendre accessibles les données de transport en temps réel",
+    "forDevelopers": "Pour les développeurs",
+    "exoVin": "Projet exo VIN",
+    "github": "Sur GitHub"
+  }
+}
+</i18n>

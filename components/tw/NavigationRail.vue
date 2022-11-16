@@ -3,7 +3,7 @@
     class="tw-fixed tw-inset-y-0 tw-left-0 tw-z-10 tw-hidden tw-h-full tw-w-20 tw-bg-neutral-99 tw-text-sm tw-font-medium tw-leading-4 tw-tracking-wider dark:tw-bg-neutral-10 md:tw-block"
   >
     <ul
-      class="tw-flex tw-h-full tw-list-none tw-flex-col tw-items-center tw-gap-y-3 tw-bg-primary-40/12 tw-py-4 !tw-pl-0 dark:tw-bg-primary-80/12"
+      class="tw-flex tw-h-full tw-list-none tw-flex-col tw-items-center tw-gap-y-3 tw-bg-primary-40/25 tw-py-4 !tw-pl-0 dark:tw-bg-primary-80/12"
     >
       <NuxtLink
         class="tw-group tw-relative -tw-m-2 tw-my-auto tw-h-14 tw-p-2 !tw-text-primary-40 tw-no-underline focus:tw-outline-none dark:!tw-text-white"

@@ -51,8 +51,12 @@ export default {
     })
   },
   beforeDestroy() {
-    this.$refs.dialog.removeEventListener('close')
-    this.$refs.dialog.removeEventListener('cancel')
+    this.$refs.dialog.removeEventListener('close', () => {
+      this.handleInput(false)
+    })
+    this.$refs.dialog.removeEventListener('cancel', () => {
+      this.handleInput(false)
+    })
   },
   methods: {
     handleInput(value = false) {
