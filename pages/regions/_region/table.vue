@@ -10,7 +10,7 @@
         itemsPerPageOptions: [25, 50, 100, 150, 200, -1],
       }"
       :search="searchAll"
-      M
+      m
       :mobile-breakpoint="preferDesktopView ? 1 : 600"
     >
       <!-- eslint-disable-next-line -->

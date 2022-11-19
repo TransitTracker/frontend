@@ -52,10 +52,13 @@
         {{ $t('app.tabByod') }}
       </TwNavigationBarButton>
       <div class="tw-grow"></div>
-      <TwStandardIconButton @click="open('SettingsDrawer')" v-if="dataIsLoaded">
+      <TwStandardIconButton
+        v-if="dataIsLoaded"
+        @click="open('NotificationsCentre')"
+      >
         <TwIcon :path="mdiBell" />
       </TwStandardIconButton>
-      <TwStandardIconButton @click="open('RegionSwitcher')" v-if="dataIsLoaded">
+      <TwStandardIconButton v-if="dataIsLoaded" @click="open('RegionSwitcher')">
         <TwIcon :path="mdiCity" />
       </TwStandardIconButton>
       <TwStandardIconButton @click="open('SettingsDrawer')">

@@ -4,7 +4,10 @@
     <TwNavigationRail />
     <v-main class="mb-20 mb-md-0 ml-md-20">
       <Alerts />
-      <NotificationsCentre v-if="dataIsLoaded" />
+      <NotificationsCentre
+        v-if="dataIsLoaded"
+        v-model="openNotificationsCentre"
+      />
       <RegionSwitcher v-model="openRegionSwitcher" />
       <SettingsDrawer v-model="openSettingsDrawer" />
       <HomeDownloadDialog v-model="openDownloadAssistant" />
@@ -105,6 +108,14 @@ export default {
     },
     updateAvailable() {
       return this.$store.state.app.updateAvailable
+    },
+    openNotificationsCentre: {
+      get() {
+        return this.$store.state.app.openNotificationsCentre
+      },
+      set(value) {
+        this.$store.commit('app/set', { key: 'openNotificationsCentre', value })
+      },
     },
     openRegionSwitcher: {
       get() {

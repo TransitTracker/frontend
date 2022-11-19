@@ -1,20 +1,10 @@
 <template>
   <div class="tt-map-container">
     <div id="tt-map"></div>
-    <!-- <MapSidebar v-if="$vuetify.breakpoint.mdAndUp" /> -->
     <VehicleSheetLargeSheet
       v-if="selectedVehicle.id"
       :vehicle="selectedVehicle"
-    /><!--
-    <MapFooter
-      @open-sheet="sheetOpen = true"
-      v-if="$vuetify.breakpoint.smAndDown"
     />
-    <MapBottomSheet
-      v-if="sheetOpen && $vuetify.breakpoint.smAndDown"
-      :sheet-open="sheetOpen"
-      @close-sheet="sheetOpen = false"
-    /> -->
     <div
       ref="mapPopup"
       class="tt-map__popup black--text text-subtitle-1 d-flex align-center mt-n1 mb-n2"

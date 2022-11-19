@@ -26,18 +26,18 @@
     </NuxtLink>
     <div class="tw-grow"></div>
     <TwStandardIconButton
+      v-if="dataIsLoaded"
       :title="$t('regionSwitcher.title')"
       color="onNavbar"
-      v-if="dataIsLoaded"
       @click="open('RegionSwitcher')"
     >
       <!-- {{ region }} -->
       <TwIcon :path="mdiCity" />
     </TwStandardIconButton>
-    <TwTextButton color="onNavbar" v-else @click="switchLanguage">
+    <TwTextButton v-else color="onNavbar" @click="switchLanguage">
       {{ settingsLang === 'en' ? 'FR' : 'EN' }}
     </TwTextButton>
-    <TwStandardIconButton @click="open('SettingsDrawer')" color="onNavbar">
+    <TwStandardIconButton color="onNavbar" @click="open('SettingsDrawer')">
       <TwIcon :path="mdiCog" />
     </TwStandardIconButton>
   </nav>

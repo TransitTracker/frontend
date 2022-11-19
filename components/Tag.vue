@@ -1,12 +1,12 @@
 <template>
   <div>
     <v-chip
+      :id="`tag-${uuid}`"
       label
       :color="darkMode ? tag.dark_color : tag.color"
       :text-color="darkMode ? tag.dark_text_color : tag.text_color"
       :small="small"
       :class="{ 'pr-0': removeRightPadidng }"
-      :id="`tag-${uuid}`"
     >
       <v-icon v-if="tag.icon" left :small="small">{{ tag.icon }}</v-icon>
       {{ small ? tag.short_label : tag.label }}

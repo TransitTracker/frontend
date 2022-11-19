@@ -1,10 +1,10 @@
 <template>
   <dl>
     <VehicleSheetProperty
-      :property="property"
-      :vehicle="vehicle"
       v-for="(property, index) in properties"
       :key="index"
+      :property="property"
+      :vehicle="vehicle"
     />
   </dl>
 </template>
@@ -59,6 +59,7 @@ export default {
         {
           name: 'createdAt',
           icon: mdiCalendarStart,
+          format: 'date',
         },
       ],
       trip: [

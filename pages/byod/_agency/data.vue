@@ -42,8 +42,8 @@
 
 <script>
 import JsonViewer from 'vue-json-viewer'
-import { agencies, definitions, realtimeGtfs } from '@/utils/byod'
 import { mdiArrowLeft, mdiFolderUpload } from '@mdi/js'
+import { agencies, definitions, realtimeGtfs } from '@/utils/byod'
 
 export default {
   components: {

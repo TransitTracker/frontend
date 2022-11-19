@@ -176,6 +176,7 @@ export default {
       return value.toUpperCase()
     },
   },
+  components: { MapVehicleAvatar },
   data: () => ({
     mdiArrowDown,
     mdiCctv,
@@ -223,7 +224,6 @@ export default {
       })
     },
   },
-  components: { MapVehicleAvatar },
 }
 </script>
 

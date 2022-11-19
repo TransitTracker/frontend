@@ -36,8 +36,8 @@
           <TwFilledButton
             color="tonal"
             class="tw-hidden md:tw-flex"
-            @click="open('RegionSwitcher')"
             with-icon
+            @click="open('RegionSwitcher')"
           >
             <TwIcon :path="mdiCity" />
             {{ $t('changeRegion') }}
@@ -58,8 +58,8 @@
         </small>
         <TwOutlinedIconButton
           class="tw-float-right"
-          @click="open('SettingsDrawer')"
           :title="$t('manageAgencies')"
+          @click="open('SettingsDrawer')"
         >
           <TwIcon :path="mdiTune" />
         </TwOutlinedIconButton>
@@ -140,14 +140,14 @@
             {{ $t('creditsTitle') }}
             <TwStandardIconButton
               :class="{ 'tw-rotate-180': creditsOpen }"
-              @click="creditsOpen = !creditsOpen"
               class="tw-float-right tw-transition-transform tw-duration-200 tw-ease-linear"
+              @click="creditsOpen = !creditsOpen"
             >
               <TwIcon :path="mdiChevronDown" />
             </TwStandardIconButton>
           </h2>
         </summary>
-        <p v-html="region.credits" class="mt-4"></p>
+        <p class="mt-4" v-html="region.credits"></p>
         <p>{{ $t('creditsBody') }}</p>
         <ul>
           <li v-for="agency in activeAgencies" :key="agency.slug">

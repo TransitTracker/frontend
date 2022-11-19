@@ -16,7 +16,7 @@
     <p class="tw-mt-4 tw-text-sm tw-leading-5"><slot /></p>
     <slot name="footer">
       <TwTextButton class="tw-float-right" @click="handleInput()">
-        Close
+        {{ $t('close') }}
       </TwTextButton>
     </slot>
   </dialog>
@@ -75,3 +75,14 @@ export default {
 </script>
 
 <style></style>
+
+<i18n>
+{
+  "en": {
+    "close": "Close"
+  },
+  "fr": {
+    "close: "Fermer"
+  }
+}
+</i18n>

@@ -15,7 +15,7 @@
         {{ $t(`mapBottomSheet.properties.${property.label || property.name}`) }}
       </dt>
       <dd class="tw-mb-0 tw-leading-6">
-        {{ content }}
+        {{ property.format ? format(content) : content }}
       </dd>
     </div>
     <div class="flex-grow-1"></div>
@@ -28,7 +28,7 @@
     </TwStandardIconButton>
     <TwBasicDialog v-if="property.help" v-model="helpOpen">
       <template #header>
-        À propos de
+        {{ $t('about') }}
         {{ $t(`mapBottomSheet.properties.${property.label || property.name}`) }}
       </template>
       {{ $t(`mapBottomSheet.help.${property.label || property.name}`) }}
@@ -53,12 +53,9 @@ export default {
   data: () => ({
     mdiHelp,
     helpOpen: false,
+    dateStyle: 'long',
+    timeStyle: 'short',
   }),
-  methods: {
-    openHelp() {
-      this.helpOpen = true
-    },
-  },
   computed: {
     content() {
       return this.property.content
@@ -68,5 +65,30 @@ export default {
         : this.vehicle[this.property.name]
     },
   },
+  methods: {
+    openHelp() {
+      this.helpOpen = true
+    },
+    format() {
+      if (this.property.format === 'date') {
+        return Intl.DateTimeFormat(this.$i18n.locale, {
+          dateStyle: this.dateStyle,
+          timeStyle: this.timeStyle,
+        }).format(new Date(this.content))
+      }
+      return this.content
+    },
+  },
 }
 </script>
+
+<i18n>
+  {
+    "en": {
+      "about": "About "
+    },
+    "fr": {
+      "welcome": "À propos de "
+    }
+  }
+  </i18n>

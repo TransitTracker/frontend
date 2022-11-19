@@ -12,16 +12,21 @@
 
 <script>
 export default {
+  props: {
+    timestamp: {
+      type: Number,
+      required: true,
+    },
+  },
   data: () => ({
     timeAgo: null,
     dateTime: null,
     isLate: false,
     timer: null,
   }),
-  props: {
-    timestamp: {
-      type: Number,
-      required: true,
+  computed: {
+    lang() {
+      return this.$i18n.locale
     },
   },
   mounted() {
@@ -33,11 +38,6 @@ export default {
   },
   destroyed() {
     clearInterval(this.timer)
-  },
-  computed: {
-    lang() {
-      return this.$i18n.locale
-    },
   },
   methods: {
     calculateTimeAgo() {

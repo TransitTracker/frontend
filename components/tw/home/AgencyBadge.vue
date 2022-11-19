@@ -15,7 +15,7 @@
     <b class="tw-font-medium md:tw-hidden">
       {{ agency.shortName }}
     </b>
-    <p class="!tw-mb-0" v-if="agency.slug in vehicleCounts">
+    <p v-if="agency.slug in vehicleCounts" class="!tw-mb-0">
       {{ $tc('landing.vehicles', vehicleCounts[agency.slug]) }}
       <br class="md:tw-hidden" />
       <span class="tw-hidden md:tw-inline">&bull;</span>

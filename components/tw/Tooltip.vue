@@ -2,7 +2,7 @@
   <div
     ref="tooltip"
     role="tooltip"
-    class="tw-bg-neutral-10 tw-text-neutral-95 dark:tw-bg-neutral-90 dark:tw-text-neutral-20 tw-px-1 tw-py-0.5 tw-text-sm tw-rounded tw-text-center tw-hidden"
+    class="tw-hidden tw-rounded tw-bg-neutral-10 tw-px-1 tw-py-0.5 tw-text-center tw-text-sm tw-text-neutral-95 dark:tw-bg-neutral-90 dark:tw-text-neutral-20"
   >
     <slot></slot>
   </div>
@@ -17,6 +17,25 @@ export default {
     reference: {
       required: true,
     },
+  },
+  data: () => ({
+    popperInstance: null,
+  }),
+  mounted() {
+    /* this.popperInstance = createPopper(this.reference, this.$refs.tooltip, {
+      modifiers: [preventOverflow],
+    })
+
+    const showEvents = ['mouseenter', 'focus']
+    const hideEvents = ['mouseleave', 'blur']
+
+    showEvents.forEach((event) => {
+      this.reference.addEventListener(event, this.show)
+    })
+
+    hideEvents.forEach((event) => {
+      this.reference.addEventListener(event, this.hide)
+    }) */
   },
   methods: {
     show() {
@@ -43,25 +62,6 @@ export default {
         ],
       }))
     },
-  },
-  data: () => ({
-    popperInstance: null,
-  }),
-  mounted() {
-    /* this.popperInstance = createPopper(this.reference, this.$refs.tooltip, {
-      modifiers: [preventOverflow],
-    })
-
-    const showEvents = ['mouseenter', 'focus']
-    const hideEvents = ['mouseleave', 'blur']
-
-    showEvents.forEach((event) => {
-      this.reference.addEventListener(event, this.show)
-    })
-
-    hideEvents.forEach((event) => {
-      this.reference.addEventListener(event, this.hide)
-    }) */
   },
 }
 </script>

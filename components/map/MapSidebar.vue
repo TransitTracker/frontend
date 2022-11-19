@@ -1,5 +1,5 @@
 <template>
-  <v-card class="tt-map-sidebar" width="360" rounded="12" v-if="vehicle.id">
+  <v-card v-if="vehicle.id" class="tt-map-sidebar" width="360" rounded="12">
     <v-row class="mx-4" align="center">
       <MapVehicleAvatar />
       <v-col>
@@ -26,8 +26,8 @@
         <span class="font-weight-medium">
           <b>{{ vehicle.trip.routeLongName }}</b> <br />
           <v-icon
-            small
             v-if="vehicle.trip.headsign"
+            small
             :color="vehicle.trip.routeTextColor"
           >
             {{ mdiArrowRight }}
@@ -93,7 +93,7 @@
       <v-expansion-panel class="tt-map-sidebar__expansion-panel">
         <v-expansion-panel-header class="px-4 text-subheader">
           Liens
-          <template v-slot:actions>
+          <template #actions>
             <small class="text-caption mr-1">{{ vehicle.links.length }}</small>
             <v-icon>{{ mdiChevronDown }}</v-icon>
           </template>

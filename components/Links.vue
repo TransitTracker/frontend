@@ -11,15 +11,15 @@
 
 <script>
 export default {
-  data: () => ({
-    links: {},
-  }),
   props: {
     vehicle: {
       type: Object,
       required: true,
     },
   },
+  data: () => ({
+    links: {},
+  }),
   watch: {
     vehicle(value) {
       this.getLinks(value)
