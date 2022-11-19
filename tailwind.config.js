@@ -10,6 +10,7 @@ module.exports = {
     `components/tw/**/*.vue`,
     `components/VehicleSheet/**/*.vue`,
     `pages/regions/_region/index.vue`,
+    `./nuxt.config.js`,
   ],
   theme: {
     extend: {

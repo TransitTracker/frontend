@@ -82,7 +82,7 @@ export default {
     "close": "Close"
   },
   "fr": {
-    "close: "Fermer"
+    "close": "Fermer"
   }
 }
 </i18n>

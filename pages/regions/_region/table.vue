@@ -1,153 +1,15 @@
 <template>
   <div>
-    <v-data-table
-      group-by="agency"
-      :custom-filter="filterAllFields"
-      :headers="headers"
-      :items="vehicles"
-      :items-per-page="100"
-      :footer-props="{
-        itemsPerPageOptions: [25, 50, 100, 150, 200, -1],
-      }"
-      :search="searchAll"
-      m
-      :mobile-breakpoint="preferDesktopView ? 1 : 600"
+    <ejs-grid
+      :data-source="vehicles"
+      :allow-reordering="true"
+      :show-column-chooser="true"
     >
-      <!-- eslint-disable-next-line -->
-      <template v-slot:group.header="{ group, headers, toggle, isOpen }">
-        <td :colspan="headers.length">
-          <v-btn icon class="mr-2" @click="toggle">
-            <v-icon>{{ isOpen ? mdiMinus : mdiPlus }}</v-icon>
-          </v-btn>
-          {{ agencies[group].name }}
-        </td>
-      </template>
-      <!-- eslint-disable-next-line -->
-      <template v-slot:body.prepend="{ headers, isMobile }">
-        <tr v-if="isMobile">
-          <td colspan="6">
-            <v-text-field
-              v-model="searchAll"
-              :prepend-icon="mdiMagnify"
-              :placeholder="$t('table.filter')"
-              dense
-              hide-details
-              single-line
-            />
-          </td>
-        </tr>
-        <tr v-else class="tt-table__filters">
-          <td>
-            <v-text-field
-              v-model="searchLabel"
-              :prepend-inner-icon="mdiMagnify"
-              :placeholder="$t('table.filter')"
-              dense
-              hide-details
-              single-line
-            />
-          </td>
-          <td>
-            <v-text-field
-              v-model="searchRoute"
-              :prepend-inner-icon="mdiMagnify"
-              :placeholder="$t('table.filter')"
-              dense
-              hide-details
-              single-line
-            ></v-text-field>
-            <v-checkbox
-              v-model="filterOnlyRouteId"
-              hide-details
-              class="mt-0"
-              color="secondary"
-              :ripple="false"
-            >
-              <template #label>
-                <div class="text-caption">{{ $t('table.filterRouteId') }}</div>
-              </template>
-            </v-checkbox>
-          </td>
-          <td>
-            <v-text-field
-              v-model="searchHeadsign"
-              :prepend-inner-icon="mdiMagnify"
-              :placeholder="$t('table.filter')"
-              dense
-              hide-details
-              single-line
-            ></v-text-field>
-          </td>
-          <td>
-            <v-text-field
-              v-model="searchTrip"
-              :prepend-inner-icon="mdiMagnify"
-              :placeholder="$t('table.filter')"
-              dense
-              hide-details
-              single-line
-            ></v-text-field>
-          </td>
-          <td colspan="2"></td>
-        </tr>
-      </template>
-      <!-- eslint-disable-next-line -->
-      <template v-slot:item.actions="{ item }">
-        <div class="d-flex items-center">
-          <v-btn
-            small
-            icon
-            color="secondary"
-            :title="$t('table.viewOnMap')"
-            @click="setSelection(item)"
-          >
-            <v-icon>{{ mdiMapMarker }}</v-icon>
-          </v-btn>
-          <v-btn
-            v-if="item.links.length"
-            small
-            icon
-            color="secondary"
-            :title="$t('table.openLinks')"
-            @click="setSelection(item, true)"
-          >
-            <v-icon>{{ mdiOpenInNew }}</v-icon>
-          </v-btn>
-        </div>
-      </template>
-      <!-- eslint-disable-next-line -->
-      <template v-slot:item.label="{ item }">
-        <div class="d-flex align-center flex-wrap gap-2">
-          {{ item.label || item.ref }}
-          <Tag
-            v-for="tag in item.tags"
-            :key="tag"
-            :tag-id="tag"
-            :small="true"
-          ></Tag>
-        </div>
-      </template>
-      <!-- eslint-disable-next-line -->
-      <template v-slot:item.routeId="{ item }">
-        <div>
-          <span
-            v-if="
-              item.trip.routeShortName &&
-              item.trip.routeShortName !== item.routeId
-            "
-            :title="$t('table.routeId')"
-            class="text-caption grey px-1 rounded mr-2 d-inline-flex items-center"
-            :class="[darkMode ? 'darken-3' : 'lighten-3']"
-          >
-            {{ item.routeId }}
-          </span>
-          <span>{{ item.trip.routeShortName || item.routeId }}</span>
-          <span v-if="item.trip.routeLongName">
-            &nbsp;{{ item.trip.routeLongName }}
-          </span>
-        </div>
-      </template>
-    </v-data-table>
+      <e-columns>
+        <e-column field="id" headerText="ID"></e-column>
+        <e-column field="ref" headerText="Label"></e-column>
+      </e-columns>
+    </ejs-grid>
     <TableLinksDialog v-model="linksDialog" />
   </div>
 </template>
@@ -160,11 +22,24 @@ import {
   mdiOpenInNew,
   mdiPlus,
 } from '@mdi/js'
+import Vue from 'vue'
+import {
+  GridPlugin,
+  ColumnChooser,
+  Toolbar,
+  Reorder,
+} from '@syncfusion/ej2-vue-grids'
+import { registerLicense } from '@syncfusion/ej2-base'
+registerLicense(process.env.syncfusionKey)
+Vue.use(GridPlugin)
 
 export default {
   middleware: 'loadData',
   asyncData() {
     return { mdiMagnify, mdiMapMarker, mdiMinus, mdiOpenInNew, mdiPlus }
+  },
+  provide: {
+    grid: [Reorder, ColumnChooser, Toolbar],
   },
   data() {
     return {
@@ -263,9 +138,6 @@ export default {
     darkMode() {
       return this.$vuetify.theme.dark
     },
-    preferDesktopView() {
-      return this.$store.state.settings.preferDesktopView
-    },
     region() {
       return this.$store.state.regions.data[this.$route.params.region] || {}
     },
@@ -321,10 +193,14 @@ export default {
 </script>
 
 <style lang="scss">
-.tt-table__filters td {
-  vertical-align: top;
-}
-.gap-2 {
-  gap: 0.5rem;
-}
+@import '@/node_modules/@syncfusion/ej2-base/styles/material.css';
+@import '@/node_modules/@syncfusion/ej2-buttons/styles/material.css';
+@import '@/node_modules/@syncfusion/ej2-calendars/styles/material.css';
+@import '@/node_modules/@syncfusion/ej2-dropdowns/styles/material.css';
+@import '@/node_modules/@syncfusion/ej2-inputs/styles/material.css';
+@import '@/node_modules/@syncfusion/ej2-navigations/styles/material.css';
+@import '@/node_modules/@syncfusion/ej2-popups/styles/material.css';
+@import '@/node_modules/@syncfusion/ej2-splitbuttons/styles/material.css';
+@import '@/node_modules/@syncfusion/ej2-notifications/styles/material.css';
+@import '@/node_modules/@syncfusion/ej2-vue-grids/styles/material.css';
 </style>
