@@ -26,7 +26,11 @@ export default {
   }),
   computed: {
     lang() {
-      return this.$i18n.locale
+      if (this.$i18n) {
+        return this.$i18n.locale
+      }
+
+      return 'en'
     },
   },
   mounted() {
@@ -41,6 +45,11 @@ export default {
   },
   methods: {
     calculateTimeAgo() {
+      if (!Number.isInteger(this.timestamp)) {
+        this.timeago = null
+        this.isLate = false
+      }
+
       const currentTime = Math.floor(Date.now() / 1000)
       const difference = this.timestamp - currentTime
 

@@ -1,5 +1,11 @@
 <template>
   <dl>
+    <VehicleSheetQuickProperty
+      v-for="(property, index) in quickProperties"
+      :key="index"
+      :property="property"
+      :vehicle="vehicle"
+    />
     <VehicleSheetProperty
       v-for="(property, index) in properties"
       :key="index"
@@ -36,12 +42,29 @@ export default {
     group: {
       type: String,
       required: false,
-      default: null,
+      default: 'vehicle',
     },
   },
   data: () => ({
     groups: {
       vehicle: [
+        {
+          name: 'speed',
+          icon: mdiSpeedometer,
+          isQuick: true,
+        },
+        {
+          name: 'congestionLevel',
+          content: 'data',
+          icon: mdiTrafficLight,
+          isQuick: true,
+        },
+        {
+          name: 'occupancyStatus',
+          content: 'data',
+          icon: mdiSeatPassenger,
+          isQuick: true,
+        },
         {
           name: 'label',
           content: 'ref',
@@ -134,11 +157,14 @@ export default {
   }),
   computed: {
     properties() {
-      if (!(this.group in this.groups)) {
-        return [...this.groups.vehicle, ...this.groups.trip]
-      }
-
-      return this.groups[this.group]
+      return this.groups[this.group].filter((property) => {
+        return !property.isQuick
+      })
+    },
+    quickProperties() {
+      return this.groups[this.group].filter((property) => {
+        return property.isQuick
+      })
     },
   },
 }

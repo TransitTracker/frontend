@@ -1,16 +1,102 @@
 <template>
   <div>
     <ejs-grid
+      ref="grid"
+      :data-bound="autoFitColumns"
       :data-source="vehicles"
+      :allow-filtering="true"
       :allow-reordering="true"
+      :allow-sorting="true"
       :show-column-chooser="true"
+      :enable-infinite-scrolling="true"
+      :filter-settings="{ type: 'Excel' }"
+      :toolbar="['ColumnChooser']"
     >
       <e-columns>
-        <e-column field="id" headerText="ID"></e-column>
-        <e-column field="ref" headerText="Label"></e-column>
+        <e-column
+          field="id"
+          header-text="Transit Tracker Internal ID"
+          :visible="false"
+        ></e-column>
+        <!-- hidden -->
+        <e-column
+          field="agency"
+          header-text="Agency"
+          :value-accessor="cAgency"
+        ></e-column>
+        <!-- fix -->
+        <e-column field="ref" header-text="Ref"></e-column>
+        <e-column field="label" header-text="Label"></e-column>
+        <e-column
+          field="timestamp"
+          header-text="Last seen"
+          :template="'cTimestamp'"
+        ></e-column>
+        <!-- timeago -->
+        <e-column field="tripId" header-text="Trip ID"></e-column>
+        <e-column field="trip.headsign" header-text="Trip headsign"></e-column>
+        <e-column
+          field="trip.shortName"
+          header-text="Trip Short Name"
+        ></e-column>
+        <e-column field="trip.routeShortName" header-text="Route"></e-column>
+        <!-- shortname + longname -->
+        <e-column field="trip.serviceId" header-text="Service ID"></e-column>
+        <e-column field="routeId" header-text="Route ID"></e-column>
+        <e-column
+          field="position.lat"
+          header-text="Position"
+          :template="'cPosition'"
+          :allow-filtering="false"
+        ></e-column>
+        <!-- add lon -->
+        <e-column
+          field="bearing"
+          header-text="Bearing"
+          type="number"
+        ></e-column>
+        <e-column field="speed" header-text="Speed" type="number"></e-column>
+        <e-column field="vehicleType" header-text="Type"></e-column>
+        <!-- add icon? -->
+        <e-column field="plate" header-text="License Plate"></e-column>
+        <e-column
+          field="odometer"
+          header-text="Odometer"
+          type="number"
+        ></e-column>
+        <e-column
+          field="currentStopSequence"
+          header-text="Stop Sequence"
+        ></e-column>
+        <e-column field="currentStatus.label" header-text="Status"></e-column>
+        <e-column
+          field="scheduleRelationship.label"
+          header-text="Schedule Relationship"
+        ></e-column>
+        <e-column
+          field="congestionLevel.label"
+          header-text="Congestion Level"
+        ></e-column>
+        <e-column
+          field="occupancyStatus.label"
+          header-text="Occupancy Status"
+        ></e-column>
+        <!-- tags? -->
+        <!-- view on map -->
+        <!-- view details -->
+        <!-- view links -->
       </e-columns>
+      <template #cAgency="{ data }">
+        {{ agencies[data.agency].shortName }}
+      </template>
+      <template #cTimestamp="{ data }">
+        <TwTimeAgo v-if="data.timestamp" :timestamp="+data.timestamp" />
+      </template>
+      <template #cPosition="{ data }">
+        <span>{{ data.position.lat }}, {{ data.position.lon }}</span>
+      </template>
     </ejs-grid>
-    <TableLinksDialog v-model="linksDialog" />
+    <!--<TableLinksDialog v-model="linksDialog" />-->
   </div>
 </template>
 
@@ -28,6 +114,10 @@ import {
   ColumnChooser,
   Toolbar,
   Reorder,
+  Resize,
+  Sort,
+  Filter,
+  InfiniteScroll,
 } from '@syncfusion/ej2-vue-grids'
 import { registerLicense } from '@syncfusion/ej2-base'
 registerLicense(process.env.syncfusionKey)
@@ -39,85 +129,15 @@ export default {
     return { mdiMagnify, mdiMapMarker, mdiMinus, mdiOpenInNew, mdiPlus }
   },
   provide: {
-    grid: [Reorder, ColumnChooser, Toolbar],
-  },
-  data() {
-    return {
-      headers: [
-        {
-          text: this.$t('table.dataRef'),
-          value: 'label',
-          divider: true,
-          filter: (value, search, item) => {
-            return (value + '')
-              .toLowerCase()
-              .includes(this.searchLabel.toLowerCase())
-          },
-        },
-        {
-          text: this.$t('table.dataRoute'),
-          value: 'routeId',
-          divider: true,
-          sort: this.sortNumber,
-          filter: (value, search, item) => {
-            if (this.filterOnlyRouteId) {
-              return (value + '')
-                .toLowerCase()
-                .includes(this.searchRoute.toLowerCase())
-            }
-            return (
-              value +
-              ' ' +
-              item.trip.routeShortName +
-              ' ' +
-              item.trip.routeLongName +
-              ''
-            )
-              .toLowerCase()
-              .includes(this.searchRoute.toLowerCase())
-          },
-        },
-        {
-          text: this.$t('table.dataHeadsign'),
-          value: 'trip.headsign',
-          divider: true,
-          filter: (value) => {
-            return (value + '')
-              .toLowerCase()
-              .includes(this.searchHeadsign.toLowerCase())
-          },
-        },
-        {
-          text: this.$t('table.dataTripId'),
-          value: 'tripId',
-          divider: true,
-          filter: (value) => {
-            return (value + '')
-              .toLowerCase()
-              .includes(this.searchTrip.toLowerCase())
-          },
-        },
-        {
-          text: this.$t('table.dataStartTime'),
-          value: 'startTime',
-          width: 105,
-          divider: true,
-        },
-        {
-          text: this.$t('table.actions'),
-          value: 'actions',
-          divider: true,
-          sortable: false,
-        },
-      ],
-      linksDialog: false,
-      searchLabel: '',
-      searchRoute: '',
-      searchHeadsign: '',
-      searchTrip: '',
-      searchAll: '',
-      filterOnlyRouteId: false,
-    }
+    grid: [
+      Reorder,
+      ColumnChooser,
+      Toolbar,
+      Resize,
+      Sort,
+      Filter,
+      InfiniteScroll,
+    ],
   },
   head() {
     return {
@@ -133,7 +153,7 @@ export default {
   },
   computed: {
     agencies() {
-      return this.$store.state.agencies.data
+      return Object.values(this.$store.state.agencies.data)
     },
     darkMode() {
       return this.$vuetify.theme.dark
@@ -151,6 +171,9 @@ export default {
     },
   },
   methods: {
+    autoFitColumns() {
+      this.$refs.grid.autoFitColumns()
+    },
     filterAllFields(value, search, item) {
       if (!search) return true
       return [
@@ -187,6 +210,11 @@ export default {
       if (a < b) return -1
       if (a > b) return 1
       return 0
+    },
+    cAgency(field, data) {
+      return this.agencies[data.agency]
+        ? this.agencies[data.agency].shortName
+        : null
     },
   },
 }
