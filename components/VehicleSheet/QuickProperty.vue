@@ -4,7 +4,7 @@
       :path="property.icon"
       class="!tw-h-6 !tw-w-6 tw-text-primary-40 dark:tw-text-primary-80"
     />
-    <p class="!tw-mb-0">{{ content }}</p>
+    <p class="!tw-mb-0">{{ content }} {{ property.suffix }}</p>
   </div>
 </template>
 

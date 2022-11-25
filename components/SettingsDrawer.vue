@@ -114,24 +114,10 @@
           <v-divider />
         </div>
         <h2 class="text-subtitle-1 font-weight-bold">
-          {{ $t('settings.mobileTable') }}
+          {{ $t('settings.table') }}
         </h2>
-        <p class="text-body-2 mb-2">{{ $t('settings.mobileTableDesc') }}</p>
-        <SettingsItemGroup
-          :value="settings.preferDesktopView"
-          @input="setSetting('preferDesktopView', $event)"
-        >
-          <SettingsItem :icon="mdiViewList" :value="false">
-            {{ $t('settings.mobileTableSimple') }}
-          </SettingsItem>
-          <SettingsItem
-            :icon="mdiTable"
-            :value="true"
-            :description="$t('settings.mobileTablePrefrerDesktopDesc')"
-          >
-            {{ $t('settings.mobileTablePrefrerDesktop') }}
-          </SettingsItem>
-        </SettingsItemGroup>
+        <p class="text-body-2 mb-2">{{ $t('settings.tableDesc') }}</p>
+        <SettingsTableColumns />
         <div class="my-3 mx-n3">
           <v-divider />
         </div>

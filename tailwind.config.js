@@ -9,7 +9,9 @@ module.exports = {
   content: [
     `components/tw/**/*.vue`,
     `components/VehicleSheet/**/*.vue`,
+    `components/settings/TableColumns.vue`,
     `pages/regions/_region/index.vue`,
+    `pages/regions/_region/table.vue`,
     `./nuxt.config.js`,
   ],
   theme: {

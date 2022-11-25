@@ -1,3 +1,5 @@
+import { set } from 'vue'
+
 export const state = () => ({
   activeAgencies: [],
   autoRefresh: false,
@@ -10,11 +12,156 @@ export const state = () => ({
   activateByod: false,
   preferDesktopView: true,
   pushSubscriptionUuid: null,
+  tableColumns: [
+    {
+      field: 'agency',
+      template: 'cAgency',
+      visible: true,
+      filtering: true,
+    },
+    {
+      field: 'ref',
+      visible: false,
+      filtering: true,
+    },
+    {
+      field: 'label',
+      visible: true,
+      filtering: true,
+    },
+    {
+      field: 'timestamp',
+      template: 'cTimestamp',
+      visible: false,
+      filtering: true,
+    },
+    {
+      field: 'tripId',
+      visible: true,
+      filtering: true,
+    },
+    {
+      field: 'trip.headsign',
+      visible: true,
+      filtering: true,
+    },
+    {
+      field: 'trip.shortName',
+      visible: false,
+      filtering: true,
+    },
+    {
+      field: 'startTime',
+      visible: true,
+      filtering: true,
+    },
+    {
+      field: 'routeId',
+      visible: true,
+      filtering: true,
+    },
+    {
+      field: 'trip.routeShortName',
+      template: 'cRoute',
+      visible: true,
+      filtering: true,
+    },
+    {
+      field: 'trip.serviceId',
+      visible: false,
+      filtering: true,
+    },
+    {
+      field: 'position.lat',
+      template: 'cPosition',
+      visible: false,
+      filtering: false,
+    },
+    {
+      field: 'bearing',
+      visible: false,
+      filtering: true,
+    },
+    {
+      field: 'speed',
+      visible: false,
+      filtering: true,
+    },
+    {
+      field: 'vehicleType',
+      visible: false,
+      filtering: true,
+    },
+    {
+      field: 'plate',
+      visible: false,
+      filtering: true,
+    },
+    {
+      field: 'odometer',
+      visible: false,
+      filtering: true,
+    },
+    {
+      field: 'currentStopSequence',
+      visible: false,
+      filtering: true,
+    },
+    {
+      field: 'currentStatus.label',
+      visible: false,
+      filtering: true,
+    },
+    {
+      field: 'scheduleRelationship.label',
+      visible: false,
+      filtering: true,
+    },
+    {
+      field: 'congestionLevel.label',
+      visible: false,
+      filtering: true,
+    },
+    {
+      field: 'occupancyStatus.label',
+      visible: false,
+      filtering: true,
+    },
+    {
+      field: 'createdAt',
+      visible: false,
+      filtering: true,
+    },
+    {
+      field: 'actions',
+      template: 'cActions',
+      visible: true,
+      filtering: false,
+    },
+  ],
 })
 
 export const mutations = {
   set(state, { setting, value }) {
     state[setting] = value
+  },
+  changeColumnOrder(state, { columnField, up }) {
+    const from = state.tableColumns.findIndex(
+      (column) => column.field === columnField
+    )
+    const to = up ? from - 1 : from + 1
+
+    // Delete the field from it's current position
+    const item = state.tableColumns.splice(from, 1)
+
+    // Move to it's new position
+    state.tableColumns.splice(to, 0, item[0])
+  },
+  changeVisibilityOfColumn(state, { columnField, visibility }) {
+    const index = state.tableColumns.findIndex(
+      (column) => column.field === columnField
+    )
+    set(state.tableColumns[index], 'visible', visibility)
   },
 }
 

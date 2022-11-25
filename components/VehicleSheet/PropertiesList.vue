@@ -52,18 +52,21 @@ export default {
           name: 'speed',
           icon: mdiSpeedometer,
           isQuick: true,
+          suffix: 'km/h',
         },
         {
           name: 'congestionLevel',
           content: 'data',
           icon: mdiTrafficLight,
           isQuick: true,
+          onlyProgress: true,
         },
         {
           name: 'occupancyStatus',
           content: 'data',
           icon: mdiSeatPassenger,
           isQuick: true,
+          onlyProgress: true,
         },
         {
           name: 'label',

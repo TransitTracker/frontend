@@ -65,6 +65,45 @@ export default {
     electric: 'Electric',
     mirrorCameras: 'Mirror cameras',
   },
+  properties: {
+    agency: 'Agency',
+    ref: 'Vehicle ID',
+    label: 'Vehicle number',
+    tags: 'Tags',
+    timestamp: 'Last seen',
+    tripId: 'Trip ID',
+    startTime: 'Trip Start Time',
+    routeId: 'Route ID',
+    bearing: 'Bearing (°)',
+    speed: 'Speed (km/h)',
+    vehicleType: 'Vehicle Type',
+    plate: 'License Plate',
+    odometer: 'Odometer',
+    currentStopSequence: 'Stop sequence',
+    createdAt: 'First seen',
+    actions: 'Actions',
+    trip: {
+      headsign: 'Trip Headsign',
+      shortName: 'Departure number',
+      routeShortName: 'Route name',
+      serviceId: 'Service ID',
+    },
+    position: {
+      lat: 'Position',
+    },
+    currentStatus: {
+      label: 'Status',
+    },
+    scheduleRelationship: {
+      label: 'Schedule Relationship',
+    },
+    congestionLevel: {
+      label: 'Congestion Level',
+    },
+    occupancyStatus: {
+      label: 'Occupancy Status',
+    },
+  },
   mapBottomSheet: {
     close: 'Close',
     vehicle: 'Vehicle',
@@ -218,11 +257,9 @@ export default {
     themeSystemDesc: 'According to your browser settings',
     defaultScreen: 'Default screen',
     noRedirect: 'Do not redirect',
-    mobileTable: 'Table page - mobile layout',
-    mobileTableDesc: 'Setting applicable only to small screens.',
-    mobileTableSimple: 'Simple view',
-    mobileTablePrefrerDesktop: 'Table view',
-    mobileTablePrefrerDesktopDesc: 'Like on a computer and older version',
+    table: 'Table page - columns',
+    tableDesc:
+      'You can customize the orders of the columns displayed in the app, and change their visibility.',
     // Padding
     language: 'Language',
   },
