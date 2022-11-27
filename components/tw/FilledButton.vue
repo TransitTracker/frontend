@@ -1,5 +1,6 @@
 <template>
-  <button
+  <component
+    :is="tag"
     class="tw-overflow-hiddenfull tw-group tw-relative tw-flex tw-h-10 tw-items-center tw-rounded-full tw-text-sm tw-font-medium tw-leading-5 focus:tw-outline-none"
     :class="[buttonClasses, withIcon ? 'tw-gap-2 tw-pl-4 tw-pr-6' : 'tw-px-6']"
     @click="$emit('click')"
@@ -9,7 +10,7 @@
       :class="[stateLayerClasses]"
     ></div>
     <slot />
-  </button>
+  </component>
 </template>
 
 <script>
@@ -24,6 +25,11 @@ export default {
       type: Boolean,
       required: false,
       default: false,
+    },
+    tag: {
+      type: String,
+      required: false,
+      default: 'button',
     },
   },
   computed: {
