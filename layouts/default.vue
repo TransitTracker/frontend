@@ -129,6 +129,7 @@
         </v-btn>
       </template>
     </v-snackbar>
+    <script async defer data-website-id="4007fee1-66a9-4b46-92e7-8fed4a802139" data-auto-track="false" data-domains="www.transittracker.ca,transittracker.ca" data-cache="true" src="https://stats.felixinx.me/umami.js"></script>
   </v-app>
 </template>
 
