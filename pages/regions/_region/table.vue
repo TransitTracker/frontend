@@ -1,16 +1,20 @@
 <template>
   <div>
+    <!-- :enable-infinite-scrolling="true" -->
     <ejs-grid
       ref="grid"
       :data-bound="autoFitColumns"
       :data-source="vehicles"
       :allow-filtering="true"
       :allow-sorting="true"
-      :enable-infinite-scrolling="true"
       :enable-sticky-header="true"
+      :enable-virtualization="true"
       :filter-settings="{ type: 'Excel' }"
       :loading-indicator="{ indicatorType: 'Shimmer' }"
       :toolbar-template="gHeader"
+      :locale="locale"
+      :page-settings="{ pageSize: 50 }"
+      height="100vh"
     >
       <e-columns>
         <e-column
@@ -27,69 +31,11 @@
           :template="column.template"
           :visible="column.visible"
           :allow-filtering="column.filtering"
+          :sort-comparer="column.field === 'routeId' ? sortNumber : false"
         ></e-column>
         <!-- TODO: Fix filter for Agency -->
         <!-- TODO: Add tags -->
-        <!-- <e-column
-          field="agency"
-          header-text="Agency"
-          :template="'cAgency'"
-        ></e-column>
-        <e-column field="ref" header-text="Ref"></e-column>
-        <e-column field="label" header-text="Label"></e-column>
-        <e-column
-          field="timestamp"
-          header-text="Last seen"
-          :template="'cTimestamp'"
-          :allow-filtering="false"
-        ></e-column>
-        <e-column field="tripId" header-text="Trip ID"></e-column>
-        <e-column field="trip.headsign" header-text="Trip Headsign"></e-column>
-        <e-column
-          field="trip.shortName"
-          header-text="Trip Short Name"
-        ></e-column>
-        <e-column field="trip.routeShortName" header-text="Route"></e-column>
-        <e-column field="trip.serviceId" header-text="Service ID"></e-column>
-        <e-column field="routeId" header-text="Route ID"></e-column>
-        <e-column
-          field="position.lat"
-          header-text="Position"
-          :template="'cPosition'"
-          :allow-filtering="false"
-        ></e-column>
-        <e-columnhidden/h)"
-          type="number"
-        ></e-column>
-        <e-column field="vehicleType" header-text="Vehicle Type"></e-column>
-        <e-column field="plate" header-text="License Plate"></e-column>
-        <e-column
-          field="odometer"
-          header-text="Odometer (km)"
-          type="number"
-        ></e-column>
-        <e-column
-          field="currentStopSequence"
-          header-text="Stop Sequence"
-        ></e-column>
-        <e-column field="currentStatus.label" header-text="Status"></e-column>
-        <e-column
-          field="scheduleRelationship.label"
-          header-text="Schedule Relationship"
-        ></e-column>
-        <e-column
-          field="congestionLevel.label"
-          header-text="Congestion Level"
-        ></e-column>
-        <e-column
-          field="occupancyStatus.label"
-          header-text="Occupancy Status"
-        ></e-column>
-        <e-column header-text="Actions" :template="'cActions'"></e-column> -->
-        <!-- tags? -->
-        <!-- view on map -->
-        <!-- view details -->
-        <!-- view links -->
+        <!-- TODO: View details -->
       </e-columns>
       <template #gHeader>
         <TwFilledButton>
@@ -144,7 +90,8 @@ import {
   Resize,
   Sort,
   Filter,
-  InfiniteScroll,
+  VirtualScroll,
+  /* InfiniteScroll, */
 } from '@syncfusion/ej2-vue-grids'
 import { registerLicense } from '@syncfusion/ej2-base'
 registerLicense(process.env.syncfusionKey)
@@ -159,7 +106,8 @@ export default {
       Resize,
       Sort,
       Filter,
-      InfiniteScroll,
+      VirtualScroll,
+      /* InfiniteScroll, */
     ],
   },
   data: () => ({
@@ -195,6 +143,9 @@ export default {
     },
     darkMode() {
       return this.$vuetify.theme.dark
+    },
+    locale() {
+      return this.$i18n.locale
     },
     region() {
       return this.$store.state.regions.data[this.$route.params.region] || {}
@@ -233,6 +184,17 @@ export default {
         default:
           break
       }
+    },
+    sortNumber(a, b) {
+      const cook = (c) => {
+        if (c === undefined || c === null) return -Infinity
+        return c.indexOf('.') ? parseFloat(c) : parseInt(c, 10)
+      }
+      a = typeof a === 'number' ? a : cook(a)
+      b = typeof b === 'number' ? b : cook(b)
+      if (a < b) return -1
+      if (a > b) return 1
+      return 0
     },
   },
 }
