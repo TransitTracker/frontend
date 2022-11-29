@@ -32,9 +32,6 @@
           <div class="ml-4 text-subtitle-1 font-weight-bold">
             {{ $t('notifications.title') }}
           </div>
-          <div class="ml-2 px-1 text-caption white primary-dark--text">
-            BETA
-          </div>
           <v-spacer />
           <v-icon dark>{{ mdiArrowRight }}</v-icon>
         </v-container>

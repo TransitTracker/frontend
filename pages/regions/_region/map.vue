@@ -9,17 +9,20 @@
       ref="mapPopup"
       class="tt-map__popup black--text text-subtitle-1 d-flex align-center mt-n1 mb-n2"
     >
-      <v-icon
-        v-if="selectedVehicle.bearing"
-        color="black"
-        size="20"
-        class="mr-1"
-        :style="{ transform: `rotate(${selectedVehicle.bearing}deg)` }"
-      >
+      <v-icon v-if="selectedVehicle.bearing" color="black" size="20">
+        class="mr-1" :style="{ transform:
+        `rotate(${selectedVehicle.bearing}deg)` }" >
         {{ mdiNavigation }}
       </v-icon>
       <span>{{ selectedVehicle.label || selectedVehicle.ref }}</span>
     </div>
+    <TwBasicDialog v-if="vehicleInactiveDialog" :is-open="true">
+      <template #header>Vehicle inactive</template>
+      <p>
+        This vehicle is not active at this time. Here is the latest information
+        we recorded about this vehicle:
+      </p>
+    </TwBasicDialog>
   </div>
 </template>
 
@@ -39,22 +42,26 @@ export default {
   name: 'PagesRegionMap',
   middleware: 'loadData',
   async asyncData({ $axios, params, query, store }) {
+    let vehicleInactiveDialog = {}
+    const handleDeepLink = (vehicleData) => {
+      // Handle deep links coming from notifications or other apps
+      if (vehicleData.isActive) {
+        store.commit('vehicles/setSelection', vehicleData)
+      } else {
+        vehicleInactiveDialog = vehicleData
+      }
+    }
+
     if (query.vehicle) {
       const { data } = await $axios.get(`/vehicles/${query.vehicle}`)
-
-      if (data.data.isActive) {
-        store.commit('vehicles/setSelection', data.data)
-      }
+      handleDeepLink(data.data)
     }
 
     if (query.ref && query.agency) {
       const { data } = await $axios.get(
         `/agencies/${query.agency}/vehicles/${query.ref}`
       )
-
-      if (data.data.isActive) {
-        store.commit('vehicles/setSelection', data.data)
-      }
+      handleDeepLink(data.data)
     }
 
     return {
@@ -65,6 +72,7 @@ export default {
       },
       mapAccessToken: process.env.mapboxAccessToken,
       mdiNavigation,
+      vehicleInactiveDialog,
     }
   },
   data: () => ({

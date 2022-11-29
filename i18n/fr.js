@@ -38,7 +38,6 @@ export default {
     welcome: 'Bienvenue dans ',
     version: 'Version',
     whatsNew: 'Quoi de neuf?',
-    exitBeta: 'Quitter la version bêta',
     download: 'Télécharger',
     downloadTitle: 'Télécharger les données',
     vehicleTotal: 'véhicules actifs',
@@ -320,13 +319,10 @@ export default {
       'Veillez attendre quelques minutes avant de réessayer à nouveau.',
     unavailable:
       'Les notifications ne sont pas disponibles dans votre navigateur.',
-    betaTitle: 'Fonctionnalité bêta',
-    betaBody:
-      'Cette fonctionnalité est encore en cours de développement. Testez-là et partagez-nous vos commentaires.',
     authorize: 'Autoriser',
     authorizeTitle: 'Autorisez les notifications dans votre navigateur',
     authorizeBody:
-      "Vous pourez ensuite choisir quel type de notifications vous souhaitez. Pour l'instant, vous pouvez vous abonnez à trois types de notifications : nouveaux véhicules, alertes générales et déploiement des New Flyer de la STM.",
+      "Vous pourez ensuite choisir quel type de notifications vous souhaitez. Pour l'instant, vous pouvez vous abonnez à deux types de notifications : nouveaux véhicules et alertes générales.",
     authorizeError: 'La demande a été refusée :',
     selectNotifications: 'Sélectionnez les notifications',
     newVehicles: 'Nouveaux véhicules',
@@ -337,9 +333,6 @@ export default {
     generalNews: 'Nouvelles générales',
     generalNewsDesc:
       "Recevez des notifications pour de l'information sur les mises à jour, nouveautés, perturbations et autres de Transit Tracker",
-    electricStm: 'STM - Déploiement des New Flyer',
-    electricStmDesc:
-      "Recevez une notification lorsqu'un des nouveaux New Flyer électriques commence une journée en service",
     chooseAgencies: 'Sélectionnez vos agences',
     selectAll: 'Tout sélectionner',
     newVehiclesWeek:

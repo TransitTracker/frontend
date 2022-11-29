@@ -38,7 +38,6 @@ export default {
     welcome: 'Welcome to ',
     version: 'Version',
     whatsNew: "What's new?",
-    exitBeta: 'Exit beta version',
     vehicleTotal: 'vehicles are active',
     download: 'Download',
     downloadTitle: 'Download data',
@@ -337,13 +336,10 @@ export default {
     // Padding
     unavailable: 'Notifications are not available in your browser.',
     // Padding
-    betaTitle: 'Beta functionality',
-    betaBody:
-      'This feature is still under development. Test it out and share your feedback with us.',
     authorize: 'Authorize',
     authorizeTitle: 'Allow notifications in your browser',
     authorizeBody:
-      "You can then choose what type of notifications you want. For now, you can subscribe to three types of notifications: new vehicles, general alerts and deployment of the STM's New Flyers.",
+      'You can then choose what type of notifications you want. For now, you can subscribe to two types of notifications: new vehicles and general alerts.',
     authorizeError: 'The request was refused:',
     selectNotifications: 'Select notifications',
     newVehicles: 'New vehicles',
@@ -354,9 +350,6 @@ export default {
     generalNews: 'General news',
     generalNewsDesc:
       'Receive notifications for information on Transit Tracker updates, news, disruptions and more',
-    electricStm: 'STM - Introduction of New Flyers',
-    electricStmDesc:
-      'Receive a notification when one of the new electric New Flyers starts a day in service',
     chooseAgencies: 'Select your agencies',
     selectAll: 'Select all',
     newVehiclesWeek:
