@@ -103,43 +103,6 @@ export default {
       label: 'Occupancy Status',
     },
   },
-  mapBottomSheet: {
-    close: 'Close',
-    vehicle: 'Vehicle',
-    seenAt: 'Seen at',
-    openLink: 'Open the link in a new tab',
-    properties: {
-      label: 'Vehicle ID',
-      plate: 'License plate',
-      tripId: 'Trip ID',
-      routeId: 'Route',
-      headsign: 'Headsign',
-      shortName: 'Departure number',
-      startTime: 'Start time',
-      currentStatus: 'Status',
-      currentStopSequence: 'Stop sequence',
-      bearing: 'Bearing',
-      speed: 'Speed',
-      odometer: 'Odometer',
-      scheduleRelationship: 'Schedule relationship',
-      congestionLevel: 'Congestion level',
-      occupancyStatus: 'Occupancy status',
-      createdAt: 'First seen',
-    },
-    help: {
-      label:
-        'This is the internal identifier assigned by the agency for this vehicle. Under normal circumstances, the label represents the number displayed to the public on the vehicle while the ID is not displayed.',
-      tripId:
-        'This is a unique identifier assigned for this trip. A single trip can be seen multiple times throughout the week, for example from Monday to Friday.',
-      scheduleRelationship:
-        'Typically, a trip is planned in advance. But sometimes, when ridership requires it or for other reasons, agencies have to add a trip in between. A vehicle may also have no timetable (a metro system for example) or be cancelled for various reasons.',
-      currentStatus:
-        'This is the status of the vehicle in relation to the stops. When a vehicle heads for a stop, it is "In transit to". When approaching, it becomes "incoming". Then at the stop, it is "Stopped at".',
-      currentStopSequence:
-        'This field represents the position of the vehicle in relation to the number of stops served by the trip. As the journey progresses and the vehicle approaches its final stop, this number increases.',
-    },
-    habs: 'This bus wears the colors of the Canadiens, during the playoffs.',
-  },
   table: {
     empty: 'No vehicles!',
     dataAgency: 'Agency',

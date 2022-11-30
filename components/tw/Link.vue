@@ -68,3 +68,14 @@ export default {
   },
 }
 </script>
+
+<i18n>
+  {
+    "en": {
+      "openLink": "Open the link (in a new tab)"
+    },
+    "fr": {
+      "openLink": "Ouvrir le lien (dans un nouvel onglet)"
+    }
+  }
+</i18n>

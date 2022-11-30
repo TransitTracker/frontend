@@ -74,14 +74,14 @@
     </details>
     <div class="-tw-mx-4 tw-h-px tw-border-t tw-bg-neutralVariant-80" />
     <h3 class="tw-text-neutral10 tw-text-sm tw-font-medium tw-leading-5">
-      {{ $t('vehicle') }}
-    </h3>
-    <VehicleSheetPropertiesList :vehicle="vehicle" group="vehicle" />
-    <div class="-tw-mx-4 tw-h-px tw-border-t tw-bg-neutralVariant-80" />
-    <h3 class="tw-text-neutral10 tw-text-sm tw-font-medium tw-leading-5">
       {{ $t('trip') }}
     </h3>
     <VehicleSheetPropertiesList :vehicle="vehicle" group="trip" />
+    <div class="-tw-mx-4 tw-h-px tw-border-t tw-bg-neutralVariant-80" />
+    <h3 class="tw-text-neutral10 tw-text-sm tw-font-medium tw-leading-5">
+      {{ $t('vehicle') }}
+    </h3>
+    <VehicleSheetPropertiesList :vehicle="vehicle" group="vehicle" />
   </aside>
 </template>
 
@@ -127,4 +127,4 @@ export default {
       "trip": "Voyage"
     }
   }
-  </i18n>
+</i18n>

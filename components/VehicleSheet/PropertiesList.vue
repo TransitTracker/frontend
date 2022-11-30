@@ -1,13 +1,13 @@
 <template>
   <dl>
-    <VehicleSheetQuickProperty
-      v-for="(property, index) in quickProperties"
+    <VehicleSheetProperty
+      v-for="(property, index) in properties"
       :key="index"
       :property="property"
       :vehicle="vehicle"
     />
-    <VehicleSheetProperty
-      v-for="(property, index) in properties"
+    <VehicleSheetQuickProperty
+      v-for="(property, index) in quickProperties"
       :key="index"
       :property="property"
       :vehicle="vehicle"
@@ -47,113 +47,104 @@ export default {
   },
   data: () => ({
     groups: {
-      vehicle: [
+      // TODO: add suffix
+      trip: [
         {
-          name: 'speed',
+          field: 'speed',
           icon: mdiSpeedometer,
           isQuick: true,
           suffix: 'km/h',
         },
         {
-          name: 'congestionLevel',
-          content: 'data',
+          field: 'congestionLevel.data',
           icon: mdiTrafficLight,
           isQuick: true,
           onlyProgress: true,
         },
         {
-          name: 'occupancyStatus',
-          content: 'data',
+          field: 'occupancyStatus.data',
           icon: mdiSeatPassenger,
           isQuick: true,
           onlyProgress: true,
         },
         {
-          name: 'label',
-          content: 'ref',
+          field: 'tripId',
           icon: mdiIdentifier,
-          help: 'label',
+          help: true,
         },
         {
-          name: 'plate',
-          icon: mdiFormatLetterStartsWith,
-        },
-        {
-          name: 'odometer',
-          icon: mdiCounter,
-        },
-        {
-          name: 'createdAt',
-          icon: mdiCalendarStart,
-          format: 'date',
-        },
-      ],
-      trip: [
-        {
-          name: 'tripId',
-          icon: mdiIdentifier,
-          help: 'tripId',
-        },
-        {
-          name: 'routeId',
+          field: 'routeId',
           icon: mdiMapMarkerPath,
           mobileOnly: true,
         },
         {
-          name: 'headsign',
+          field: 'headsign',
           parent: 'trip',
           icon: mdiSignDirection,
           mobileOnly: true,
         },
         {
-          name: 'shortName',
+          field: 'shortName',
           parent: 'trip',
           icon: mdiTicketConfirmation,
         },
         {
-          name: 'startTime',
+          field: 'startTime',
           icon: mdiBusClock,
         },
         {
-          name: 'label',
-          parent: 'scheduleRelationship',
-          label: 'scheduleRelationship',
+          field: 'scheduleRelationship.label',
           icon: mdiTimelinePlus,
-          help: 'scheduleRelationship',
+          help: true,
         },
         {
-          name: 'label',
-          parent: 'currentStatus',
-          label: 'currentStatus',
+          field: 'currentStatus.label',
           icon: mdiBusStop,
-          help: 'currentStatus',
-          showRaw: true,
+          help: true,
         },
         {
-          name: 'currentStopSequence',
+          field: 'currentStopSequence',
           icon: mdiTimetable,
-          help: 'currentStopSequence',
+          help: true,
         },
+        // TODO: show only on mobile
         {
-          name: 'speed',
+          field: 'speed',
           icon: mdiSpeedometer,
           mobileOnly: true,
         },
         {
-          name: 'label',
-          parent: 'occupancyStatus',
-          label: 'occupancyStatus',
+          field: 'occupancyStatus.label',
           icon: mdiSeatPassenger,
           showRaw: true,
           mobileOnly: true,
         },
         {
-          name: 'label',
-          parent: 'congestionLevel',
-          label: 'congestionLevel',
+          field: 'congestionLevel.label',
           icon: mdiTrafficLight,
           showRaw: true,
           mobileOnly: true,
+        },
+      ],
+      vehicle: [
+        {
+          field: 'ref',
+          icon: mdiIdentifier,
+          help: true,
+          condition: 'refDifferent',
+        },
+        {
+          field: 'plate',
+          icon: mdiFormatLetterStartsWith,
+        },
+        {
+          field: 'odometer',
+          icon: mdiCounter,
+        },
+        {
+          field: 'createdAt',
+          icon: mdiCalendarStart,
+          format: 'date',
         },
       ],
     },
