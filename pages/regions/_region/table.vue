@@ -8,12 +8,12 @@
       :allow-filtering="true"
       :allow-sorting="true"
       :enable-sticky-header="true"
-      :enable-virtualization="true"
       :filter-settings="{ type: 'Excel' }"
       :loading-indicator="{ indicatorType: 'Shimmer' }"
       :toolbar-template="gHeader"
       :locale="locale"
-      :page-settings="{ pageSize: 50 }"
+      :allow-paging="true"
+      :page-settings="{ pageSize: 100 }"
       height="100vh"
     >
       <e-columns>
@@ -90,8 +90,8 @@ import {
   Resize,
   Sort,
   Filter,
-  VirtualScroll,
-  /* InfiniteScroll, */
+  Page,
+  /* VirtualScroll, */
 } from '@syncfusion/ej2-vue-grids'
 import { registerLicense } from '@syncfusion/ej2-base'
 registerLicense(process.env.syncfusionKey)
@@ -106,8 +106,8 @@ export default {
       Resize,
       Sort,
       Filter,
-      VirtualScroll,
-      /* InfiniteScroll, */
+      Page,
+      /* VirtualScroll, */
     ],
   },
   data: () => ({

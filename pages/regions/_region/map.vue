@@ -5,6 +5,7 @@
       v-if="selectedVehicle.id"
       :vehicle="selectedVehicle"
     />
+    <VehicleSheetEmptyState v-else />
     <div
       ref="mapPopup"
       class="tt-map__popup black--text text-subtitle-1 d-flex align-center mt-n1 mb-n2"
@@ -16,7 +17,7 @@
       </v-icon>
       <span>{{ selectedVehicle.label || selectedVehicle.ref }}</span>
     </div>
-    <TwBasicDialog v-if="vehicleInactiveDialog" :is-open="true">
+    <TwBasicDialog v-if="vehicleInactiveDialog" v-model="vehicleInactiveDialog">
       <template #header>Vehicle inactive</template>
       <p>
         This vehicle is not active at this time. Here is the latest information

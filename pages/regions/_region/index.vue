@@ -97,7 +97,7 @@
       </div>
     </div>
     <div
-      class="md:tw-container md:tw-mx-auto md:tw-mt-8 md:tw-flex md:tw-items-start md:tw-justify-center md:tw-gap-x-4 md:tw-px-4"
+      class="md:tw-container md:tw-mx-auto md:tw-mt-8 md:tw-flex md:tw-items-start md:tw-justify-center md:tw-gap-4 md:tw-px-4"
     >
       <!--
       <div
@@ -112,7 +112,7 @@
       </div>
       -->
       <div
-        class="tw-p-4 tw-leading-6 tw-tracking-wide dark:tw-border-neutralVariant-60 md:tw-order-2 md:tw-basis-1/3 md:tw-rounded-xl md:tw-border md:tw-border-solid md:tw-border-neutralVariant-50"
+        class="tw-p-4 tw-leading-6 tw-tracking-wide dark:tw-border-neutralVariant-60 md:tw-order-2 md:tw-min-w-[18rem] md:tw-basis-1/3 md:tw-rounded-xl md:tw-border md:tw-border-solid md:tw-border-neutralVariant-50"
       >
         <h2 class="text-[2rem] tw-font-medium tw-leading-10 tw-tracking-normal">
           {{ $t('downloadTitle') }}
@@ -130,7 +130,7 @@
         </TwTextButton>
       </div>
       <details
-        class="tw-bg-neutralVariant-90 tw-p-4 tw-leading-6 tw-tracking-wide tw-text-neutralVariant-30 dark:tw-bg-neutralVariant-30 dark:tw-text-neutral-80 md:tw-order-1 md:tw-basis-1/3 md:tw-rounded-xl"
+        class="tw-bg-neutralVariant-90 tw-p-4 tw-leading-6 tw-tracking-wide tw-text-neutralVariant-30 dark:tw-bg-neutralVariant-30 dark:tw-text-neutral-80 md:tw-order-1 md:tw-min-w-[18rem] md:tw-basis-1/3 md:tw-rounded-xl"
         :open="creditsOpen"
       >
         <summary class="tw-list-none">
@@ -159,7 +159,7 @@
         </ul>
       </details>
       <div
-        class="tw-relative tw-bg-primary-90 tw-p-4 tw-leading-6 tw-tracking-wide tw-text-primary-10 dark:tw-bg-primary-30 dark:tw-text-primary-90 md:tw-order-3 md:tw-basis-1/3 md:tw-rounded-xl"
+        class="tw-relative tw-bg-primary-90 tw-p-4 tw-leading-6 tw-tracking-wide tw-text-primary-10 dark:tw-bg-primary-30 dark:tw-text-primary-90 md:tw-order-3 md:tw-min-w-[18rem] md:tw-basis-1/3 md:tw-rounded-xl"
       >
         <h2 class="text-[2rem] tw-font-medium tw-leading-10 tw-tracking-normal">
           {{ $t('photoTitle') }}
@@ -168,7 +168,7 @@
           {{ $t('photoBody') }}
         </p>
         <TwTextButton
-          class="-tw-ml-6 tw-text-primary-10 dark:tw-text-primary-95"
+          class="-tw-ml-4 tw-text-primary-10 dark:tw-text-primary-95"
           href="https://forms.google.com"
           tag="a"
         >
@@ -176,7 +176,7 @@
         </TwTextButton>
         <TwIcon
           :path="mdiCameraOutline"
-          class="tw-absolute tw-bottom-4 tw-right-4 tw-h-12 tw-w-12 tw-text-primary-40 dark:tw-text-primary-80"
+          class="tw-absolute tw-bottom-4 tw-right-4 !tw-h-8 !tw-w-8 tw-text-primary-40 dark:tw-text-primary-80 lg:tw-h-10 lg:tw-w-10 xl:tw-h-12 xl:tw-w-12"
         />
       </div>
     </div>
@@ -365,7 +365,7 @@ export default {
     "downloadBody": "Transit Tracker allows you to download either the data you see on the screen or an archive of all the data recorded by the server.",
     "openDownload": "Open download wizard",
     "photoTitle": "Photos are welcome!",
-    "photoBody": "Submit your photo representing public transit in your region! It could be displayed on Transit Tracker, at the top of your region.",
+    "photoBody": "Submit your photo representing public transit in your area! It could be posted on Transit Tracker, at the top of your region's page.",
     "photoLink": "Submit a photo",
     "brandSlogan": "Making real time transit data accessible",
     "forDevelopers": "For Developers",
@@ -387,6 +387,9 @@ export default {
     "downloadTitle": "Télécharger des données",
     "downloadBody": "Transit Tracker vous permet de télécharger soit les données que vous voyez à l'écran, soit une archive de toutes les données enregistrées par le serveur. ",
     "openDownload": "Ouvrir l'assistant de téléchargement",
+    "photoTitle": "Les photos sont les bienvenues !",
+    "photoBody": "Proposez votre photo représentant le transport en commun dans votre région! Elle pourrait être affiché sur Transit Tracker, au haut de la page de votre région.",
+    "photoLink": "Proposer une photo",
     "brandSlogan": "Rendre accessibles les données de transport en temps réel",
     "forDevelopers": "Pour les développeurs",
     "exoVin": "Projet exo VIN",

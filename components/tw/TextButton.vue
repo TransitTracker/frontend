@@ -1,7 +1,7 @@
 <template>
   <button
     class="tw-overflow-hiddenfull tw-group tw-relative tw-flex tw-h-10 tw-items-center tw-text-sm tw-font-medium tw-leading-5 focus:tw-outline-none"
-    :class="[buttonClasses, withIcon ? 'tw-gap-2 tw-pl-4 tw-pr-6' : 'tw-px-6']"
+    :class="[buttonClasses, withIcon ? 'tw-gap-2 tw-pl-3 tw-pr-4' : 'tw-px-3']"
     @click="$emit('click')"
   >
     <div

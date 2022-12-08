@@ -36,9 +36,7 @@
       </div>
       <p
         class="!tw-mb-0 tw-pt-1 tw-text-center"
-        :class="{
-          'tw-text-secondary-10 dark:tw-text-secondary-90': isActive,
-        }"
+        :class="[isActive && 'tw-text-secondary-10 dark:tw-text-secondary-90']"
       >
         <slot></slot>
       </p>

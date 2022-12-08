@@ -219,7 +219,7 @@ export default {
     themeSystemDesc: 'According to your browser settings',
     defaultScreen: 'Default screen',
     noRedirect: 'Do not redirect',
-    table: 'Table page - columns',
+    table: 'Table columns',
     tableDesc:
       'You can customize the orders of the columns displayed in the app, and change their visibility.',
     // Padding

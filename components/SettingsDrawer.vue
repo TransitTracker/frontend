@@ -110,11 +110,15 @@
         <div class="my-3 mx-n3">
           <v-divider />
         </div>
-        <h2 class="text-subtitle-1 font-weight-bold">
-          {{ $t('settings.table') }}
-        </h2>
-        <p class="text-body-2 mb-2">{{ $t('settings.tableDesc') }}</p>
-        <SettingsTableColumns />
+        <TwDetails>
+          <template #summary>
+            <h2 class="text-subtitle-1 font-weight-bold">
+              {{ $t('settings.table') }}
+            </h2>
+          </template>
+          <p class="text-body-2 mb-2">{{ $t('settings.tableDesc') }}</p>
+          <SettingsTableColumns />
+        </TwDetails>
         <div class="my-3 mx-n3">
           <v-divider />
         </div>

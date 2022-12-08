@@ -215,12 +215,9 @@ export default {
     themeSystemDesc: 'Selon les préférences de votre navigateur',
     defaultScreen: 'Écran par défaut',
     noRedirect: 'Ne pas rediriger',
-    mobileTable: 'Page liste - disposition sur mobile',
-    mobileTableDesc: 'Réglage applicable uniquement aux petits écrans.',
-    mobileTableSimple: 'Vue simplifiée',
-    mobileTablePrefrerDesktop: 'Vue en tableau',
-    mobileTablePrefrerDesktopDesc:
-      'Comme sur un ordinateur ou les anciennes versions',
+    table: 'Colonnes de la liste',
+    tableDesc:
+      "Vous pouvez personnaliser l'ordre des colonnes affichées dans l'application et modifier leur visibilité.",
     language: 'Langue',
   },
   alert: {

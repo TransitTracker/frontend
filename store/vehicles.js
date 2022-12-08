@@ -1,45 +1,9 @@
-import Vue from 'vue'
+import { set } from 'vue'
 
 export const state = () => ({
   data: {},
   features: {},
-  selection: {
-    id: 1542,
-    ref: '30173',
-    isActive: true,
-    label: '30-173',
-    timestamp: '1660696842',
-    tripId: '252395115',
-    routeId: '215',
-    startTime: '20:37:00',
-    position: { lat: 45.47266, lon: -73.81896 },
-    bearing: 54,
-    speed: 54,
-    vehicleType: 'bus',
-    plate: 'A12578',
-    odometer: '568630',
-    currentStopSequence: 6,
-    currentStatus: { data: 2, label: 'In transit to' },
-    scheduleRelationship: { data: 1, label: 'Added' },
-    congestionLevel: { data: 3, label: 'Congestion' },
-    occupancyStatus: { data: 1, label: 'Many seats available' },
-    agency: 'stm',
-    links: [1, 2, 3, 22],
-    tags: [2],
-    trip: {
-      id: '252395115',
-      headsign: '215-O',
-      shortName: '25',
-      routeColor: '#009EE0',
-      routeTextColor: '#ffffff',
-      routeShortName: '215',
-      routeLongName: 'Henri-Bourassa',
-      shapeLink: '/storage/shapes/stm/2150147.json',
-      serviceId: null,
-    },
-    createdAt: '2019-11-22 06:00:09',
-    meta: {},
-  },
+  selection: {},
 })
 
 export const getters = {
@@ -55,15 +19,15 @@ export const getters = {
 
 export const mutations = {
   set(state, { agency, vehicles, features }) {
-    Vue.set(state.data, agency.slug, vehicles)
-    Vue.set(state.features, agency.slug, features)
+    set(state.data, agency.slug, vehicles)
+    set(state.features, agency.slug, features)
   },
   setSelection(state, selection) {
     state.selection = selection
   },
   emptyData(state, agency) {
-    Vue.set(state.data, agency.slug, [])
-    Vue.set(state.features, agency.slug, [])
+    set(state.data, agency.slug, [])
+    set(state.features, agency.slug, [])
   },
 }
 
