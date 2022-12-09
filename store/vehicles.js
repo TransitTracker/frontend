@@ -4,6 +4,7 @@ export const state = () => ({
   data: {},
   features: {},
   selection: {},
+  warning: null,
 })
 
 export const getters = {
@@ -24,6 +25,10 @@ export const mutations = {
   },
   setSelection(state, selection) {
     state.selection = selection
+    state.warning = null
+  },
+  setWarning(state, warning) {
+    state.warning = warning
   },
   emptyData(state, agency) {
     set(state.data, agency.slug, [])

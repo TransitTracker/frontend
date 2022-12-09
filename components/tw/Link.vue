@@ -1,7 +1,7 @@
 <template>
   <a
     class="tw-flex tw-items-center tw-justify-between tw-gap-4 tw-rounded-lg tw-border tw-border-solid tw-border-neutralVariant-50 tw-px-4 tw-py-2 !tw-text-neutral-10 tw-no-underline dark:tw-border-neutralVariant-60 dark:!tw-text-neutral-90"
-    :title="$t('mapBottomSheet.openLink')"
+    :title="$t('openLink')"
     :href="generatedUrl"
     target="_blank"
     :class="[

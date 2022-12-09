@@ -1,10 +1,8 @@
 <template>
   <div class="tt-map-container">
     <div id="tt-map"></div>
-    <VehicleSheetLargeSheet
-      v-if="selectedVehicle.id"
-      :vehicle="selectedVehicle"
-    />
+    <VehicleSheetLarge v-if="selectedVehicle.id" :vehicle="selectedVehicle" />
+    <VehicleSheetSmall v-if="selectedVehicle.id" :vehicle="selectedVehicle" />
     <VehicleSheetEmptyState v-else />
     <div
       ref="mapPopup"
@@ -17,13 +15,6 @@
       </v-icon>
       <span>{{ selectedVehicle.label || selectedVehicle.ref }}</span>
     </div>
-    <TwBasicDialog v-if="vehicleInactiveDialog" v-model="vehicleInactiveDialog">
-      <template #header>Vehicle inactive</template>
-      <p>
-        This vehicle is not active at this time. Here is the latest information
-        we recorded about this vehicle:
-      </p>
-    </TwBasicDialog>
   </div>
 </template>
 
@@ -43,13 +34,16 @@ export default {
   name: 'PagesRegionMap',
   middleware: 'loadData',
   async asyncData({ $axios, params, query, store }) {
-    let vehicleInactiveDialog = {}
+    // Handle deep links coming from notifications or other apps
     const handleDeepLink = (vehicleData) => {
-      // Handle deep links coming from notifications or other apps
-      if (vehicleData.isActive) {
-        store.commit('vehicles/setSelection', vehicleData)
-      } else {
-        vehicleInactiveDialog = vehicleData
+      store.commit('vehicles/setSelection', vehicleData)
+
+      if (!vehicleData.isActive) {
+        store.commit('vehicles/setWarning', 'vehicleInactive')
+      }
+
+      if (!store.state.settings.activeAgencies.includes(vehicleData.agency)) {
+        store.commit('vehicles/setWarning', 'agencyInactive')
       }
     }
 
@@ -73,7 +67,6 @@ export default {
       },
       mapAccessToken: process.env.mapboxAccessToken,
       mdiNavigation,
-      vehicleInactiveDialog,
     }
   },
   data: () => ({
@@ -167,7 +160,6 @@ export default {
       pitchWithRotate: false,
       dragRotate: false,
       touchZoomRotate: false,
-      hash: true,
     })
     this.map.addControl(new mapboxgl.AttributionControl(), 'top-right')
     this.map.addControl(
@@ -405,10 +397,6 @@ export default {
   width: 100%;
 }
 
-.mapboxgl-ctrl-logo {
-  margin-bottom: 0.5rem !important;
-}
-
 .tt-map {
   &-container {
     position: relative;
@@ -416,6 +404,13 @@ export default {
 
   &__popup {
     display: none;
+  }
+}
+
+@media only screen and (max-width: 960px) {
+  .mapboxgl-ctrl-bottom-left,
+  .mapboxgl-ctrl-bottom-right {
+    margin-bottom: 4rem;
   }
 }
 

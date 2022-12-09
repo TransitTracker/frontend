@@ -1,9 +1,5 @@
 <template>
-  <div
-    v-if="content"
-    class="tw-flex tw-h-14 tw-items-center"
-    :class="[property.mobileOnly && 'md:tw-hidden']"
-  >
+  <div v-if="content" class="tw-flex tw-h-14 tw-items-center">
     <TwIcon
       :path="property.icon"
       class="tw-text-primary-40 dark:tw-text-primary-80"
@@ -15,7 +11,7 @@
         {{ $t(`properties.${property.field}`) }}
       </dt>
       <dd class="tw-mb-0 tw-leading-6">
-        {{ property.format ? format(content) : content }}
+        {{ property.format ? format(content) : content }} {{ property.suffix }}
       </dd>
     </div>
     <div class="flex-grow-1"></div>
@@ -67,6 +63,12 @@ export default {
 
       if (this.property.condition === 'refDifferent') {
         return this.vehicle.ref === this.vehicle.label
+          ? null
+          : this.vehicle[field]
+      }
+
+      if (this.property.condition === 'shortNameDifferent') {
+        return this.vehicle.routeId === this.vehicle.trip.routeShortName
           ? null
           : this.vehicle[field]
       }

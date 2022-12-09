@@ -30,6 +30,12 @@ export const state = () => ({
       filtering: true,
     },
     {
+      field: 'tags',
+      template: 'cTags',
+      visible: true,
+      filtering: false,
+    },
+    {
       field: 'timestamp',
       template: 'cTimestamp',
       visible: false,

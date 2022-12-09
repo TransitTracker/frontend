@@ -1,10 +1,9 @@
 <template>
   <aside
-    class="tw-absolute tw-top-4 tw-left-4 tw-hidden tw-min-h-[12rem] tw-w-96 tw-flex-col tw-space-y-4 tw-overflow-y-auto tw-rounded-xl tw-bg-neutral-99 tw-p-4 tw-text-center tw-text-neutral-10 dark:tw-bg-neutral-10 dark:tw-text-neutral-90 md:tw-flex md:tw-max-h-max md:tw-items-center"
+    class="tw-absolute tw-top-[calc(100vh-15.25rem)] tw-flex tw-min-h-[6rem] tw-w-full tw-items-center tw-gap-4 tw-overflow-y-auto tw-rounded-t-[1.75rem] tw-bg-neutral-99 tw-p-4 tw-text-left tw-text-neutral-10 dark:tw-bg-neutral-10 dark:tw-text-neutral-90 md:tw-top-4 md:tw-left-4 md:tw-max-h-max md:tw-min-h-[12rem] md:tw-w-96 md:tw-flex-col md:tw-rounded-xl md:tw-text-center"
   >
-    <h1 class="tw-text-[1.75rem] tw-leading-9" v-html="$t('title')"></h1>
     <svg
-      class="tw-h-32 tw-w-32"
+      class="tw-h-12 tw-w-12 md:tw-h-32 md:tw-w-32"
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -20,7 +19,13 @@
         class="tw-fill-current"
       />
     </svg>
-    <p class="tw-font-medium tw-leading-6">{{ $t('body') }}</p>
+    <h1
+      class="tw-font-medium tw-leading-6 md:tw-text-[1.75rem] md:tw-font-normal md:tw-leading-9"
+      v-html="$t('title')"
+    ></h1>
+    <p class="tw-hidden tw-font-medium tw-leading-6 md:tw-inline">
+      {{ $t('body') }}
+    </p>
   </aside>
 </template>
 

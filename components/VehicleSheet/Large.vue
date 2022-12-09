@@ -2,6 +2,12 @@
   <aside
     class="tt-large-sheet tw-absolute tw-top-4 tw-left-4 tw-hidden tw-w-96 tw-space-y-4 tw-overflow-y-auto tw-rounded-xl tw-bg-neutral-99 tw-p-4 tw-text-neutral-10 dark:tw-bg-neutral-10 dark:tw-text-neutral-90 md:tw-block md:tw-max-h-max"
   >
+    <div
+      v-if="warning"
+      class="tw-relative tw-rounded-md tw-bg-error-90 tw-px-2 tw-py-1 tw-text-error-10 dark:tw-bg-error-30 dark:tw-text-error-90"
+    >
+      {{ $t(warning) }}
+    </div>
     <div class="tw-flex tw-items-center tw-gap-x-6">
       <MapVehicleAvatar />
       <div>
@@ -103,6 +109,9 @@ export default {
     agency() {
       return this.$store.state.agencies.data[this.vehicle.agency]
     },
+    warning() {
+      return this.$store.state.vehicles.warning
+    },
   },
 }
 </script>
@@ -119,12 +128,16 @@ export default {
     "en": {
       "externalLinks": "External links",
       "vehicle": "Vehicle",
-      "trip": "Trip"
+      "trip": "Trip",
+      "agencyInactive": "You have not activated this agency. No problem, here is the information on this vehicle!",
+      "vehicleInactive": "This vehicle is not active at the moment, here is the last information recorded."
     },
     "fr": {
       "externalLinks": "Liens externes",
       "vehicle": "Véhicule",
-      "trip": "Voyage"
+      "trip": "Voyage",
+      "agencyInactive": "Vous n'avez pas activé cette agence. Pas de problème, voici les informations sur ce véhicule!",
+      "vehicleInactive": "Ce véhicule n'est pas actif en ce moment, voici les dernières informations enregistrés."
     }
   }
 </i18n>

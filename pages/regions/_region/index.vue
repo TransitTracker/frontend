@@ -77,7 +77,7 @@
       </ul>
       <div
         v-else
-        class="tw-relative -tw-mx-4 tw-mt-4 tw-space-y-4 tw-bg-primary-90 tw-p-4 tw-text-center tw-text-primary-10 dark:tw-bg-primary-30 dark:tw-text-primary-90 md:tw-mx-0 md:tw-rounded-xl md:tw-text-left"
+        class="tw-relative -tw-mx-4 tw-mt-4 tw-space-y-4 tw-bg-secondary-90 tw-p-4 tw-text-center tw-text-secondary-10 dark:tw-bg-secondary-30 dark:tw-text-secondary-90 md:tw-mx-0 md:tw-rounded-xl md:tw-text-left"
       >
         <!-- TODO come back icon! -->
         <!-- <TwIcon
@@ -90,14 +90,18 @@
         <p class="tw-mb-0 tw-leading-6 tw-tracking-wide">
           {{ $tc('emptyDescription', region.agencies.length) }}
         </p>
-        <TwFilledButton with-icon class="tw-mx-auto md:tw-mx-0">
+        <TwFilledButton
+          with-icon
+          class="tw-mx-auto md:tw-mx-0"
+          color="secondary"
+        >
           <TwIcon :path="mdiPlus" />
           {{ $t('addAllAgencies') }}
         </TwFilledButton>
       </div>
     </div>
     <div
-      class="md:tw-container md:tw-mx-auto md:tw-mt-8 md:tw-flex md:tw-items-start md:tw-justify-center md:tw-gap-4 md:tw-px-4"
+      class="md:tw-container md:tw-mx-auto md:tw-mt-8 md:tw-grid md:tw-grid-cols-2 md:tw-flex-wrap md:tw-items-start md:tw-gap-4 md:tw-px-4 lg:tw-flex lg:tw-flex-nowrap lg:tw-justify-center"
     >
       <!--
       <div
@@ -111,26 +115,8 @@
         </p>
       </div>
       -->
-      <div
-        class="tw-p-4 tw-leading-6 tw-tracking-wide dark:tw-border-neutralVariant-60 md:tw-order-2 md:tw-min-w-[18rem] md:tw-basis-1/3 md:tw-rounded-xl md:tw-border md:tw-border-solid md:tw-border-neutralVariant-50"
-      >
-        <h2 class="text-[2rem] tw-font-medium tw-leading-10 tw-tracking-normal">
-          {{ $t('downloadTitle') }}
-        </h2>
-        <p class="tw-mt-4">
-          {{ $t('downloadBody') }}
-        </p>
-        <TwTextButton
-          with-icon
-          class="-tw-ml-4"
-          @click="open('DownloadAssistant')"
-        >
-          <TwIcon :path="mdiDownload" />
-          {{ $t('openDownload') }}
-        </TwTextButton>
-      </div>
       <details
-        class="tw-bg-neutralVariant-90 tw-p-4 tw-leading-6 tw-tracking-wide tw-text-neutralVariant-30 dark:tw-bg-neutralVariant-30 dark:tw-text-neutral-80 md:tw-order-1 md:tw-min-w-[18rem] md:tw-basis-1/3 md:tw-rounded-xl"
+        class="tw-bg-neutralVariant-90 tw-p-4 tw-leading-6 tw-tracking-wide tw-text-neutralVariant-30 dark:tw-bg-neutralVariant-30 dark:tw-text-neutral-80 md:tw-order-3 md:tw-col-span-full md:tw-min-w-[18rem] md:tw-basis-1/3 md:tw-rounded-xl"
         :open="creditsOpen"
       >
         <summary class="tw-list-none">
@@ -159,7 +145,25 @@
         </ul>
       </details>
       <div
-        class="tw-relative tw-bg-primary-90 tw-p-4 tw-leading-6 tw-tracking-wide tw-text-primary-10 dark:tw-bg-primary-30 dark:tw-text-primary-90 md:tw-order-3 md:tw-min-w-[18rem] md:tw-basis-1/3 md:tw-rounded-xl"
+        class="tw-p-4 tw-leading-6 tw-tracking-wide dark:tw-border-neutralVariant-60 md:tw-order-2 md:tw-min-w-[18rem] md:tw-basis-1/3 md:tw-rounded-xl md:tw-border md:tw-border-solid md:tw-border-neutralVariant-50"
+      >
+        <h2 class="text-[2rem] tw-font-medium tw-leading-10 tw-tracking-normal">
+          {{ $t('downloadTitle') }}
+        </h2>
+        <p class="tw-mt-4">
+          {{ $t('downloadBody') }}
+        </p>
+        <TwTextButton
+          with-icon
+          class="-tw-ml-4"
+          @click="open('DownloadAssistant')"
+        >
+          <TwIcon :path="mdiDownload" />
+          {{ $t('openDownload') }}
+        </TwTextButton>
+      </div>
+      <div
+        class="tw-relative tw-bg-primary-90 tw-p-4 tw-leading-6 tw-tracking-wide tw-text-primary-10 dark:tw-bg-primary-30 dark:tw-text-primary-90 md:tw-order-1 md:tw-min-w-[18rem] md:tw-basis-1/3 md:tw-rounded-xl"
       >
         <h2 class="text-[2rem] tw-font-medium tw-leading-10 tw-tracking-normal">
           {{ $t('photoTitle') }}
@@ -168,7 +172,7 @@
           {{ $t('photoBody') }}
         </p>
         <TwTextButton
-          class="-tw-ml-4 tw-text-primary-10 dark:tw-text-primary-95"
+          class="-tw-ml-3 tw-text-primary-10 dark:tw-text-primary-95"
           href="https://forms.google.com"
           tag="a"
         >
@@ -187,7 +191,7 @@
       <b class="tw-font-medium tw-text-primary-20 dark:tw-text-primary-90">
         Transit&nbsp;Tracker
       </b>
-      <span> {{ $t('brandSlogan') }} </span>
+      <span> &bull; {{ $t('brandSlogan') }} </span>
       <div class="tw-grow"></div>
       <a
         href="https://api.transittracker.ca"
@@ -391,7 +395,7 @@ export default {
     "photoBody": "Proposez votre photo représentant le transport en commun dans votre région! Elle pourrait être affiché sur Transit Tracker, au haut de la page de votre région.",
     "photoLink": "Proposer une photo",
     "brandSlogan": "Rendre accessibles les données de transport en temps réel",
-    "forDevelopers": "Pour les développeurs",
+    "forDevelopers": "Site pour les développeurs",
     "exoVin": "Projet exo VIN",
     "github": "Sur GitHub"
   }

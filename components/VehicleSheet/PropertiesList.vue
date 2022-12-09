@@ -6,12 +6,6 @@
       :property="property"
       :vehicle="vehicle"
     />
-    <VehicleSheetQuickProperty
-      v-for="(property, index) in quickProperties"
-      :key="index"
-      :property="property"
-      :vehicle="vehicle"
-    />
   </dl>
 </template>
 
@@ -52,20 +46,15 @@ export default {
         {
           field: 'speed',
           icon: mdiSpeedometer,
-          isQuick: true,
           suffix: 'km/h',
         },
         {
-          field: 'congestionLevel.data',
+          field: 'congestionLevel.label',
           icon: mdiTrafficLight,
-          isQuick: true,
-          onlyProgress: true,
         },
         {
-          field: 'occupancyStatus.data',
+          field: 'occupancyStatus.label',
           icon: mdiSeatPassenger,
-          isQuick: true,
-          onlyProgress: true,
         },
         {
           field: 'tripId',
@@ -75,13 +64,12 @@ export default {
         {
           field: 'routeId',
           icon: mdiMapMarkerPath,
-          mobileOnly: true,
+          condition: 'shortNameDifferent',
         },
         {
           field: 'headsign',
           parent: 'trip',
           icon: mdiSignDirection,
-          mobileOnly: true,
         },
         {
           field: 'shortName',
@@ -106,24 +94,6 @@ export default {
           field: 'currentStopSequence',
           icon: mdiTimetable,
           help: true,
-        },
-        // TODO: show only on mobile
-        {
-          field: 'speed',
-          icon: mdiSpeedometer,
-          mobileOnly: true,
-        },
-        {
-          field: 'occupancyStatus.label',
-          icon: mdiSeatPassenger,
-          showRaw: true,
-          mobileOnly: true,
-        },
-        {
-          field: 'congestionLevel.label',
-          icon: mdiTrafficLight,
-          showRaw: true,
-          mobileOnly: true,
         },
       ],
       vehicle: [

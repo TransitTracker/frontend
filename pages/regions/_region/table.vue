@@ -10,7 +10,6 @@
       :enable-sticky-header="true"
       :filter-settings="{ type: 'Excel' }"
       :loading-indicator="{ indicatorType: 'Shimmer' }"
-      :toolbar-template="gHeader"
       :locale="locale"
       :allow-paging="true"
       :page-settings="{ pageSize: 100 }"
@@ -34,25 +33,20 @@
           :sort-comparer="column.field === 'routeId' ? sortNumber : false"
         ></e-column>
         <!-- TODO: Fix filter for Agency -->
-        <!-- TODO: Add tags -->
         <!-- TODO: View details -->
       </e-columns>
-      <template #gHeader>
-        <TwFilledButton>
-          <TwIcon :path="mdiAjust" />
-          Add, remove and move columns
-        </TwFilledButton>
-      </template>
 
       <template #cAgency="{ data }">
         {{ agencies[data.agency].shortName }}
       </template>
-      <!-- <template #cTags="{ data }">
+      <template #cTags="{ data }">
         <div>
-          <TwTag v-for="tag in data.tags" :key="tag" :tag-id="tag" />
-          {{ data.tags }}
+          <span :key="tag.id" v-for="(tag, index) in data.tags">
+            {{ tags[tag]?.label }}
+            <span v-if="index + 1 < data.tags.length"> &bull; </span>
+          </span>
         </div>
-      </template> -->
+      </template>
       <template #cTimestamp="{ data }">
         <TwTimeAgo v-if="data.timestamp" :timestamp="+data.timestamp" />
       </template>
@@ -132,6 +126,36 @@ export default {
           content: 'noindex',
         },
       ],
+      link: [
+        {
+          rel: 'stylesheet',
+          href: `/ej2/ej2-base/styles/${this.cssPath}`,
+        },
+        {
+          rel: 'stylesheet',
+          href: `/ej2/ej2-buttons/styles/${this.cssPath}`,
+        },
+        {
+          rel: 'stylesheet',
+          href: `/ej2/ej2-inputs/styles/${this.cssPath}`,
+        },
+        {
+          rel: 'stylesheet',
+          href: `/ej2/ej2-navigations/styles/${this.cssPath}`,
+        },
+        {
+          rel: 'stylesheet',
+          href: `/ej2/ej2-notifications/styles/${this.cssPath}`,
+        },
+        {
+          rel: 'stylesheet',
+          href: `/ej2/ej2-popups/styles/${this.cssPath}`,
+        },
+        {
+          rel: 'stylesheet',
+          href: `/ej2/ej2-vue-grids/styles/${this.cssPath}`,
+        },
+      ],
     }
   },
   computed: {
@@ -141,14 +165,17 @@ export default {
     columns() {
       return this.$store.state.settings.tableColumns
     },
-    darkMode() {
-      return this.$vuetify.theme.dark
+    cssPath() {
+      return this.$vuetify.theme.dark ? 'material-dark.css' : 'material.css'
     },
     locale() {
       return this.$i18n.locale
     },
     region() {
       return this.$store.state.regions.data[this.$route.params.region] || {}
+    },
+    tags() {
+      return this.$store.state.tags.data ?? { label: null }
     },
     vehicles() {
       let vehicles = []
@@ -199,16 +226,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss">
-@import '@/node_modules/@syncfusion/ej2-base/styles/material.css';
-@import '@/node_modules/@syncfusion/ej2-buttons/styles/material.css';
-@import '@/node_modules/@syncfusion/ej2-inputs/styles/material.css';
-@import '@/node_modules/@syncfusion/ej2-navigations/styles/material.css';
-@import '@/node_modules/@syncfusion/ej2-popups/styles/material.css';
-@import '@/node_modules/@syncfusion/ej2-vue-grids/styles/material.css';
-
-[class~='theme--dark'] {
-  $primary: #ff80ab;
-}
-</style>
