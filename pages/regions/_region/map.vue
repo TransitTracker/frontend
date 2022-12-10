@@ -1,8 +1,7 @@
 <template>
   <div class="tt-map-container">
     <div id="tt-map"></div>
-    <VehicleSheetLarge v-if="selectedVehicle.id" :vehicle="selectedVehicle" />
-    <VehicleSheetSmall v-if="selectedVehicle.id" :vehicle="selectedVehicle" />
+    <VehicleSheet v-if="selectedVehicle.id" :vehicle="selectedVehicle" />
     <VehicleSheetEmptyState v-else />
     <div
       ref="mapPopup"
@@ -407,14 +406,14 @@ export default {
   }
 }
 
-@media only screen and (max-width: 960px) {
+@media only screen and (max-width: 768px) {
   .mapboxgl-ctrl-bottom-left,
   .mapboxgl-ctrl-bottom-right {
     margin-bottom: 4rem;
   }
 }
 
-@media only screen and (max-width: 960px) {
+@media (max-width: 768px) {
   #tt-map {
     height: calc(100vh - 56px - 80px - 56px + 12px);
   }

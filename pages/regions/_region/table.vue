@@ -87,7 +87,7 @@ import {
   Page,
   /* VirtualScroll, */
 } from '@syncfusion/ej2-vue-grids'
-import { registerLicense } from '@syncfusion/ej2-base'
+import { registerLicense, setCulture } from '@syncfusion/ej2-base'
 registerLicense(process.env.syncfusionKey)
 Vue.use(GridPlugin)
 
@@ -185,6 +185,9 @@ export default {
       })
       return vehicles
     },
+  },
+  mounted() {
+    setCulture(this.locale === 'en' ? 'en-US' : 'fr-FR')
   },
   methods: {
     autoFitColumns() {

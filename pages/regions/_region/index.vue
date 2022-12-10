@@ -94,6 +94,7 @@
           with-icon
           class="tw-mx-auto md:tw-mx-0"
           color="secondary"
+          @click="addAll"
         >
           <TwIcon :path="mdiPlus" />
           {{ $t('addAllAgencies') }}
@@ -173,8 +174,9 @@
         </p>
         <TwTextButton
           class="-tw-ml-3 tw-text-primary-10 dark:tw-text-primary-95"
-          href="https://forms.google.com"
+          href="https://docs.google.com/forms/d/e/1FAIpQLSecgmVPlQUGiAT4dXu4yv6i0UKtSpJfEFw_98lvoT-hqnVbSQ/viewform?usp=sf_link"
           tag="a"
+          target="_blank"
         >
           {{ $t('photoLink') }}
         </TwTextButton>
@@ -316,6 +318,9 @@ export default {
         }
       )
     },
+    availableAgencies() {
+      return this.$store.state.agencies.data
+    },
     darkMode() {
       return this.$vuetify.theme.dark
     },
@@ -344,6 +349,16 @@ export default {
     },
   },
   methods: {
+    addAll() {
+      Object.keys(this.availableAgencies)
+        .filter((slug) => !this.activeAgencies.includes(slug))
+        .forEach((slug) => {
+          this.$store.dispatch(
+            'settings/toggleAgency',
+            this.availableAgencies[slug]
+          )
+        })
+    },
     open(setting) {
       this.$store.commit('app/set', { key: 'open' + setting, value: true })
     },

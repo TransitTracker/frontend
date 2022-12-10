@@ -7,11 +7,19 @@
     >
       <TwStandardIconButton
         @click="toggleVisiblity(column.field, !column.visible)"
-        :color="column.visible ? 'primary' : null"
+        :color="column.visible && 'primary'"
       >
         <TwIcon :path="column.visible ? mdiEyeOutline : mdiEyeOffOutline" />
       </TwStandardIconButton>
-      <span>{{ $t(`properties.${column.field}`) }}</span>
+      <span
+        :class="[
+          column.visible
+            ? 'tw-font-medium'
+            : 'tw-text-neutralVariant-30 dark:tw-text-neutral-80',
+        ]"
+      >
+        {{ $t(`properties.${column.field}`) }}
+      </span>
       <div class="tw-grow"></div>
       <TwStandardIconButton
         @click="changeOrder(column.field, true)"

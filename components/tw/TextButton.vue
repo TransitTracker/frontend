@@ -1,7 +1,12 @@
 <template>
-  <button
+  <component
+    :is="tag"
     class="tw-overflow-hiddenfull tw-group tw-relative tw-flex tw-h-10 tw-items-center tw-text-sm tw-font-medium tw-leading-5 focus:tw-outline-none"
-    :class="[buttonClasses, withIcon ? 'tw-gap-2 tw-pl-3 tw-pr-4' : 'tw-px-3']"
+    :class="[
+      buttonClasses,
+      withIcon ? 'tw-gap-2 tw-pl-3 tw-pr-4' : 'tw-px-3',
+      tag === 'a' && '!tw-inline-flex tw-no-underline',
+    ]"
     @click="$emit('click')"
   >
     <div
@@ -9,7 +14,7 @@
       :class="[stateLayerClasses]"
     ></div>
     <slot />
-  </button>
+  </component>
 </template>
 
 <script>
@@ -24,6 +29,11 @@ export default {
       type: Boolean,
       required: false,
       default: false,
+    },
+    tag: {
+      type: String,
+      required: false,
+      default: 'button',
     },
   },
   computed: {
