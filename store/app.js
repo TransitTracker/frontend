@@ -9,6 +9,8 @@ export const state = () => ({
   openRegionSwitcher: false,
   openSettingsDrawer: false,
   openDownloadAssistant: false,
+  updatePending: false,
+  notificationsCentre: false,
 })
 
 export const mutations = {
@@ -75,10 +77,5 @@ export const actions = {
 
       commit('set', { key: 'installPrompt', value: null })
     })
-  },
-  installUpdate({ commit }) {
-    commit('set', { key: 'updateAvailable', value: false })
-
-    window.location.reload()
   },
 }

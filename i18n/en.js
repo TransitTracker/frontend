@@ -202,6 +202,8 @@ export default {
       success: 'Success!',
       error: 'Error while installing',
       updateAvailable: 'An update is available',
+      updatePending:
+        'The update is being installed! When ready, the page will refresh.',
       installUpdate: 'Refresh to update now',
     },
     agenciesTitle: 'Agencies',

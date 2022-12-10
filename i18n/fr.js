@@ -198,6 +198,8 @@ export default {
       success: 'Succès!',
       error: "Erreur lors de l'installation",
       updateAvailable: 'Une mise à jour est disponible',
+      updatePending:
+        "La mise à jour est en cours d'installation! Lorsque prête, la page rafraîchira.",
       installUpdate: 'Rafraîchir maintenant',
     },
     agenciesTitle: 'Agences',

@@ -24,20 +24,28 @@
       :timeout="-1"
     >
       <span :class="[settingsDarkMode && 'black--text']">
-        {{ $t('settings.pwa.updateAvailable') }}
+        {{
+          $t(
+            `settings.pwa.${
+              updatePending ? 'updatePending' : 'updateAvailable'
+            }`
+          )
+        }}
       </span>
       <template #action>
         <v-btn
+          v-if="!updatePending"
           small
           depressed
           block
           :color="settingsDarkMode ? null : 'primary'"
-          @click="$store.dispatch('app/installUpdate')"
+          @click="installUpdate"
         >
           {{ $t('settings.pwa.installUpdate') }}
         </v-btn>
       </template>
     </v-snackbar>
+    <script async defer data-website-id="4007fee1-66a9-4b46-92e7-8fed4a802139" data-domains="www.transittracker.ca,transittracker.ca" data-cache="true" src="https://stats.felixinx.me/umami.js"></script>
   </v-app>
 </template>
 
@@ -63,6 +71,7 @@ export default {
     mdiMenuDown,
     mdiTable,
     mdiViewGrid,
+    workbox: null,
   }),
   head() {
     return this.$nuxtI18nHead({ addSeoAttributes: true })
@@ -141,6 +150,9 @@ export default {
         this.$store.commit('app/set', { key: 'openDownloadAssistant', value })
       },
     },
+    updatePending() {
+      return this.$store.state.app.updatePending
+    },
   },
   mounted() {
     this.checkForOldSettings()
@@ -153,7 +165,7 @@ export default {
     // Set language only if defined
     if (this.settingsLang) this.$i18n.setLocale(this.settingsLang)
 
-    this.handleWorkboxEvents()
+    //this.handleWorkboxEvents()
 
     // Install prompt
     window.addEventListener('beforeinstallprompt', (event) => {
@@ -222,22 +234,35 @@ export default {
     },
     async handleWorkboxEvents() {
       // Workbox update
-      const workbox = await window.$workbox
+      this.workbox = await window.$workbox
 
-      if (!workbox) {
+      if (!this.workbox) {
         return
       }
 
-      workbox.addEventListener('installed', (event) => {
-        if (!event.isUpdate) {
-          return
-        }
+      // Occurs when the user accepts the update and the new SW is ready to take control
+      this.workbox.addEventListener('controlling', () => {
+        console.log('WB Controlling')
+        window.location.reload()
+      })
 
+      // The new SW is installing but is waiting for activation
+      this.workbox.addEventListener('waiting', (event) => {
+        console.log('WB Waiting')
         this.$store.commit('app/set', {
           key: 'updateAvailable',
           value: true,
         })
       })
+    },
+    installUpdate() {
+      console.log('WB skip waiting')
+      this.$store.commit('app/set', {
+        key: 'updatePending',
+        value: true,
+      })
+
+      this.workbox.messageSkipWaiting()
     },
     async verifyNotificationSubscriptionStatus() {
       try {
