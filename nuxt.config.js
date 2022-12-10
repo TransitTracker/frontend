@@ -20,7 +20,7 @@ export default {
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
-  css: ['@/assets/main.scss'],
+  css: ['@/assets/main.scss', '@/assets/css/tailwind.css'],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
@@ -39,6 +39,7 @@ export default {
     '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
+    '@nuxt/postcss8',
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
@@ -69,6 +70,7 @@ export default {
       onlyOnRoot: true,
       useCookie: false,
     },
+    vueI18nLoader: true,
   },
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
@@ -82,7 +84,14 @@ export default {
   },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
-  build: {},
+  build: {
+    postcss: {
+      plugins: {
+        tailwindcss: {},
+        autoprefixer: {},
+      },
+    },
+  },
 
   generate: {
     fallback: true,
@@ -125,6 +134,7 @@ export default {
     imageKit: process.env.IMAGE_KIT,
     commitHash: process.env.COMMIT_REF,
     vapidKey: process.env.VAPID_KEY,
+    syncfusionKey: process.env.SYNCFUSION_KEY,
   },
 
   pwa: {
@@ -145,7 +155,6 @@ export default {
       twitterCard: 'summary_large_image',
     },
     workbox: {
-      enabled: true,
       importScripts: ['sw-push.js'],
     },
   },

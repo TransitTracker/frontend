@@ -32,9 +32,6 @@
           <div class="ml-4 text-subtitle-1 font-weight-bold">
             {{ $t('notifications.title') }}
           </div>
-          <div class="ml-2 px-1 text-caption white primary-dark--text">
-            BETA
-          </div>
           <v-spacer />
           <v-icon dark>{{ mdiArrowRight }}</v-icon>
         </v-container>
@@ -113,25 +110,15 @@
         <div class="my-3 mx-n3">
           <v-divider />
         </div>
-        <h2 class="text-subtitle-1 font-weight-bold">
-          {{ $t('settings.mobileTable') }}
-        </h2>
-        <p class="text-body-2 mb-2">{{ $t('settings.mobileTableDesc') }}</p>
-        <SettingsItemGroup
-          :value="settings.preferDesktopView"
-          @input="setSetting('preferDesktopView', $event)"
-        >
-          <SettingsItem :icon="mdiViewList" :value="false">
-            {{ $t('settings.mobileTableSimple') }}
-          </SettingsItem>
-          <SettingsItem
-            :icon="mdiTable"
-            :value="true"
-            :description="$t('settings.mobileTablePrefrerDesktopDesc')"
-          >
-            {{ $t('settings.mobileTablePrefrerDesktop') }}
-          </SettingsItem>
-        </SettingsItemGroup>
+        <TwDetails>
+          <template #summary>
+            <h2 class="text-subtitle-1 font-weight-bold">
+              {{ $t('settings.table') }}
+            </h2>
+          </template>
+          <p class="text-body-2 mb-2">{{ $t('settings.tableDesc') }}</p>
+          <SettingsTableColumns />
+        </TwDetails>
         <div class="my-3 mx-n3">
           <v-divider />
         </div>
@@ -230,7 +217,10 @@ export default {
   },
   methods: {
     openNotificationsCentre() {
-      this.$store.commit('app/set', { key: 'notificationsCentre', value: true })
+      this.$store.commit('app/set', {
+        key: 'openNotificationsCentre',
+        value: true,
+      })
     },
     setSetting(setting, value) {
       if (setting === 'theme') {
@@ -254,6 +244,8 @@ export default {
 
 <style lang="scss">
 .tt-settings {
+  z-index: 11;
+
   .v-expansion-panel-content__wrap {
     padding: 0 !important;
   }

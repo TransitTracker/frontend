@@ -63,7 +63,7 @@
     </div>
     <div
       class="tt-landing-content flex-shrink-0 flex-grow-1 d-flex flex-column justify-md-center px-8 pt-8 pt-md-0 mb-md-0 pb-4 pb-md-0"
-      :class="[dataIsLoaded && 'mb-md-14']"
+      :class="[dataIsLoaded && '']"
     >
       <!-- eslint-disable vue/no-v-html -->
       <h1
@@ -75,9 +75,9 @@
         {{ $t('landing.intro') }} <br />
         <span class="font-weight-medium tt-landing-content__cities">
           <span class="tt-landing-content__cities__line"></span>
-          <span ref="letters" class="tt-landing-content__cities__letters"
-            >Montréal</span
-          >
+          <span ref="letters" class="tt-landing-content__cities__letters">
+            Montréal
+          </span>
         </span>
       </h2>
       <h2 class="text-subtitle-2 text-md-subtitle-1">
@@ -480,10 +480,6 @@ export default {
         }
       }
     }
-  }
-
-  &__short {
-    height: calc(100% - 56px);
   }
 }
 

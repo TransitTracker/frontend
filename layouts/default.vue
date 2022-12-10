@@ -1,103 +1,19 @@
 <template>
   <v-app class="tt-app">
-    <v-app-bar
-      fixed
-      app
-      color="primary"
-      dark
-      :elevation="hasAlert ? 0 : undefined"
-    >
-      <img
-        src="/img/logo-white.svg"
-        loading="lazy"
-        alt="Logo"
-        width="18px"
-        class="ml-2 mr-3 cursor-pointer"
-        @click="$router.push(localePath('/'))"
-      />
-      <v-toolbar-title
-        class="cursor-pointer font-weight-bold"
-        @click="$router.push(localePath('/'))"
-      >
-        Transit Tracker
-      </v-toolbar-title>
-      <v-spacer />
-      <v-btn
-        v-if="dataIsLoaded"
-        text
-        :title="$t('regionSwitcher.title')"
-        :small="$vuetify.breakpoint.smAndDown"
-        @click="regionSwitcher = true"
-      >
-        {{ regionName }}
-        <v-icon>{{ mdiMenuDown }}</v-icon>
-      </v-btn>
-      <v-btn
-        v-else
-        text
-        nuxt
-        :to="switchLocalePath(settingsLang === 'en' ? 'fr' : 'en')"
-        @click="switchLanguage(settingsLang === 'en' ? 'fr' : 'en')"
-      >
-        {{ settingsLang === 'en' ? 'FR' : 'EN' }}
-      </v-btn>
-      <v-btn
-        icon
-        :title="$t('settings.open')"
-        @click="settingsDrawer = !settingsDrawer"
-      >
-        <v-icon>{{ mdiCog }}</v-icon>
-      </v-btn>
-    </v-app-bar>
-    <v-main>
+    <TwTopAppBar />
+    <TwNavigationRail />
+    <v-main class="mb-20 mb-md-0 ml-md-20">
       <Alerts />
-      <NotificationsCentre v-if="dataIsLoaded" />
-      <settings-drawer v-model="settingsDrawer" />
+      <NotificationsCentre
+        v-if="dataIsLoaded"
+        v-model="openNotificationsCentre"
+      />
+      <RegionSwitcher v-model="openRegionSwitcher" />
+      <SettingsDrawer v-model="openSettingsDrawer" />
+      <HomeDownloadDialog v-model="openDownloadAssistant" />
       <nuxt />
     </v-main>
-    <nav>
-      <v-bottom-navigation
-        v-if="dataIsLoaded"
-        grow
-        :color="settingsDarkMode ? null : 'primary'"
-        fixed
-      >
-        <v-btn
-          :to="localePath(`/regions/${region}/`)"
-          nuxt
-          exact
-          style="background-color: transparent; height: inherit"
-        >
-          <span>{{ $t('app.tabHome') }}</span>
-          <v-icon>{{ mdiViewGrid }}</v-icon>
-        </v-btn>
-        <v-btn
-          :to="localePath(`/regions/${region}/map`)"
-          nuxt
-          style="background-color: transparent; height: inherit"
-        >
-          <span>{{ $t('app.tabMap') }}</span>
-          <v-icon>{{ mdiMap }}</v-icon>
-        </v-btn>
-        <v-btn
-          :to="localePath(`/regions/${region}/table`)"
-          nuxt
-          style="background-color: transparent; height: inherit"
-        >
-          <span>{{ $t('app.tabTable') }}</span>
-          <v-icon>{{ mdiTable }}</v-icon>
-        </v-btn>
-        <v-btn
-          :to="localePath('/byod')"
-          nuxt
-          style="background-color: transparent; height: inherit"
-        >
-          <span>{{ $t('app.tabByod') }}</span>
-          <v-icon>{{ mdiFolderUpload }}</v-icon>
-        </v-btn>
-      </v-bottom-navigation>
-    </nav>
-    <RegionSwitcher v-model="regionSwitcher" />
+    <TwNavigationBar v-if="dataIsLoaded" />
     <component :is="byodInjector" />
     <v-snackbar
       v-model="updateAvailable"
@@ -148,7 +64,6 @@ export default {
   data: () => ({
     loading: false,
     regionSwitcher: false,
-    settingsDrawer: false,
     byodInjector: null,
     mdiCog,
     mdiFolderUpload,
@@ -202,6 +117,38 @@ export default {
     },
     updateAvailable() {
       return this.$store.state.app.updateAvailable
+    },
+    openNotificationsCentre: {
+      get() {
+        return this.$store.state.app.openNotificationsCentre
+      },
+      set(value) {
+        this.$store.commit('app/set', { key: 'openNotificationsCentre', value })
+      },
+    },
+    openRegionSwitcher: {
+      get() {
+        return this.$store.state.app.openRegionSwitcher
+      },
+      set(value) {
+        this.$store.commit('app/set', { key: 'openRegionSwitcher', value })
+      },
+    },
+    openSettingsDrawer: {
+      get() {
+        return this.$store.state.app.openSettingsDrawer
+      },
+      set(value) {
+        this.$store.commit('app/set', { key: 'openSettingsDrawer', value })
+      },
+    },
+    openDownloadAssistant: {
+      get() {
+        return this.$store.state.app.openDownloadAssistant
+      },
+      set(value) {
+        this.$store.commit('app/set', { key: 'openDownloadAssistant', value })
+      },
     },
     updatePending() {
       return this.$store.state.app.updatePending

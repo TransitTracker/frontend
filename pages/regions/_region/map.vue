@@ -1,23 +1,15 @@
 <template>
-  <div>
+  <div class="tt-map-container">
     <div id="tt-map"></div>
-    <MapFooter @open-sheet="sheetOpen = true" />
-    <MapBottomSheet
-      v-if="sheetOpen"
-      :sheet-open="sheetOpen"
-      @close-sheet="sheetOpen = false"
-    />
+    <VehicleSheet v-if="selectedVehicle.id" :vehicle="selectedVehicle" />
+    <VehicleSheetEmptyState v-else />
     <div
       ref="mapPopup"
       class="tt-map__popup black--text text-subtitle-1 d-flex align-center mt-n1 mb-n2"
     >
-      <v-icon
-        v-if="selectedVehicle.bearing"
-        color="black"
-        size="20"
-        class="mr-1"
-        :style="{ transform: `rotate(${selectedVehicle.bearing}deg)` }"
-      >
+      <v-icon v-if="selectedVehicle.bearing" color="black" size="20">
+        class="mr-1" :style="{ transform:
+        `rotate(${selectedVehicle.bearing}deg)` }" >
         {{ mdiNavigation }}
       </v-icon>
       <span>{{ selectedVehicle.label || selectedVehicle.ref }}</span>
@@ -26,6 +18,7 @@
 </template>
 
 <script>
+// eslint-disable-next-line
 import { mdiNavigation } from '@mdi/js'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
@@ -40,12 +33,29 @@ export default {
   name: 'PagesRegionMap',
   middleware: 'loadData',
   async asyncData({ $axios, params, query, store }) {
+    // Handle deep links coming from notifications or other apps
+    const handleDeepLink = (vehicleData) => {
+      store.commit('vehicles/setSelection', vehicleData)
+
+      if (!vehicleData.isActive) {
+        store.commit('vehicles/setWarning', 'vehicleInactive')
+      }
+
+      if (!store.state.settings.activeAgencies.includes(vehicleData.agency)) {
+        store.commit('vehicles/setWarning', 'agencyInactive')
+      }
+    }
+
     if (query.vehicle) {
       const { data } = await $axios.get(`/vehicles/${query.vehicle}`)
+      handleDeepLink(data.data)
+    }
 
-      if (data.data.isActive) {
-        store.commit('vehicles/setSelection', data.data)
-      }
+    if (query.ref && query.agency) {
+      const { data } = await $axios.get(
+        `/agencies/${query.agency}/vehicles/${query.ref}`
+      )
+      handleDeepLink(data.data)
     }
 
     return {
@@ -158,11 +168,11 @@ export default {
         },
         trackUserLocation: true,
       }),
-      'top-left'
+      'bottom-right'
     )
     this.map.addControl(
       new mapboxgl.NavigationControl({ showCompass: false }),
-      'top-left'
+      'bottom-right'
     )
 
     this.map.on('styledata', () => {
@@ -307,9 +317,14 @@ export default {
         this.map.flyTo({
           center: vehicle.position,
           zoom: 12,
+          padding: {
+            left: this.$vuetify.breakpoint.mdAndUp ? 188 : 0,
+          },
         })
       } else {
-        this.map.panTo(vehicle.position)
+        this.map.panTo(vehicle.position, {
+          offset: [this.$vuetify.breakpoint.mdAndUp ? 188 : 0, 0],
+        })
       }
 
       if (vehicle.trip.shapeLink) {
@@ -376,21 +391,29 @@ export default {
 </script>
 
 <style lang="scss">
-// 64px (toolbar) + 80px (footer) + 56px (bottom bar) - 12px (rounded corner)
 #tt-map {
-  height: calc(100vh - 64px - 80px - 56px + 12px);
+  height: 100vh;
   width: 100%;
 }
 
-.mapboxgl-ctrl-logo {
-  margin-bottom: 0.5rem !important;
+.tt-map {
+  &-container {
+    position: relative;
+  }
+
+  &__popup {
+    display: none;
+  }
 }
 
-.tt-map__popup {
-  display: none;
+@media only screen and (max-width: 768px) {
+  .mapboxgl-ctrl-bottom-left,
+  .mapboxgl-ctrl-bottom-right {
+    margin-bottom: 4rem;
+  }
 }
 
-@media only screen and (max-width: 960px) {
+@media (max-width: 768px) {
   #tt-map {
     height: calc(100vh - 56px - 80px - 56px + 12px);
   }

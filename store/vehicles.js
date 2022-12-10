@@ -1,9 +1,10 @@
-import Vue from 'vue'
+import { set } from 'vue'
 
 export const state = () => ({
   data: {},
   features: {},
   selection: {},
+  warning: null,
 })
 
 export const getters = {
@@ -19,15 +20,19 @@ export const getters = {
 
 export const mutations = {
   set(state, { agency, vehicles, features }) {
-    Vue.set(state.data, agency.slug, vehicles)
-    Vue.set(state.features, agency.slug, features)
+    set(state.data, agency.slug, vehicles)
+    set(state.features, agency.slug, features)
   },
   setSelection(state, selection) {
     state.selection = selection
+    state.warning = null
+  },
+  setWarning(state, warning) {
+    state.warning = warning
   },
   emptyData(state, agency) {
-    Vue.set(state.data, agency.slug, [])
-    Vue.set(state.features, agency.slug, [])
+    set(state.data, agency.slug, [])
+    set(state.features, agency.slug, [])
   },
 }
 

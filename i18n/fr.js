@@ -38,7 +38,6 @@ export default {
     welcome: 'Bienvenue dans ',
     version: 'Version',
     whatsNew: 'Quoi de neuf?',
-    exitBeta: 'Quitter la version bêta',
     download: 'Télécharger',
     downloadTitle: 'Télécharger les données',
     vehicleTotal: 'véhicules actifs',
@@ -61,45 +60,44 @@ export default {
       'Veuillez sélectionner un véhicule pour y consulter toutes les informations',
     scroll: 'Défilez',
   },
-  mapTag: {
-    electric: 'Électrique',
-    mirrorCameras: 'Caméras-rétroviseurs',
-  },
-  mapBottomSheet: {
-    close: 'Fermer',
-    vehicle: 'Véhicule',
-    seenAt: 'Apparu à',
-    openLink: 'Ouvrir le lien dans un nouvel onglet',
-    properties: {
-      label: 'ID du véhicule :',
-      plate: "Plaque d'immatriculation :",
-      tripId: 'Trip ID :',
-      routeId: 'Route :',
-      headsign: 'Destination :',
-      shortName: 'Numéro du départ :',
-      startTime: 'Heure de départ :',
-      currentStatus: 'Statut :',
-      currentStopSequence: "Séquence d'arrêt :",
-      bearing: 'Direction :',
-      speed: 'Vitesse :',
-      odometer: 'Odomètre :',
-      scheduleRelationship: "Relation avec l'horaire :",
-      congestionLevel: 'Niveau de congestion :',
-      occupancyStatus: 'Statut de la capacité :',
+  properties: {
+    agency: 'Agence',
+    ref: 'ID du véhicule',
+    label: 'Numéro du véhicule',
+    tags: 'Étiquettes',
+    timestamp: 'Dernière apparition',
+    tripId: 'ID du voyage (Trip)',
+    startTime: 'Heure de départ du voyage',
+    routeId: 'ID de la route',
+    bearing: 'Direction (°)',
+    speed: 'Vitesse (km/h)',
+    vehicleType: 'Type du véhicule',
+    plate: "Plaque d'immatriculation",
+    odometer: 'Odomètre',
+    currentStopSequence: "Séquence d'arrêt",
+    createdAt: 'Première apparition',
+    actions: 'Actions',
+    trip: {
+      headsign: 'Destination du voyage',
+      shortName: 'Numéro du départ',
+      routeShortName: 'Nom de la route',
+      serviceId: 'Service ID',
     },
-    help: {
-      label:
-        "Ceci est l'identifiant interne assigné par l'agence pour ce véhicule. Dans des circonstances normales, ce champ n'est pas visible pour les usagers de ce véhicule.",
-      tripId:
-        "Il s'agit d'un identifiant unique attribué à ce voyage. Un même trajet peut être vu plusieurs fois au cours d'une semaine, par exemple du lundi au vendredi.",
-      scheduleRelationship:
-        "En règle générale, un voyage est planifié. Mais parfois, lorsque l'achalandage l'exige ou d'autres raisons, il faut ajouter un voyage entre deux. Un véhicule peut aussi ne pas avoir d'horaire (un système de métro par exemple) ou bien être annulé pour diverses raisons.",
-      currentStatus:
-        'Il s\'agit du statut du véhicule en relation avec les arrêts. Lorsqu\'un véhicule se dirige vers un arrêt, il est "In transit to". En s\'approchant, il devient "incoming". Puis à l\'arrêt, il est "Stopped at".',
-      currentStopSequence:
-        "Ce champ représente la position du véhicule en relation au nombre d'arrêts desservis par le voyage. Plus que le voyage avance et que le véhicule s'approche de son arrêt final, ce chiffre augmente.",
+    position: {
+      lat: 'Position',
     },
-    habs: 'Ce bus porte les couleurs du Canadiens, pendant les séries.',
+    currentStatus: {
+      label: 'Statut',
+    },
+    scheduleRelationship: {
+      label: "Relation avec l'horaire",
+    },
+    congestionLevel: {
+      label: 'Niveau de congestion',
+    },
+    occupancyStatus: {
+      label: 'Statut de la capacité',
+    },
   },
   table: {
     empty: 'Aucun véhicule!',
@@ -219,12 +217,9 @@ export default {
     themeSystemDesc: 'Selon les préférences de votre navigateur',
     defaultScreen: 'Écran par défaut',
     noRedirect: 'Ne pas rediriger',
-    mobileTable: 'Page liste - disposition sur mobile',
-    mobileTableDesc: 'Réglage applicable uniquement aux petits écrans.',
-    mobileTableSimple: 'Vue simplifiée',
-    mobileTablePrefrerDesktop: 'Vue en tableau',
-    mobileTablePrefrerDesktopDesc:
-      'Comme sur un ordinateur ou les anciennes versions',
+    table: 'Colonnes de la liste',
+    tableDesc:
+      "Vous pouvez personnaliser l'ordre des colonnes affichées dans l'application et modifier leur visibilité.",
     language: 'Langue',
   },
   alert: {
@@ -283,9 +278,6 @@ export default {
     devBody:
       "Transit Tracker offre une API qui permet d'accéder facilement aux données en temps réel dans un format JSON ou GraphQL.",
     devSite: 'Sites pour développeurs',
-    illustrations: 'Illustrations',
-    illustrationsBody:
-      "Les icônes à travers l'application proviennent de Material Design Icons.",
     by: 'Par Félix Desjardins - @felixinx',
     contact: 'Un problème, un commentaire ou une suggestion?',
     contactBtn: 'Contactez-moi',
@@ -304,13 +296,10 @@ export default {
       'Veillez attendre quelques minutes avant de réessayer à nouveau.',
     unavailable:
       'Les notifications ne sont pas disponibles dans votre navigateur.',
-    betaTitle: 'Fonctionnalité bêta',
-    betaBody:
-      'Cette fonctionnalité est encore en cours de développement. Testez-là et partagez-nous vos commentaires.',
     authorize: 'Autoriser',
     authorizeTitle: 'Autorisez les notifications dans votre navigateur',
     authorizeBody:
-      "Vous pourez ensuite choisir quel type de notifications vous souhaitez. Pour l'instant, vous pouvez vous abonnez à trois types de notifications : nouveaux véhicules, alertes générales et déploiement des New Flyer de la STM.",
+      "Vous pourez ensuite choisir quel type de notifications vous souhaitez. Pour l'instant, vous pouvez vous abonnez à deux types de notifications : nouveaux véhicules et alertes générales.",
     authorizeError: 'La demande a été refusée :',
     selectNotifications: 'Sélectionnez les notifications',
     newVehicles: 'Nouveaux véhicules',
@@ -321,9 +310,6 @@ export default {
     generalNews: 'Nouvelles générales',
     generalNewsDesc:
       "Recevez des notifications pour de l'information sur les mises à jour, nouveautés, perturbations et autres de Transit Tracker",
-    electricStm: 'STM - Déploiement des New Flyer',
-    electricStmDesc:
-      "Recevez une notification lorsqu'un des nouveaux New Flyer électriques commence une journée en service",
     chooseAgencies: 'Sélectionnez vos agences',
     selectAll: 'Tout sélectionner',
     newVehiclesWeek:

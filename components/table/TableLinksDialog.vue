@@ -42,14 +42,7 @@
             rounded
             elevation="2"
             :class="[darkMode ? 'grey darken-3' : 'grey lighten-4']"
-            class="
-              pa-2
-              mt-4
-              d-flex
-              align-center
-              justify-space-between
-              cursor-pointer
-            "
+            class="pa-2 mt-4 d-flex align-center justify-space-between cursor-pointer"
             :light="!darkMode"
             :dark="darkMode"
             :title="$t('mapBottomSheet.openLink')"

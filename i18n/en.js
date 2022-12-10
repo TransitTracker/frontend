@@ -38,7 +38,6 @@ export default {
     welcome: 'Welcome to ',
     version: 'Version',
     whatsNew: "What's new?",
-    exitBeta: 'Exit beta version',
     vehicleTotal: 'vehicles are active',
     download: 'Download',
     downloadTitle: 'Download data',
@@ -65,41 +64,44 @@ export default {
     electric: 'Electric',
     mirrorCameras: 'Mirror cameras',
   },
-  mapBottomSheet: {
-    close: 'Close',
-    vehicle: 'Vehicle',
-    seenAt: 'Seen at',
-    openLink: 'Open the link in a new tab',
-    properties: {
-      label: 'Vehicle ID:',
-      plate: 'License plate:',
-      tripId: 'Trip ID:',
-      routeId: 'Route:',
-      headsign: 'Headsign:',
-      shortName: 'Departure number:',
-      startTime: 'Start time:',
-      currentStatus: 'Status:',
-      currentStopSequence: 'Stop sequence:',
-      bearing: 'Bearing:',
-      speed: 'Speed:',
-      odometer: 'Odometer:',
-      scheduleRelationship: 'Schedule relationship:',
-      congestionLevel: 'Congestion level:',
-      occupancyStatus: 'Occupancy status:',
+  properties: {
+    agency: 'Agency',
+    ref: 'Vehicle ID',
+    label: 'Vehicle number (label)',
+    tags: 'Tags',
+    timestamp: 'Last seen',
+    tripId: 'Trip ID',
+    startTime: 'Trip Start Time',
+    routeId: 'Route ID',
+    bearing: 'Bearing (°)',
+    speed: 'Speed (km/h)',
+    vehicleType: 'Vehicle Type',
+    plate: 'License Plate',
+    odometer: 'Odometer',
+    currentStopSequence: 'Stop sequence',
+    createdAt: 'First seen',
+    actions: 'Actions',
+    trip: {
+      headsign: 'Trip Headsign',
+      shortName: 'Departure number',
+      routeShortName: 'Route name',
+      serviceId: 'Service ID',
     },
-    help: {
-      label:
-        'This is the internal identifier assigned by the agency for this vehicle. Under normal circumstances, the label represents the number displayed to the public on the vehicle while the ID is not displayed.',
-      tripId:
-        'This is a unique identifier assigned for this trip. A single trip can be seen multiple times throughout the week, for example from Monday to Friday.',
-      scheduleRelationship:
-        'Typically, a trip is planned in advance. But sometimes, when ridership requires it or for other reasons, agencies have to add a trip in between. A vehicle may also have no timetable (a metro system for example) or be cancelled for various reasons.',
-      currentStatus:
-        'This is the status of the vehicle in relation to the stops. When a vehicle heads for a stop, it is "In transit to". When approaching, it becomes "incoming". Then at the stop, it is "Stopped at".',
-      currentStopSequence:
-        'This field represents the position of the vehicle in relation to the number of stops served by the trip. As the journey progresses and the vehicle approaches its final stop, this number increases.',
+    position: {
+      lat: 'Position',
     },
-    habs: 'This bus wears the colors of the Canadiens, during the playoffs.',
+    currentStatus: {
+      label: 'Status',
+    },
+    scheduleRelationship: {
+      label: 'Schedule Relationship',
+    },
+    congestionLevel: {
+      label: 'Congestion Level',
+    },
+    occupancyStatus: {
+      label: 'Occupancy Status',
+    },
   },
   table: {
     empty: 'No vehicles!',
@@ -219,11 +221,9 @@ export default {
     themeSystemDesc: 'According to your browser settings',
     defaultScreen: 'Default screen',
     noRedirect: 'Do not redirect',
-    mobileTable: 'Table page - mobile layout',
-    mobileTableDesc: 'Setting applicable only to small screens.',
-    mobileTableSimple: 'Simple view',
-    mobileTablePrefrerDesktop: 'Table view',
-    mobileTablePrefrerDesktopDesc: 'Like on a computer and older version',
+    table: 'Table columns',
+    tableDesc:
+      'You can customize the orders of the columns displayed in the app, and change their visibility.',
     // Padding
     language: 'Language',
   },
@@ -283,9 +283,6 @@ export default {
     devBody:
       'Transit Tracker offers an API that allows easy access to real-time data in JSON or GraphQL format.',
     devSite: 'Developers site',
-    illustrations: 'Illustrations',
-    illustrationsBody:
-      'Icons throughout the app are from Material Design Icons.',
     by: 'By Félix Desjardins - @felixinx',
     contact: 'A problem, a comment or a suggestion?',
     contactBtn: 'Contact&nbsp;me',
@@ -304,13 +301,10 @@ export default {
     // Padding
     unavailable: 'Notifications are not available in your browser.',
     // Padding
-    betaTitle: 'Beta functionality',
-    betaBody:
-      'This feature is still under development. Test it out and share your feedback with us.',
     authorize: 'Authorize',
     authorizeTitle: 'Allow notifications in your browser',
     authorizeBody:
-      "You can then choose what type of notifications you want. For now, you can subscribe to three types of notifications: new vehicles, general alerts and deployment of the STM's New Flyers.",
+      'You can then choose what type of notifications you want. For now, you can subscribe to two types of notifications: new vehicles and general alerts.',
     authorizeError: 'The request was refused:',
     selectNotifications: 'Select notifications',
     newVehicles: 'New vehicles',
@@ -321,9 +315,6 @@ export default {
     generalNews: 'General news',
     generalNewsDesc:
       'Receive notifications for information on Transit Tracker updates, news, disruptions and more',
-    electricStm: 'STM - Introduction of New Flyers',
-    electricStmDesc:
-      'Receive a notification when one of the new electric New Flyers starts a day in service',
     chooseAgencies: 'Select your agencies',
     selectAll: 'Select all',
     newVehiclesWeek:

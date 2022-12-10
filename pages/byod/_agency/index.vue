@@ -261,14 +261,6 @@
 </template>
 
 <script>
-import {
-  agencies as byodAgencies,
-  definitions,
-  staticGtfs,
-  realtimeGtfs,
-} from '@/utils/byod'
-import { csvParser } from '@/utils/byod/converters'
-import byodMixin from '@/mixins/byod'
 import Vue from 'vue'
 import {
   mdiAlert,
@@ -282,6 +274,14 @@ import {
   mdiSyncOff,
   mdiTimelineClock,
 } from '@mdi/js'
+import {
+  agencies as byodAgencies,
+  definitions,
+  staticGtfs,
+  realtimeGtfs,
+} from '@/utils/byod'
+import { csvParser } from '@/utils/byod/converters'
+import byodMixin from '@/mixins/byod'
 
 export default {
   mixins: [byodMixin],

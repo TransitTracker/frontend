@@ -1,247 +1,119 @@
 <template>
   <div>
-    <v-data-table
-      group-by="agency"
-      :custom-filter="filterAllFields"
-      :headers="headers"
-      :items="vehicles"
-      :items-per-page="100"
-      :footer-props="{
-        itemsPerPageOptions: [25, 50, 100, 150, 200, -1],
-      }"
-      :search="searchAll"
-      :mobile-breakpoint="preferDesktopView ? 1 : 600"
-      class="mb-14"
+    <!-- :enable-infinite-scrolling="true" -->
+    <ejs-grid
+      ref="grid"
+      :data-bound="autoFitColumns"
+      :data-source="vehicles"
+      :allow-filtering="true"
+      :allow-sorting="true"
+      :enable-sticky-header="true"
+      :filter-settings="{ type: 'Excel' }"
+      :loading-indicator="{ indicatorType: 'Shimmer' }"
+      :locale="locale"
+      :allow-paging="true"
+      :page-settings="{ pageSize: 100 }"
+      height="100vh"
     >
-      <!-- eslint-disable-next-line -->
-      <template v-slot:group.header="{ group, headers, toggle, isOpen }">
-        <td :colspan="headers.length">
-          <v-btn icon class="mr-2" @click="toggle">
-            <v-icon>{{ isOpen ? mdiMinus : mdiPlus }}</v-icon>
-          </v-btn>
-          {{ agencies[group].name }}
-        </td>
+      <e-columns>
+        <e-column
+          field="id"
+          header-text="Transit Tracker Internal ID"
+          :visible="false"
+          :is-primary-key="true"
+        ></e-column>
+        <e-column
+          v-for="column in columns"
+          :key="column.field"
+          :field="column.field"
+          :header-text="$t(`properties.${column.field}`)"
+          :template="column.template"
+          :visible="column.visible"
+          :allow-filtering="column.filtering"
+          :sort-comparer="column.field === 'routeId' ? sortNumber : false"
+        ></e-column>
+        <!-- TODO: Fix filter for Agency -->
+        <!-- TODO: View details -->
+      </e-columns>
+
+      <template #cAgency="{ data }">
+        {{ agencies[data.agency].shortName }}
       </template>
-      <!-- eslint-disable-next-line -->
-      <template v-slot:body.prepend="{ headers, isMobile }">
-        <tr v-if="isMobile">
-          <td colspan="6">
-            <v-text-field
-              v-model="searchAll"
-              :prepend-icon="mdiMagnify"
-              :placeholder="$t('table.filter')"
-              dense
-              hide-details
-              single-line
-            />
-          </td>
-        </tr>
-        <tr v-else class="tt-table__filters">
-          <td>
-            <v-text-field
-              v-model="searchLabel"
-              :prepend-inner-icon="mdiMagnify"
-              :placeholder="$t('table.filter')"
-              dense
-              hide-details
-              single-line
-            />
-          </td>
-          <td>
-            <v-text-field
-              v-model="searchRoute"
-              :prepend-inner-icon="mdiMagnify"
-              :placeholder="$t('table.filter')"
-              dense
-              hide-details
-              single-line
-            ></v-text-field>
-            <v-checkbox
-              v-model="filterOnlyRouteId"
-              hide-details
-              class="mt-0"
-              color="secondary"
-              :ripple="false"
-            >
-              <template #label>
-                <div class="text-caption">{{ $t('table.filterRouteId') }}</div>
-              </template>
-            </v-checkbox>
-          </td>
-          <td>
-            <v-text-field
-              v-model="searchHeadsign"
-              :prepend-inner-icon="mdiMagnify"
-              :placeholder="$t('table.filter')"
-              dense
-              hide-details
-              single-line
-            ></v-text-field>
-          </td>
-          <td>
-            <v-text-field
-              v-model="searchTrip"
-              :prepend-inner-icon="mdiMagnify"
-              :placeholder="$t('table.filter')"
-              dense
-              hide-details
-              single-line
-            ></v-text-field>
-          </td>
-          <td colspan="2"></td>
-        </tr>
-      </template>
-      <!-- eslint-disable-next-line -->
-      <template v-slot:item.actions="{ item }">
-        <div class="d-flex items-center">
-          <v-btn
-            small
-            icon
-            color="secondary"
-            :title="$t('table.viewOnMap')"
-            @click="setSelection(item)"
-          >
-            <v-icon>{{ mdiMapMarker }}</v-icon>
-          </v-btn>
-          <v-btn
-            v-if="item.links.length"
-            small
-            icon
-            color="secondary"
-            :title="$t('table.openLinks')"
-            @click="setSelection(item, true)"
-          >
-            <v-icon>{{ mdiOpenInNew }}</v-icon>
-          </v-btn>
-        </div>
-      </template>
-      <!-- eslint-disable-next-line -->
-      <template v-slot:item.label="{ item }">
-        <div class="d-flex align-center flex-wrap gap-2">
-          {{ item.label || item.ref }}
-          <Tag
-            v-for="tag in item.tags"
-            :key="tag"
-            :tag-id="tag"
-            :small="true"
-          ></Tag>
-        </div>
-      </template>
-      <!-- eslint-disable-next-line -->
-      <template v-slot:item.routeId="{ item }">
+      <template #cTags="{ data }">
         <div>
-          <span
-            v-if="
-              item.trip.routeShortName &&
-              item.trip.routeShortName !== item.routeId
-            "
-            :title="$t('table.routeId')"
-            class="text-caption grey px-1 rounded mr-2 d-inline-flex items-center"
-            :class="[darkMode ? 'darken-3' : 'lighten-3']"
-          >
-            {{ item.routeId }}
-          </span>
-          <span>{{ item.trip.routeShortName || item.routeId }}</span>
-          <span v-if="item.trip.routeLongName">
-            &nbsp;{{ item.trip.routeLongName }}
+          <span :key="tag.id" v-for="(tag, index) in data.tags">
+            {{ tags[tag]?.label }}
+            <span v-if="index + 1 < data.tags.length"> &bull; </span>
           </span>
         </div>
       </template>
-    </v-data-table>
+      <template #cTimestamp="{ data }">
+        <TwTimeAgo v-if="data.timestamp" :timestamp="+data.timestamp" />
+      </template>
+      <template #cRoute="{ data }">
+        <span
+          >{{ data.trip.routeShortName }} {{ data.trip.routeLongName }}</span
+        >
+      </template>
+      <template #cPosition="{ data }">
+        <span>{{ data.position.lat }}, {{ data.position.lon }}</span>
+      </template>
+      <template #cActions="{ data }">
+        <div class="tw-flex tw-items-center tw-gap-2">
+          <TwStandardIconButton @click="setSelection('links', data.id)">
+            <TwIcon :path="mdiOpenInNew" />
+          </TwStandardIconButton>
+          <TwStandardIconButton @click="setSelection('map', data.id)">
+            <TwIcon :path="mdiMapMarkerOutline" />
+          </TwStandardIconButton>
+        </div>
+      </template>
+    </ejs-grid>
     <TableLinksDialog v-model="linksDialog" />
   </div>
 </template>
 
 <script>
+import { mdiAdjust, mdiOpenInNew, mdiMapMarkerOutline } from '@mdi/js'
+import Vue from 'vue'
 import {
-  mdiMagnify,
-  mdiMapMarker,
-  mdiMinus,
-  mdiOpenInNew,
-  mdiPlus,
-} from '@mdi/js'
+  GridPlugin,
+  ColumnChooser,
+  Toolbar,
+  Reorder,
+  Resize,
+  Sort,
+  Filter,
+  Page,
+  /* VirtualScroll, */
+} from '@syncfusion/ej2-vue-grids'
+import { registerLicense, setCulture } from '@syncfusion/ej2-base'
+registerLicense(process.env.syncfusionKey)
+Vue.use(GridPlugin)
 
 export default {
+  provide: {
+    grid: [
+      Reorder,
+      ColumnChooser,
+      Toolbar,
+      Resize,
+      Sort,
+      Filter,
+      Page,
+      /* VirtualScroll, */
+    ],
+  },
+  data: () => ({
+    infoDialog: false,
+    linksDialog: false,
+  }),
   middleware: 'loadData',
   asyncData() {
-    return { mdiMagnify, mdiMapMarker, mdiMinus, mdiOpenInNew, mdiPlus }
-  },
-  data() {
     return {
-      headers: [
-        {
-          text: this.$t('table.dataRef'),
-          value: 'label',
-          divider: true,
-          filter: (value, search, item) => {
-            return (value + '')
-              .toLowerCase()
-              .includes(this.searchLabel.toLowerCase())
-          },
-        },
-        {
-          text: this.$t('table.dataRoute'),
-          value: 'routeId',
-          divider: true,
-          sort: this.sortNumber,
-          filter: (value, search, item) => {
-            if (this.filterOnlyRouteId) {
-              return (value + '')
-                .toLowerCase()
-                .includes(this.searchRoute.toLowerCase())
-            }
-            return (
-              value +
-              ' ' +
-              item.trip.routeShortName +
-              ' ' +
-              item.trip.routeLongName +
-              ''
-            )
-              .toLowerCase()
-              .includes(this.searchRoute.toLowerCase())
-          },
-        },
-        {
-          text: this.$t('table.dataHeadsign'),
-          value: 'trip.headsign',
-          divider: true,
-          filter: (value) => {
-            return (value + '')
-              .toLowerCase()
-              .includes(this.searchHeadsign.toLowerCase())
-          },
-        },
-        {
-          text: this.$t('table.dataTripId'),
-          value: 'tripId',
-          divider: true,
-          filter: (value) => {
-            return (value + '')
-              .toLowerCase()
-              .includes(this.searchTrip.toLowerCase())
-          },
-        },
-        {
-          text: this.$t('table.dataStartTime'),
-          value: 'startTime',
-          width: 105,
-          divider: true,
-        },
-        {
-          text: this.$t('table.actions'),
-          value: 'actions',
-          divider: true,
-          sortable: false,
-        },
-      ],
-      linksDialog: false,
-      searchLabel: '',
-      searchRoute: '',
-      searchHeadsign: '',
-      searchTrip: '',
-      searchAll: '',
-      filterOnlyRouteId: false,
+      mdiAdjust,
+      mdiOpenInNew,
+      mdiMapMarkerOutline,
     }
   },
   head() {
@@ -254,20 +126,56 @@ export default {
           content: 'noindex',
         },
       ],
+      link: [
+        {
+          rel: 'stylesheet',
+          href: `/ej2/ej2-base/styles/${this.cssPath}`,
+        },
+        {
+          rel: 'stylesheet',
+          href: `/ej2/ej2-buttons/styles/${this.cssPath}`,
+        },
+        {
+          rel: 'stylesheet',
+          href: `/ej2/ej2-inputs/styles/${this.cssPath}`,
+        },
+        {
+          rel: 'stylesheet',
+          href: `/ej2/ej2-navigations/styles/${this.cssPath}`,
+        },
+        {
+          rel: 'stylesheet',
+          href: `/ej2/ej2-notifications/styles/${this.cssPath}`,
+        },
+        {
+          rel: 'stylesheet',
+          href: `/ej2/ej2-popups/styles/${this.cssPath}`,
+        },
+        {
+          rel: 'stylesheet',
+          href: `/ej2/ej2-vue-grids/styles/${this.cssPath}`,
+        },
+      ],
     }
   },
   computed: {
     agencies() {
       return this.$store.state.agencies.data
     },
-    darkMode() {
-      return this.$vuetify.theme.dark
+    columns() {
+      return this.$store.state.settings.tableColumns
     },
-    preferDesktopView() {
-      return this.$store.state.settings.preferDesktopView
+    cssPath() {
+      return this.$vuetify.theme.dark ? 'material-dark.css' : 'material.css'
+    },
+    locale() {
+      return this.$i18n.locale
     },
     region() {
       return this.$store.state.regions.data[this.$route.params.region] || {}
+    },
+    tags() {
+      return this.$store.state.tags.data ?? { label: null }
     },
     vehicles() {
       let vehicles = []
@@ -278,31 +186,33 @@ export default {
       return vehicles
     },
   },
+  mounted() {
+    setCulture(this.locale === 'en' ? 'en-US' : 'fr-FR')
+  },
   methods: {
-    filterAllFields(value, search, item) {
-      if (!search) return true
-      return [
-        item.ref,
-        item.label,
-        item.routeId,
-        item.routeId,
-        item.trip.routeLongName,
-        item.trip.headsign,
-        item.tripId,
-      ]
-        .filter(Boolean)
-        .join('')
-        .toLowerCase()
-        .includes(search.toLowerCase())
+    autoFitColumns() {
+      this.$refs.grid.autoFitColumns()
     },
-    setSelection(vehicle, openLinks = false) {
+    setSelection(action, vehicleId) {
+      const vehicle = this.vehicles.find(({ id }) => {
+        return vehicleId === id
+      })
+
       this.$store.commit('vehicles/setSelection', vehicle)
-      if (openLinks) {
-        this.linksDialog = true
-      } else {
-        this.$router.push(
-          this.localePath(`/regions/${this.$route.params.region}/map`)
-        )
+
+      switch (action) {
+        case 'links':
+          this.linksDialog = true
+          break
+
+        case 'map':
+          this.$router.push(
+            this.localePath(`/regions/${this.$route.params.region}/map`)
+          )
+          break
+
+        default:
+          break
       }
     },
     sortNumber(a, b) {
@@ -319,12 +229,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss">
-.tt-table__filters td {
-  vertical-align: top;
-}
-.gap-2 {
-  gap: 0.5rem;
-}
-</style>

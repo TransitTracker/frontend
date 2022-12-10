@@ -1,5 +1,13 @@
 export default function ({ app }) {
   return {
+    breakpoint: {
+      thresholds: {
+        xs: 639,
+        sm: 767,
+        md: 1023,
+        lg: 1279,
+      },
+    },
     customVariables: ['~/assets/variables.scss'],
     theme: {
       themes: {

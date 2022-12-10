@@ -29,16 +29,6 @@
         </v-alert>
       </v-container>
 
-      <!-- Beta warning (TODO: to remove) -->
-      <v-banner
-        v-if="state === 'authorize'"
-        color="warning"
-        :icon="mdiTestTube"
-      >
-        <b>{{ $t('notifications.betaTitle') }}</b>
-        {{ $t('notifications.betaBody') }}
-      </v-banner>
-
       <!-- Step: authorize -->
       <v-container v-if="state === 'authorize'" class="text-center my-4">
         <v-btn
@@ -97,25 +87,6 @@
           <v-list-item-action>
             <v-switch
               v-model="profile.generalNews"
-              @change="saveProfile"
-            ></v-switch>
-          </v-list-item-action>
-        </v-list-item>
-        <v-list-item three-line>
-          <v-list-item-avatar color="#dedc1f" class="d-none d-md-flex">
-            <v-icon color="#00646c" size="28">{{ mdiBusElectric }}</v-icon>
-          </v-list-item-avatar>
-          <v-list-item-content>
-            <v-list-item-title>
-              {{ $t('notifications.electricStm') }}
-            </v-list-item-title>
-            <v-list-item-subtitle>
-              {{ $t('notifications.electricStmDesc') }}
-            </v-list-item-subtitle>
-          </v-list-item-content>
-          <v-list-item-action>
-            <v-switch
-              v-model="profile.electricStm"
               @change="saveProfile"
             ></v-switch>
           </v-list-item-action>
@@ -293,7 +264,6 @@ import {
   mdiBellPlus,
   mdiBellRemove,
   mdiBus,
-  mdiBusElectric,
   mdiCheck,
   mdiEyeOff,
   mdiTestTube,
@@ -315,7 +285,6 @@ export default {
     mdiBellAlert,
     mdiBellPlus,
     mdiBellRemove,
-    mdiBusElectric,
     mdiCheck,
     mdiClose,
     mdiEyeOff,
@@ -339,10 +308,10 @@ export default {
   computed: {
     computedValue: {
       get() {
-        return this.$store.state.app.notificationsCentre
+        return this.$store.state.app.openNotificationsCentre
       },
       set(value) {
-        this.$store.commit('app/set', { key: 'notificationsCentre', value })
+        this.$store.commit('app/set', { key: 'openNotificationsCentre', value })
       },
     },
     activeAgencies() {
@@ -394,7 +363,7 @@ export default {
       if (typeof value !== 'boolean') {
         value = false
       }
-      this.$store.commit('app/set', { key: 'notificationsCentre', value })
+      this.$store.commit('app/set', { key: 'openNotificationsCentre', value })
     },
     async loadProfile(data) {
       if (!data) {
@@ -415,7 +384,6 @@ export default {
 
       this.profile = data.data
       this.$set(this.profile, 'generalNews', data.data.generalNews)
-      this.$set(this.profile, 'electricStm', data.data.electricStm)
       this.selectedAgencies = data.data.newVehicle.agencies
       this.profileAgenciesCount = data.data.newVehicle.agencies.length
     },
@@ -426,13 +394,11 @@ export default {
         const { data } = await this.$axios.put('/push/profile', {
           uuid: this.pushSubscriptionUuid,
           generalNews: this.profile.generalNews,
-          electricStm: this.profile.electricStm,
           agencies: this.selectedAgencies,
           isFrench: this.$i18n.locale === 'fr',
         })
 
         this.$set(this.profile, 'generalNews', data.data.generalNews)
-        this.$set(this.profile, 'electricStm', data.data.electricStm)
         this.profileAgenciesCount = data.data.newVehicle.agencies.length
       } catch (e) {
         if (e.response && e.response.status === 429) {

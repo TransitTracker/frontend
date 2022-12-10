@@ -189,7 +189,7 @@ export default {
         return this.value
       },
       set(value) {
-        this.toggle(value)
+        this.$emit('input', value)
       },
     },
     agencies() {

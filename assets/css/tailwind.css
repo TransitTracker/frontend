@@ -1,0 +1,48 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+@font-face {
+  font-family: "Figtree";
+  src: url("../fonts/Figtree.woff2") format('woff2-variations');
+  src: url("../fonts/static/Figtree-Light.woff2") format('woff2');
+  font-weight: 300;
+}
+@font-face {
+  font-family: "Figtree";
+  src: url("../fonts/Figtree.woff2") format('woff2-variations');
+  src: url("../fonts/static/Figtree-Regular.woff2") format('woff2');
+  font-weight: 400;
+}
+@font-face {
+  font-family: "Figtree";
+  src: url("../fonts/Figtree.woff2") format('woff2-variations');
+  src: url("../fonts/static/Figtree-Medium.woff2") format('woff2');
+  font-weight: 500;
+}
+@font-face {
+  font-family: "Figtree";
+  src: url("../fonts/Figtree.woff2") format('woff2-variations');
+  src: url("../fonts/static/Figtree-SemiBold.woff2") format('woff2');
+  font-weight: 600;
+}
+@font-face {
+  font-family: "Figtree";
+  src: url("../fonts/Figtree.woff2") format('woff2-variations');
+  src: url("../fonts/static/Figtree-Bold.woff2") format('woff2');
+  font-weight: 700;
+}
+@font-face {
+  font-family: "Figtree";
+  src: url("../fonts/Figtree.woff2") format('woff2-variations');
+  src: url("../fonts/static/Figtree-ExtraBold.woff2") format('woff2');
+  font-weight: 800;
+}
+@font-face {
+  font-family: "Figtree";
+  src: url("../fonts/Figtree.woff2") format('woff2-variations');
+  src: url("../fonts/static/Figtree-Black.woff2") format('woff2');
+  font-weight: 900;
+}

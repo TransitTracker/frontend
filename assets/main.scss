@@ -39,6 +39,28 @@ html {
   padding-bottom: 6px;
 }
 
+.mb-20 {
+  margin-bottom: 80px;
+}
+
+@media (min-width: 768px) {
+  .ml-md-20 {
+    margin-left: 80px;
+  }
+  .mb-md-00 {
+    margin-bottom: 0;
+  }
+}
+
+.text-subheader {
+  font-size: .875rem !important;
+  color: rgba(0, 0, 0, 0.6) !important;
+}
+
+.theme--dark .text-subheader {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
 // Fix for Vuetify default css
 .v-list-item__avatar {
   justify-content: center !important;
