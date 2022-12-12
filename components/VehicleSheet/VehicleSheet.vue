@@ -1,6 +1,6 @@
 <template>
   <footer
-    class="tw-absolute tw-top-[calc(100vh-15.25rem)] tw-mb-[5.25rem] tw-w-full tw-space-y-4 tw-overflow-y-auto tw-rounded-t-[1.75rem] tw-bg-neutral-99 tw-p-4 tw-text-neutral-10 dark:tw-bg-neutral-10 dark:tw-text-neutral-90 md:tw-top-4 md:tw-left-4 md:tw-max-h-[calc(100vh-41px-32px)] md:tw-w-96 md:tw-rounded-xl"
+    class="tw-absolute tw-top-[calc(100vh-14rem)] tw-mb-[4rem] tw-w-full tw-space-y-4 tw-overflow-y-auto tw-rounded-t-[1.75rem] tw-bg-neutral-99 tw-p-4 tw-text-neutral-10 dark:tw-bg-neutral-10 dark:tw-text-neutral-90 md:tw-top-4 md:tw-left-4 md:tw-max-h-[calc(100vh-41px-32px)] md:tw-w-96 md:tw-rounded-xl"
   >
     <div class="-tw-mt-4 md:tw-hidden">
       <div

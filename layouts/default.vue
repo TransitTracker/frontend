@@ -2,7 +2,7 @@
   <v-app class="tt-app">
     <TwTopAppBar />
     <TwNavigationRail />
-    <v-main class="mb-20 mb-md-0 ml-md-20">
+    <v-main class="mb-16 mb-md-0 ml-md-20">
       <Alerts />
       <NotificationsCentre
         v-if="dataIsLoaded"
@@ -45,7 +45,14 @@
         </v-btn>
       </template>
     </v-snackbar>
-    <script async defer data-website-id="4007fee1-66a9-4b46-92e7-8fed4a802139" data-domains="www.transittracker.ca,transittracker.ca" data-cache="true" src="https://stats.felixinx.me/umami.js"></script>
+    <script
+      async
+      defer
+      data-website-id="4007fee1-66a9-4b46-92e7-8fed4a802139"
+      data-domains="www.transittracker.ca,transittracker.ca"
+      data-cache="true"
+      src="https://stats.felixinx.me/umami.js"
+    ></script>
   </v-app>
 </template>
 
@@ -165,7 +172,7 @@ export default {
     // Set language only if defined
     if (this.settingsLang) this.$i18n.setLocale(this.settingsLang)
 
-    //this.handleWorkboxEvents()
+    // this.handleWorkboxEvents()
 
     // Install prompt
     window.addEventListener('beforeinstallprompt', (event) => {

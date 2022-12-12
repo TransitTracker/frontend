@@ -409,13 +409,13 @@ export default {
 @media only screen and (max-width: 768px) {
   .mapboxgl-ctrl-bottom-left,
   .mapboxgl-ctrl-bottom-right {
-    margin-bottom: 4rem;
+    margin-bottom: 2rem;
   }
 }
 
 @media (max-width: 768px) {
   #tt-map {
-    height: calc(100vh - 56px - 80px - 56px + 12px);
+    height: calc(100vh - 64px - 64px - 96px + 28px);
   }
 }
 </style>
