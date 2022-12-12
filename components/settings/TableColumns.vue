@@ -1,5 +1,10 @@
 <template>
-  <transition-group name="table-columns" class="tw-list-none !tw-pl-0" tag="ul">
+  <div
+    class="text-error-10 tw-rounded-md tw-bg-error-90 tw-p-2 dark:tw-bg-error-30 dark:tw-text-error-90"
+  >
+    {{ $t('temp') }}
+  </div>
+  <!--<transition-group name="table-columns" class="tw-list-none !tw-pl-0" tag="ul">
     <li
       class="tw-flex tw-items-center tw-gap-1"
       v-for="(column, index) in columns"
@@ -34,7 +39,7 @@
         <TwIcon :path="mdiArrowDown" />
       </TwStandardIconButton>
     </li>
-  </transition-group>
+  </transition-group>-->
 </template>
 
 <script>
@@ -79,3 +84,14 @@ export default {
   transition: transform 300ms ease-in-out;
 }
 </style>
+
+<i18n>
+  {
+    "en": {
+      "temp": "This feature has been temporarily disabled. It will return soon once some issues have been resolved."
+    },
+    "fr": {
+      "temp": "Cette fonctionnalité a été temporairement désactivée. Elle reviendra bientôt une fois que certains problèmes auront été résolus."
+    }
+  }
+</i18n>
