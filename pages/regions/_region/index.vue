@@ -193,8 +193,10 @@
       <b class="tw-font-medium tw-text-primary-20 dark:tw-text-primary-90">
         Transit&nbsp;Tracker
       </b>
-      <span> &bull; {{ $t('brandSlogan') }} </span>
-      <div class="tw-grow"></div>
+      <span class="tw-hidden tw-grow md:tw-inline">
+        &bull; {{ $t('brandSlogan') }}
+      </span>
+      <span class="tw-block md:tw-hidden"> {{ $t('brandSlogan') }}</span>
       <a
         href="https://api.transittracker.ca"
         target="_blank"
