@@ -1933,10 +1933,10 @@
     "@syncfusion/ej2-navigations" "~20.3.60"
     "@syncfusion/ej2-popups" "~20.3.60"
 
-"@syncfusion/ej2-excel-export@~20.3.56":
-  version "20.3.56"
-  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-excel-export/-/ej2-excel-export-20.3.56.tgz#6dd51816e7966b5b3760f8de01a3c1ecb1bb96a4"
-  integrity sha512-qfgjRa2Fz4+qRwf6Sn+J+Ogltu98tEoIsrOnxXKD3rGb7PfAhUSqOyTyPZVQfPWtXqM7jIea5qDqilJqUJs0rw==
+"@syncfusion/ej2-excel-export@~20.3.61":
+  version "20.3.61"
+  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-excel-export/-/ej2-excel-export-20.3.61.tgz#98a7d6ba68b9ba15b85ab3d5403f039bf9a42c32"
+  integrity sha512-oQpUhyIqBQ4+16M5amvbUWHnAUyzk7tBN9dC7w89zywUVe0VHOlstP6syeKm4NjrGCeJ4AUhIrhruBkAVoNcpQ==
   dependencies:
     "@syncfusion/ej2-base" "~20.3.56"
     "@syncfusion/ej2-compression" "~20.3.56"
@@ -1946,10 +1946,10 @@
   resolved "https://registry.yarnpkg.com/@syncfusion/ej2-file-utils/-/ej2-file-utils-20.3.56.tgz#8afb610487ad4d122feaefa0cc3424061fa0e343"
   integrity sha512-nyRfXfsdyP7XqWLGcqUSZI8oKZts4iYXZm8qLzyTN0jrJOcPqX3xVtVAFOpnaXo5IuT8/VOPyr7bt/CI0Yf2lg==
 
-"@syncfusion/ej2-grids@20.3.60":
-  version "20.3.60"
-  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-grids/-/ej2-grids-20.3.60.tgz#3bd1a56acb7888f8449c10bd58a99bc9d6186597"
-  integrity sha512-pQI0H3vZGzwhH9hMIxy6v9jcMh62YTORlCbE+EbE+OTEu9fREVA/2b+aw4OfaeWgjwziKnuVBWeUKsEsAYUntg==
+"@syncfusion/ej2-grids@20.3.62":
+  version "20.3.62"
+  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-grids/-/ej2-grids-20.3.62.tgz#809f4a3749f92c76ad85bdbb07b1119fd2ebdbec"
+  integrity sha512-cE3ib4NtRURwjL8/aKTlo4j5TFWIWvb7m/+nk7qQOJnQIOVYqW0PZDv9aP6RrOL8SEfYyDmLHEkv3pjQqoxpWQ==
   dependencies:
     "@syncfusion/ej2-base" "~20.3.56"
     "@syncfusion/ej2-buttons" "~20.3.58"
@@ -1957,7 +1957,7 @@
     "@syncfusion/ej2-compression" "~20.3.56"
     "@syncfusion/ej2-data" "~20.3.60"
     "@syncfusion/ej2-dropdowns" "~20.3.60"
-    "@syncfusion/ej2-excel-export" "~20.3.56"
+    "@syncfusion/ej2-excel-export" "~20.3.61"
     "@syncfusion/ej2-file-utils" "~20.3.56"
     "@syncfusion/ej2-inputs" "~20.3.57"
     "@syncfusion/ej2-lists" "~20.3.56"
@@ -2043,13 +2043,13 @@
     "@syncfusion/ej2-base" "~20.3.56"
     glob "^7.0.5"
 
-"@syncfusion/ej2-vue-grids@^20.3.57":
-  version "20.3.60"
-  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-vue-grids/-/ej2-vue-grids-20.3.60.tgz#2e04899e780091df91a44e59654b9a0b593d1103"
-  integrity sha512-I8zkpqlcA9fPd1LkWdpuqB0YvoCKQlTEGlq29Ywm1kUZcqDKY2N14U9oHnHYKaElW6KPQwg8ICp0l+1vAja2UA==
+"@syncfusion/ej2-vue-grids@^20.3.62":
+  version "20.3.62"
+  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-vue-grids/-/ej2-vue-grids-20.3.62.tgz#a969877a65491e26c8f8591998c5e2a3c083fdcc"
+  integrity sha512-ue60tAlP7CaB0Fb9GIU92F9MxRCBfoAjo2LMhTjI6uy4QXvR+xfJGLbQngK5fm1GvXN8wDUJxOg/At116+E/xg==
   dependencies:
     "@syncfusion/ej2-base" "~20.3.56"
-    "@syncfusion/ej2-grids" "20.3.60"
+    "@syncfusion/ej2-grids" "20.3.62"
     "@syncfusion/ej2-vue-base" "~20.3.59"
 
 "@types/babel__core@^7.1.14":
@@ -3898,7 +3898,7 @@ core-js@^2.4.0, core-js@^2.6.5:
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.12.tgz#d9333dfa7b065e347cc5682219d6f690859cc2ec"
   integrity sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==
 
-core-js@^3.17.2:
+core-js@^3.25.5:
   version "3.26.1"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.26.1.tgz#7a9816dabd9ee846c1c0fe0e8fcad68f3709134e"
   integrity sha512-21491RRQVzUn0GGM9Z1Jrpr6PNPxPi+Za8OM9q4tksTSnlbXXGKK1nXNg/QvwFYettXvSX6zWKCtHHfjN4puyA==
