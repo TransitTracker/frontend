@@ -12,6 +12,7 @@ export const state = () => ({
   activateByod: false,
   preferDesktopView: true,
   pushSubscriptionUuid: null,
+  selectedTableColumns: [],
   tableColumns: [
     {
       field: 'agency',
