@@ -1,24 +1,24 @@
 <template>
   <div>
     <div
-      class="tw-flex tw-items-center tw-justify-between tw-gap-x-2 tw-bg-neutral-99 tw-px-4 tw-py-2 dark:tw-bg-neutral-10"
+      class="tw-flex tw-items-center tw-justify-between tw-gap-x-2 tw-bg-neutral-99 tw-px-4 tw-py-2 dark:tw-bg-[#1e1e1e]"
     >
       <div
         class="tw-flex tw-flex-wrap tw-gap-2 tw-text-sm tw-font-medium tw-leading-5 tw-text-neutralVariant-30 dark:tw-text-neutralVariant-80"
       >
         <div
-          v-for="(term, column) in searchTermNotEmpty"
+          v-for="(value, column) in filters"
           :key="column"
           class="pr-2 tw-flex tw-h-8 tw-items-center tw-gap-x-2 tw-rounded-lg tw-border tw-border-solid tw-border-neutralVariant-50 tw-pl-3 dark:tw-border-neutralVariant-60"
         >
           <span>
             {{ $t(`properties.${column}`) }}
-            : {{ term }}
+            : {{ value }}
           </span>
           <button
-            @click="removeSearchTerm(column)"
             :title="$t('removeFilter')"
             class="tw-h-[1.125rem] tw-w-[1.125rem]"
+            @click="removeFilter(column)"
           >
             <TwIcon
               :path="mdiClose"
@@ -27,12 +27,16 @@
           </button>
         </div>
       </div>
-      <TwStandardIconButton>
+      <TwStandardIconButton
+        @click="openSettings"
+        class="tw-cursor-pointer"
+        :title="$t('openSettings')"
+      >
         <TwIcon :path="mdiTune" />
       </TwStandardIconButton>
     </div>
     <v-data-table
-      class="tt-table tw-border-x-0 tw-border-t tw-border-b-0 tw-border-solid tw-border-t-[#e0e0e0] dark:tw-border-t-[#393939]"
+      class="tt-table tw-border-x-0 tw-border-t tw-border-b-0 tw-border-solid tw-border-t-[#e0e0e0] dark:tw-border-t-[#fff]/12"
       group-by="agency"
       :headers="columns"
       :items="vehicles"
@@ -43,26 +47,23 @@
       :mobile-breakpoint="1"
       :fixed-header="true"
     >
-      <template
-        v-for="column in columns"
-        v-slot:[`header.${column.value}`]="{}"
-      >
+      <template v-for="column in columns" #[`header.${column.value}`]="{}">
         <div
           :key="column.value"
           class="tw-inline-flex tw-items-center tw-gap-x-1"
         >
           <TwStandardIconButton
             v-if="column.filterable"
-            @click="filterModal = column.value"
             class="!tw-h-6 !tw-w-6"
+            @click="filterModal = column.value"
           >
             <TwIcon
               class="!tw-h-5 !tw-w-5"
               :class="[
-                searchTerm[column.value] &&
+                filters[column.value] &&
                   'tw-text-primary-40 dark:tw-text-primary-80',
               ]"
-              :path="searchTerm[column.value] ? mdiFilter : mdiFilterOutline"
+              :path="filters[column.value] ? mdiFilter : mdiFilterOutline"
             />
           </TwStandardIconButton>
           {{ column.text }}
@@ -71,7 +72,11 @@
             v-on-clickaway="resetFilterModal"
             class="tw-absolute tw-top-full tw-z-10 -tw-ml-4 tw-bg-neutralVariant-90 tw-p-2 dark:tw-bg-neutralVariant-30"
           >
-            <select v-model="searchTerm[column.value]" v-if="column.choices">
+            <select
+              v-if="column.choices"
+              :value="filters[column.value]"
+              @input="setFilter(column.value, $event)"
+            >
               <option
                 v-for="option in filterOptions[column.value]"
                 :key="option.value"
@@ -81,13 +86,13 @@
               </option>
             </select>
             <TwFilledTextField
-              v-model="searchTerm[column.value]"
-              :placeholder="$t('filterBy', { column: column.text })"
-              supporting-text="You can use operators like % to refine your search."
-              :clear-text="$t('clearFilter')"
-              @text-cleared="removeSearchTerm(column.value)"
-              color="background"
               v-else
+              :value="filters[column.value]"
+              :placeholder="$t('filterBy', { column: column.text })"
+              :clear-text="$t('clearFilter')"
+              color="background"
+              @input="setFilter(column.value, $event)"
+              @text-cleared="removeFilter(column.value)"
             />
           </div>
         </div>
@@ -105,9 +110,9 @@
       <template v-slot:item.tags="{ item }">
         <div class="tw-flex tw-gap-2">
           <TwTag
-            :tag-id="tagId"
             v-for="tagId in item.tags"
             :key="tagId"
+            :tag-id="tagId"
             small
           />
         </div>
@@ -156,8 +161,8 @@ import {
 import { mixin as clickaway } from 'vue-clickaway'
 
 export default {
-  middleware: 'loadData',
   mixins: [clickaway],
+  middleware: 'loadData',
   asyncData() {
     return {
       mdiTune,
@@ -174,36 +179,11 @@ export default {
   },
   data() {
     return {
-      availableColumns: [
-        'agency',
-        'ref',
-        'label',
-        'tags',
-        'timestamp',
-        'tripId',
-        'trip.headsign',
-        'trip.shortName',
-        'startTime',
-        'routeId',
-        'trip.routeShortName',
-        'trip.serviceId',
-        'position.lat',
-        'bearing',
-        'speed',
-        'vehicleType',
-        'plate',
-        'odometer',
-        'currentStopSequence',
-        'currentStatus.label',
-        'scheduleRelationship.label',
-        'congestionLevel.label',
-        'occupancyStatus.label',
-        'createdAt',
-        'actions',
-      ],
+      availableColumns: ['agency'],
       columnsProperties: {
         routeId: {
           sort: this.sortNumber,
+          width: 100,
         },
         bearing: {
           sort: this.sortNumber,
@@ -252,18 +232,29 @@ export default {
         'trip.shortName': {
           width: 125,
         },
+        'trip.headsign': {
+          width: 150,
+        },
+        'trip.routeShortName': {
+          width: 150,
+        },
+        'currentStatus.label': {
+          width: 150,
+        },
         'scheduleRelationship.label': {
           width: 150,
         },
+        'congestionLevel.label': {
+          width: 150,
+        },
         'occupancyStatus.label': {
-          width: 125,
+          width: 150,
         },
 
         // TODO: add choices to agency, currentStatus, scheduleRelationship, congestionLevel, occupancyStatus
       },
       linksDialog: false,
       searchColumn: 'ref',
-      searchTerm: {},
       filterModal: null,
     }
   },
@@ -284,13 +275,15 @@ export default {
       return this.$store.state.agencies.data
     },
     columns() {
-      return this.availableColumns.map((column) => ({
-        text: this.$t(`properties.${column}`),
-        value: column,
-        divider: true,
-        filterable: true,
-        ...this.columnsProperties[column],
-      }))
+      return this.$store.getters['settings/visibleTableColumns'].map(
+        (column) => ({
+          text: this.$t(`properties.${column}`),
+          value: column,
+          divider: true,
+          filterable: true,
+          ...this.columnsProperties[column],
+        })
+      )
     },
     darkMode() {
       return this.$vuetify.theme.dark
@@ -301,10 +294,8 @@ export default {
     region() {
       return this.$store.state.regions.data[this.$route.params.region] || {}
     },
-    searchTermNotEmpty() {
-      return Object.fromEntries(
-        Object.entries(this.searchTerm).filter(([key, value]) => value !== '')
-      )
+    filters() {
+      return this.$store.state.app.filters
     },
     vehicles() {
       // Get all vehicles
@@ -315,25 +306,35 @@ export default {
       })
 
       return vehicles.filter((item) => {
-        return Object.entries(this.searchTerm).every(([key, value]) => {
+        return Object.entries(this.filters).every(([key, searchTerm]) => {
+          // Exception for route short name since it's used with route long name
           if (key === 'trip.routeShortName') {
             return (
               `${item.trip.routeShortName} ${item.trip.routeLongName}` ?? ''
             )
               .toUpperCase()
-              .includes(value.toString().toUpperCase())
+              .includes(searchTerm.toString().toUpperCase())
           }
 
+          // Custom return for nested column
           if (key.includes('.')) {
             const [parent, child] = key.split('.')
             return (item[parent][child] ?? '')
               .toUpperCase()
-              .includes(value.toString().toUpperCase())
+              .includes(searchTerm.toString().toUpperCase())
           }
 
-          return (item[key] ?? '')
+          let value = item[key] ?? ''
+
+          // For numbers
+          if (typeof item[key] === 'number') {
+            value = item[key] + ''
+          }
+
+          // Everything else
+          return value
             .toUpperCase()
-            .includes(value.toString().toUpperCase())
+            .includes(searchTerm.toString().toUpperCase())
         })
       })
     },
@@ -357,8 +358,15 @@ export default {
     resetFilterModal() {
       this.filterModal = ''
     },
-    removeSearchTerm(column) {
-      this.$delete(this.searchTerm, column)
+    openSettings() {
+      this.$store.commit('app/set', { key: 'openSettingsDrawer', value: true })
+    },
+    removeFilter(column) {
+      this.$store.commit('app/removeFilter', column)
+    },
+    setFilter(column, value) {
+      console.log(value)
+      this.$store.commit('app/setFilter', { column, value })
     },
     setSelection(action, vehicle) {
       this.$store.commit('vehicles/setSelection', vehicle)
@@ -408,11 +416,13 @@ export default {
 <i18n>
   {
     "en": {
+      "openSettings": "Open settings to choose columns",
       "filterBy": "Filter by {column}",
       "clearFilter": "Clear fitler",
       "removeFilter": "Remove filter"
     },
     "fr": {
+      "openSettings": "Ouvrir les paramètres pour choisir les colonnes",
       "filterBy": "Filtrer par {column}",
       "clearFilter": "Vider le filtre",
       "removeFilter": "Retirer le filtre"

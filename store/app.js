@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 export const state = () => ({
   firstLoad: true,
   dataIsLoaded: false,
@@ -11,6 +13,7 @@ export const state = () => ({
   openDownloadAssistant: false,
   updatePending: false,
   notificationsCentre: false,
+  filters: {},
 })
 
 export const mutations = {
@@ -19,6 +22,17 @@ export const mutations = {
   },
   set(state, { key, value }) {
     state[key] = value
+  },
+  setFilter(state, { column, value }) {
+    Vue.set(state.filters, column, value)
+
+    // Delete the filter if it's empty
+    if (value === '') {
+      Vue.delete(state.filters, column)
+    }
+  },
+  removeFilter(state, column) {
+    Vue.delete(state.filters, column)
   },
 }
 

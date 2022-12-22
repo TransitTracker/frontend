@@ -1,5 +1,8 @@
 <template>
-  <div class="tw-relative tw-mb-5 tw-w-96 tw-font-normal">
+  <div
+    class="tw-relative tw-w-96 tw-font-normal"
+    :class="[supportingText && 'tw-mb-5']"
+  >
     <input
       :value="value"
       @input="$emit('input', $event.target.value)"
