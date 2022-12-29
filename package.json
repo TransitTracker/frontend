@@ -16,7 +16,7 @@
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/pwa": "^3.3.5",
     "@popperjs/core": "^2.11.6",
-    "@syncfusion/ej2-vue-grids": "^20.3.57",
+    "@syncfusion/ej2-vue-grids": "^20.4.40",
     "animejs": "^3.2.1",
     "core-js": "^3.25.5",
     "dexie": "^3.0.3",
