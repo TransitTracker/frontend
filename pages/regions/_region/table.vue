@@ -28,14 +28,15 @@
         </div>
       </div>
       <TwStandardIconButton
-        @click="openSettings"
         class="tw-cursor-pointer"
         :title="$t('openSettings')"
+        @click="openSettings"
       >
         <TwIcon :path="mdiTune" />
       </TwStandardIconButton>
     </div>
     <v-data-table
+      v-if="columns && columns.length >= 1"
       class="tt-table tw-border-x-0 tw-border-t tw-border-b-0 tw-border-solid tw-border-t-[#e0e0e0] dark:tw-border-t-[#fff]/12"
       group-by="agency"
       :headers="columns"
@@ -141,6 +142,27 @@
         </div>
       </template>
     </v-data-table>
+    <div
+      v-else
+      class="tw-flex tw-w-full tw-flex-col tw-items-center tw-justify-center tw-gap-4 tw-py-8 tw-px-4 tw-text-center"
+    >
+      <TwIcon
+        :path="mdiTableColumnPlusBefore"
+        class="tw-h-12 tw-w-12 tw-text-primary-10 dark:tw-text-primary-90 md:tw-h-32 md:tw-w-32"
+      />
+      <h1
+        class="tw-font-medium tw-leading-8 md:tw-text-[1.75rem] md:tw-font-normal md:tw-leading-9"
+      >
+        {{ $t('noColumns') }}
+      </h1>
+      <p class="tw-font-medium tw-leading-6">
+        {{ $t('noColumnsInstructions') }}
+      </p>
+      <TwFilledButton with-icon @click="openSettings">
+        <TwIcon :path="mdiTune" />
+        {{ $t('openSettingsShort') }}
+      </TwFilledButton>
+    </div>
     <TableLinksDialog v-model="linksDialog" />
   </div>
 </template>
@@ -157,6 +179,7 @@ import {
   mdiFilter,
   mdiFilterOutline,
   mdiClose,
+  mdiTableColumnPlusBefore,
 } from '@mdi/js'
 import { mixin as clickaway } from 'vue-clickaway'
 
@@ -175,6 +198,7 @@ export default {
       mdiFilter,
       mdiFilterOutline,
       mdiClose,
+      mdiTableColumnPlusBefore,
     }
   },
   data() {
@@ -365,7 +389,6 @@ export default {
       this.$store.commit('app/removeFilter', column)
     },
     setFilter(column, value) {
-      console.log(value)
       this.$store.commit('app/setFilter', { column, value })
     },
     setSelection(action, vehicle) {
@@ -419,13 +442,19 @@ export default {
       "openSettings": "Open settings to choose columns",
       "filterBy": "Filter by {column}",
       "clearFilter": "Clear fitler",
-      "removeFilter": "Remove filter"
+      "removeFilter": "Remove filter",
+      "noColumns": "You don't have any columns visible yet!",
+      "noColumnsInstructions": "Go to the settings to add the columns of your choice. You can also choose the order of the columns.",
+      "openSettingsShort": "Open settings"
     },
     "fr": {
       "openSettings": "Ouvrir les paramètres pour choisir les colonnes",
       "filterBy": "Filtrer par {column}",
       "clearFilter": "Vider le filtre",
-      "removeFilter": "Retirer le filtre"
+      "removeFilter": "Retirer le filtre",
+      "noColumns": "Vous n'avez pas encore de colonnes visibles!",
+      "noColumnsInstructions": "Rendez-vous dans les paramètres afin d'ajouter les colonnes de votre choix. Vous pouvez également choisir l'ordre des colonnes.",
+      "openSettingsShort": "Ouvrir les paramètres"
     }
   }
 </i18n>

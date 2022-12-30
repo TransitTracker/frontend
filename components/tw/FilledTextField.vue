@@ -17,7 +17,7 @@
     ></div>
     <label
       for="input"
-      class="tw-pointer-events-none tw-absolute tw-left-0 tw-ml-4 tw-mr-[52px] tw-mt-2 tw-text-xs tw-duration-300 peer-placeholder-shown:tw-mt-4 peer-placeholder-shown:tw-text-base peer-focus:tw-mt-2 peer-focus:tw-text-xs peer-focus:tw-text-primary-40 dark:peer-focus:tw-text-primary-80"
+      class="tw-pointer-events-none tw-absolute tw-top-0 tw-left-0 tw-ml-4 tw-mr-[52px] tw-mt-2 tw-text-xs tw-duration-300 peer-placeholder-shown:tw-mt-4 peer-placeholder-shown:tw-text-base peer-focus:tw-mt-2 peer-focus:tw-text-xs peer-focus:tw-text-primary-40 dark:peer-focus:tw-text-primary-80"
     >
       {{ placeholder }}
     </label>

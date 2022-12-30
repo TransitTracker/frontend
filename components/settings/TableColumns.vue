@@ -8,9 +8,9 @@
       class="tw-mt-2 tw-space-y-2"
     >
       <div
-        class="tableColumns tw-flex tw-h-8 tw-items-center tw-gap-x-2 tw-rounded-lg tw-bg-neutralVariant-90 tw-pr-4 tw-pl-2 tw-text-sm tw-text-neutralVariant-30 dark:tw-bg-neutralVariant-30 dark:tw-text-neutralVariant-80"
         v-for="column in visibleColumns"
         :key="column"
+        class="tableColumns tw-flex tw-h-8 tw-items-center tw-gap-x-2 tw-rounded-lg tw-bg-neutralVariant-90 tw-pr-4 tw-pl-2 tw-text-sm tw-text-neutralVariant-30 dark:tw-bg-neutralVariant-30 dark:tw-text-neutralVariant-80"
       >
         <TwIcon
           :path="mdiReorderHorizontal"
@@ -25,12 +25,16 @@
         {{ $t('dropHereVisible') }}
       </div>
     </draggable>
+    <!-- TODO: Convert chip to component with hover effect -->
     <button
+      v-if="visibleColumns.length !== availableColumns.length"
       class="tw-mt-2 tw-flex tw-h-8 tw-items-center tw-gap-x-2 tw-rounded-lg tw-border tw-border-solid tw-border-neutralVariant-50 tw-pr-4 tw-pl-2 tw-text-sm tw-leading-8 dark:tw-border-neutralVariant-60"
       @click="addAll"
-      v-if="visibleColumns.length !== availableColumns.length"
     >
-      <TwIcon :path="mdiTableColumnPlusAfter" />
+      <TwIcon
+        :path="mdiTableColumnPlusAfter"
+        class="!tw-h-[1.125rem] !tw-w-[1.125rem]"
+      />
       <span>{{ $t('addAll') }}</span>
     </button>
     <h3 class="tw-mt-4 tw-text-xs tw-font-medium tw-leading-4">
@@ -43,16 +47,19 @@
       draggable=".tableColumns"
     >
       <div
-        class="tableColumns tw-flex tw-h-8 tw-items-center tw-gap-x-2 tw-rounded-lg tw-bg-neutralVariant-90 tw-pr-4 tw-pl-2 tw-text-sm tw-text-neutralVariant-30 dark:tw-bg-neutralVariant-30 dark:tw-text-neutralVariant-80"
         v-for="column in hiddenColumns"
         :key="column"
+        class="tableColumns tw-flex tw-h-8 tw-items-center tw-gap-x-2 tw-rounded-lg tw-bg-neutralVariant-90 tw-pr-4 tw-pl-2 tw-text-sm tw-text-neutralVariant-30 dark:tw-bg-neutralVariant-30 dark:tw-text-neutralVariant-80"
       >
-        <TwIcon :path="mdiReorderHorizontal" />
+        <TwIcon
+          :path="mdiReorderHorizontal"
+          class="!tw-h-[1.125rem] !tw-w-[1.125rem]"
+        />
         <span>{{ $t(`properties.${column}`) }}</span>
       </div>
       <div
-        slot="header"
         v-if="!hiddenColumns.length"
+        slot="header"
         class="tw-flex tw-items-center tw-justify-center tw-rounded-xl tw-border tw-border-dashed tw-border-neutralVariant-50 tw-px-4 tw-py-4 dark:tw-border-neutralVariant-60"
       >
         {{ $t('dropHereHidden') }}
@@ -67,13 +74,13 @@ import draggable from 'vuedraggable'
 import { mdiReorderHorizontal, mdiTableColumnPlusAfter } from '@mdi/js'
 
 export default {
+  components: {
+    draggable,
+  },
   data: () => ({
     mdiReorderHorizontal,
     mdiTableColumnPlusAfter,
   }),
-  components: {
-    draggable,
-  },
   computed: {
     availableColumns() {
       return this.$store.getters['settings/availableTableColumns']
@@ -107,7 +114,7 @@ export default {
     addAll() {
       this.$store.commit('settings/set', {
         setting: 'selectedTableColumns',
-        value: this.availableColumns,
+        value: [...this.visibleColumns, ...this.hiddenColumns],
       })
     },
   },
