@@ -40,6 +40,7 @@ export const state = () => ({
   pushSubscriptionUuid: null,
   selectedTableColumns: [
     'label',
+    'tags',
     'routeId',
     'trip.routeShortName',
     'trip.headsign',
