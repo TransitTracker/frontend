@@ -1,18 +1,103 @@
 <template>
   <div>
+    <div
+      class="tw-flex tw-items-center tw-justify-between tw-gap-x-2 tw-bg-neutral-99 tw-px-4 tw-py-2 dark:tw-bg-[#1e1e1e]"
+    >
+      <div
+        class="tw-flex tw-flex-wrap tw-gap-2 tw-text-sm tw-font-medium tw-leading-5 tw-text-neutralVariant-30 dark:tw-text-neutralVariant-80"
+      >
+        <div
+          v-for="(value, column) in filters"
+          :key="column"
+          class="pr-2 tw-flex tw-h-8 tw-items-center tw-gap-x-2 tw-rounded-lg tw-border tw-border-solid tw-border-neutralVariant-50 tw-pl-3 dark:tw-border-neutralVariant-60"
+        >
+          <span>
+            {{ $t(`properties.${column}`) }}
+            : {{ value }}
+          </span>
+          <button
+            :title="$t('removeFilter')"
+            class="tw-h-[1.125rem] tw-w-[1.125rem]"
+            @click="removeFilter(column)"
+          >
+            <TwIcon
+              :path="mdiClose"
+              class="!tw-h-[1.125rem] !tw-w-[1.125rem]"
+            />
+          </button>
+        </div>
+      </div>
+      <TwStandardIconButton
+        class="tw-cursor-pointer"
+        :title="$t('openSettings')"
+        @click="openSettings"
+      >
+        <TwIcon :path="mdiTune" />
+      </TwStandardIconButton>
+    </div>
     <v-data-table
+      v-if="columns && columns.length >= 1"
+      class="tt-table tw-border-x-0 tw-border-t tw-border-b-0 tw-border-solid tw-border-t-[#e0e0e0] dark:tw-border-t-[#fff]/12"
       group-by="agency"
-      :custom-filter="filterAllFields"
-      :headers="headers"
+      :headers="columns"
       :items="vehicles"
       :items-per-page="100"
       :footer-props="{
         itemsPerPageOptions: [25, 50, 100, 150, 200, -1],
       }"
-      :search="searchAll"
       :mobile-breakpoint="1"
-      class="mb-14"
+      :fixed-header="true"
     >
+      <template v-for="column in columns" #[`header.${column.value}`]="{}">
+        <div
+          :key="column.value"
+          class="tw-inline-flex tw-items-center tw-gap-x-1"
+        >
+          <TwStandardIconButton
+            v-if="column.filterable"
+            class="!tw-h-6 !tw-w-6"
+            @click="filterModal = column.value"
+          >
+            <TwIcon
+              class="!tw-h-5 !tw-w-5"
+              :class="[
+                filters[column.value] &&
+                  'tw-text-primary-40 dark:tw-text-primary-80',
+              ]"
+              :path="filters[column.value] ? mdiFilter : mdiFilterOutline"
+            />
+          </TwStandardIconButton>
+          {{ column.text }}
+          <div
+            v-if="filterModal === column.value"
+            v-on-clickaway="resetFilterModal"
+            class="tw-absolute tw-top-full tw-z-10 -tw-ml-4 tw-bg-neutralVariant-90 tw-p-2 dark:tw-bg-neutralVariant-30"
+          >
+            <select
+              v-if="column.choices"
+              :value="filters[column.value]"
+              @input="setFilter(column.value, $event)"
+            >
+              <option
+                v-for="option in filterOptions[column.value]"
+                :key="option.value"
+                :value="option.value"
+              >
+                {{ option.text }}
+              </option>
+            </select>
+            <TwFilledTextField
+              v-else
+              :value="filters[column.value]"
+              :placeholder="$t('filterBy', { column: column.text })"
+              :clear-text="$t('clearFilter')"
+              color="background"
+              @input="setFilter(column.value, $event)"
+              @text-cleared="removeFilter(column.value)"
+            />
+          </div>
+        </div>
+      </template>
       <!-- eslint-disable-next-line -->
       <template v-slot:group.header="{ group, headers, toggle, isOpen }">
         <td :colspan="headers.length">
@@ -23,119 +108,61 @@
         </td>
       </template>
       <!-- eslint-disable-next-line -->
-      <template v-slot:body.prepend="{ headers }">
-        <tr class="tt-table__filters">
-          <td>
-            <v-text-field
-              v-model="searchLabel"
-              :prepend-inner-icon="mdiMagnify"
-              :placeholder="$t('table.filter')"
-              dense
-              hide-details
-              single-line
-            />
-          </td>
-          <td>
-            <v-text-field
-              v-model="searchRoute"
-              :prepend-inner-icon="mdiMagnify"
-              :placeholder="$t('table.filter')"
-              dense
-              hide-details
-              single-line
-            ></v-text-field>
-            <v-checkbox
-              v-model="filterOnlyRouteId"
-              hide-details
-              class="mt-0"
-              color="secondary"
-              :ripple="false"
-            >
-              <template #label>
-                <div class="text-caption">{{ $t('table.filterRouteId') }}</div>
-              </template>
-            </v-checkbox>
-          </td>
-          <td>
-            <v-text-field
-              v-model="searchHeadsign"
-              :prepend-inner-icon="mdiMagnify"
-              :placeholder="$t('table.filter')"
-              dense
-              hide-details
-              single-line
-            ></v-text-field>
-          </td>
-          <td>
-            <v-text-field
-              v-model="searchTrip"
-              :prepend-inner-icon="mdiMagnify"
-              :placeholder="$t('table.filter')"
-              dense
-              hide-details
-              single-line
-            ></v-text-field>
-          </td>
-          <td colspan="2"></td>
-        </tr>
+      <template v-slot:item.tags="{ item }">
+        <div class="tw-flex tw-gap-2">
+          <TwTag
+            v-for="tagId in item.tags"
+            :key="tagId"
+            :tag-id="tagId"
+            small
+          />
+        </div>
+      </template>
+      <!-- eslint-disable-next-line -->
+      <template v-slot:item.timestamp="{ item }">
+        <TwTimeAgo :timestamp="+item.timestamp" />
+      </template>
+      <!-- eslint-disable-next-line -->
+      <template v-slot:item.trip.routeShortName="{ item }">
+        {{ item.trip.routeShortName }} {{ item.trip.routeLongName }}
+      </template>
+      <!-- eslint-disable-next-line -->
+      <template v-slot:item.createdAt="{ item }">
+        {{ formatDate(item.createdAt) }}
       </template>
       <!-- eslint-disable-next-line -->
       <template v-slot:item.actions="{ item }">
-        <div class="d-flex items-center">
-          <v-btn
-            small
-            icon
-            color="secondary"
-            :title="$t('table.viewOnMap')"
-            @click="setSelection(item)"
-          >
-            <v-icon>{{ mdiMapMarker }}</v-icon>
-          </v-btn>
-          <v-btn
-            v-if="item.links.length"
-            small
-            icon
-            color="secondary"
-            :title="$t('table.openLinks')"
-            @click="setSelection(item, true)"
-          >
-            <v-icon>{{ mdiOpenInNew }}</v-icon>
-          </v-btn>
-        </div>
-      </template>
-      <!-- eslint-disable-next-line -->
-      <template v-slot:item.label="{ item }">
-        <div class="d-flex align-center flex-wrap gap-2">
-          {{ item.label || item.ref }}
-          <Tag
-            v-for="tag in item.tags"
-            :key="tag"
-            :tag-id="tag"
-            :small="true"
-          ></Tag>
-        </div>
-      </template>
-      <!-- eslint-disable-next-line -->
-      <template v-slot:item.routeId="{ item }">
-        <div>
-          <span
-            v-if="
-              item.trip.routeShortName &&
-              item.trip.routeShortName !== item.routeId
-            "
-            :title="$t('table.routeId')"
-            class="text-caption grey px-1 rounded mr-2 d-inline-flex items-center"
-            :class="[darkMode ? 'darken-3' : 'lighten-3']"
-          >
-            {{ item.routeId }}
-          </span>
-          <span>{{ item.trip.routeShortName || item.routeId }}</span>
-          <span v-if="item.trip.routeLongName">
-            &nbsp;{{ item.trip.routeLongName }}
-          </span>
+        <div class="tw-flex tw-items-center tw-gap-2">
+          <TwStandardIconButton @click="setSelection('links', item)">
+            <TwIcon :path="mdiOpenInNew" />
+          </TwStandardIconButton>
+          <TwStandardIconButton @click="setSelection('map', item)">
+            <TwIcon :path="mdiMapMarkerOutline" />
+          </TwStandardIconButton>
         </div>
       </template>
     </v-data-table>
+    <div
+      v-else
+      class="tw-flex tw-w-full tw-flex-col tw-items-center tw-justify-center tw-gap-4 tw-py-8 tw-px-4 tw-text-center"
+    >
+      <TwIcon
+        :path="mdiTableColumnPlusBefore"
+        class="tw-h-12 tw-w-12 tw-text-primary-10 dark:tw-text-primary-90 md:tw-h-32 md:tw-w-32"
+      />
+      <h1
+        class="tw-font-medium tw-leading-8 md:tw-text-[1.75rem] md:tw-font-normal md:tw-leading-9"
+      >
+        {{ $t('noColumns') }}
+      </h1>
+      <p class="tw-font-medium tw-leading-6">
+        {{ $t('noColumnsInstructions') }}
+      </p>
+      <TwFilledButton with-icon @click="openSettings">
+        <TwIcon :path="mdiTune" />
+        {{ $t('openSettingsShort') }}
+      </TwFilledButton>
+    </div>
     <TableLinksDialog v-model="linksDialog" />
   </div>
 </template>
@@ -147,89 +174,112 @@ import {
   mdiMinus,
   mdiOpenInNew,
   mdiPlus,
+  mdiMapMarkerOutline,
+  mdiTune,
+  mdiFilter,
+  mdiFilterOutline,
+  mdiClose,
+  mdiTableColumnPlusBefore,
 } from '@mdi/js'
+import { mixin as clickaway } from 'vue-clickaway'
 
 export default {
+  mixins: [clickaway],
   middleware: 'loadData',
   asyncData() {
-    return { mdiMagnify, mdiMapMarker, mdiMinus, mdiOpenInNew, mdiPlus }
+    return {
+      mdiTune,
+      mdiMagnify,
+      mdiMapMarker,
+      mdiMinus,
+      mdiOpenInNew,
+      mdiPlus,
+      mdiMapMarkerOutline,
+      mdiFilter,
+      mdiFilterOutline,
+      mdiClose,
+      mdiTableColumnPlusBefore,
+    }
   },
   data() {
     return {
-      headers: [
-        {
-          text: this.$t('table.dataRef'),
-          value: 'label',
-          divider: true,
-          filter: (value, search, item) => {
-            return (value + '')
-              .toLowerCase()
-              .includes(this.searchLabel.toLowerCase())
-          },
-        },
-        {
-          text: this.$t('table.dataRoute'),
-          value: 'routeId',
-          divider: true,
+      availableColumns: ['agency'],
+      columnsProperties: {
+        routeId: {
           sort: this.sortNumber,
-          filter: (value, search, item) => {
-            if (this.filterOnlyRouteId) {
-              return (value + '')
-                .toLowerCase()
-                .includes(this.searchRoute.toLowerCase())
-            }
-            return (
-              value +
-              ' ' +
-              item.trip.routeShortName +
-              ' ' +
-              item.trip.routeLongName +
-              ''
-            )
-              .toLowerCase()
-              .includes(this.searchRoute.toLowerCase())
-          },
+          width: 100,
         },
-        {
-          text: this.$t('table.dataHeadsign'),
-          value: 'trip.headsign',
-          divider: true,
-          filter: (value) => {
-            return (value + '')
-              .toLowerCase()
-              .includes(this.searchHeadsign.toLowerCase())
-          },
+        bearing: {
+          sort: this.sortNumber,
         },
-        {
-          text: this.$t('table.dataTripId'),
-          value: 'tripId',
-          divider: true,
-          filter: (value) => {
-            return (value + '')
-              .toLowerCase()
-              .includes(this.searchTrip.toLowerCase())
-          },
+        speed: {
+          sort: this.sortNumber,
         },
-        {
-          text: this.$t('table.dataStartTime'),
-          value: 'startTime',
-          width: 105,
-          divider: true,
+        odometer: {
+          sort: this.sortNumber,
         },
-        {
-          text: this.$t('table.actions'),
-          value: 'actions',
-          divider: true,
+        stopSequence: {
+          sort: this.sortNumber,
+        },
+        timestamp: {
+          filterable: false,
+          sort: this.sortTimestamp,
+          width: 125,
+        },
+        createdAt: {
+          filterable: false,
+          sort: this.sortDate,
+          width: 150,
+        },
+        startTime: {
+          filterable: false,
+          width: 125,
+        },
+        tags: {
           sortable: false,
+          filterable: false,
         },
-      ],
+        'position.lat': {
+          sortable: false,
+          filterable: false,
+        },
+        actions: {
+          sortable: false,
+          filterable: false,
+        },
+        label: {
+          width: 125,
+        },
+        tripId: {
+          width: 200,
+        },
+        'trip.shortName': {
+          width: 125,
+        },
+        'trip.headsign': {
+          width: 150,
+        },
+        'trip.routeShortName': {
+          width: 150,
+        },
+        'currentStatus.label': {
+          width: 150,
+        },
+        'scheduleRelationship.label': {
+          width: 150,
+        },
+        'congestionLevel.label': {
+          width: 150,
+        },
+        'occupancyStatus.label': {
+          width: 150,
+        },
+
+        // TODO: add choices to agency, currentStatus, scheduleRelationship, congestionLevel, occupancyStatus
+      },
       linksDialog: false,
-      searchLabel: '',
-      searchRoute: '',
-      searchHeadsign: '',
-      searchTrip: '',
-      searchAll: '',
-      filterOnlyRouteId: false,
+      searchColumn: 'ref',
+      filterModal: null,
     }
   },
   head() {
@@ -248,47 +298,122 @@ export default {
     agencies() {
       return this.$store.state.agencies.data
     },
+    columns() {
+      return this.$store.getters['settings/visibleTableColumns'].map(
+        (column) => ({
+          text: this.$t(`properties.${column}`),
+          value: column,
+          divider: true,
+          filterable: true,
+          ...this.columnsProperties[column],
+        })
+      )
+    },
     darkMode() {
       return this.$vuetify.theme.dark
+    },
+    filterableColumns() {
+      return this.columns.filter((column) => column.filterable)
     },
     region() {
       return this.$store.state.regions.data[this.$route.params.region] || {}
     },
+    filters() {
+      return this.$store.state.app.filters
+    },
     vehicles() {
+      // Get all vehicles
       let vehicles = []
       const state = this.$store.state.vehicles.data
       Object.keys(state).forEach((agency) => {
         vehicles = [...vehicles, ...state[agency]]
       })
-      return vehicles
+
+      return vehicles.filter((item) => {
+        return Object.entries(this.filters).every(([key, searchTerm]) => {
+          // Exception for route short name since it's used with route long name
+          if (key === 'trip.routeShortName') {
+            return (
+              `${item.trip.routeShortName} ${item.trip.routeLongName}` ?? ''
+            )
+              .toUpperCase()
+              .includes(searchTerm.toString().toUpperCase())
+          }
+
+          // Custom return for nested column
+          if (key.includes('.')) {
+            const [parent, child] = key.split('.')
+            return (item[parent][child] ?? '')
+              .toUpperCase()
+              .includes(searchTerm.toString().toUpperCase())
+          }
+
+          let value = item[key] ?? ''
+
+          // For numbers
+          if (typeof item[key] === 'number') {
+            value = item[key] + ''
+          }
+
+          // Everything else
+          return value
+            .toUpperCase()
+            .includes(searchTerm.toString().toUpperCase())
+        })
+      })
     },
   },
   methods: {
-    filterAllFields(value, search, item) {
-      if (!search) return true
-      return [
-        item.ref,
-        item.label,
-        item.routeId,
-        item.routeId,
-        item.trip.routeLongName,
-        item.trip.headsign,
-        item.tripId,
-      ]
-        .filter(Boolean)
-        .join('')
-        .toLowerCase()
-        .includes(search.toLowerCase())
-    },
-    setSelection(vehicle, openLinks = false) {
-      this.$store.commit('vehicles/setSelection', vehicle)
-      if (openLinks) {
-        this.linksDialog = true
-      } else {
-        this.$router.push(
-          this.localePath(`/regions/${this.$route.params.region}/map`)
-        )
+    formatDate(value) {
+      if (!value) return ''
+
+      const date = new Date(value)
+
+      if (date instanceof Date && !isNaN(date)) {
+        const formatted = Intl.DateTimeFormat(this.$i18n.locale, {
+          dateStyle: 'long',
+          timeStyle: 'short',
+        }).format(date)
+        return formatted
       }
+
+      return ''
+    },
+    resetFilterModal() {
+      this.filterModal = ''
+    },
+    openSettings() {
+      this.$store.commit('app/set', { key: 'openSettingsDrawer', value: true })
+    },
+    removeFilter(column) {
+      this.$store.commit('app/removeFilter', column)
+    },
+    setFilter(column, value) {
+      this.$store.commit('app/setFilter', { column, value })
+    },
+    setSelection(action, vehicle) {
+      this.$store.commit('vehicles/setSelection', vehicle)
+
+      switch (action) {
+        case 'links':
+          this.linksDialog = true
+          break
+
+        case 'map':
+          this.$router.push(
+            this.localePath(`/regions/${this.$route.params.region}/map`)
+          )
+          break
+
+        default:
+          break
+      }
+    },
+    sortDate(a, b) {
+      return new Date(b) - new Date(a)
+    },
+    sortTimestamp(a, b) {
+      return new Date(+b * 1000) - new Date(+a * 1000)
     },
     sortNumber(a, b) {
       const cook = (c) => {
@@ -306,10 +431,30 @@ export default {
 </script>
 
 <style lang="scss">
-.tt-table__filters td {
-  vertical-align: top;
-}
-.gap-2 {
-  gap: 0.5rem;
+.tt-table th {
+  position: relative;
 }
 </style>
+
+<i18n>
+  {
+    "en": {
+      "openSettings": "Open settings to choose columns",
+      "filterBy": "Filter by {column}",
+      "clearFilter": "Clear fitler",
+      "removeFilter": "Remove filter",
+      "noColumns": "You don't have any columns visible yet!",
+      "noColumnsInstructions": "Go to the settings to add the columns of your choice. You can also choose the order of the columns.",
+      "openSettingsShort": "Open settings"
+    },
+    "fr": {
+      "openSettings": "Ouvrir les paramètres pour choisir les colonnes",
+      "filterBy": "Filtrer par {column}",
+      "clearFilter": "Vider le filtre",
+      "removeFilter": "Retirer le filtre",
+      "noColumns": "Vous n'avez pas encore de colonnes visibles!",
+      "noColumnsInstructions": "Rendez-vous dans les paramètres afin d'ajouter les colonnes de votre choix. Vous pouvez également choisir l'ordre des colonnes.",
+      "openSettingsShort": "Ouvrir les paramètres"
+    }
+  }
+</i18n>

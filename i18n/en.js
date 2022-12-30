@@ -67,7 +67,7 @@ export default {
   properties: {
     agency: 'Agency',
     ref: 'Vehicle ID',
-    label: 'Vehicle number (label)',
+    label: 'Vehicle number',
     tags: 'Tags',
     timestamp: 'Last seen',
     tripId: 'Trip ID',

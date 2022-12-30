@@ -1,78 +1,120 @@
 <template>
-  <div
-    class="text-error-10 tw-rounded-md tw-bg-error-90 tw-p-2 dark:tw-bg-error-30 dark:tw-text-error-90"
-  >
-    {{ $t('temp') }}
-  </div>
-  <!--<transition-group name="table-columns" class="tw-list-none !tw-pl-0" tag="ul">
-    <li
-      class="tw-flex tw-items-center tw-gap-1"
-      v-for="(column, index) in columns"
-      :key="column.field"
+  <div>
+    <h3 class="tw-text-xs tw-font-medium tw-leading-4">{{ $t('visible') }}</h3>
+    <draggable
+      v-model="visibleColumns"
+      group="tableColumns"
+      draggable=".tableColumns"
+      class="tw-mt-2 tw-space-y-2"
     >
-      <TwStandardIconButton
-        @click="toggleVisiblity(column.field, !column.visible)"
-        :color="column.visible && 'primary'"
+      <div
+        v-for="column in visibleColumns"
+        :key="column"
+        class="tableColumns tw-flex tw-h-8 tw-items-center tw-gap-x-2 tw-rounded-lg tw-bg-neutralVariant-90 tw-pr-4 tw-pl-2 tw-text-sm tw-text-neutralVariant-30 dark:tw-bg-neutralVariant-30 dark:tw-text-neutralVariant-80"
       >
-        <TwIcon :path="column.visible ? mdiEyeOutline : mdiEyeOffOutline" />
-      </TwStandardIconButton>
-      <span
-        :class="[
-          column.visible
-            ? 'tw-font-medium'
-            : 'tw-text-neutralVariant-30 dark:tw-text-neutral-80',
-        ]"
+        <TwIcon
+          :path="mdiReorderHorizontal"
+          class="!tw-h-[1.125rem] !tw-w-[1.125rem]"
+        />
+        <span>{{ $t(`properties.${column}`) }}</span>
+      </div>
+      <div
+        v-if="!visibleColumns.length"
+        class="tw-flex tw-items-center tw-justify-center tw-rounded-xl tw-border tw-border-dashed tw-border-neutralVariant-50 tw-px-4 tw-py-4 dark:tw-border-neutralVariant-60"
       >
-        {{ $t(`properties.${column.field}`) }}
-      </span>
-      <div class="tw-grow"></div>
-      <TwStandardIconButton
-        @click="changeOrder(column.field, true)"
-        :disabled="index === 0"
+        {{ $t('dropHereVisible') }}
+      </div>
+    </draggable>
+    <!-- TODO: Convert chip to component with hover effect -->
+    <button
+      v-if="visibleColumns.length !== availableColumns.length"
+      class="tw-mt-2 tw-flex tw-h-8 tw-items-center tw-gap-x-2 tw-rounded-lg tw-border tw-border-solid tw-border-neutralVariant-50 tw-pr-4 tw-pl-2 tw-text-sm tw-leading-8 dark:tw-border-neutralVariant-60"
+      @click="addAll"
+    >
+      <TwIcon
+        :path="mdiTableColumnPlusAfter"
+        class="!tw-h-[1.125rem] !tw-w-[1.125rem]"
+      />
+      <span>{{ $t('addAll') }}</span>
+    </button>
+    <h3 class="tw-mt-4 tw-text-xs tw-font-medium tw-leading-4">
+      {{ $t('hidden') }}
+    </h3>
+    <draggable
+      v-model="hiddenColumns"
+      group="tableColumns"
+      class="tw-mt-2 tw-space-y-2"
+      draggable=".tableColumns"
+    >
+      <div
+        v-for="column in hiddenColumns"
+        :key="column"
+        class="tableColumns tw-flex tw-h-8 tw-items-center tw-gap-x-2 tw-rounded-lg tw-bg-neutralVariant-90 tw-pr-4 tw-pl-2 tw-text-sm tw-text-neutralVariant-30 dark:tw-bg-neutralVariant-30 dark:tw-text-neutralVariant-80"
       >
-        <TwIcon :path="mdiArrowUp" />
-      </TwStandardIconButton>
-      <TwStandardIconButton
-        @click="changeOrder(column.field, false)"
-        :disabled="index + 1 === columns.length"
+        <TwIcon
+          :path="mdiReorderHorizontal"
+          class="!tw-h-[1.125rem] !tw-w-[1.125rem]"
+        />
+        <span>{{ $t(`properties.${column}`) }}</span>
+      </div>
+      <div
+        v-if="!hiddenColumns.length"
+        slot="header"
+        class="tw-flex tw-items-center tw-justify-center tw-rounded-xl tw-border tw-border-dashed tw-border-neutralVariant-50 tw-px-4 tw-py-4 dark:tw-border-neutralVariant-60"
       >
-        <TwIcon :path="mdiArrowDown" />
-      </TwStandardIconButton>
-    </li>
-  </transition-group>-->
+        {{ $t('dropHereHidden') }}
+      </div>
+    </draggable>
+  </div>
 </template>
 
 <script>
-import {
-  mdiEyeOutline,
-  mdiEyeOffOutline,
-  mdiArrowUp,
-  mdiArrowDown,
-} from '@mdi/js'
+import draggable from 'vuedraggable'
+
+import { mdiReorderHorizontal, mdiTableColumnPlusAfter } from '@mdi/js'
 
 export default {
+  components: {
+    draggable,
+  },
   data: () => ({
-    mdiEyeOutline,
-    mdiEyeOffOutline,
-    mdiArrowUp,
-    mdiArrowDown,
+    mdiReorderHorizontal,
+    mdiTableColumnPlusAfter,
   }),
   computed: {
-    columns() {
-      return this.$store.state.settings.tableColumns
+    availableColumns() {
+      return this.$store.getters['settings/availableTableColumns']
+    },
+    visibleColumns: {
+      get() {
+        return this.$store.getters['settings/visibleTableColumns']
+      },
+      set(value) {
+        this.$store.commit('settings/set', {
+          setting: 'selectedTableColumns',
+          value,
+        })
+      },
+    },
+    hiddenColumns: {
+      get() {
+        return this.$store.getters['settings/hiddenTableColumns']
+      },
+      set(value) {
+        this.$store.commit('settings/set', {
+          setting: 'selectedTableColumns',
+          value: this.availableColumns.filter(
+            (column) => !value.includes(column)
+          ),
+        })
+      },
     },
   },
   methods: {
-    changeOrder(columnField, up) {
-      this.$store.commit('settings/changeColumnOrder', {
-        columnField,
-        up,
-      })
-    },
-    toggleVisiblity(columnField, visibility) {
-      this.$store.commit('settings/changeVisibilityOfColumn', {
-        columnField,
-        visibility,
+    addAll() {
+      this.$store.commit('settings/set', {
+        setting: 'selectedTableColumns',
+        value: [...this.visibleColumns, ...this.hiddenColumns],
       })
     },
   },
@@ -88,10 +130,18 @@ export default {
 <i18n>
   {
     "en": {
-      "temp": "This feature has been temporarily disabled. It will return soon once some issues have been resolved."
+      "visible": "Visible",
+      "addAll": "Make all columns visible",
+      "hidden": "Hidden",
+      "dropHereVisible": "Grab and drop a column here to make it visible",
+      "dropHereHidden": "Grab and drop a column here to hide it"
     },
     "fr": {
-      "temp": "Cette fonctionnalité a été temporairement désactivée. Elle reviendra bientôt une fois que certains problèmes auront été résolus."
+      "visible": "Visible",
+      "addAll": "Rendre toutes les colonnes visibles",
+      "hidden": "Caché",
+      "dropHereVisible": "Prenez et déposez une colonne ici pour la rendre visible",
+      "dropHereHidden": "Prenez et déposez une colonne ici pour la masquer"
     }
   }
 </i18n>

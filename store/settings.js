@@ -1,4 +1,30 @@
-import { set } from 'vue'
+// A list of all available columns for table
+const availableColumns = [
+  'ref',
+  'label',
+  'tags',
+  'timestamp',
+  'tripId',
+  'trip.headsign',
+  'trip.shortName',
+  'startTime',
+  'routeId',
+  'trip.routeShortName',
+  'trip.serviceId',
+  'position.lat',
+  'bearing',
+  'speed',
+  'vehicleType',
+  'plate',
+  'odometer',
+  'currentStopSequence',
+  'currentStatus.label',
+  'scheduleRelationship.label',
+  'congestionLevel.label',
+  'occupancyStatus.label',
+  'createdAt',
+  'actions',
+]
 
 export const state = () => ({
   activeAgencies: [],
@@ -12,138 +38,14 @@ export const state = () => ({
   activateByod: false,
   preferDesktopView: true,
   pushSubscriptionUuid: null,
-  tableColumns: [
-    {
-      field: 'agency',
-      template: 'cAgency',
-      visible: true,
-      filtering: true,
-    },
-    {
-      field: 'ref',
-      visible: false,
-      filtering: true,
-    },
-    {
-      field: 'label',
-      visible: true,
-      filtering: true,
-    },
-    {
-      field: 'tags',
-      template: 'cTags',
-      visible: true,
-      filtering: false,
-    },
-    {
-      field: 'timestamp',
-      template: 'cTimestamp',
-      visible: false,
-      filtering: true,
-    },
-    {
-      field: 'tripId',
-      visible: true,
-      filtering: true,
-    },
-    {
-      field: 'trip.headsign',
-      visible: true,
-      filtering: true,
-    },
-    {
-      field: 'trip.shortName',
-      visible: false,
-      filtering: true,
-    },
-    {
-      field: 'startTime',
-      visible: true,
-      filtering: true,
-    },
-    {
-      field: 'routeId',
-      visible: true,
-      filtering: true,
-    },
-    {
-      field: 'trip.routeShortName',
-      template: 'cRoute',
-      visible: true,
-      filtering: true,
-    },
-    {
-      field: 'trip.serviceId',
-      visible: false,
-      filtering: true,
-    },
-    {
-      field: 'position.lat',
-      template: 'cPosition',
-      visible: false,
-      filtering: false,
-    },
-    {
-      field: 'bearing',
-      visible: false,
-      filtering: true,
-    },
-    {
-      field: 'speed',
-      visible: false,
-      filtering: true,
-    },
-    {
-      field: 'vehicleType',
-      visible: false,
-      filtering: true,
-    },
-    {
-      field: 'plate',
-      visible: false,
-      filtering: true,
-    },
-    {
-      field: 'odometer',
-      visible: false,
-      filtering: true,
-    },
-    {
-      field: 'currentStopSequence',
-      visible: false,
-      filtering: true,
-    },
-    {
-      field: 'currentStatus.label',
-      visible: false,
-      filtering: true,
-    },
-    {
-      field: 'scheduleRelationship.label',
-      visible: false,
-      filtering: true,
-    },
-    {
-      field: 'congestionLevel.label',
-      visible: false,
-      filtering: true,
-    },
-    {
-      field: 'occupancyStatus.label',
-      visible: false,
-      filtering: true,
-    },
-    {
-      field: 'createdAt',
-      visible: false,
-      filtering: true,
-    },
-    {
-      field: 'actions',
-      template: 'cActions',
-      visible: true,
-      filtering: false,
-    },
+  selectedTableColumns: [
+    'label',
+    'routeId',
+    'trip.routeShortName',
+    'trip.headsign',
+    'tripId',
+    'startTime',
+    'actions',
   ],
 })
 
@@ -151,23 +53,25 @@ export const mutations = {
   set(state, { setting, value }) {
     state[setting] = value
   },
-  changeColumnOrder(state, { columnField, up }) {
-    const from = state.tableColumns.findIndex(
-      (column) => column.field === columnField
-    )
-    const to = up ? from - 1 : from + 1
-
+  changeColumnOrder(state, { columnField, newIndex }) {
     // Delete the field from it's current position
-    const item = state.tableColumns.splice(from, 1)
+    state.selectedTableColumns.splice(
+      state.selectedTableColumns.indexOf(columnField),
+      1
+    )
 
     // Move to it's new position
-    state.tableColumns.splice(to, 0, item[0])
+    state.selectedTableColumns.splice(newIndex, 0, columnField)
   },
-  changeVisibilityOfColumn(state, { columnField, visibility }) {
-    const index = state.tableColumns.findIndex(
-      (column) => column.field === columnField
-    )
-    set(state.tableColumns[index], 'visible', visibility)
+  changeVisibilityOfColumn(state, { columnField, remove }) {
+    if (remove) {
+      state.selectedTableColumns.splice(
+        state.selectedTableColumns.indexOf(columnField),
+        1
+      )
+    } else {
+      state.selectedTableColumns.push(columnField)
+    }
   },
 }
 
@@ -220,5 +124,21 @@ export const actions = {
     }
 
     commit('set', { setting: 'activeAgencies', value: setting })
+  },
+}
+
+export const getters = {
+  availableTableColumns() {
+    return availableColumns
+  },
+  visibleTableColumns(state) {
+    return state.selectedTableColumns.filter((column) =>
+      availableColumns.includes(column)
+    )
+  },
+  hiddenTableColumns(state) {
+    return availableColumns.filter(
+      (column) => !state.selectedTableColumns.includes(column)
+    )
   },
 }
