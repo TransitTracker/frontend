@@ -47,56 +47,120 @@
       }"
       :mobile-breakpoint="1"
       :fixed-header="true"
+      :sort-by="sortBy"
+      :sort-desc="sortDesc"
     >
-      <template v-for="column in columns" #[`header.${column.value}`]="{}">
-        <div
-          :key="column.value"
-          class="tw-inline-flex tw-items-center tw-gap-x-1"
-        >
-          <TwStandardIconButton
-            v-if="column.filterable"
-            class="!tw-h-6 !tw-w-6"
-            @click="filterModal = column.value"
-          >
-            <TwIcon
-              class="!tw-h-5 !tw-w-5"
-              :class="[
-                filters[column.value] &&
-                  'tw-text-primary-40 dark:tw-text-primary-80',
-              ]"
-              :path="filters[column.value] ? mdiFilter : mdiFilterOutline"
-            />
-          </TwStandardIconButton>
-          {{ column.text }}
-          <div
-            v-if="filterModal === column.value"
-            v-on-clickaway="resetFilterModal"
-            class="tw-absolute tw-top-full tw-z-10 -tw-ml-4 tw-bg-neutralVariant-90 tw-p-2 dark:tw-bg-neutralVariant-30"
-          >
-            <select
-              v-if="column.choices"
-              :value="filters[column.value]"
-              @input="setFilter(column.value, $event)"
+      <template #header="{ props }">
+        <thead class="v-data-table-header tt-table-header">
+          <tr>
+            <th
+              class="v-data-table__divider tw-relative"
+              role="columnheader"
+              scope="col"
+              v-for="column in props.headers"
+              :key="column.value"
+              :aria-sort="
+                sortBy !== column.value
+                  ? 'none'
+                  : sortDesc
+                  ? 'descending'
+                  : 'ascending'
+              "
+              :aria-label="
+                $t('columnAria', {
+                  column: column.text,
+                  sort: !column.sortable
+                    ? $t('sortDisabled')
+                    : sortBy !== column.value
+                    ? $t('sortActivate')
+                    : !sortDesc
+                    ? $t('sortDesc')
+                    : $t('sortRemove'),
+                  filter: filters[column.value]
+                    ? $t('filterActivated', { value: filters[column.value] })
+                    : '',
+                })
+              "
+              :style="{
+                width: `${column.width}px`,
+                minWidth: `${column.width}px`,
+              }"
             >
-              <option
-                v-for="option in filterOptions[column.value]"
-                :key="option.value"
-                :value="option.value"
-              >
-                {{ option.text }}
-              </option>
-            </select>
-            <TwFilledTextField
-              v-else
-              :value="filters[column.value]"
-              :placeholder="$t('filterBy', { column: column.text })"
-              :clear-text="$t('clearFilter')"
-              color="background"
-              @input="setFilter(column.value, $event)"
-              @text-cleared="removeFilter(column.value)"
-            />
-          </div>
-        </div>
+              <div class="tw-inline-flex tw-w-full tw-items-center tw-gap-x-1">
+                <TwStandardIconButton
+                  v-if="column.filterable"
+                  class="!tw-h-6 !tw-w-6"
+                  @click="filterModal = column.value"
+                >
+                  <TwIcon
+                    class="!tw-h-5 !tw-w-5"
+                    :class="[
+                      filters[column.value] &&
+                        'tw-text-primary-40 dark:tw-text-primary-80',
+                    ]"
+                    :path="filters[column.value] ? mdiFilter : mdiFilterOutline"
+                  />
+                </TwStandardIconButton>
+                <span
+                  class="tw-peer tw-grow"
+                  :class="[
+                    sortBy === column.value &&
+                      'tw-text-black/87 dark:tw-text-white',
+                    column.sortable &&
+                      'hover:tw-text-black/87 tw-cursor-pointer dark:hover:tw-text-white',
+                  ]"
+                  @click="toggleSort(column)"
+                  >{{ column.text }}</span
+                >
+                <TwStandardIconButton
+                  v-if="column.sortable"
+                  class="peer-hover:tw-text-black/87 !tw-h-6 !tw-w-6 tw-opacity-0 tw-transition hover:tw-text-white hover:tw-opacity-100 focus:tw-opacity-100 peer-hover:tw-opacity-100 dark:peer-hover:tw-text-white"
+                  :class="[
+                    sortBy === column.value &&
+                      'tw-text-primary-40 tw-opacity-100 dark:tw-text-primary-80',
+                  ]"
+                  @click="toggleSort(column)"
+                >
+                  <TwIcon
+                    class="!tw-h-5 !tw-w-5 tw-transition-transform"
+                    :class="[
+                      sortBy === column.value && sortDesc && 'tw-rotate-180',
+                    ]"
+                    :path="mdiArrowUp"
+                  />
+                </TwStandardIconButton>
+                <div
+                  v-if="filterModal === column.value"
+                  v-on-clickaway="resetFilterModal"
+                  class="tw-absolute tw-top-full tw-z-10 -tw-ml-4 tw-bg-neutralVariant-90 tw-p-2 dark:tw-bg-neutralVariant-30"
+                >
+                  <select
+                    v-if="column.choices"
+                    :value="filters[column.value]"
+                    @input="setFilter(column.value, $event)"
+                  >
+                    <option
+                      v-for="option in filterOptions[column.value]"
+                      :key="option.value"
+                      :value="option.value"
+                    >
+                      {{ option.text }}
+                    </option>
+                  </select>
+                  <TwFilledTextField
+                    v-else
+                    :value="filters[column.value]"
+                    :placeholder="$t('filterBy', { column: column.text })"
+                    :clear-text="$t('clearFilter')"
+                    color="background"
+                    @input="setFilter(column.value, $event)"
+                    @text-cleared="removeFilter(column.value)"
+                  />
+                </div>
+              </div>
+            </th>
+          </tr>
+        </thead>
       </template>
       <!-- eslint-disable-next-line -->
       <template v-slot:group.header="{ group, headers, toggle, isOpen }">
@@ -180,6 +244,7 @@ import {
   mdiFilterOutline,
   mdiClose,
   mdiTableColumnPlusBefore,
+  mdiArrowUp,
 } from '@mdi/js'
 import { mixin as clickaway } from 'vue-clickaway'
 
@@ -199,6 +264,7 @@ export default {
       mdiFilterOutline,
       mdiClose,
       mdiTableColumnPlusBefore,
+      mdiArrowUp,
     }
   },
   data() {
@@ -280,6 +346,8 @@ export default {
       linksDialog: false,
       searchColumn: 'ref',
       filterModal: null,
+      sortBy: null,
+      sortDesc: true,
     }
   },
   head() {
@@ -305,6 +373,7 @@ export default {
           value: column,
           divider: true,
           filterable: true,
+          sortable: true,
           ...this.columnsProperties[column],
         })
       )
@@ -426,13 +495,31 @@ export default {
       if (a > b) return 1
       return 0
     },
+    toggleSort({ value, sortable }) {
+      if (!sortable) {
+        return false
+      }
+
+      if (this.sortBy === value && !this.sortDesc) {
+        // Current column is sorting asc, sort desc
+        this.sortDesc = true
+      } else if (this.sortBy === value && this.sortDesc) {
+        // Current column is sorting desc, resert sort
+        this.sortDesc = false
+        this.sortBy = null
+      } else {
+        // New column sorting
+        this.sortBy = value
+        this.sortDesc = false
+      }
+    },
   },
 }
 </script>
 
 <style lang="scss">
-.tt-table th {
-  position: relative;
+.tt-table .v-data-table-header:not(.tt-table-header) {
+  display: none;
 }
 </style>
 
@@ -445,7 +532,14 @@ export default {
       "removeFilter": "Remove filter",
       "noColumns": "You don't have any columns visible yet!",
       "noColumnsInstructions": "Go to the settings to add the columns of your choice. You can also choose the order of the columns.",
-      "openSettingsShort": "Open settings"
+      "openSettingsShort": "Open settings",
+      "columnAria": "{column}: {sort} {filter}",
+      "sortActivate": "Not sorted. Activate to sort ascending.",
+      "sortDesc": "Sorted ascending. Activate to sort descending.",
+      "sortRemove": "Sorted descending. Activate to remove sorting.",
+      "sortDisabled": "It is not possible to sort this column.",
+      "filterActivated": "Filtered using the term: {value}."
+
     },
     "fr": {
       "openSettings": "Ouvrir les paramètres pour choisir les colonnes",
@@ -454,7 +548,13 @@ export default {
       "removeFilter": "Retirer le filtre",
       "noColumns": "Vous n'avez pas encore de colonnes visibles!",
       "noColumnsInstructions": "Rendez-vous dans les paramètres afin d'ajouter les colonnes de votre choix. Vous pouvez également choisir l'ordre des colonnes.",
-      "openSettingsShort": "Ouvrir les paramètres"
+      "openSettingsShort": "Ouvrir les paramètres",
+      "columnAria": "{column} : {sort} {filter}",
+      "sortActivate": "Non trié. Activer pour trier par ordre croissant.",
+      "sortDesc": "Tri croissant. Activer pour trier par ordre décroissant.",
+      "sortRemove": "Tri décroissant. Activer pour retirer le tri.",
+      "sortDisabled": "Il n'est pas possible de trier cette colonne.",
+      "filterActivated": "Filtré avec le terme : {value}."
     }
   }
 </i18n>
