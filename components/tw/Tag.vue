@@ -6,7 +6,7 @@
   <li
     v-else
     ref="tag"
-    class="tw-group tw-relative tw-inline-flex tw-items-center tw-gap-1 tw-rounded tw-px-2 tw-py-1"
+    class="tw-group tw-relative tw-inline-flex tw-items-center tw-gap-1 tw-whitespace-nowrap tw-rounded tw-px-2 tw-py-1"
     :title="tag.description ?? false"
     :style="{
       backgroundColor: darkMode ? tag.dark_color : tag.color,
