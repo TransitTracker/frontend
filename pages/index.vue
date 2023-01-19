@@ -90,7 +90,7 @@
       </h2>
       <v-chip-group column>
         <v-chip
-          v-for="feature in features.features"
+          v-for="feature in regionsFeatures.features"
           :key="feature.properties.slug"
           label
           outlined
@@ -137,18 +137,21 @@ export default {
     }
     const mapAccessToken = process.env.mapboxAccessToken
 
-    const landingResponse = await app.$axios.get('/landing')
+    const regionsResponse = await app.$axios.get('/landing')
     let totalVehicles = 0
     let totalAgencies = 0
-    landingResponse.data.features.forEach((region) => {
+    regionsResponse.data.features.forEach((region) => {
       totalAgencies += region.properties.agencies
       totalVehicles += region.properties.vehicles
     })
 
+    const vehiclesResponse = await app.$axios.get('/landing/vehicles')
+
     return {
       mapAccessToken,
       mapStyle,
-      features: landingResponse.data,
+      regionsFeatures: regionsResponse.data,
+      vehiclesFeatures: vehiclesResponse.data,
       totalAgencies,
       totalVehicles,
       mdiArrowRight,
@@ -157,7 +160,7 @@ export default {
     }
   },
   data: () => ({
-    features: {
+    regionsFeatures: {
       type: 'FeatureCollection',
       features: [],
     },
@@ -220,7 +223,7 @@ export default {
 
     const cities = []
 
-    this.features.features.forEach((feature) => {
+    this.regionsFeatures.features.forEach((feature) => {
       cities.push(...feature.properties.cities)
     })
 
@@ -308,9 +311,13 @@ export default {
       })
 
       this.map.on('load', () => {
-        this.map.addSource('landing-source', {
+        this.map.addSource('regions-source', {
           type: 'geojson',
-          data: this.features,
+          data: this.regionsFeatures,
+        })
+        this.map.addSource('vehicles-source', {
+          type: 'geojson',
+          data: this.vehiclesFeatures,
         })
 
         this.loadMapLayers()
@@ -318,15 +325,30 @@ export default {
     },
     loadMapLayers() {
       this.map.addLayer({
-        id: 'landing-layer',
+        id: 'vehicles-layer',
         type: 'circle',
-        source: 'landing-source',
+        source: 'vehicles-source',
+        paint: {
+          'circle-radius': {
+            stops: [
+              [8, 1],
+              [11, 5],
+              [16, 10],
+            ],
+          },
+          'circle-color': this.darkMode ? '#94ccff' : '#001d32',
+        },
+      })
+
+      this.map.addLayer({
+        id: 'regions-layer',
+        type: 'circle',
+        source: 'regions-source',
         paint: {
           'circle-radius': ['max', 5, ['get', 'range']],
-          'circle-stroke-color': this.darkMode ? '#009a8d' : '#2374ab',
+          'circle-stroke-color': this.darkMode ? '#009a8d' : '#006a61',
           'circle-stroke-width': ['get', 'range'],
-          'circle-stroke-opacity': 0.5,
-          'circle-color': this.darkMode ? '#009a8d' : '#2374ab',
+          'circle-color': this.darkMode ? '#006a61' : '#73f8e7',
         },
       })
       const popup = new mapboxgl.Popup({
@@ -338,7 +360,7 @@ export default {
 
       popup.setDOMContent(this.$refs.popup)
 
-      this.map.on('click', 'landing-layer', (e) => {
+      this.map.on('click', 'regions-layer', (e) => {
         this.currentPopup = e.features[0].properties
 
         popup
@@ -346,15 +368,15 @@ export default {
           .addTo(this.map)
       })
 
-      this.map.on('mouseenter', 'landing-layer', (e) => {
+      this.map.on('mouseenter', 'regions-layer', (e) => {
         this.map.getCanvas().style.cursor = 'pointer'
       })
-      this.map.on('mouseleave', 'landing-layer', (e) => {
+      this.map.on('mouseleave', 'regions-layer', (e) => {
         this.map.getCanvas().style.cursor = ''
       })
-      this.map.moveLayer('landing-layer')
+      this.map.moveLayer('regions-layer')
 
-      this.map.getSource('landing-source').setData(this.features)
+      this.map.getSource('regions-source').setData(this.regionsFeatures)
     },
   },
 }
