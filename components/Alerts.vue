@@ -55,6 +55,16 @@
         ></v-img>
         <!-- eslint-disable-next-line -->
         <v-card-text class="mt-4 text-body-1" v-html="alert.body"></v-card-text>
+        <div
+          v-if="alert.action === 'newAgencies'"
+          class="tw-space-y-4 tw-px-4 tw-pb-2"
+        >
+          <TwAlertAgency
+            v-for="slug in alert.actionParameters.agencies.split(',')"
+            :key="slug"
+            :agency-slug="slug"
+          />
+        </div>
         <v-card-actions>
           <v-btn
             v-if="alert.canBeClosed"
