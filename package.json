@@ -21,7 +21,7 @@
     "dexie": "^3.0.3",
     "gtfs-realtime-bindings": "^0.0.6",
     "mapbox-gl": "^2.4.1",
-    "nuxt": "^2.15.8",
+    "nuxt": "^3.0.0",
     "nuxt-i18n": "^6.28.1",
     "papaparse": "^5.3.1",
     "sass-loader": "^10.1.1",
