@@ -1,6 +1,6 @@
 <template>
   <li
-    class="tw-relative tw-flex tw-justify-between tw-overflow-hidden tw-rounded-lg tw-py-1 tw-px-2 tw-text-sm tw-leading-5 md:tw-p-2"
+    class="tw-relative tw-flex tw-justify-between tw-gap-x-2 tw-overflow-hidden tw-rounded-lg tw-py-1 tw-px-2 tw-text-sm tw-leading-5 md:tw-p-2"
     :style="{ backgroundColor: `${agency.color}26` }"
   >
     <div>
