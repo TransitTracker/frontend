@@ -33,6 +33,13 @@
       >
         {{ $t('app.tabByod') }}
       </TwNavigationBarButton>
+      <TwNavigationBarButton
+        :to="localePath('/debug')"
+        :icon="mdiTools"
+        v-if="debugMode"
+      >
+        Debug
+      </TwNavigationBarButton>
     </ul>
   </nav>
 </template>
@@ -45,6 +52,7 @@ import {
   mdiMapOutline,
   mdiFolderUpload,
   mdiFolderUploadOutline,
+  mdiTools,
 } from '@mdi/js'
 export default {
   data: () => ({
@@ -58,12 +66,16 @@ export default {
       'M19 19v-3H5v3h14Zm0-5v-4H5v4h14Zm0-6V5H5v3h14ZM5 21q-.825 0-1.413-.587Q3 19.825 3 19V5q0-.825.587-1.413Q4.175 3 5 3h14q.825 0 1.413.587Q21 4.175 21 5v14q0 .825-.587 1.413Q19.825 21 19 21Z',
     mdiFolderUpload,
     mdiFolderUploadOutline,
+    mdiTools,
   }),
   computed: {
     region() {
       return (
         this.$route.params.region || this.$store.state.settings.currentRegion
       )
+    },
+    debugMode() {
+      return this.$store.state.settings.debugMode
     },
   },
 }

@@ -12,6 +12,7 @@ module.exports = {
     `components/settings/TableColumns.vue`,
     `pages/regions/_region/index.vue`,
     `pages/regions/_region/table.vue`,
+    `pages/debug.vue`,
     `./nuxt.config.js`,
   ],
   theme: {

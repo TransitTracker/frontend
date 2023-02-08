@@ -48,6 +48,7 @@ export const state = () => ({
     'startTime',
     'actions',
   ],
+  debugMode: false,
 })
 
 export const mutations = {

@@ -52,6 +52,13 @@
         {{ $t('app.tabByod') }}
       </TwNavigationBarButton>
       <div class="tw-grow"></div>
+      <TwNavigationBarButton
+        :to="localePath('/debug')"
+        :icon="mdiTools"
+        v-if="debugMode"
+      >
+        Debug
+      </TwNavigationBarButton>
       <TwStandardIconButton
         v-if="dataIsLoaded"
         @click="open('NotificationsCentre')"
@@ -79,6 +86,7 @@ import {
   mdiBell,
   mdiCity,
   mdiCog,
+  mdiTools,
 } from '@mdi/js'
 export default {
   data: () => ({
@@ -95,6 +103,7 @@ export default {
     mdiBell,
     mdiCity,
     mdiCog,
+    mdiTools,
   }),
   computed: {
     region() {
@@ -104,6 +113,9 @@ export default {
     },
     dataIsLoaded() {
       return this.$store.state.app.dataIsLoaded
+    },
+    debugMode() {
+      return this.$store.state.settings.debugMode
     },
   },
   methods: {

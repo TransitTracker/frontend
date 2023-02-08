@@ -54,6 +54,7 @@ export default {
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
     baseURL: `${process.env.BACKEND_HOST}/v2` || 'http://backend.test/v2',
+    credentials: true,
   },
 
   // i18n module configuration
