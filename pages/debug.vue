@@ -95,7 +95,7 @@ export default {
     },
     load() {
       this.$axios
-        .get(`/admin/agencies/${this.agency}`)
+        .get(`/agencies/${this.agency}`)
         .then(({ data }) => {
           this.$store.commit('agencies/add', data.data)
           this.$store.dispatch('vehicles/load', data.data)
