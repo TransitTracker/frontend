@@ -30,11 +30,9 @@
       v-model="openDialog"
       :image="`url(${backendHost}/storage/content/alerts/${alert.image})`"
     >
-      <h2
-        class="tw-text-2xl tw-leading-8 tw-text-neutral-10 dark:tw-text-neutral-90"
-      >
+      <template #header>
         {{ alert.title }}
-      </h2>
+      </template>
       <div v-html="alert.body" class="tw-mt-2"></div>
       <div v-if="alert.action === 'newAgencies'" class="tw-space-y-4 tw-pb-2">
         <TwAlertAgency
@@ -65,6 +63,7 @@ import { mdiClose } from '@mdi/js'
 export default {
   data: () => ({
     openDialog: false,
+    backendHost: process.env.backendHost,
     mdiClose,
   }),
   computed: {
