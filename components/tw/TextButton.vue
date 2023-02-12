@@ -43,6 +43,10 @@ export default {
           return 'tw-text-white dark:tw-text-primary-20'
         case 'onNavbar':
           return 'tw-text-white dark:tw-text-neutral-90'
+        case 'onError':
+          return 'tw-text-white dark:tw-text-error-20'
+        case 'onErrorContainer':
+          return 'tw-text-error-10 dark:tw-text-error-90'
 
         default:
           return 'tw-text-primary-40 dark:tw-text-primary-80'
@@ -54,6 +58,10 @@ export default {
           return 'tw-bg-white dark:tw-bg-primary-20'
         case 'onNavbar':
           return 'tw-text-white dark:tw-text-neutral-90'
+        case 'onError':
+          return 'tw-bg-error-40 dark:tw-bg-error-80'
+        case 'onErrorContainer':
+          return 'tw-bg-error-90 dark:tw-bg-error-30'
 
         default:
           return 'tw-bg-primary-40 dark:tw-bg-primary-80'

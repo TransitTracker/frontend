@@ -1,6 +1,7 @@
 <template>
   <figure
-    class="tw-flex tw-w-full tw-items-center tw-gap-4 tw-bg-primary-30 tw-py-2 tw-pl-4 tw-pr-6 tw-text-white dark:tw-bg-primary-80 dark:tw-text-primary-20 md:tw-bg-primary-40"
+    class="tw-flex tw-w-full tw-items-center tw-gap-4 tw-py-2 tw-pl-4 tw-pr-6"
+    :class="[alertClasses]"
     v-if="alert"
   >
     <TwIcon :path="alert.icon" class="tw-shrink-0" />
@@ -14,13 +15,13 @@
         {{ alert.subtitle }}
       </p>
     </div>
-    <TwTextButton color="onPrimary" @click="openDialog = true">
+    <TwTextButton :color="buttonColor" @click="openDialog = true">
       {{ $t('open') }}
     </TwTextButton>
     <TwStandardIconButton
       v-if="alert.canBeClosed"
       :title="$t('close')"
-      color="onPrimary"
+      :color="buttonColor"
       @click="markAsRead"
       class="tw-hidden md:tw-flex"
     >
@@ -69,6 +70,27 @@ export default {
   computed: {
     alert() {
       return this.$store.getters['alerts/getCurrentAlert']
+    },
+    alertClasses() {
+      if (this.alert.color === 'error') {
+        return 'tw-bg-error-40 dark:tw-bg-error-80 tw-text-white dark:tw-text-error-20'
+      }
+
+      if (this.alert.color === 'error-container') {
+        return 'tw-bg-error-90 dark:tw-bg-error-30 tw-text-error-10 dark:tw-text-error-90'
+      }
+
+      return 'tw-bg-primary-30 dark:tw-bg-primary-80 dark:tw-text-primary-20 md:tw-bg-primary-40'
+    },
+    buttonColor() {
+      if (this.alert.color === 'error') {
+        return 'onError'
+      }
+      if (this.alert.color === 'error-container') {
+        return 'onErrorContainer'
+      }
+
+      return 'onPrimary'
     },
     subtitle() {
       if (!this.$refs.body) return ''
