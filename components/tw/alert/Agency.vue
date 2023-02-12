@@ -16,6 +16,7 @@
       :style="{ backgroundColor: agency.color }"
     ></div>
     <TwStandardIconButton
+      type="button"
       @click="addAgency()"
       :style="{ color: agency.textColor }"
     >
