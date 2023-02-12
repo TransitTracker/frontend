@@ -3,7 +3,7 @@
     <TwTopAppBar />
     <TwNavigationRail />
     <v-main class="mb-16 mb-md-0 ml-md-20">
-      <Alerts />
+      <TwAlert />
       <NotificationsCentre
         v-if="dataIsLoaded"
         v-model="openNotificationsCentre"
