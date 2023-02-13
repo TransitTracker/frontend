@@ -1,20 +1,16 @@
 <template>
-  <component
-    :is="tag"
-    class="tw-overflow-hiddenfull tw-group tw-relative tw-flex tw-h-10 tw-items-center tw-text-sm tw-font-medium tw-leading-5 focus:tw-outline-none"
-    :class="[
-      buttonClasses,
-      withIcon ? 'tw-gap-2 tw-pl-3 tw-pr-4' : 'tw-px-3',
-      tag === 'a' && '!tw-inline-flex tw-no-underline',
-    ]"
+  <button
+    class="tw-group tw-relative tw-flex tw-h-10 tw-w-10 tw-items-center tw-justify-center tw-rounded-full focus:tw-outline-none"
+    :class="[buttonClasses]"
     @click="$emit('click')"
+    :disabled="disabled"
   >
     <div
       class="tw-absolute tw-inset-0 tw-h-full tw-w-full tw-rounded-full tw-bg-opacity-0 tw-transition-colors tw-duration-200 group-hover:tw-bg-opacity-8 group-focus:tw-bg-opacity-12 dark:tw-bg-opacity-0"
       :class="[stateLayerClasses]"
     ></div>
     <slot />
-  </component>
+  </button>
 </template>
 
 <script>
@@ -25,46 +21,49 @@ export default {
       required: false,
       default: null,
     },
-    withIcon: {
+    disabled: {
       type: Boolean,
       required: false,
       default: false,
     },
-    tag: {
-      type: String,
-      required: false,
-      default: 'button',
-    },
   },
   computed: {
     buttonClasses() {
+      if (this.disabled) {
+        return 'tw-opacity-[0.62]'
+      }
+
       switch (this.color) {
         case 'onPrimary':
           return 'tw-text-white dark:tw-text-primary-20'
         case 'onNavbar':
           return 'tw-text-white dark:tw-text-neutral-90'
-        case 'onError':
-          return 'tw-text-white dark:tw-text-error-20'
-        case 'onErrorContainer':
-          return 'tw-text-error-10 dark:tw-text-error-90'
+        case 'primary':
+          return 'tw-text-primary-40 dark:tw-text-primary-80'
+        case 'surface':
+          return 'tw-bg-neutral-99 dark:tw-bg-neutral-10 tw-text-neutral-10 dark:tw-text-neutral-90'
 
         default:
-          return 'tw-text-primary-40 dark:tw-text-primary-80'
+          return 'tw-text-neutralVariant-30 dark:tw-text-neutralVariant-80'
       }
     },
     stateLayerClasses() {
+      if (this.disabled) {
+        return ''
+      }
+
       switch (this.color) {
         case 'onPrimary':
           return 'tw-bg-white dark:tw-bg-primary-20'
         case 'onNavbar':
-          return 'tw-text-white dark:tw-text-neutral-90'
-        case 'onError':
-          return 'tw-bg-error-40 dark:tw-bg-error-80'
-        case 'onErrorContainer':
-          return 'tw-bg-error-90 dark:tw-bg-error-30'
+          return 'tw-bg-white dark:tw-bg-neutral-90'
+        case 'primary':
+          return 'tw-bg-primary-40 dark:tw-bg-primary-80'
+        case 'surface':
+          return 'tw-bg-neutral-10 dark:tw-bg-neutral-90'
 
         default:
-          return 'tw-bg-primary-40 dark:tw-bg-primary-80'
+          return 'tw-bg-neutralVariant-30 dark:tw-bg-neutralVariant-80'
       }
     },
   },

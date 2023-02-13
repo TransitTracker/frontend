@@ -135,7 +135,8 @@ export default {
     imageKit: process.env.IMAGE_KIT,
     commitHash: process.env.COMMIT_REF,
     vapidKey: process.env.VAPID_KEY,
-    syncfusionKey: process.env.SYNCFUSION_KEY,
+    reportEn: process.env.REPORT_EN,
+    reportFr: process.env.REPORT_FR,
   },
 
   pwa: {

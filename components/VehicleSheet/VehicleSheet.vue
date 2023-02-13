@@ -1,6 +1,6 @@
 <template>
   <footer
-    class="tw-absolute tw-top-[calc(100vh-14rem)] tw-mb-[4rem] tw-w-full tw-space-y-4 tw-overflow-y-auto tw-rounded-t-[1.75rem] tw-bg-neutral-99 tw-p-4 tw-text-neutral-10 dark:tw-bg-neutral-10 dark:tw-text-neutral-90 md:tw-top-4 md:tw-left-4 md:tw-max-h-[calc(100vh-41px-32px)] md:tw-w-96 md:tw-rounded-xl"
+    class="tw-absolute tw-top-[calc(100vh-14rem)] tw-mb-[4rem] tw-w-full tw-space-y-4 tw-overflow-y-auto tw-rounded-t-[1.75rem] tw-bg-neutral-99 tw-p-4 tw-pb-20 tw-text-neutral-10 dark:tw-bg-neutral-10 dark:tw-text-neutral-90 md:tw-top-4 md:tw-left-4 md:tw-max-h-[calc(100vh-41px-32px)] md:tw-w-96 md:tw-rounded-xl md:tw-pb-0"
   >
     <div class="-tw-mt-4 md:tw-hidden">
       <div
@@ -101,11 +101,21 @@
       {{ $t('vehicle') }}
     </h3>
     <VehicleSheetPropertiesList :vehicle="vehicle" group="vehicle" />
+    <TwTextButton
+      with-icon
+      tag="a"
+      :href="reportUrl"
+      class="-tw-ml-3"
+      target="_blank"
+    >
+      <TwIcon :path="mdiCommentAlertOutline" />
+      {{ $t('report') }}
+    </TwTextButton>
   </footer>
 </template>
 
 <script>
-import { mdiArrowRight, mdiChevronDown } from '@mdi/js'
+import { mdiArrowRight, mdiChevronDown, mdiCommentAlertOutline } from '@mdi/js'
 
 export default {
   props: {
@@ -117,10 +127,23 @@ export default {
   data: () => ({
     mdiArrowRight,
     mdiChevronDown,
+    mdiCommentAlertOutline,
   }),
   computed: {
     agency() {
       return this.$store.state.agencies.data[this.vehicle.agency] ?? {}
+    },
+    reportUrl() {
+      const url = new URL(
+        this.$i18n.locale === 'fr' ? process.env.reportFr : process.env.reportEn
+      )
+
+      url.searchParams.append('agency', this.vehicle.agency)
+      url.searchParams.append('id', this.vehicle.id)
+      url.searchParams.append('ref', this.vehicle.ref)
+      url.searchParams.append('label', this.vehicle.label)
+
+      return url.href
     },
     warning() {
       return this.$store.state.vehicles.warning
@@ -136,14 +159,16 @@ export default {
       "vehicle": "Vehicle",
       "trip": "Trip",
       "agencyInactive": "You have not activated this agency. No problem, here is the information on this vehicle!",
-      "vehicleInactive": "This vehicle is not active at the moment, here is the last information recorded."
+      "vehicleInactive": "This vehicle is not active at the moment, here is the last information recorded.",
+      "report": "An error with this vehicle?"
     },
     "fr": {
       "externalLinks": "Liens externes",
       "vehicle": "Véhicule",
       "trip": "Voyage",
       "agencyInactive": "Vous n'avez pas activé cette agence. Pas de problème, voici les informations sur ce véhicule!",
-      "vehicleInactive": "Ce véhicule n'est pas actif en ce moment, voici les dernières informations enregistrés."
+      "vehicleInactive": "Ce véhicule n'est pas actif en ce moment, voici les dernières informations enregistrés.",
+      "report": "Une erreur avec ce véhicule?"
     }
   }
 </i18n>
