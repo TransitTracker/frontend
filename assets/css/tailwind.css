@@ -46,3 +46,9 @@
   src: url("../fonts/static/Figtree-Black.woff2") format('woff2');
   font-weight: 900;
 }
+
+@layer components {
+  .menuable__content__active {
+    @apply !tw-z-20;
+  }
+}
