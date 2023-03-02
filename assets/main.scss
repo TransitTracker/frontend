@@ -65,3 +65,8 @@ html {
 .v-list-item__avatar {
   justify-content: center !important;
 }
+
+// Fix for menu items overlapping the bottom bar (on v-data-table-footer)
+.menuable__content__active {
+  z-index: 20 !important;
+}
