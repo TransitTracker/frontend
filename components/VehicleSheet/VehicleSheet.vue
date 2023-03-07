@@ -1,6 +1,6 @@
 <template>
   <footer
-    class="tw-absolute tw-top-[calc(100vh-14rem)] tw-mb-[4rem] tw-w-full tw-space-y-4 tw-overflow-y-auto tw-rounded-t-[1.75rem] tw-bg-neutral-99 tw-p-4 tw-pb-20 tw-text-neutral-10 dark:tw-bg-neutral-10 dark:tw-text-neutral-90 md:tw-top-4 md:tw-left-4 md:tw-max-h-[calc(100vh-41px-32px)] md:tw-w-96 md:tw-rounded-xl md:tw-pb-0"
+    class="tw-absolute tw-top-[calc(100vh-14rem)] tw-mb-[4rem] tw-w-full tw-space-y-4 tw-overflow-y-auto tw-rounded-t-[1.75rem] tw-bg-neutral-99 tw-p-4 tw-pb-20 tw-text-neutral-10 dark:tw-bg-neutral-10 dark:tw-text-neutral-90 md:tw-top-4 md:tw-left-4 md:tw-max-h-[calc(100vh-41px-32px)] md:tw-w-96 md:tw-rounded-xl md:tw-pb-4"
   >
     <div class="-tw-mt-4 md:tw-hidden">
       <div
@@ -96,6 +96,11 @@
       v-if="vehicle.trip.routeShortName"
     />
     <VehicleSheetPropertiesList :vehicle="vehicle" group="trip" />
+    <div
+      class="-tw-mx-4 tw-h-px tw-border-t tw-bg-neutralVariant-80"
+      v-if="vehicle.trip.blockId"
+    />
+    <VehicleSheetTripsList :vehicle="vehicle" v-if="vehicle.trip.blockId" />
     <div class="-tw-mx-4 tw-h-px tw-border-t tw-bg-neutralVariant-80" />
     <h3 class="tw-text-neutral10 tw-text-sm tw-font-medium tw-leading-5">
       {{ $t('vehicle') }}

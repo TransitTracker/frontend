@@ -1,9 +1,11 @@
 <template>
   <details @toggle="toggle" ref="details">
-    <summary class="tw-flex tw-list-none tw-items-center tw-justify-between">
+    <summary
+      class="tw-flex tw-cursor-pointer tw-list-none tw-items-center tw-justify-between"
+    >
       <slot name="summary" />
       <TwStandardIconButton
-        :class="{ 'tw-rotate-180': open }"
+        :class="{ 'tw-rotate-180': open, '!tw-h-6 !tw-w-6': smallIcon }"
         class="tw-transition-transform tw-duration-200 tw-ease-linear"
         @click="manual"
       >
@@ -18,6 +20,13 @@
 import { mdiChevronDown } from '@mdi/js'
 
 export default {
+  props: {
+    smallIcon: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+  },
   data: () => ({
     open: false,
     mdiChevronDown,

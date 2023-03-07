@@ -209,9 +209,10 @@ export default {
         data: defaultGeojsonShapeData,
       })
       this.map.addLayer({
-        id: 'tt-shape-layer',
+        id: 'tt-shape-line',
         type: 'line',
         source: 'tt-shape-source',
+        filter: ['==', '$type', 'LineString'],
         layout: {
           'line-join': 'round',
           'line-cap': 'round',
@@ -219,6 +220,18 @@ export default {
         paint: {
           'line-color': '#000000',
           'line-width': 3,
+        },
+      })
+      this.map.addLayer({
+        id: 'tt-shape-stops',
+        type: 'circle',
+        source: 'tt-shape-source',
+        filter: ['==', '$type', 'Point'],
+        paint: {
+          'circle-color': '#000000',
+          'circle-radius': 3,
+          'circle-stroke-color': '#ffffff',
+          'circle-stroke-width': 5,
         },
       })
 
@@ -335,26 +348,24 @@ export default {
         const routeColor = vehicle.trip.routeColor.toLowerCase()
 
         this.map.setPaintProperty(
-          'tt-shape-layer',
+          'tt-shape-line',
           'line-color',
           routeColor === '#ffffff'
             ? this.agencies[vehicle.agency].color
             : routeColor ?? '#000000'
         )
-        // } else if (vehicle.meta.json?.trip?.shape_id) {
-        //   this.$store
-        //     .dispatch('gtfs/getShape', {
-        //       agency: vehicle.agency,
-        //       shapeId: vehicle.meta.json.trip.shape_id,
-        //     })
-        //     .then((result) => {
-        //       this.map.getSource('shape-source').setData(result)
-        //       this.map.setPaintProperty(
-        //         'shape-layer',
-        //         'line-color',
-        //         '#'.concat(vehicle.trip.routeColor) || '#000000'
-        //       )
-        //     })
+        this.map.setPaintProperty(
+          'tt-shape-stops',
+          'circle-color',
+          routeColor === '#ffffff'
+            ? this.agencies[vehicle.agency].color
+            : routeColor ?? '#000000'
+        )
+        this.map.setPaintProperty(
+          'tt-shape-stops',
+          'circle-stroke-color',
+          vehicle.trip.routeTextColor.toLowerCase()
+        )
       } else {
         this.map.getSource('tt-shape-source').setData(defaultGeojsonShapeData)
       }
