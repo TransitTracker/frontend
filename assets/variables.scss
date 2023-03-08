@@ -3,6 +3,9 @@
 // The variables you want to modify
 // $font-size-root: 20px;
 
+$body-font-family: 'Inter', sans-serif;
+$heading-font-family: 'Figtree', sans-serif;
+/*
 $rounded: (
   0: 0,
   'sm': $border-radius-root / 2,
@@ -13,7 +16,7 @@ $rounded: (
   'pill': 9999px,
   'circle': 50%
 );
-
+ */
 $grid-breakpoints: (
   'xs': 0,
   'sm': 640px,

@@ -228,10 +228,11 @@ export default {
         source: 'tt-shape-source',
         filter: ['==', '$type', 'Point'],
         paint: {
+          // for the first element, have a larger circle-radius
           'circle-color': '#000000',
-          'circle-radius': 3,
+          'circle-radius': 5,
           'circle-stroke-color': '#ffffff',
-          'circle-stroke-width': 5,
+          'circle-stroke-width': 2,
         },
       })
 

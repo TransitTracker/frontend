@@ -29,11 +29,11 @@
         >
           {{ trip.routeShortName }}
         </span>
-        <TwIcon :path="mdiArrowRight" class="tw-ml-2 tw-mr-1" />
-        <span class="tw-grow">
+        <TwIcon :path="mdiArrowRight" class="tw-ml-2" />
+        <span class="tw-ml-1 tw-grow">
           {{ trip.headsign }}
         </span>
-        <small class="tw-text-sm">{{ trip.departure }}</small>
+        <small class="tw-ml-2 tw-text-sm">{{ trip.departure }}</small>
       </div>
       <div
         class="tw-mt-1 tw-flex tw-items-center tw-justify-between tw-gap-x-2 tw-text-xs tw-font-medium tw-leading-4 tw-text-neutralVariant-30 dark:tw-text-neutralVariant-80"

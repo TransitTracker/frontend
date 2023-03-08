@@ -11,9 +11,10 @@
 
 <script>
 import {
-  mdiBusClock,
   mdiBusStop,
   mdiCalendarStart,
+  mdiCalendarMultiselect,
+  mdiClock,
   mdiCounter,
   mdiFormatLetterStartsWith,
   mdiIdentifier,
@@ -41,7 +42,6 @@ export default {
   },
   data: () => ({
     groups: {
-      // TODO: add suffix
       trip: [
         {
           field: 'speed',
@@ -78,7 +78,7 @@ export default {
         },
         {
           field: 'startTime',
-          icon: mdiBusClock,
+          icon: mdiClock,
         },
         {
           field: 'scheduleRelationship.label',
@@ -93,6 +93,12 @@ export default {
         {
           field: 'currentStopSequence',
           icon: mdiTimetable,
+          help: true,
+        },
+        {
+          field: 'serviceId',
+          parent: 'trip',
+          icon: mdiCalendarMultiselect,
           help: true,
         },
       ],

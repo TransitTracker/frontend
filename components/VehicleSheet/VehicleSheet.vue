@@ -67,24 +67,14 @@
       v-if="vehicle.links.length"
       class="-tw-mx-4 tw-h-px tw-border-t tw-bg-neutralVariant-80"
     />
-    <details v-if="vehicle.links.length" class="tw-group">
-      <summary
-        class="tw-flex tw-cursor-pointer tw-items-center tw-justify-between"
-      >
+    <TwDetails small-icon v-if="vehicle.links.length">
+      <template #summary>
         <h3 class="tw-text-neutral10 tw-text-sm tw-font-medium tw-leading-5">
           {{ $t('externalLinks') }}
         </h3>
-        <TwIcon :path="mdiChevronDown" class="group-open:tw-rotate-180" />
-      </summary>
-      <div class="tw-mt-4 tw-space-y-2">
-        <TwLink
-          v-for="link in vehicle.links"
-          :key="link"
-          :link-id="link"
-          :vehicle="vehicle"
-        />
-      </div>
-    </details>
+      </template>
+      <VehicleSheetLinksList />
+    </TwDetails>
     <div class="-tw-mx-4 tw-h-px tw-border-t tw-bg-neutralVariant-80" />
     <h3 class="tw-text-neutral10 tw-text-sm tw-font-medium tw-leading-5">
       {{ $t('trip') }}
@@ -100,7 +90,21 @@
       class="-tw-mx-4 tw-h-px tw-border-t tw-bg-neutralVariant-80"
       v-if="vehicle.trip.blockId"
     />
-    <VehicleSheetTripsList :vehicle="vehicle" v-if="vehicle.trip.blockId" />
+    <TwDetails small-icon v-if="vehicle.trip.blockId">
+      <template #summary>
+        <h3 class="tw-text-neutral10 tw-text-sm tw-font-medium tw-leading-5">
+          {{ $t('relatedTrips') }}
+        </h3>
+      </template>
+      <VehicleSheetTripsList />
+      <VehicleSheetProperty
+        :property="{
+          field: 'trip.blockId',
+          icon: mdiIdentifier,
+        }"
+        :vehicle="vehicle"
+      />
+    </TwDetails>
     <div class="-tw-mx-4 tw-h-px tw-border-t tw-bg-neutralVariant-80" />
     <h3 class="tw-text-neutral10 tw-text-sm tw-font-medium tw-leading-5">
       {{ $t('vehicle') }}
@@ -120,7 +124,12 @@
 </template>
 
 <script>
-import { mdiArrowRight, mdiChevronDown, mdiCommentAlertOutline } from '@mdi/js'
+import {
+  mdiArrowRight,
+  mdiChevronDown,
+  mdiCommentAlertOutline,
+  mdiIdentifier,
+} from '@mdi/js'
 
 export default {
   props: {
@@ -133,6 +142,7 @@ export default {
     mdiArrowRight,
     mdiChevronDown,
     mdiCommentAlertOutline,
+    mdiIdentifier,
   }),
   computed: {
     agency() {
@@ -160,17 +170,19 @@ export default {
 <i18n>
   {
     "en": {
-      "externalLinks": "External links",
-      "vehicle": "Vehicle",
+      "externalLinks": "External Links",
       "trip": "Trip",
+      "relatedTrips": "Related Trips",
+      "vehicle": "Vehicle",
       "agencyInactive": "You have not activated this agency. No problem, here is the information on this vehicle!",
       "vehicleInactive": "This vehicle is not active at the moment, here is the last information recorded.",
       "report": "An error with this vehicle?"
     },
     "fr": {
       "externalLinks": "Liens externes",
-      "vehicle": "Véhicule",
       "trip": "Voyage",
+      "relatedTrips": "Voyages reliés",
+      "vehicle": "Véhicule",
       "agencyInactive": "Vous n'avez pas activé cette agence. Pas de problème, voici les informations sur ce véhicule!",
       "vehicleInactive": "Ce véhicule n'est pas actif en ce moment, voici les dernières informations enregistrés.",
       "report": "Une erreur avec ce véhicule?"
