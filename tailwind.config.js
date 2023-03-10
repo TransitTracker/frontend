@@ -35,8 +35,8 @@ module.exports = {
       },
     },
     fontFamily: {
-      // TODO: Add good fonts
-      sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+      sans: ['Inter', ...defaultTheme.fontFamily.sans],
+      heading: ['Figtree', ...defaultTheme.fontFamily.sans],
     },
   },
   corePlugins: {

@@ -86,6 +86,7 @@ export default {
       shortName: 'Departure number',
       routeShortName: 'Route name',
       serviceId: 'Service ID',
+      blockId: 'Block ID',
     },
     position: {
       lat: 'Position',
