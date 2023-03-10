@@ -19,7 +19,7 @@
         ></span>
         <span class="tw-grow"></span>
         <span
-          class="tw-h-5 tw-w-8 tw-rounded tw-bg-neutralVariant-50 dark:tw-bg-neutralVariant-60"
+          class="tw-ml-2 tw-h-5 tw-w-8 tw-rounded tw-bg-neutralVariant-50 dark:tw-bg-neutralVariant-60"
         ></span>
       </div>
       <div

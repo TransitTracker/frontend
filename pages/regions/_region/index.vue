@@ -29,7 +29,7 @@
           class="tw-container tw-mx-auto tw-flex tw-w-full tw-items-center tw-justify-between tw-px-4"
         >
           <h1
-            class="leading-[2.75rem] md:leading-[4rem] tw-text-4xl tw-text-white md:tw-text-6xl"
+            class="leading-[2.75rem] md:leading-[4rem] tw-font-heading tw-text-4xl tw-text-white md:tw-text-6xl"
           >
             {{ region.name }}
           </h1>
