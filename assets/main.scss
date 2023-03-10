@@ -66,7 +66,7 @@ html {
   justify-content: center !important;
 }
 
-// Fix for menu items overlapping the bottom bar (on v-data-table-footer)
+// Fix for menu items overlapping the bottom bar (on v-data-table-footer). Also used on Download Dialog which z-index is 202.
 .menuable__content__active {
-  z-index: 20 !important;
+  z-index: 203 !important;
 }
