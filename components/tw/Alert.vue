@@ -80,7 +80,7 @@ export default {
         return 'tw-bg-error-90 dark:tw-bg-error-30 tw-text-error-10 dark:tw-text-error-90'
       }
 
-      return 'tw-bg-primary-30 dark:tw-bg-primary-80 dark:tw-text-primary-20 md:tw-bg-primary-40'
+      return 'tw-bg-primary-30 dark:tw-bg-primary-80 tw-text-white dark:tw-text-primary-20 md:tw-bg-primary-40'
     },
     buttonColor() {
       if (this.alert.color === 'error') {
