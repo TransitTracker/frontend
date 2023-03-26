@@ -10,6 +10,7 @@ module.exports = {
     `components/tw/**/*.vue`,
     `components/VehicleSheet/**/*.vue`,
     `components/settings/TableColumns.vue`,
+    `layouts/error.vue`,
     `pages/regions/_region/index.vue`,
     `pages/regions/_region/table.vue`,
     `pages/debug.vue`,
