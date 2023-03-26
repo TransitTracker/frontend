@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="tw-space-y-2">
     <TwLink
       v-for="link in vehicle.links"
       :key="link"

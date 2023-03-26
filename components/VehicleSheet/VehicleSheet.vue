@@ -57,8 +57,8 @@
       class="tw-hidden md:tw-flex"
     />
     <ul
-      class="-tw-ml-6 tw-flex tw-items-center tw-gap-x-2"
       v-if="vehicle.tags.length"
+      class="-tw-ml-6 tw-flex tw-items-center tw-gap-x-2"
     >
       <TwTag v-for="tag in vehicle.tags" :key="tag" :tag-id="tag" />
     </ul>
@@ -67,30 +67,30 @@
       v-if="vehicle.links.length"
       class="-tw-mx-4 tw-h-px tw-border-t tw-bg-neutralVariant-80"
     />
-    <TwDetails small-icon v-if="vehicle.links.length">
+    <TwDetails v-if="vehicle.links.length" small-icon>
       <template #summary>
         <h3 class="tw-text-neutral10 tw-text-sm tw-font-medium tw-leading-5">
           {{ $t('externalLinks') }}
         </h3>
       </template>
-      <VehicleSheetLinksList />
+      <VehicleSheetLinksList class="tw-mt-4" />
     </TwDetails>
     <div class="-tw-mx-4 tw-h-px tw-border-t tw-bg-neutralVariant-80" />
     <h3 class="tw-text-neutral10 tw-text-sm tw-font-medium tw-leading-5">
       {{ $t('trip') }}
     </h3>
     <VehicleSheetRouteIndicator
+      v-if="vehicle.trip.routeShortName"
       :vehicle="vehicle"
       :agency="agency"
       class="md:tw-hidden"
-      v-if="vehicle.trip.routeShortName"
     />
     <VehicleSheetPropertiesList :vehicle="vehicle" group="trip" />
     <div
-      class="-tw-mx-4 tw-h-px tw-border-t tw-bg-neutralVariant-80"
       v-if="vehicle.trip.blockId"
+      class="-tw-mx-4 tw-h-px tw-border-t tw-bg-neutralVariant-80"
     />
-    <TwDetails small-icon v-if="vehicle.trip.blockId">
+    <TwDetails v-if="vehicle.trip.blockId" small-icon>
       <template #summary>
         <h3 class="tw-text-neutral10 tw-text-sm tw-font-medium tw-leading-5">
           {{ $t('relatedTrips') }}
@@ -110,26 +110,12 @@
       {{ $t('vehicle') }}
     </h3>
     <VehicleSheetPropertiesList :vehicle="vehicle" group="vehicle" />
-    <TwTextButton
-      with-icon
-      tag="a"
-      :href="reportUrl"
-      class="-tw-ml-3"
-      target="_blank"
-    >
-      <TwIcon :path="mdiCommentAlertOutline" />
-      {{ $t('report') }}
-    </TwTextButton>
+    <VehicleSheetReportButton :vehicle="vehicle" />
   </footer>
 </template>
 
 <script>
-import {
-  mdiArrowRight,
-  mdiChevronDown,
-  mdiCommentAlertOutline,
-  mdiIdentifier,
-} from '@mdi/js'
+import { mdiArrowRight, mdiChevronDown, mdiIdentifier } from '@mdi/js'
 
 export default {
   props: {
@@ -141,24 +127,11 @@ export default {
   data: () => ({
     mdiArrowRight,
     mdiChevronDown,
-    mdiCommentAlertOutline,
     mdiIdentifier,
   }),
   computed: {
     agency() {
       return this.$store.state.agencies.data[this.vehicle.agency] ?? {}
-    },
-    reportUrl() {
-      const url = new URL(
-        this.$i18n.locale === 'fr' ? process.env.reportFr : process.env.reportEn
-      )
-
-      url.searchParams.append('agency', this.vehicle.agency)
-      url.searchParams.append('id', this.vehicle.id)
-      url.searchParams.append('ref', this.vehicle.ref)
-      url.searchParams.append('label', this.vehicle.label)
-
-      return url.href
     },
     warning() {
       return this.$store.state.vehicles.warning

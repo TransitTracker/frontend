@@ -243,6 +243,15 @@
     <TwBasicDialog v-model="linksDialog" @input="closeDialog($event)">
       <template #header> {{ $t('externalLinks') }} </template>
       <VehicleSheetLinksList />
+      <template #footer>
+        <div class="tw-flex tw-items-center tw-justify-between">
+          <VehicleSheetReportButton />
+
+          <TwTextButton class="tw-float-right" value="cancel">
+            {{ $t('close') }}
+          </TwTextButton>
+        </div>
+      </template>
     </TwBasicDialog>
     <TwBasicDialog v-model="blocksDialog" @input="closeDialog($event)">
       <template #header>{{ $t('relatedTrips') }}</template>
@@ -572,8 +581,8 @@ export default {
       "see": "See {see}",
       "externalLinks": "External Links",
       "viewMap": "View on the map",
-      "relatedTrips": "Related Trips"
-
+      "relatedTrips": "Related Trips",
+      "close": "Close"
     },
     "fr": {
       "openSettings": "Ouvrir les paramètres pour choisir les colonnes",
@@ -592,7 +601,8 @@ export default {
       "see": "Voir les {see}",
       "externalLinks": "Liens externes",
       "viewMap": "Voir sur la carte",
-      "relatedTrips": "Voyages reliés"
+      "relatedTrips": "Voyages reliés",
+      "close": "Fermer"
     }
   }
 </i18n>
