@@ -1,107 +1,163 @@
 <template>
-  <div
-    class="tt-landing flex-column flex-md-row"
-    :class="[dataIsLoaded && 'tt-landing__short']"
-  >
+  <div>
     <div
-      id="tt-landing-map"
-      class="tt-landing-map tt-landing-map--dynamic flex-grow-1"
+      class="tw-relative tw-flex tw-h-full tw-w-full tw-flex-col md:tw-flex-row"
       :class="[dataIsLoaded && 'tt-landing__short']"
     >
       <div
-        ref="popup"
-        class="tt-landing-map-popup tt-landing-map-popup--inactive"
+        id="tt-landing-map"
+        class="tw-grow"
+        :class="[dataIsLoaded && 'tt-landing__short']"
       >
-        <NuxtLink
-          :to="localePath(`/regions/${currentPopup.slug}`)"
-          class="text-h6 text-decoration-none d-flex align-center"
-          :class="[`umami--click--landing-${currentPopup.slug}`]"
-        >
-          {{ currentPopup.name }}
-          <svg
-            style="width: 20px; height: 20px"
-            class="ml-1 tt-landing-map-popup__arrow"
-            viewBox="0 0 24 24"
-          >
-            <path fill="currentColor" :d="mdiArrowRight" />
-          </svg>
-        </NuxtLink>
-        <b class="text-subtitle-2">
-          {{ $tc('landing.agencies', currentPopup.agencies) }}
-          <br />
-          <span class="tt-landing-map-popup__dot success d-inline-block mr-1">
-            <div class="tt-landing-map-popup__dot--animate success"></div>
-          </span>
-          {{ $tc('landing.vehicles', currentPopup.vehicles) }}
-        </b>
-        <div class="d-flex secondark-dark--text mt-1">
+        <div ref="popup" class="tw-min-w-[12rem]">
           <NuxtLink
-            :to="localePath(`/regions/${currentPopup.slug}/map`)"
-            class="mr-2 secondary-dark--text"
-            :class="[`umami--click--landing-${currentPopup.slug}-map`]"
-            style="height: 24px"
-            :title="$t('landing.openMap', { region: currentPopup.name })"
+            :to="localePath(`/regions/${currentPopup.slug}`)"
+            class="tw-flex tw-items-center tw-font-heading tw-text-xl tw-font-medium tw-leading-7"
+            :class="[`umami--click--landing-${currentPopup.slug}`]"
           >
-            <v-btn icon small>
-              <v-icon>{{ mdiMap }}</v-icon>
-            </v-btn>
+            {{ currentPopup.name }}
+            <svg
+              style="width: 20px; height: 20px"
+              class="ml-1 tt-landing-map-popup__arrow"
+              viewBox="0 0 24 24"
+            >
+              <path fill="currentColor" :d="mdiArrowRight" />
+            </svg>
           </NuxtLink>
-          <NuxtLink
-            :to="localePath(`/regions/${currentPopup.slug}/table`)"
-            class="secondary-dark--text"
-            :class="[`umami--click--landing-${currentPopup.slug}-table`]"
-            style="height: 24px"
-            :title="$t('landing.openTable', { region: currentPopup.name })"
-          >
-            <v-btn icon small>
-              <v-icon>{{ mdiTable }}</v-icon>
-            </v-btn>
-          </NuxtLink>
+          <b class="tw-text-sm tw-font-medium tw-leading-5">
+            {{ $tc('landing.agencies', currentPopup.agencies) }}
+            <br />
+            <span class="tt-landing-map-popup__dot success d-inline-block mr-1">
+              <div class="tt-landing-map-popup__dot--animate success"></div>
+            </span>
+            {{ $tc('landing.vehicles', currentPopup.vehicles) }}
+          </b>
+          <div class="d-flex secondark-dark--text mt-1">
+            <NuxtLink
+              :to="localePath(`/regions/${currentPopup.slug}/map`)"
+              class="mr-2 secondary-dark--text"
+              :class="[`umami--click--landing-${currentPopup.slug}-map`]"
+              style="height: 24px"
+              :title="$t('landing.openMap', { region: currentPopup.name })"
+            >
+              <v-btn icon small>
+                <v-icon>{{ mdiMap }}</v-icon>
+              </v-btn>
+            </NuxtLink>
+            <NuxtLink
+              :to="localePath(`/regions/${currentPopup.slug}/table`)"
+              class="tw-text-primary-10 dark:tw-text-primary-90"
+              :class="[`umami--click--landing-${currentPopup.slug}-table`]"
+              style="height: 24px"
+              :title="$t('landing.openTable', { region: currentPopup.name })"
+            >
+              <v-btn icon small>
+                <v-icon>{{ mdiTable }}</v-icon>
+              </v-btn>
+            </NuxtLink>
+          </div>
+          <div
+            class="tt-landing-map-popup__border tw-bg-primary-40 dark:tw-bg-primary-80"
+          ></div>
         </div>
-        <div class="tt-landing-map-popup__border primary"></div>
       </div>
+      <div
+        class="tw-relative tw-flex tw-shrink-0 tw-grow tw-flex-col tw-space-y-8 tw-overflow-hidden tw-bg-primary-90 tw-p-8 tw-text-primary-10 dark:tw-bg-primary-30 dark:tw-text-primary-90 md:tw-mb-0 md:tw-justify-center md:tw-pt-0 md:tw-pb-0"
+      >
+        <!-- eslint-disable vue/no-v-html -->
+        <h1
+          class="tw-font-heading tw-text-5xl tw-font-bold tw-leading-[2.75rem]"
+          v-html="$t('landing.welcome')"
+        ></h1>
+        <!-- eslint-enable vue/no-v-html -->
+        <h2
+          class="tw-mt-2 tw-min-h-[4.5rem] tw-font-heading tw-text-3xl tw-font-medium"
+        >
+          {{ $t('landing.intro') }} <br />
+          <span
+            class="tt-landing-content__cities tw-font-bold tw-text-primary-40 dark:tw-text-primary-80"
+          >
+            <span class="tt-landing-content__cities__line"></span>
+            <span ref="letters" class="tt-landing-content__cities__letters">
+              Montréal
+            </span>
+          </span>
+        </h2>
+        <div class="tw-flex tw-items-center tw-gap-x-4">
+          <h3
+            class="tw-rounded tw-bg-white tw-p-2 tw-font-heading tw-text-xl tw-font-bold tw-text-primary-40 dark:tw-bg-primary-20 dark:tw-text-primary-80"
+          >
+            2687 <br />
+            <small
+              class="tw-text-md tw-font-medium tw-text-primary-10 dark:tw-text-primary-90"
+              >véhicules</small
+            >
+          </h3>
+          <h3
+            class="tw-rounded tw-bg-white tw-p-2 tw-font-heading tw-text-xl tw-font-bold tw-text-primary-40 dark:tw-bg-primary-20 dark:tw-text-primary-80"
+          >
+            43 <br />
+            <small
+              class="tw-text-md tw-font-medium tw-text-primary-10 dark:tw-text-primary-90"
+              >agences</small
+            >
+          </h3>
+          <h3
+            class="tw-rounded tw-bg-white tw-p-2 tw-font-heading tw-text-xl tw-font-bold tw-text-primary-40 dark:tw-bg-primary-20 dark:tw-text-primary-80"
+          >
+            13904 <br />
+            <small
+              class="tw-text-md tw-font-medium tw-text-primary-10 dark:tw-text-primary-90"
+              >véhicules depuis 2018</small
+            >
+          </h3>
+        </div>
+        <div>
+          <p class="!tw-mb-0 tw-flex tw-items-end tw-gap-x-2 tw-leading-8">
+            Explorez par vous même!
+            <TwIcon :path="mdiArrowDownRight" />
+          </p>
+          <v-chip-group column>
+            <v-chip
+              v-for="feature in regionsFeatures.features"
+              :key="feature.properties.slug"
+              label
+              outlined
+              nuxt
+              :to="localePath(`/regions/${feature.properties.slug}/`)"
+            >
+              {{ feature.properties.name }}
+            </v-chip>
+          </v-chip-group>
+        </div>
+      </div>
+      <div class="tt-landing-overlay"></div>
     </div>
     <div
-      class="tt-landing-content flex-shrink-0 flex-grow-1 d-flex flex-column justify-md-center px-8 pt-8 pt-md-0 mb-md-0 pb-4 pb-md-0"
-      :class="[dataIsLoaded && '']"
+      class="tw-grid tw-w-full tw-gap-x-8 tw-gap-y-4 tw-bg-neutral-99 tw-p-8 tw-text-neutral-10 dark:tw-bg-neutral-10 dark:tw-text-neutral-90 md:tw-grid-cols-2"
     >
-      <!-- eslint-disable vue/no-v-html -->
-      <h1
-        class="text-h4 text-md-h3 font-weight-bold"
-        v-html="$t('landing.welcome')"
-      ></h1>
-      <!-- eslint-enable vue/no-v-html -->
-      <h2 class="text-h6 text-md-h5 my-4 tt-landing-content__subtitle">
-        {{ $t('landing.intro') }} <br />
-        <span class="font-weight-medium tt-landing-content__cities">
-          <span class="tt-landing-content__cities__line"></span>
-          <span ref="letters" class="tt-landing-content__cities__letters">
-            Montréal
-          </span>
-        </span>
-      </h2>
-      <h2 class="text-subtitle-2 text-md-subtitle-1">
-        {{
-          $t('landing.body', {
-            totalAgencies,
-            totalVehicles,
-          })
-        }}
-      </h2>
-      <v-chip-group column>
-        <v-chip
-          v-for="feature in regionsFeatures.features"
-          :key="feature.properties.slug"
-          label
-          outlined
-          nuxt
-          :to="localePath(`/regions/${feature.properties.slug}/`)"
-        >
-          {{ feature.properties.name }}
-        </v-chip>
-      </v-chip-group>
+      <div class="tw-space-y-2">
+        <h3 class="tw-font-heading tw-text-2xl tw-font-bold">
+          Tous vos véhicules de toutes vos agences favorites se retrouvent sur
+          la même carte
+        </h3>
+        <p class="!tw-mb-0">
+          Votre société de transport offre peut-être de voir tous les véhicules
+          présent sur une ligne, Transit Tracker vous offre de voir
+          <b>tous les véhicules d'une région</b>! Découvrez votre région, sous
+          un tout nouvelle angle.
+        </p>
+      </div>
+      <div
+        class="tw-aspect-video tw-w-full tw-overflow-hidden tw-rounded-lg tw-bg-secondary-70 after:tw-bg-secondary-10"
+      >
+        <img
+          src="https://i.imgur.com/BH01Fpz.png"
+          alt=""
+          class="tw-h-full tw-w-full"
+        />
+      </div>
     </div>
-    <div class="tt-landing-overlay"></div>
   </div>
 </template>
 
@@ -109,7 +165,13 @@
 import anime from 'animejs/lib/anime.es'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
-import { mdiArrowRight, mdiMap, mdiTable } from '@mdi/js'
+import {
+  mdiArrowRight,
+  mdiArrowDown,
+  mdiArrowDownRight,
+  mdiMap,
+  mdiTable,
+} from '@mdi/js'
 
 export default {
   name: 'Landing',
@@ -155,6 +217,8 @@ export default {
       totalAgencies,
       totalVehicles,
       mdiArrowRight,
+      mdiArrowDown,
+      mdiArrowDownRight,
       mdiTable,
       mdiMap,
     }
