@@ -1,12 +1,12 @@
 <template>
   <div>
     <div
-      class="tw-relative tw-flex tw-h-full tw-w-full tw-flex-col md:tw-flex-row"
+      class="tw-relative tw-flex tw-h-full tw-w-full tw-flex-col md:tw-h-[75vh] md:tw-flex-row"
       :class="[dataIsLoaded && 'tt-landing__short']"
     >
       <div
         id="tt-landing-map"
-        class="tw-grow"
+        class="tw-z-0 tw-grow md:tw-order-2 md:tw-w-[55%]"
         :class="[dataIsLoaded && 'tt-landing__short']"
       >
         <div ref="popup" class="tw-min-w-[12rem]">
@@ -62,7 +62,7 @@
         </div>
       </div>
       <div
-        class="tw-relative tw-flex tw-shrink-0 tw-grow tw-flex-col tw-space-y-8 tw-overflow-hidden tw-bg-primary-90 tw-p-8 tw-text-primary-10 dark:tw-bg-primary-30 dark:tw-text-primary-90 md:tw-mb-0 md:tw-justify-center md:tw-pt-0 md:tw-pb-0"
+        class="tw-relative tw-z-[2] tw-flex tw-shrink-0 tw-grow tw-flex-col tw-space-y-8 tw-overflow-hidden tw-bg-primary-90 tw-p-8 tw-text-primary-10 dark:tw-bg-primary-30 dark:tw-text-primary-90 md:tw-order-1 md:tw-mb-0 md:tw-w-[45%] md:tw-justify-center md:tw-pb-0 md:tw-pt-0"
       >
         <!-- eslint-disable vue/no-v-html -->
         <h1
@@ -85,13 +85,24 @@
         </h2>
         <div class="tw-flex tw-items-center tw-gap-x-4">
           <h3
-            class="tw-rounded tw-bg-white tw-p-2 tw-font-heading tw-text-xl tw-font-bold tw-text-primary-40 dark:tw-bg-primary-20 dark:tw-text-primary-80"
+            class="tw-relative tw-rounded tw-bg-white tw-p-2 tw-font-heading tw-text-xl tw-font-bold tw-text-primary-40 dark:tw-bg-primary-20 dark:tw-text-primary-80"
           >
+            <span
+              class="tw-absolute tw-right-0 tw-top-0 -tw-mr-1 -tw-mt-1 tw-flex tw-h-3 tw-w-3"
+            >
+              <span
+                class="tw-absolute tw-inline-flex tw-h-full tw-w-full tw-animate-ping tw-rounded-full tw-bg-secondary-50/75"
+              ></span>
+              <span
+                class="tw-relative tw-inline-flex tw-h-3 tw-w-3 tw-rounded-full tw-bg-secondary-40"
+              ></span>
+            </span>
             2687 <br />
             <small
               class="tw-text-md tw-font-medium tw-text-primary-10 dark:tw-text-primary-90"
-              >véhicules</small
             >
+              véhicules <span class="tw-sr-only">en ce moment</span>
+            </small>
           </h3>
           <h3
             class="tw-rounded tw-bg-white tw-p-2 tw-font-heading tw-text-xl tw-font-bold tw-text-primary-40 dark:tw-bg-primary-20 dark:tw-text-primary-80"
@@ -132,32 +143,195 @@
         </div>
       </div>
       <div class="tt-landing-overlay"></div>
+      <div
+        class="tw-pointer-events-none tw-absolute tw-inset-0 tw-z-[1] tw-bg-gradient-100 tw-from-primary-90 tw-from-50% tw-to-transparent tw-to-70%"
+      ></div>
     </div>
-    <div
-      class="tw-grid tw-w-full tw-gap-x-8 tw-gap-y-4 tw-bg-neutral-99 tw-p-8 tw-text-neutral-10 dark:tw-bg-neutral-10 dark:tw-text-neutral-90 md:tw-grid-cols-2"
+    <section
+      class="tw-w-full tw-bg-neutral-99 tw-text-neutral-10 dark:tw-bg-neutral-10 dark:tw-text-neutral-90"
     >
-      <div class="tw-space-y-2">
-        <h3 class="tw-font-heading tw-text-2xl tw-font-bold">
-          Tous vos véhicules de toutes vos agences favorites se retrouvent sur
-          la même carte
+      <div class="tw-container tw-mx-auto tw-p-8">
+        <h3 class="tw-font-heading tw-text-3xl tw-font-bold">
+          Tous vos véhicules préférés, réunis en un seul endroit
         </h3>
-        <p class="!tw-mb-0">
+        <p class="!tw-mb-0 tw-mt-1 tw-max-w-prose tw-text-lg">
           Votre société de transport offre peut-être de voir tous les véhicules
-          présent sur une ligne, Transit Tracker vous offre de voir
+          présent sur une ligne, Transit&nbsp;Tracker vous offre de voir
           <b>tous les véhicules d'une région</b>! Découvrez votre région, sous
           un tout nouvelle angle.
         </p>
+        <div class="tw-mt-8 tw-flex tw-items-center tw-gap-x-8">
+          <div class="tw-flex tw-w-2/3">
+            <div
+              class="tw-w-full tw-items-center tw-justify-start tw-shadow-xl"
+            >
+              <div
+                class="tw-flex tw-h-4 tw-w-full tw-items-center tw-justify-end tw-gap-2 tw-rounded-t-lg tw-bg-neutralVariant-90 tw-px-2"
+              >
+                <div
+                  class="tw-h-2 tw-w-2 tw-rounded-full tw-bg-neutralVariant-30"
+                ></div>
+                <div
+                  class="tw-h-2 tw-w-2 tw-rounded-full tw-bg-neutralVariant-30"
+                ></div>
+                <div
+                  class="tw-h-2 tw-w-2 tw-rounded-full tw-bg-neutralVariant-30"
+                ></div>
+              </div>
+              <img
+                src="https://i.imgur.com/BH01Fpz.png"
+                alt=""
+                class="tw-aspect-video tw-w-full tw-rounded-b-lg"
+              />
+            </div>
+          </div>
+          <div
+            class="tw-w-1/3 tw-space-y-4"
+            role="tablist"
+            aria-orientation="vertical"
+          >
+            <div
+              class="tw-cursor-pointer tw-space-y-2 tw-rounded-2xl tw-px-8 tw-py-6 tw-transition-colors tw-duration-200 tw-ease-emphasized"
+              :class="[
+                activeTab === 'map'
+                  ? 'tw-bg-primary-40 tw-text-white dark:tw-bg-primary-80 dark:tw-text-primary-10'
+                  : 'hover:tw-bg-primary-90 hover:dark:tw-bg-primary-30',
+              ]"
+              @click="activeTab = 'map'"
+            >
+              <div class="tw-flex tw-items-center tw-gap-4">
+                <TwIcon :path="mdiMap" class="!tw-h-12 !tw-w-12" />
+                <h4 class="tw-text-lg">Sur une carte</h4>
+              </div>
+              <p class="!tw-mb-0">
+                Obtenez une vue d'ensemble de votre région. Explorez de plus
+                près, cliquez sur un véhicule et consultez-y tous ses détails.
+              </p>
+            </div>
+            <div
+              class="tw-cursor-pointer tw-space-y-2 tw-rounded-xl tw-px-8 tw-py-6 tw-transition-colors tw-duration-200 tw-ease-emphasized"
+              :class="[
+                activeTab === 'table'
+                  ? 'tw-bg-primary-40 tw-text-white dark:tw-bg-primary-80 dark:tw-text-primary-10'
+                  : 'hover:tw-bg-primary-90 hover:dark:tw-bg-primary-30',
+              ]"
+              @click="activeTab = 'table'"
+            >
+              <div class="tw-flex tw-items-center tw-gap-4">
+                <TwIcon :path="mdiTable" class="!tw-h-12 !tw-w-12" />
+                <h4 class="tw-text-lg">Ou une liste</h4>
+              </div>
+              <p class="!tw-mb-0">
+                Utilisez les filtres pour trouvez rapidement les véhicules qui
+                vous intéressent. Ajoutez ou supprimez des colonnes pour
+                afficher les informations intéressantes pour vous.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
+    </section>
+    <section
+      class="tw-w-full tw-bg-neutral-99 tw-pt-8 tw-text-neutral-10 dark:tw-bg-neutral-10 dark:tw-text-neutral-90"
+    >
+      <div class="tw-container tw-mx-auto tw-p-8">
+        <h3 class="tw-text-center tw-font-heading tw-text-3xl tw-font-bold">
+          Et encore plus
+        </h3>
+        <p class="tw-mt-1 tw-text-center tw-text-lg">
+          Transit Tracker offre une tonne de fonctionnalités pour vous permettre
+          d'obtenir
+        </p>
+        <div class="tw-mt-4 tw-grid tw-grid-cols-4 tw-gap-4">
+          <TwLandingFeature
+            :icon="mdiBell"
+            title="Notifications"
+            description="Recevez des notifications sur votre téléphone lorsqu'un nouveau véhicule est ajouté à la flotte de votre agence."
+            note="Lorsque compatible avec votre navigateur."
+          />
+          <TwLandingFeature
+            :icon="mdiDownload"
+            title="Téléchargement"
+            description="Exportez les données récoltés par Transit Tracker, sur le dernier statut de chaque véhicule."
+            note="Lorsque permis par la license de l'agence."
+          />
+          <TwLandingFeature
+            :icon="mdiTimeline"
+            title="Prochains départs"
+            description="Consultez les départs précédents et suivants, suivez votre véhicule préféré pendant sa journée."
+            note="Lorsque fourni par l'agence."
+          />
+          <TwLandingFeature
+            :icon="mdiOpenInNew"
+            title="Liens externes"
+            description="Transit Tracker collabore avec d'autres services, tel que Fleets Stats afin de vous offrir une expérience encore plus complète."
+            note="Pour certaines agences."
+          />
+        </div>
+      </div>
+    </section>
+    <section class="tw-w-full tw-bg-primary-10 tw-text-primary-90">
+      <div class="tw-container tw-mx-auto tw-p-8">
+        <h3 class="tw-font-heading tw-text-3xl tw-font-bold">
+          L'écosystème Transit Tracker
+        </h3>
+        <p class="!tw-mb-0 tw-mt-1 tw-max-w-prose tw-text-lg">
+          Bien plus qu'une application
+        </p>
+        <div class="tw-grid tw-grid-cols-4 tw-gap-4">
+          <div>
+            <h4 class="font-medium">exo VIN Database</h4>
+            <p>
+              Consultez les VIN de chaque bus d'exo et retrouvez leur
+              utilisation à travers les différents secteurs du réseau.
+            </p>
+            <span
+              class="tw-bg-primary-30 tw-font-heading tw-text-lg tw-leading-none"
+              >VIN</span
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+    <section
+      class="tw-w-full tw-bg-neutral-99 tw-pt-8 tw-text-neutral-10 dark:tw-bg-neutral-10 dark:tw-text-neutral-90"
+    >
       <div
-        class="tw-aspect-video tw-w-full tw-overflow-hidden tw-rounded-lg tw-bg-secondary-70 after:tw-bg-secondary-10"
+        class="tw-container tw-mx-auto tw-flex tw-items-center tw-gap-8 tw-p-8"
       >
-        <img
-          src="https://i.imgur.com/BH01Fpz.png"
-          alt=""
-          class="tw-h-full tw-w-full"
-        />
+        <div class="tw-flex tw-gap-x-2">
+          <TwIcon
+            :path="mdiHeart"
+            class="!tw-h-16 !tw-w-16 tw-rotate-12 tw-self-start tw-text-error-40"
+          />
+          <TwIcon :path="mdiPlus" class="!tw-h-10 !tw-w-10 tw-self-center" />
+          <TwIcon
+            :path="mdiCodeTags"
+            class="!tw-h-16 !tw-w-16 -tw-rotate-6 tw-self-end tw-text-primary-40"
+          />
+        </div>
+        <div>
+          <h3 class="tw-font-heading tw-text-3xl tw-font-bold">
+            Un projet fièrement Open Source
+          </h3>
+          <p class="tw-mt-1 tw-text-lg">
+            Le code source de Transit Tracker est pleinement ouvert et
+            disponible sur notre GitHub. N'hésitez pas à contribuer au projet ou
+            à vous en inspirer!
+          </p>
+          <TwFilledButton
+            with-icon
+            tag="a"
+            href="https://github.com/TransitTracker"
+            target="_blank"
+            class="!tw-inline-flex"
+          >
+            <TwIcon :path="mdiOpenInNew" />
+            Notre page GitHub
+          </TwFilledButton>
+        </div>
       </div>
-    </div>
+    </section>
   </div>
 </template>
 
@@ -171,6 +345,13 @@ import {
   mdiArrowDownRight,
   mdiMap,
   mdiTable,
+  mdiBell,
+  mdiDownload,
+  mdiTimeline,
+  mdiOpenInNew,
+  mdiHeart,
+  mdiPlus,
+  mdiCodeTags,
 } from '@mdi/js'
 
 export default {
@@ -221,6 +402,13 @@ export default {
       mdiArrowDownRight,
       mdiTable,
       mdiMap,
+      mdiBell,
+      mdiDownload,
+      mdiTimeline,
+      mdiOpenInNew,
+      mdiHeart,
+      mdiPlus,
+      mdiCodeTags,
     }
   },
   data: () => ({
@@ -229,6 +417,7 @@ export default {
       features: [],
     },
     currentPopup: {},
+    activeTab: 'map',
   }),
   head() {
     return {
