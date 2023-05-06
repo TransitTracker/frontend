@@ -330,7 +330,9 @@ export default {
       if (vehicle.trip.shapeLink) {
         this.map
           .getSource('tt-shape-source')
-          .setData(`${process.env.backendHost}${vehicle.trip.shapeLink}`)
+          .setData(
+            `${process.env.backendHost}/v2/agencies/${vehicle.agency}/shapes/${vehicle.trip.shapeId}`
+          )
 
         const routeColor = vehicle.trip.routeColor.toLowerCase()
 
