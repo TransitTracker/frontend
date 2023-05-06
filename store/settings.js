@@ -11,6 +11,7 @@ const availableColumns = [
   'routeId',
   'trip.routeShortName',
   'trip.serviceId',
+  'trip.blockId',
   'position.lat',
   'bearing',
   'speed',

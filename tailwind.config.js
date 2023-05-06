@@ -10,6 +10,7 @@ module.exports = {
     `components/tw/**/*.vue`,
     `components/VehicleSheet/**/*.vue`,
     `components/settings/TableColumns.vue`,
+    `layouts/error.vue`,
     `pages/regions/_region/index.vue`,
     `pages/regions/_region/table.vue`,
     `pages/debug.vue`,
@@ -35,8 +36,8 @@ module.exports = {
       },
     },
     fontFamily: {
-      // TODO: Add good fonts
-      sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+      sans: ['Inter', ...defaultTheme.fontFamily.sans],
+      heading: ['Figtree', ...defaultTheme.fontFamily.sans],
     },
   },
   corePlugins: {

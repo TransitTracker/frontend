@@ -16,7 +16,14 @@ export default {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'preconnect', href: 'https://fonts.bunny.net' },
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.bunny.net/css?family=figtree:700|inter:400,500,600&display=swap',
+      },
+    ],
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
@@ -78,10 +85,10 @@ export default {
   vuetify: {
     optionsPath: './vuetify.options.js',
     defaultAssets: {
-      // font: false,
+      font: false,
       icons: false,
     },
-    // treeShake: true,
+    customVariables: ['~/assets/variables.scss'],
   },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
@@ -135,7 +142,8 @@ export default {
     imageKit: process.env.IMAGE_KIT,
     commitHash: process.env.COMMIT_REF,
     vapidKey: process.env.VAPID_KEY,
-    syncfusionKey: process.env.SYNCFUSION_KEY,
+    reportEn: process.env.REPORT_EN,
+    reportFr: process.env.REPORT_FR,
   },
 
   pwa: {

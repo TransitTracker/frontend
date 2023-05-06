@@ -33,12 +33,16 @@ self.addEventListener('notificationclick', (event) => {
         )
       })
     )
-  }
-
-  if (action === 'open_gtfstools') {
+  } else if (action === 'open_gtfstools') {
     event.waitUntil(
       clients.matchAll({ type: 'window' }).then(() => {
         return clients.openWindow(`/redirect/gtfstools/${param}`)
+      })
+    )
+  } else {
+    event.waitUntil(
+      clients.matchAll({ type: 'window' }).then(() => {
+        return clients.openWindow('/')
       })
     )
   }

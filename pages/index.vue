@@ -383,11 +383,27 @@ export default {
 </script>
 
 <style lang="scss">
-@use 'sass:selector';
+.theme--light .tt-landing-content {
+  color: #011d32;
+  background-color: #deecf9;
 
-@mixin nest($parent) {
-  @at-root #{selector.nest($parent, &)} {
-    @content;
+  &__cities {
+    color: #2374ab;
+    &__line {
+      background-color: #2374ab;
+    }
+  }
+}
+
+.theme--dark .tt-landing-content {
+  color: #cbe5ff;
+  background-color: #003c5e;
+
+  &__cities {
+    color: #91ccff;
+    &__line {
+      background-color: #91ccff;
+    }
   }
 }
 
@@ -400,30 +416,6 @@ export default {
   &-content {
     overflow: hidden;
     position: relative;
-
-    @include nest('.theme--light') {
-      color: #011d32;
-      background-color: #deecf9;
-
-      &__cities {
-        color: #2374ab;
-        &__line {
-          background-color: #2374ab;
-        }
-      }
-    }
-
-    @include nest('.theme--dark') {
-      color: #cbe5ff;
-      background-color: #003c5e;
-
-      &__cities {
-        color: #91ccff;
-        &__line {
-          background-color: #91ccff;
-        }
-      }
-    }
 
     h1,
     h2 {
@@ -525,6 +517,25 @@ export default {
 }
 
 @media (min-width: 960px) {
+  .theme--light .tt-landing-overlay {
+    background: linear-gradient(
+      100deg,
+      rgba(222, 236, 249, 1) 0%,
+      rgba(222, 236, 249, 1) 50%,
+      rgba(222, 236, 249, 0) 70%,
+      rgba(222, 236, 249, 0) 100%
+    );
+  }
+
+  .theme--dark .tt-landing-overlay {
+    background: linear-gradient(
+      100deg,
+      rgba(0, 60, 94, 1) 0%,
+      rgba(0, 60, 94, 1) 50%,
+      rgba(0, 60, 94, 0) 70%,
+      rgba(0, 60, 94, 0) 100%
+    );
+  }
   .tt-landing {
     &-overlay {
       position: absolute;
@@ -533,26 +544,6 @@ export default {
       right: 0;
       bottom: 0;
       pointer-events: none;
-
-      @include nest('.theme--light') {
-        background: linear-gradient(
-          100deg,
-          rgba(222, 236, 249, 1) 0%,
-          rgba(222, 236, 249, 1) 50%,
-          rgba(222, 236, 249, 0) 70%,
-          rgba(222, 236, 249, 0) 100%
-        );
-      }
-
-      @include nest('.theme--dark') {
-        background: linear-gradient(
-          100deg,
-          rgba(0, 60, 94, 1) 0%,
-          rgba(0, 60, 94, 1) 50%,
-          rgba(0, 60, 94, 0) 70%,
-          rgba(0, 60, 94, 0) 100%
-        );
-      }
     }
     &-content {
       pointer-events: none;

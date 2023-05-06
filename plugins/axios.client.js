@@ -12,11 +12,10 @@ export default function ({ $axios, app, error, redirect, store }) {
 
     if (code === 419) {
       return Promise.resolve(false)
-    } else if (code === 500) {
-      redirect(app.localePath('/maintenance'), { code: 500 })
-      return Promise.resolve(false)
-    } else if (code === 503) {
-      redirect(app.localePath('/maintenance'), { code: 503 })
+    }
+
+    if (code === 503) {
+      error({ statusCode: 503, message: 'Maintenance' })
       return Promise.resolve(false)
     }
   })

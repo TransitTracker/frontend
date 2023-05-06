@@ -81,7 +81,8 @@ export default {
       headsign: 'Destination du voyage',
       shortName: 'Numéro du départ',
       routeShortName: 'Nom de la route',
-      serviceId: 'Service ID',
+      serviceId: 'ID du Service',
+      blockId: 'ID du Bloc',
     },
     position: {
       lat: 'Position',

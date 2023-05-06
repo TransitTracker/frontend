@@ -3,7 +3,7 @@
     <TwTopAppBar />
     <TwNavigationRail />
     <v-main class="mb-16 mb-md-0 ml-md-20">
-      <Alerts />
+      <TwAlert />
       <NotificationsCentre
         v-if="dataIsLoaded"
         v-model="openNotificationsCentre"
@@ -162,8 +162,6 @@ export default {
     },
   },
   mounted() {
-    this.checkForOldSettings()
-
     if (this.settingsDarkMode) {
       // https://csabaszabo.dev/blog/dark-mode-for-website-with-nuxtjs-and-vuetify/
       setTimeout(() => (this.$vuetify.theme.dark = true), 0)
@@ -196,49 +194,6 @@ export default {
     this.$store.dispatch('tags/getAll')
   },
   methods: {
-    checkForOldSettings() {
-      // Import settings from previous versions
-      // TODO: remove after a transition period
-      if (!window.localStorage) return
-
-      const vuex = JSON.parse(window.localStorage.getItem('vuex'))
-
-      if (!vuex || !vuex.settings) return
-
-      this.$store.commit('settings/set', {
-        setting: 'activeAgencies',
-        value: vuex.settings.activeAgencies,
-      })
-
-      this.$store.commit('settings/set', {
-        setting: 'autoRefresh',
-        value: vuex.settings.autoRefresh,
-      })
-
-      this.$store.commit('settings/set', {
-        setting: 'theme',
-        value: vuex.settings.darkMode ? 'dark' : 'light',
-      })
-
-      this.$store.commit('settings/set', {
-        setting: 'launch',
-        value: vuex.settings.defaultPath,
-      })
-
-      this.$i18n.setLocale(vuex.settings.language)
-
-      this.$store.commit('settings/set', {
-        setting: 'currentRegion',
-        value: vuex.settings.activeRegion,
-      })
-
-      // Rename and remove old one
-      window.localStorage.setItem(
-        'old-tt-settings',
-        window.localStorage.getItem('vuex')
-      )
-      window.localStorage.removeItem('vuex')
-    },
     async handleWorkboxEvents() {
       // Workbox update
       this.workbox = await window.$workbox

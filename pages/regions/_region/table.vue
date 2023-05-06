@@ -197,11 +197,24 @@
       <!-- eslint-disable-next-line -->
       <template v-slot:item.actions="{ item }">
         <div class="tw-flex tw-items-center tw-gap-2">
-          <TwStandardIconButton @click="setSelection('links', item)">
+          <TwStandardIconButton
+            @click="setSelection('links', item)"
+            :title="$t('see', { see: $t('externalLinks') })"
+          >
             <TwIcon :path="mdiOpenInNew" />
           </TwStandardIconButton>
-          <TwStandardIconButton @click="setSelection('map', item)">
+          <TwStandardIconButton
+            @click="setSelection('map', item)"
+            :title="$t('viewMap')"
+          >
             <TwIcon :path="mdiMapMarkerOutline" />
+          </TwStandardIconButton>
+          <TwStandardIconButton
+            @click="setSelection('blocks', item)"
+            v-if="item.trip.blockId"
+            :title="$t('see', { see: $t('relatedTrips') })"
+          >
+            <TwIcon :path="mdiTimelineText" />
           </TwStandardIconButton>
         </div>
       </template>
@@ -227,7 +240,23 @@
         {{ $t('openSettingsShort') }}
       </TwFilledButton>
     </div>
-    <TableLinksDialog v-model="linksDialog" />
+    <TwBasicDialog v-model="linksDialog" @input="closeDialog($event)">
+      <template #header> {{ $t('externalLinks') }} </template>
+      <VehicleSheetLinksList />
+      <template #footer>
+        <div class="tw-flex tw-items-center tw-justify-between">
+          <VehicleSheetReportButton />
+
+          <TwTextButton class="tw-float-right" value="cancel">
+            {{ $t('close') }}
+          </TwTextButton>
+        </div>
+      </template>
+    </TwBasicDialog>
+    <TwBasicDialog v-model="blocksDialog" @input="closeDialog($event)">
+      <template #header>{{ $t('relatedTrips') }}</template>
+      <VehicleSheetTripsList class="-tw-mx-2" />
+    </TwBasicDialog>
   </div>
 </template>
 
@@ -244,6 +273,7 @@ import {
   mdiFilterOutline,
   mdiClose,
   mdiTableColumnPlusBefore,
+  mdiTimelineText,
   mdiArrowUp,
 } from '@mdi/js'
 import { mixin as clickaway } from 'vue-clickaway'
@@ -264,6 +294,7 @@ export default {
       mdiFilterOutline,
       mdiClose,
       mdiTableColumnPlusBefore,
+      mdiTimelineText,
       mdiArrowUp,
     }
   },
@@ -344,6 +375,7 @@ export default {
         // TODO: add choices to agency, currentStatus, scheduleRelationship, congestionLevel, occupancyStatus
       },
       linksDialog: false,
+      blocksDialog: false,
       searchColumn: 'ref',
       filterModal: null,
       sortBy: null,
@@ -433,6 +465,9 @@ export default {
     },
   },
   methods: {
+    closeDialog($event) {
+      console.log($event)
+    },
     formatDate(value) {
       if (!value) return ''
 
@@ -466,6 +501,10 @@ export default {
       switch (action) {
         case 'links':
           this.linksDialog = true
+          break
+
+        case 'blocks':
+          this.blocksDialog = true
           break
 
         case 'map':
@@ -538,8 +577,12 @@ export default {
       "sortDesc": "Sorted ascending. Activate to sort descending.",
       "sortRemove": "Sorted descending. Activate to remove sorting.",
       "sortDisabled": "It is not possible to sort this column.",
-      "filterActivated": "Filtered using the term: {value}."
-
+      "filterActivated": "Filtered using the term: {value}.",
+      "see": "See {see}",
+      "externalLinks": "External Links",
+      "viewMap": "View on the map",
+      "relatedTrips": "Related Trips",
+      "close": "Close"
     },
     "fr": {
       "openSettings": "Ouvrir les paramètres pour choisir les colonnes",
@@ -554,7 +597,12 @@ export default {
       "sortDesc": "Tri croissant. Activer pour trier par ordre décroissant.",
       "sortRemove": "Tri décroissant. Activer pour retirer le tri.",
       "sortDisabled": "Il n'est pas possible de trier cette colonne.",
-      "filterActivated": "Filtré avec le terme : {value}."
+      "filterActivated": "Filtré avec le terme : {value}.",
+      "see": "Voir les {see}",
+      "externalLinks": "Liens externes",
+      "viewMap": "Voir sur la carte",
+      "relatedTrips": "Voyages reliés",
+      "close": "Fermer"
     }
   }
 </i18n>
