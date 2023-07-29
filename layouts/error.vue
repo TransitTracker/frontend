@@ -58,6 +58,7 @@ export default {
   },
   computed: {
     statusCode() {
+      console.log('error', this.error)
       if (
         !this.error.response &&
         this.error.statusCode === 500 &&
@@ -66,7 +67,7 @@ export default {
         return 'no-response'
       if (!this.error.response && this.error.statusCode === 500)
         return 'app-failed'
-      return this.statusCode
+      return this.error.statusCode
     },
   },
 }

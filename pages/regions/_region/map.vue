@@ -32,7 +32,7 @@ const defaultGeojsonShapeData = {
 export default {
   name: 'PagesRegionMap',
   middleware: 'loadData',
-  async asyncData({ $axios, params, query, store }) {
+  async asyncData({ $axios, params, query, store, error }) {
     // Handle deep links coming from notifications or other apps
     const handleDeepLink = (vehicleData) => {
       store.commit('vehicles/setSelection', vehicleData)
@@ -46,16 +46,24 @@ export default {
       }
     }
 
+    async function tryRequest(url) {
+      try {
+        const { data } = await $axios.get(url)
+        return handleDeepLink(data.data)
+      } catch (e) {
+        return error({
+          statusCode: 404,
+          message: 'Vehicle not found',
+        })
+      }
+    }
+
     if (query.vehicle) {
-      const { data } = await $axios.get(`/vehicles/${query.vehicle}`)
-      handleDeepLink(data.data)
+      await tryRequest(`/vehicles/${query.vehicle}`)
     }
 
     if (query.ref && query.agency) {
-      const { data } = await $axios.get(
-        `/agencies/${query.agency}/vehicles/${query.ref}`
-      )
-      handleDeepLink(data.data)
+      await tryRequest(`/agencies/${query.agency}/vehicles/${query.ref}`)
     }
 
     return {
