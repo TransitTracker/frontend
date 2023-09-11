@@ -1,15 +1,15 @@
 <template>
   <footer
-    class="tw-absolute tw-top-[calc(100vh-14rem)] tw-mb-[4rem] tw-w-full tw-space-y-4 tw-overflow-y-auto tw-rounded-t-[1.75rem] tw-bg-neutral-99 tw-p-4 tw-pb-20 tw-text-neutral-10 dark:tw-bg-neutral-10 dark:tw-text-neutral-90 md:tw-top-4 md:tw-left-4 md:tw-max-h-[calc(100vh-41px-32px)] md:tw-w-96 md:tw-rounded-xl md:tw-pb-4"
+    class="tw-absolute tw-top-[calc(100vh-14rem)] tw-mb-[4rem] tw-w-full tw-space-y-4 tw-overflow-y-auto tw-rounded-t-[1.75rem] tw-bg-neutral-99 tw-p-4 tw-pb-20 tw-text-neutral-10 dark:tw-bg-neutral-10 dark:tw-text-neutral-90 md:tw-left-4 md:tw-top-4 md:tw-max-h-[calc(100vh-41px-32px)] md:tw-w-96 md:tw-rounded-xl md:tw-pb-4"
   >
     <div class="-tw-mt-4 md:tw-hidden">
       <div
-        class="tw-my-1.5 tw-mx-auto tw-h-1 tw-w-8 tw-rounded-full tw-bg-neutralVariant-30/40 dark:tw-bg-neutralVariant-80/40"
+        class="tw-mx-auto tw-my-1.5 tw-h-1 tw-w-8 tw-rounded-full tw-bg-neutralVariant-30/40 dark:tw-bg-neutralVariant-80/40"
       ></div>
     </div>
     <div
       v-if="warning"
-      class="!-tw-mx-4 !tw-mb-2 !-tw-mt-4 tw-bg-error-90 tw-px-4 tw-pt-4 tw-pb-2 tw-font-medium tw-text-error-10 dark:tw-bg-error-30 dark:tw-text-error-90"
+      class="!-tw-mx-4 !-tw-mt-4 !tw-mb-2 tw-bg-error-90 tw-px-4 tw-pb-2 tw-pt-4 tw-font-medium tw-text-error-10 dark:tw-bg-error-30 dark:tw-text-error-90"
     >
       {{ $t(warning) }}
     </div>
@@ -22,6 +22,15 @@
           class="tw-text-2xl tw-leading-8 md:tw-text-4xl md:tw-leading-[2.75rem]"
         >
           {{ vehicle.label ?? vehicle.ref }}
+          <TwFilledIconButton
+            v-if="adminMode"
+            tag="a"
+            :href="`https://admin.transittracker.ca/vehicles/${vehicle.id}/edit`"
+            target="_blank"
+            class="tw-inline-flex"
+          >
+            <TwIcon :path="mdiTooltipEdit" />
+          </TwFilledIconButton>
         </h2>
         <h3
           class="tw-text-xs tw-font-medium tw-leading-4 md:tw-text-base md:tw-font-normal md:tw-leading-6"
@@ -115,7 +124,12 @@
 </template>
 
 <script>
-import { mdiArrowRight, mdiChevronDown, mdiIdentifier } from '@mdi/js'
+import {
+  mdiArrowRight,
+  mdiChevronDown,
+  mdiIdentifier,
+  mdiTooltipEdit,
+} from '@mdi/js'
 
 export default {
   props: {
@@ -128,8 +142,12 @@ export default {
     mdiArrowRight,
     mdiChevronDown,
     mdiIdentifier,
+    mdiTooltipEdit,
   }),
   computed: {
+    adminMode() {
+      return this.$store.state.settings.adminMode
+    },
     agency() {
       return this.$store.state.agencies.data[this.vehicle.agency] ?? {}
     },

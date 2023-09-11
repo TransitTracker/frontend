@@ -36,9 +36,9 @@
       <TwNavigationBarButton
         :to="localePath('/debug')"
         :icon="mdiTools"
-        v-if="debugMode"
+        v-if="adminMode"
       >
-        Debug
+        Admin
       </TwNavigationBarButton>
     </ul>
   </nav>
@@ -74,8 +74,8 @@ export default {
         this.$route.params.region || this.$store.state.settings.currentRegion
       )
     },
-    debugMode() {
-      return this.$store.state.settings.debugMode
+    adminMode() {
+      return this.$store.state.settings.adminMode
     },
   },
 }

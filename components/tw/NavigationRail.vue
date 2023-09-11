@@ -55,9 +55,9 @@
       <TwNavigationBarButton
         :to="localePath('/debug')"
         :icon="mdiTools"
-        v-if="debugMode"
+        v-if="adminMode"
       >
-        Debug
+        Admin
       </TwNavigationBarButton>
       <TwStandardIconButton
         v-if="dataIsLoaded"
@@ -114,8 +114,8 @@ export default {
     dataIsLoaded() {
       return this.$store.state.app.dataIsLoaded
     },
-    debugMode() {
-      return this.$store.state.settings.debugMode
+    adminMode() {
+      return this.$store.state.settings.adminMode
     },
   },
   methods: {

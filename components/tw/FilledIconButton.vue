@@ -1,5 +1,6 @@
 <template>
-  <button
+  <component
+    :is="tag"
     class="tw-group tw-relative tw-flex tw-h-10 tw-w-10 tw-items-center tw-justify-center tw-rounded-full focus:tw-outline-none"
     :class="[buttonClasses]"
     @click="$emit('click')"
@@ -10,7 +11,7 @@
       :class="[stateLayerClasses]"
     ></div>
     <slot />
-  </button>
+  </component>
 </template>
 
 <script>
@@ -25,6 +26,11 @@ export default {
       type: Boolean,
       required: false,
       default: false,
+    },
+    tag: {
+      type: String,
+      required: false,
+      default: 'button',
     },
   },
   computed: {

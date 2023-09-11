@@ -37,7 +37,7 @@
     </div>
     <v-data-table
       v-if="columns && columns.length >= 1"
-      class="tt-table tw-border-x-0 tw-border-t tw-border-b-0 tw-border-solid tw-border-t-[#e0e0e0] dark:tw-border-t-[#fff]/12"
+      class="tt-table tw-border-x-0 tw-border-b-0 tw-border-t tw-border-solid tw-border-t-[#e0e0e0] dark:tw-border-t-[#fff]/12"
       group-by="agency"
       :headers="columns"
       :items="vehicles"
@@ -216,12 +216,22 @@
           >
             <TwIcon :path="mdiTimelineText" />
           </TwStandardIconButton>
+          <TwFilledIconButton
+            v-if="adminMode"
+            tag="a"
+            :href="`https://admin.transittracker.ca/vehicles/${item.id}/edit`"
+            target="_blank"
+            class="tw-inline-flex"
+            color="primary"
+          >
+            <TwIcon :path="mdiTooltipEdit" />
+          </TwFilledIconButton>
         </div>
       </template>
     </v-data-table>
     <div
       v-else
-      class="tw-flex tw-w-full tw-flex-col tw-items-center tw-justify-center tw-gap-4 tw-py-8 tw-px-4 tw-text-center"
+      class="tw-flex tw-w-full tw-flex-col tw-items-center tw-justify-center tw-gap-4 tw-px-4 tw-py-8 tw-text-center"
     >
       <TwIcon
         :path="mdiTableColumnPlusBefore"
@@ -275,6 +285,7 @@ import {
   mdiTableColumnPlusBefore,
   mdiTimelineText,
   mdiArrowUp,
+  mdiTooltipEdit,
 } from '@mdi/js'
 import { mixin as clickaway } from 'vue-clickaway'
 
@@ -296,6 +307,7 @@ export default {
       mdiTableColumnPlusBefore,
       mdiTimelineText,
       mdiArrowUp,
+      mdiTooltipEdit,
     }
   },
   data() {
@@ -395,6 +407,9 @@ export default {
     }
   },
   computed: {
+    adminMode() {
+      return this.$store.state.settings.adminMode
+    },
     agencies() {
       return this.$store.state.agencies.data
     },
