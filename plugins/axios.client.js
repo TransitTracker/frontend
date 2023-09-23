@@ -1,4 +1,9 @@
-export default function ({ $axios, app, error, redirect, store }) {
+import {
+  setupCache,
+  buildWebStorage,
+} from 'axios-cache-interceptor/dist/index.cjs'
+
+export default function ({ $axios, app, error, store }, inject) {
   $axios.defaults.withCredentials = true
 
   $axios.onRequest((config) => {
@@ -19,4 +24,11 @@ export default function ({ $axios, app, error, redirect, store }) {
       return Promise.resolve(false)
     }
   })
+
+  const axiosCache = setupCache($axios, {
+    storage: buildWebStorage(localStorage, 'axios-cache:'),
+    debug: console.log,
+  })
+
+  inject('axiosCache', axiosCache)
 }

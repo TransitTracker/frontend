@@ -104,7 +104,7 @@ export default {
       return this.$vuetify.theme.dark
     },
     features() {
-      return this.$store.state.vehicles.features
+      return this.$store.state.vehicles.data
     },
     selectedVehicle() {
       return this.$store.state.vehicles.selection
@@ -300,7 +300,7 @@ export default {
         layout: {
           'icon-allow-overlap': true,
           'icon-anchor': 'bottom',
-          'icon-image': `{marker-symbol}`,
+          'icon-image': `tt-${agency.slug}-{vehicle.type}`,
         },
       })
       this.map.addLayer({

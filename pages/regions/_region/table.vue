@@ -54,11 +54,11 @@
         <thead class="v-data-table-header tt-table-header">
           <tr>
             <th
+              v-for="column in props.headers"
+              :key="column.value"
               class="v-data-table__divider tw-relative"
               role="columnheader"
               scope="col"
-              v-for="column in props.headers"
-              :key="column.value"
               :aria-sort="
                 sortBy !== column.value
                   ? 'none'
@@ -198,21 +198,21 @@
       <template v-slot:item.actions="{ item }">
         <div class="tw-flex tw-items-center tw-gap-2">
           <TwStandardIconButton
-            @click="setSelection('links', item)"
             :title="$t('see', { see: $t('externalLinks') })"
+            @click="setSelection('links', item)"
           >
             <TwIcon :path="mdiOpenInNew" />
           </TwStandardIconButton>
           <TwStandardIconButton
-            @click="setSelection('map', item)"
             :title="$t('viewMap')"
+            @click="setSelection('map', item)"
           >
             <TwIcon :path="mdiMapMarkerOutline" />
           </TwStandardIconButton>
           <TwStandardIconButton
-            @click="setSelection('blocks', item)"
             v-if="item.trip.blockId"
             :title="$t('see', { see: $t('relatedTrips') })"
+            @click="setSelection('blocks', item)"
           >
             <TwIcon :path="mdiTimelineText" />
           </TwStandardIconButton>
@@ -314,37 +314,37 @@ export default {
     return {
       availableColumns: ['agency'],
       columnsProperties: {
-        routeId: {
+        'properties.route.id': {
           sort: this.sortNumber,
           width: 100,
         },
-        bearing: {
+        'properties.position.bearing': {
           sort: this.sortNumber,
         },
-        speed: {
+        'properties.position.speed': {
           sort: this.sortNumber,
         },
-        odometer: {
+        'properties.position.odometer': {
           sort: this.sortNumber,
         },
-        stopSequence: {
+        'properties.customStopSequence': {
           sort: this.sortNumber,
         },
-        timestamp: {
+        'properties.lastSeenAt': {
           filterable: false,
           sort: this.sortTimestamp,
           width: 125,
         },
-        createdAt: {
+        'properties.firstSeenAt': {
           filterable: false,
-          sort: this.sortDate,
+          sort: this.sortTimestamp,
           width: 150,
         },
-        startTime: {
+        'properties.trip.startTime': {
           filterable: false,
           width: 125,
         },
-        tags: {
+        'properties.tags': {
           sortable: false,
           filterable: false,
         },
@@ -356,31 +356,31 @@ export default {
           sortable: false,
           filterable: false,
         },
-        label: {
+        'properties.vehicle.label': {
           width: 125,
         },
-        tripId: {
+        'properties.trip.id': {
           width: 200,
         },
-        'trip.shortName': {
+        'properties.trip.shortName': {
           width: 125,
         },
-        'trip.headsign': {
+        'properties.trip.headsign': {
           width: 150,
         },
-        'trip.routeShortName': {
+        'properties.route.shortName': {
           width: 150,
         },
-        'currentStatus.label': {
+        'properties.currentStatus': {
           width: 150,
         },
-        'scheduleRelationship.label': {
+        'properties.trip.scheduleRelationship': {
           width: 150,
         },
-        'congestionLevel.label': {
+        'properties.congestionLevel': {
           width: 150,
         },
-        'occupancyStatus.label': {
+        'properties.occupancyStatus': {
           width: 150,
         },
 
