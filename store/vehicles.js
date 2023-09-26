@@ -38,6 +38,11 @@ export const mutations = {
 
 export const actions = {
   async load({ commit, state }, agency) {
+    // Do not load archived agencies
+    if (agency.isArchived) {
+      return
+    }
+
     const response = await this.$axios.get(`/agencies/${agency.slug}/vehicles`)
     commit('set', {
       agency,

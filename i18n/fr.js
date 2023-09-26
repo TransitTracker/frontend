@@ -51,6 +51,7 @@ export default {
     emptyButtonShort: 'Toutes',
     creditsTitle: 'Crédits',
     refreshAriaLabel: 'Rafraîchir',
+    archived: 'Archivé',
   },
   map: {
     seoTitle: 'Carte de {region}',

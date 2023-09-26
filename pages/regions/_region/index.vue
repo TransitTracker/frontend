@@ -309,16 +309,18 @@ export default {
     activeAgencies() {
       const activeAgencies = this.$store.state.settings.activeAgencies
 
-      return Object.values(this.$store.state.agencies.data).filter(
-        ({ slug, regions }) => {
+      return Object.values(this.$store.state.agencies.data)
+        .filter(({ slug, regions }) => {
           if (regions.includes('*')) {
             return true
           }
           return (
             activeAgencies.includes(slug) && regions.includes(this.regionSlug)
           )
-        }
-      )
+        })
+        .sort((x, y) => {
+          return x.isArchived - y.isArchived
+        })
     },
     availableAgencies() {
       return this.$store.state.agencies.data

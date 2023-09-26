@@ -51,6 +51,7 @@ export default {
     emptyButtonShort: 'All',
     creditsTitle: 'Credits',
     refreshAriaLabel: 'Refresh',
+    archived: 'Archived',
   },
   map: {
     seoTitle: 'Map of {region}',
