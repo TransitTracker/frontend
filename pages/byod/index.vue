@@ -9,6 +9,7 @@
       </v-container>
     </div>
     <v-container>
+      <OldvByodDeprecation />
       <p class="text-subtitle-1">
         {{ $t('byod.subtitle') }}
       </p>

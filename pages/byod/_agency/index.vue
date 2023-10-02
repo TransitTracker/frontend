@@ -27,6 +27,7 @@
       </v-container>
     </v-sheet>
     <v-container class="mb-14">
+      <OldvByodDeprecation />
       <v-alert
         v-if="loadedAgencies.includes(agency.slug)"
         class="mb-8"
