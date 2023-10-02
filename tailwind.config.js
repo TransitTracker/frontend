@@ -13,7 +13,7 @@ module.exports = {
     `layouts/error.vue`,
     `pages/regions/_region/index.vue`,
     `pages/regions/_region/table.vue`,
-    `pages/debug.vue`,
+    `pages/admin.vue`,
     `./nuxt.config.js`,
   ],
   theme: {

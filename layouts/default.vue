@@ -14,7 +14,6 @@
       <nuxt />
     </v-main>
     <TwNavigationBar v-if="dataIsLoaded" />
-    <component :is="byodInjector" />
     <v-snackbar
       v-model="updateAvailable"
       :color="settingsDarkMode ? 'white' : null"
@@ -71,7 +70,6 @@ export default {
   data: () => ({
     loading: false,
     regionSwitcher: false,
-    byodInjector: null,
     mdiCog,
     mdiFolderUpload,
     mdiMap,
@@ -100,9 +98,6 @@ export default {
     },
     settingsAutoRefresh() {
       return this.$store.state.settings.autoRefresh
-    },
-    settingsByod() {
-      return this.$store.state.settings.activateByod
     },
     settingsDarkMode() {
       const setting = this.$store.state.settings.theme

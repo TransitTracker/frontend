@@ -35,6 +35,9 @@ export default {
   computed: {
     buttonClasses() {
       switch (this.color) {
+        case 'errorContainer':
+          return 'tw-bg-error-90 !tw-text-error-10 dark:tw-bg-error-30 !dark:tw-text-error-90'
+
         case 'tonal':
           return 'tw-bg-secondary-90 tw-text-secondary-10 dark:tw-bg-secondary-30 dark:tw-text-secondary-90'
 
@@ -47,6 +50,9 @@ export default {
     },
     stateLayerClasses() {
       switch (this.color) {
+        case 'errorContainer':
+          return 'tw-bg-error-10 dark:tw-bg-error-90'
+
         case 'tonal':
           return 'tw-bg-secondary-10 dark:tw-bg-secondary-90'
 

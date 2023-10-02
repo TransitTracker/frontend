@@ -36,7 +36,6 @@ export const state = () => ({
   launch: 'no',
   lang: null,
   theme: 'system',
-  activateByod: false,
   preferDesktopView: true,
   pushSubscriptionUuid: null,
   selectedTableColumns: [
@@ -49,6 +48,7 @@ export const state = () => ({
     'properties.trip.startTime',
     'actions',
   ],
+  completedFlags: [],
   adminMode: false,
 })
 
@@ -56,25 +56,8 @@ export const mutations = {
   set(state, { setting, value }) {
     state[setting] = value
   },
-  changeColumnOrder(state, { columnField, newIndex }) {
-    // Delete the field from it's current position
-    state.selectedTableColumns.splice(
-      state.selectedTableColumns.indexOf(columnField),
-      1
-    )
-
-    // Move to it's new position
-    state.selectedTableColumns.splice(newIndex, 0, columnField)
-  },
-  changeVisibilityOfColumn(state, { columnField, remove }) {
-    if (remove) {
-      state.selectedTableColumns.splice(
-        state.selectedTableColumns.indexOf(columnField),
-        1
-      )
-    } else {
-      state.selectedTableColumns.push(columnField)
-    }
+  completeFlag(state, flag) {
+    state.selectedTableColumns.push(flag)
   },
 }
 

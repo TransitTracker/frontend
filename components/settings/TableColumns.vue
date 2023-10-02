@@ -10,7 +10,7 @@
       <div
         v-for="column in visibleColumns"
         :key="column"
-        class="tableColumns tw-flex tw-h-8 tw-items-center tw-gap-x-2 tw-rounded-lg tw-bg-neutralVariant-90 tw-pr-4 tw-pl-2 tw-text-sm tw-text-neutralVariant-30 dark:tw-bg-neutralVariant-30 dark:tw-text-neutralVariant-80"
+        class="tableColumns tw-flex tw-h-8 tw-items-center tw-gap-x-2 tw-rounded-lg tw-bg-neutralVariant-90 tw-pl-2 tw-pr-4 tw-text-sm tw-text-neutralVariant-30 dark:tw-bg-neutralVariant-30 dark:tw-text-neutralVariant-80"
       >
         <TwIcon
           :path="mdiReorderHorizontal"
@@ -28,7 +28,7 @@
     <!-- TODO: Convert chip to component with hover effect -->
     <button
       v-if="visibleColumns.length !== availableColumns.length"
-      class="tw-mt-2 tw-flex tw-h-8 tw-items-center tw-gap-x-2 tw-rounded-lg tw-border tw-border-solid tw-border-neutralVariant-50 tw-pr-4 tw-pl-2 tw-text-sm tw-leading-8 dark:tw-border-neutralVariant-60"
+      class="tw-mt-2 tw-flex tw-h-8 tw-items-center tw-gap-x-2 tw-rounded-lg tw-border tw-border-solid tw-border-neutralVariant-50 tw-pl-2 tw-pr-4 tw-text-sm tw-leading-8 dark:tw-border-neutralVariant-60"
       @click="addAll"
     >
       <TwIcon
@@ -49,7 +49,7 @@
       <div
         v-for="column in hiddenColumns"
         :key="column"
-        class="tableColumns tw-flex tw-h-8 tw-items-center tw-gap-x-2 tw-rounded-lg tw-bg-neutralVariant-90 tw-pr-4 tw-pl-2 tw-text-sm tw-text-neutralVariant-30 dark:tw-bg-neutralVariant-30 dark:tw-text-neutralVariant-80"
+        class="tableColumns tw-flex tw-h-8 tw-items-center tw-gap-x-2 tw-rounded-lg tw-bg-neutralVariant-90 tw-pl-2 tw-pr-4 tw-text-sm tw-text-neutralVariant-30 dark:tw-bg-neutralVariant-30 dark:tw-text-neutralVariant-80"
       >
         <TwIcon
           :path="mdiReorderHorizontal"
