@@ -24,7 +24,7 @@
     "nuxt": "^2.15.8",
     "nuxt-i18n": "^6.28.1",
     "papaparse": "^5.3.1",
-    "sass-loader": "^10.1.1",
+    "sass-loader": "^13.2.0",
     "tailwind-m3-colors": "^0.0.4",
     "uuid": "^9.0",
     "vue-clickaway": "^2.2.2",
