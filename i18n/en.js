@@ -60,44 +60,44 @@ export default {
     electric: 'Electric',
     mirrorCameras: 'Mirror cameras',
   },
-  properties: {
-    agency: 'Agency',
-    ref: 'Vehicle ID',
-    label: 'Vehicle number',
-    tags: 'Tags',
-    timestamp: 'Last seen',
-    tripId: 'Trip ID',
-    startTime: 'Trip Start Time',
-    routeId: 'Route ID',
-    bearing: 'Bearing (°)',
-    speed: 'Speed (km/h)',
-    vehicleType: 'Vehicle Type',
-    plate: 'License Plate',
-    odometer: 'Odometer',
-    currentStopSequence: 'Stop sequence',
-    createdAt: 'First seen',
-    actions: 'Actions',
-    trip: {
-      headsign: 'Trip Headsign',
-      shortName: 'Departure number',
-      routeShortName: 'Route name',
-      serviceId: 'Service ID',
-      blockId: 'Block ID',
+  vehicleFields: {
+    geometry: {
+      coordinates: 'Position',
     },
-    position: {
-      lat: 'Position',
-    },
-    currentStatus: {
-      label: 'Status',
-    },
-    scheduleRelationship: {
-      label: 'Schedule Relationship',
-    },
-    congestionLevel: {
-      label: 'Congestion Level',
-    },
-    occupancyStatus: {
-      label: 'Occupancy Status',
+    properties: {
+      trip: {
+        id: 'Trip ID',
+        shortName: 'Departure number',
+        headsign: 'Trip Headsign',
+        startTime: 'Trip Start Time',
+        scheduleRelationship: 'Schedule Relationship',
+        serviceId: 'Service ID',
+        blockId: 'Block ID',
+      },
+      route: {
+        id: 'Route ID',
+        shortName: 'Route name',
+      },
+      vehicle: {
+        id: 'Vehicle ID',
+        label: 'Fleet number',
+        licensePlate: 'License Plate',
+        type: 'Vehicle Type',
+      },
+      position: {
+        bearing: 'Bearing (°)',
+        odometer: 'Odometer (km)',
+        speed: 'Speed (km/h)',
+      },
+      currentStopSequence: 'Stop sequence',
+      currentStatus: 'Status',
+      congestionLevel: 'Congestion Level',
+      occupancyStatus: 'Occupancy Status',
+      firstSeenAt: 'First seen',
+      lastSeenAt: 'Last seen',
+      agency: 'Agency',
+      tags: 'Tags',
+      actions: 'Actions',
     },
   },
   table: {

@@ -1,7 +1,7 @@
 <template>
   <ol
-    class="tw-relative tw-mt-4 tw-list-none !tw-pl-0"
     v-if="relatedTrips.length"
+    class="tw-relative tw-mt-4 tw-list-none !tw-pl-0"
   >
     <VehicleSheetTrip
       v-for="trip in relatedTrips"
@@ -10,44 +10,61 @@
       :is-current-trip="trip.id === vehicle.trip.id"
     />
   </ol>
-  <ol class="tw-relative tw-mt-4 tw-list-none !tw-pl-0" v-else>
+  <ol v-else class="tw-relative tw-mt-4 tw-list-none !tw-pl-0">
     <VehicleSheetTripSkeleton />
   </ol>
 </template>
 
 <script>
 export default {
+  props: {
+    vehicle: {
+      type: Object,
+      required: false,
+      default: null,
+    },
+    agency: {
+      type: Object,
+      required: false,
+      default: null,
+    },
+  },
   data: () => ({
     relatedTrips: [],
     isTripsLoaded: false,
   }),
+  watch: {
+    vehicle(newVehicule, oldVehicle) {
+      if (oldVehicle?.id === newVehicule?.id) {
+        return
+      }
+
+      if (!newVehicule) {
+        return
+      }
+
+      this.loadTrips(newVehicule)
+    },
+  },
   mounted() {
     this.loadTrips(this.vehicle)
   },
-  computed: {
-    vehicle() {
-      return this.$store.state.vehicles.selection
-    },
-  },
-  watch: {
-    vehicle(newVehicule, oldVehicle) {
-      oldVehicle.id !== newVehicule.id && this.loadTrips(newVehicule)
-    },
-  },
   methods: {
+    // TODO: Review this component
     async loadTrips(vehicle) {
       if (vehicle.id === this.isTripsLoaded) {
         return
       }
 
-      if (!vehicle.trip.blockId) {
+      if (!vehicle.properties.trip.blockId) {
         return
       }
 
       this.relatedTrips = []
 
+      // Find agency
       const { data } = await this.$axios.get(
-        `/agencies/${vehicle.agency}/trips/${vehicle.trip.id}/blocks`
+        `/agencies/${this.agency.slug}/trips/${vehicle.properties.trip.id}/blocks`
       )
       this.relatedTrips = data.data
       this.isTripsLoaded = vehicle.id

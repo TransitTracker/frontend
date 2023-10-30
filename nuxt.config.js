@@ -132,8 +132,9 @@ export default {
   env: {
     version,
     mapboxAccessToken: process.env.MAPBOX_ACCESS_TOKEN,
-    mabboxStyleDark: process.env.MAPBOX_STYLE_DARK,
-    mabboxStyleLight: process.env.MAPBOX_STYLE_LIGHT,
+    mapboxStyleDark: process.env.MAPBOX_STYLE_DARK,
+    mapboxStyleLight: process.env.MAPBOX_STYLE_LIGHT,
+    mapboxStyleSatellite: process.env.MAPBOX_STYLE_SATELLITE,
     backendHost: process.env.BACKEND_HOST,
     wsKey: process.env.WS_KEY || 'tt-ws',
     wsHost: process.env.WS_HOST || 'localhost',

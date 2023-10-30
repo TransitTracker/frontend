@@ -36,6 +36,7 @@ export const state = () => ({
   launch: 'no',
   lang: null,
   theme: 'system',
+  mapTheme: null,
   preferDesktopView: true,
   pushSubscriptionUuid: null,
   selectedTableColumns: [

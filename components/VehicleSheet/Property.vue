@@ -8,7 +8,7 @@
       <dt
         class="tw-text-xs tw-font-medium tw-leading-4 tw-text-neutralVariant-30 dark:tw-text-neutralVariant-80"
       >
-        {{ $t(`properties.${property.field}`) }}
+        {{ $t(`vehicleFields.properties.${property.field}`) }}
       </dt>
       <dd class="tw-mb-0 tw-leading-6">
         {{ property.format ? format(content) : content }} {{ property.suffix }}
@@ -58,7 +58,7 @@ export default {
 
       if (field.includes('.')) {
         const nested = field.split('.')
-        return this.vehicle[nested[0]][nested[1]]
+        return this.vehicle.properties[nested[0]][nested[1]]
       }
 
       if (this.property.condition === 'refDifferent') {

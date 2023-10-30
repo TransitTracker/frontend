@@ -21,6 +21,7 @@ export default {
   }),
   computed: {
     cVehicle() {
+      // This make it possible to load vehicle from store instead of props (example: from table)
       if (this.vehicle) return this.vehicle
       return this.$store.state.vehicles.selection
     },

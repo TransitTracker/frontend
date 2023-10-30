@@ -442,7 +442,7 @@ export default {
       let vehicles = []
       const state = this.$store.state.vehicles.data
       Object.keys(state).forEach((agency) => {
-        vehicles = [...vehicles, ...state[agency]]
+        vehicles = [...vehicles, ...state[agency].features]
       })
 
       return vehicles.filter((item) => {
@@ -450,7 +450,8 @@ export default {
           // Exception for route short name since it's used with route long name
           if (key === 'trip.routeShortName') {
             return (
-              `${item.trip.routeShortName} ${item.trip.routeLongName}` ?? ''
+              `${item.properties.route.shortName} ${item.properties.route.longName}` ??
+              ''
             )
               .toUpperCase()
               .includes(searchTerm.toString().toUpperCase())

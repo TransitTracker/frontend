@@ -19,3 +19,9 @@ export const mutations = {
     Vue.delete(state.times, agency.slug)
   },
 }
+
+export const getters = {
+  getById: (state) => (id) => {
+    return Object.values(state.data).find((agency) => agency.id === id)
+  },
+}

@@ -44,49 +44,49 @@ export default {
     groups: {
       trip: [
         {
-          field: 'speed',
+          field: 'position.speed',
           icon: mdiSpeedometer,
           suffix: 'km/h',
         },
         {
-          field: 'congestionLevel.label',
+          field: 'congestionLevel',
           icon: mdiTrafficLight,
         },
         {
-          field: 'occupancyStatus.label',
+          field: 'occupancyStatus',
           icon: mdiSeatPassenger,
         },
         {
-          field: 'tripId',
+          field: 'trip.id',
           icon: mdiIdentifier,
           help: true,
         },
         {
-          field: 'routeId',
+          field: 'route.id',
           icon: mdiMapMarkerPath,
           condition: 'shortNameDifferent',
         },
         {
-          field: 'headsign',
+          field: 'trip.headsign',
           parent: 'trip',
           icon: mdiSignDirection,
         },
         {
-          field: 'shortName',
+          field: 'trip.shortName',
           parent: 'trip',
           icon: mdiTicketConfirmation,
         },
         {
-          field: 'startTime',
+          field: 'trip.startTime',
           icon: mdiClock,
         },
         {
-          field: 'scheduleRelationship.label',
+          field: 'trip.scheduleRelationship',
           icon: mdiTimelinePlus,
           help: true,
         },
         {
-          field: 'currentStatus.label',
+          field: 'currentStatus',
           icon: mdiBusStop,
           help: true,
         },
@@ -96,7 +96,7 @@ export default {
           help: true,
         },
         {
-          field: 'serviceId',
+          field: 'trip.serviceId',
           parent: 'trip',
           icon: mdiCalendarMultiselect,
           help: true,
@@ -104,21 +104,21 @@ export default {
       ],
       vehicle: [
         {
-          field: 'ref',
+          field: 'vehicle.id',
           icon: mdiIdentifier,
           help: true,
           condition: 'refDifferent',
         },
         {
-          field: 'plate',
+          field: 'vehicle.licensePlate',
           icon: mdiFormatLetterStartsWith,
         },
         {
-          field: 'odometer',
+          field: 'vehicle.odometer',
           icon: mdiCounter,
         },
         {
-          field: 'createdAt',
+          field: 'firstSeenAt',
           icon: mdiCalendarStart,
           format: 'date',
         },
@@ -129,11 +129,6 @@ export default {
     properties() {
       return this.groups[this.group].filter((property) => {
         return !property.isQuick
-      })
-    },
-    quickProperties() {
-      return this.groups[this.group].filter((property) => {
-        return property.isQuick
       })
     },
   },

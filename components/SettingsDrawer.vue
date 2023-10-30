@@ -87,6 +87,31 @@
         <div class="my-3 mx-n3">
           <v-divider />
         </div>
+        <h2 class="text-subtitle-1 font-weight-bold">Map theme</h2>
+        <SettingsItemGroup
+          :value="settings.theme"
+          @input="setSetting('mapTheme', $event)"
+        >
+          <SettingsItem
+            :icon="mdiMonitor"
+            :value="null"
+            description="Use the same value as the app theme"
+          >
+            Default theme
+          </SettingsItem>
+          <SettingsItem :icon="mdiWhiteBalanceSunny" value="light">
+            {{ $t('settings.themeLight') }}
+          </SettingsItem>
+          <SettingsItem :icon="mdiWeatherNight" value="dark">
+            {{ $t('settings.themeDark') }}
+          </SettingsItem>
+          <SettingsItem :icon="mdiEarth" value="satellite">
+            Satellite
+          </SettingsItem>
+        </SettingsItemGroup>
+        <div class="my-3 mx-n3">
+          <v-divider />
+        </div>
         <h2 class="text-subtitle-1 font-weight-bold">
           {{ $t('settings.defaultScreen') }}
         </h2>
@@ -172,6 +197,7 @@ import {
   mdiViewList,
   mdiWeatherNight,
   mdiWhiteBalanceSunny,
+  mdiEarth,
 } from '@mdi/js'
 
 export default {
@@ -199,6 +225,7 @@ export default {
     mdiViewList,
     mdiWeatherNight,
     mdiWhiteBalanceSunny,
+    mdiEarth,
     mdi: { bus: mdiBus, ferry: mdiFerry, train: mdiTrain, tram: mdiTram },
   }),
   computed: {

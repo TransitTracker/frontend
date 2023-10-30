@@ -1,7 +1,7 @@
 <template>
-  <div class="tw-space-y-2">
+  <div v-if="vehicle.id" class="tw-space-y-2">
     <TwLink
-      v-for="link in vehicle.links"
+      v-for="link in vehicle.properties.links"
       :key="link"
       :link-id="link"
       :vehicle="vehicle"
@@ -11,9 +11,10 @@
 
 <script>
 export default {
-  computed: {
-    vehicle() {
-      return this.$store.state.vehicles.selection
+  props: {
+    vehicle: {
+      type: Object,
+      required: true,
     },
   },
 }

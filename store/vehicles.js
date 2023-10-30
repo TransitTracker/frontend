@@ -2,7 +2,6 @@ import { set } from 'vue'
 
 export const state = () => ({
   data: {},
-  features: {},
   selection: {},
   warning: null,
 })
@@ -19,9 +18,8 @@ export const getters = {
 }
 
 export const mutations = {
-  set(state, { agency, vehicles, features }) {
+  set(state, { agency, vehicles }) {
     set(state.data, agency.slug, vehicles)
-    set(state.features, agency.slug, features)
   },
   setSelection(state, selection) {
     state.selection = selection
@@ -32,23 +30,23 @@ export const mutations = {
   },
   emptyData(state, agency) {
     set(state.data, agency.slug, [])
-    set(state.features, agency.slug, [])
   },
 }
 
 export const actions = {
   async load({ commit, state }, agency) {
-    const response = await this.$axios.get(`/agencies/${agency.slug}/vehicles`)
+    const response = await this.$axios.get(
+      `${process.env.backendHost}/v2b/agencies/${agency.slug}/vehicles`
+    )
     commit('set', {
       agency,
-      vehicles: response.data.data,
-      features: response.data.geojson,
+      vehicles: response.data,
     })
 
     // Commit timestamp
     commit(
       'agencies/setTime',
-      { agency, timestamp: response.data.timestamp },
+      { agency, timestamp: response.data.lastRefreshAt },
       { root: true }
     )
 
@@ -62,7 +60,9 @@ export const actions = {
     }
   },
   setSelectionById({ commit, state }, { id, agency }) {
-    const vehicle = state.data[agency.slug].find((vehicle) => vehicle.id === id)
+    const vehicle = state.data[agency.slug].features?.find(
+      (vehicle) => vehicle.id === id
+    )
 
     if (!vehicle) {
       return {}
