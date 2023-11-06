@@ -14,7 +14,10 @@ export default {
   props: {
     vehicle: {
       type: Object,
-      required: true,
+      required: false,
+      default: () => ({
+        id: false,
+      }),
     },
   },
 }

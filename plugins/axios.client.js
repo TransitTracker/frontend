@@ -1,7 +1,4 @@
-import {
-  setupCache,
-  buildWebStorage,
-} from 'axios-cache-interceptor/dist/index.cjs'
+import Axios from 'axios'
 
 export default function ({ $axios, app, error, store }, inject) {
   $axios.defaults.withCredentials = true
@@ -25,10 +22,64 @@ export default function ({ $axios, app, error, store }, inject) {
     }
   })
 
-  const axiosCache = setupCache($axios, {
-    storage: buildWebStorage(localStorage, 'axios-cache:'),
-    debug: console.log,
+  // AxiosCache (basically v2b)
+  // TODO: change this to default client and remove other client
+  // TODO: add error handling like previous
+  const instance = Axios.create({
+    baseURL: `${process.env.backendHost}/v2b`,
   })
 
-  inject('axiosCache', axiosCache)
+  instance.interceptors.request.use((config) => {
+    config.headers['Content-Language'] =
+      store.state.settings.lang || app.i18n.locale
+
+    if (config.cacheId) {
+      const cache = localStorage.getItem(`cache:${config.cacheId}`)
+
+      if (!cache) {
+        return config
+      }
+
+      console.log(`cache:${config.cacheId}: adding IfNoneMatch`)
+
+      config.headers['If-None-Match'] = JSON.parse(cache).etag
+      config.validateStatus = (status) => status === 200 || status === 304
+    }
+
+    return config
+  })
+
+  instance.interceptors.response.use((response) => {
+    const cacheId = response.config.cacheId
+
+    const newResponse = response
+
+    if (cacheId && 'etag' in response.headers && response.status === 200) {
+      console.log(`cache:${cacheId}: saving response data`)
+      localStorage.setItem(
+        `cache:${cacheId}`,
+        JSON.stringify({
+          data: response.data,
+          etag: response.headers.etag,
+        })
+      )
+    }
+
+    if (response.status === 304) {
+      const previousData = JSON.parse(
+        localStorage.getItem(`cache:${cacheId}`)
+      ).data
+
+      console.log(
+        `cache:${cacheId}: 304, using previous response`,
+        previousData
+      )
+
+      newResponse.data = previousData
+    }
+
+    return newResponse
+  })
+
+  inject('axiosCache', instance)
 }

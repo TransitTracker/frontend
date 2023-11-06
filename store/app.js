@@ -14,6 +14,7 @@ export const state = () => ({
   updatePending: false,
   notificationsCentre: false,
   filters: {},
+  logs: [],
 })
 
 export const mutations = {
@@ -33,6 +34,9 @@ export const mutations = {
   },
   removeFilter(state, column) {
     Vue.delete(state.filters, column)
+  },
+  addLog(state, value) {
+    state.logs.push(value)
   },
 }
 

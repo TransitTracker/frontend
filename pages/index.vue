@@ -137,12 +137,12 @@ export default {
     }
     const mapAccessToken = process.env.mapboxAccessToken
 
-    const regionsResponse = await app.$axios.get('/landing')
-    let totalVehicles = 0
+    const regionsResponse = await app.$axiosCache.get('/landing', {
+      cacheId: 'landing',
+    })
     let totalAgencies = 0
     regionsResponse.data.features.forEach((region) => {
       totalAgencies += region.properties.agencies
-      totalVehicles += region.properties.vehicles
     })
 
     const vehiclesResponse = await app.$axios.get('/landing/vehicles')
@@ -153,7 +153,7 @@ export default {
       regionsFeatures: regionsResponse.data,
       vehiclesFeatures: vehiclesResponse.data,
       totalAgencies,
-      totalVehicles,
+      totalVehicles: vehiclesResponse.data.features.length,
       mdiArrowRight,
       mdiTable,
       mdiMap,

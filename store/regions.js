@@ -13,9 +13,12 @@ export const mutations = {
 export const actions = {
   async loadAll({ commit }) {
     // Get all regions and agencies, commit it to the store
-    const response = await this.$axiosCache.get('/regions', {
-      id: 'regions',
-    })
+    const response = await this.$axiosCache.get(
+      `${process.env.backendHost}/v2b/regions`,
+      {
+        cacheId: 'regions',
+      }
+    )
     response.data.data.forEach((region) => {
       commit('add', region)
       region.agencies.forEach((agency) => {

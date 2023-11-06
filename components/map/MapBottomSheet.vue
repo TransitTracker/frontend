@@ -162,8 +162,6 @@
 </template>
 
 <script>
-// import collect from 'collect.js'
-import JsonViewer from 'vue-json-viewer'
 import Vue from 'vue'
 import VueTimeago from 'vue-timeago'
 import {
@@ -195,7 +193,6 @@ import {
 Vue.use(VueTimeago, {})
 
 export default {
-  components: { JsonViewer },
   filters: {
     timestampToTime(timestamp) {
       const date = new Date(timestamp * 1000)

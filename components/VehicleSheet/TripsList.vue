@@ -1,6 +1,6 @@
 <template>
   <ol
-    v-if="relatedTrips.length"
+    v-if="vehicle.id && relatedTrips.length"
     class="tw-relative tw-mt-4 tw-list-none !tw-pl-0"
   >
     <VehicleSheetTrip
@@ -21,7 +21,9 @@ export default {
     vehicle: {
       type: Object,
       required: false,
-      default: null,
+      default: () => ({
+        id: false,
+      }),
     },
     agency: {
       type: Object,

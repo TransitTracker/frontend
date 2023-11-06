@@ -38,7 +38,6 @@
     <v-data-table
       v-if="columns && columns.length >= 1"
       class="tt-table tw-border-x-0 tw-border-b-0 tw-border-t tw-border-solid tw-border-t-[#e0e0e0] dark:tw-border-t-[#fff]/12"
-      group-by="agency"
       :headers="columns"
       :items="vehicles"
       :items-per-page="100"
@@ -163,16 +162,7 @@
         </thead>
       </template>
       <!-- eslint-disable-next-line -->
-      <template v-slot:group.header="{ group, headers, toggle, isOpen }">
-        <td :colspan="headers.length">
-          <v-btn icon class="mr-2" @click="toggle">
-            <v-icon>{{ isOpen ? mdiMinus : mdiPlus }}</v-icon>
-          </v-btn>
-          {{ agencies[group].name }}
-        </td>
-      </template>
-      <!-- eslint-disable-next-line -->
-      <template v-slot:item.tags="{ item }">
+      <template v-slot:item.properties.tags="{ item }">
         <div class="tw-flex tw-gap-2">
           <TwTag
             v-for="tagId in item.tags"
@@ -183,16 +173,17 @@
         </div>
       </template>
       <!-- eslint-disable-next-line -->
-      <template v-slot:item.timestamp="{ item }">
-        <TwTimeAgo :timestamp="+item.timestamp" />
+      <template v-slot:item.properties.lastSeenAt="{ item }">
+        <TwTimeAgo :timestamp="+item.properties.lastSeenAt" />
       </template>
       <!-- eslint-disable-next-line -->
-      <template v-slot:item.trip.routeShortName="{ item }">
-        {{ item.trip.routeShortName }} {{ item.trip.routeLongName }}
+      <template v-slot:item.properties.route.shortName="{ item }">
+        {{ item.properties.route.shortName }}
+        {{ item.properties.route.longName }}
       </template>
       <!-- eslint-disable-next-line -->
-      <template v-slot:item.createdAt="{ item }">
-        {{ formatDate(item.createdAt) }}
+      <template v-slot:item.properties.firstSeenAt="{ item }">
+        {{ formatDate(item.properties.firstSeenAt) }}
       </template>
       <!-- eslint-disable-next-line -->
       <template v-slot:item.actions="{ item }">
@@ -210,7 +201,7 @@
             <TwIcon :path="mdiMapMarkerOutline" />
           </TwStandardIconButton>
           <TwStandardIconButton
-            v-if="item.trip.blockId"
+            v-if="item.properties.trip.blockId"
             :title="$t('see', { see: $t('relatedTrips') })"
             @click="setSelection('blocks', item)"
           >
@@ -410,20 +401,27 @@ export default {
     adminMode() {
       return this.$store.state.settings.adminMode
     },
-    agencies() {
-      return this.$store.state.agencies.data
-    },
     columns() {
-      return this.$store.getters['settings/visibleTableColumns'].map(
-        (column) => ({
-          text: this.$t(`properties.${column}`),
-          value: column,
+      return [
+        {
+          text: this.$t(`vehicleFields.properties.agencyId`),
+          value: 'properties.agencyId',
           divider: true,
           filterable: true,
           sortable: true,
-          ...this.columnsProperties[column],
-        })
-      )
+          ...this.columnsProperties['properties.agencyId'],
+        },
+        ...this.$store.getters['settings/visibleTableColumns'].map(
+          (column) => ({
+            text: this.$t(`vehicleFields.${column}`),
+            value: column,
+            divider: true,
+            filterable: true,
+            sortable: true,
+            ...this.columnsProperties[column],
+          })
+        ),
+      ]
     },
     darkMode() {
       return this.$vuetify.theme.dark

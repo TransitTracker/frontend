@@ -21,4 +21,13 @@ export const actions = {
 
     return alert.data.data
   },
+  async getAll({ commit }) {
+    const links = await this.$axiosCache.get('/links', {
+      cacheId: 'links',
+    })
+
+    links.data.data.forEach((tag) => {
+      commit('add', tag)
+    })
+  },
 }

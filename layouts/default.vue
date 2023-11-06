@@ -185,8 +185,9 @@ export default {
       this.verifyNotificationSubscriptionStatus()
     }
 
-    // Import tag data
+    // Import tags and links data
     this.$store.dispatch('tags/getAll')
+    this.$store.dispatch('links/getAll')
   },
   methods: {
     async handleWorkboxEvents() {

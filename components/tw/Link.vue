@@ -4,31 +4,16 @@
     :title="$t('openLink')"
     :href="generatedUrl"
     target="_blank"
-    :class="[
-      !link.title && 'tw-pointer-events-none tw-animate-pulse tw-cursor-wait',
-    ]"
   >
     <div class="tw-grow tw-space-y-1">
-      <p v-if="link.title" class="!tw-mb-0 tw-text-sm tw-leading-5">
+      <p class="!tw-mb-0 tw-text-sm tw-leading-5">
         {{ link.title }}
       </p>
-      <div
-        v-else
-        class="tw-h-4 tw-w-1/2 tw-rounded-sm tw-bg-neutralVariant-90 dark:tw-bg-neutralVariant-30"
-      ></div>
-      <p v-if="link.title" class="tw-text-xs tw-font-medium tw-leading-4">
+      <p class="tw-text-xs tw-font-medium tw-leading-4">
         {{ link.description }}
       </p>
-      <div
-        v-else
-        class="tw-h-4 tw-w-1/3 tw-rounded-sm tw-bg-neutralVariant-90 dark:tw-bg-neutralVariant-30"
-      ></div>
     </div>
-    <TwIcon v-if="link.title" class="tw-h-5 tw-w-5" :path="mdiOpenInNew" />
-    <div
-      v-else
-      class="tw-h-4 tw-w-4 tw-rounded-full tw-bg-neutralVariant-90 dark:tw-bg-neutralVariant-30"
-    ></div>
+    <TwIcon class="tw-h-5 tw-w-5" :path="mdiOpenInNew" />
   </a>
 </template>
 
@@ -52,11 +37,6 @@ export default {
     mdiOpenInNew,
     link: {},
   }),
-  mounted() {
-    this.$store.dispatch('links/get', this.linkId).then((link) => {
-      this.link = link
-    })
-  },
   computed: {
     generatedUrl() {
       if (!this.link.url) {
@@ -68,6 +48,11 @@ export default {
         .replace(':ref', this.vehicle.ref)
         .replace(':trip', this.vehicle.tripId)
     },
+  },
+  mounted() {
+    this.$store.dispatch('links/get', this.linkId).then((link) => {
+      this.link = link
+    })
   },
 }
 </script>

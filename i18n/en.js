@@ -95,7 +95,7 @@ export default {
       occupancyStatus: 'Occupancy Status',
       firstSeenAt: 'First seen',
       lastSeenAt: 'Last seen',
-      agency: 'Agency',
+      agencyId: 'Agency',
       tags: 'Tags',
       actions: 'Actions',
     },
