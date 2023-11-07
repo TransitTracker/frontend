@@ -1,6 +1,6 @@
 {
   "name": "transit-tracker-frontend",
-  "version": "2.9.6",
+  "version": "2.9.7",
   "private": true,
   "scripts": {
     "dev": "nuxt",
@@ -17,6 +17,7 @@
     "@nuxtjs/pwa": "^3.3.5",
     "@popperjs/core": "^2.11.6",
     "animejs": "^3.2.1",
+    "canvas-confetti": "^1.9.0",
     "core-js": "^3.25.5",
     "dexie": "^3.0.3",
     "gtfs-realtime-bindings": "^0.0.6",
