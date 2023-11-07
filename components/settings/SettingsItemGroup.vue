@@ -1,5 +1,5 @@
 <template>
-  <div class="tw-grid tw-grid-cols-2 tw-gap-2" :value="value" mandatory>
+  <div class="tw-mt-1 tw-grid tw-grid-cols-2 tw-gap-2" :value="value" mandatory>
     <div
       v-for="option in options"
       :key="option.value"

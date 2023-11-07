@@ -1,49 +1,53 @@
 <template>
-  <v-navigation-drawer
-    class="tw-bg-neutral-98 dark:tw-bg-neutral-16 tw-text-neutralVariant-30 dark:tw-text-neutralVariant-80"
-    :value="value"
-    fixed
-    hide-overlay
-    temporary
-    right
-    width="33%"
-    mobile-breakpoint="md"
-    style="min-width: 350px"
-    @input="$emit('input', $event)"
+  <transition
+    enter-from-class="tw-translate-x-[150%]"
+    leave-to-class="tw-translate-x-[150%]"
+    enter-active-class="tw-transition tw-duration-400 tw-ease-emphasized-decelerate"
+    leave-active-class="tw-transition tw-duration-200 tw-ease-emphasized-accelerate"
   >
-    <v-toolbar
-      flat
-      class="v-bar--underline text-h6 font-weight-medium text--primary"
+    <aside
+      v-show="value"
+      class="tw-fixed tw-inset-y-0 tw-left-auto tw-right-0 tw-z-10 tw-flex tw-h-full tw-w-1/3 tw-flex-col tw-gap-6 tw-overflow-hidden tw-rounded-l-2xl tw-bg-neutral-98 tw-p-6 tw-text-neutralVariant-30 dark:tw-bg-neutral-6 dark:tw-text-neutralVariant-80"
+      style="min-width: 350px"
     >
-      {{ $t('settings.title') }}
-      <v-spacer></v-spacer>
-      <v-btn icon @click="$emit('input', false)">
-        <v-icon>{{ mdiClose }}</v-icon>
-      </v-btn>
-    </v-toolbar>
-    <v-divider />
-    <div class="d-flex flex-column tt-settings__container">
-      <div v-if="dataIsLoaded" class="primary-dark white--text">
-        <v-container
-          class="d-flex align-center cursor-pointer"
-          @click="openNotificationsCentre()"
-        >
-          <v-icon dark>{{ mdiBell }}</v-icon>
-          <div class="ml-4 text-subtitle-1 font-weight-bold">
-            {{ $t('notifications.title') }}
-          </div>
-          <v-spacer />
-          <v-icon dark>{{ mdiArrowRight }}</v-icon>
-        </v-container>
+      <div
+        class="tw-flex tw-items-center tw-justify-between tw-text-[1.375rem] tw-leading-7"
+      >
+        {{ $t('settings.title') }}
+        <StandardIconButton @click="closeSheet">
+          <TwIcon :path="mdiClose" />
+        </StandardIconButton>
       </div>
-      <v-divider />
-      <v-container>
-        <SettingsPwa />
+      <!--    TODO: Rework notifications settings-->
+      <!--    <div v-if="dataIsLoaded" class="primary-dark white&#45;&#45;text">-->
+      <!--      <v-container-->
+      <!--        class="d-flex align-center cursor-pointer"-->
+      <!--        @click="openNotificationsCentre()"-->
+      <!--      >-->
+      <!--        <v-icon dark>{{ mdiBell }}</v-icon>-->
+      <!--        <div class="ml-4 text-subtitle-1 font-weight-bold">-->
+      <!--          {{ $t('notifications.title') }}-->
+      <!--        </div>-->
+      <!--        <v-spacer />-->
+      <!--        <v-icon dark>{{ mdiArrowRight }}</v-icon>-->
+      <!--      </v-container>-->
+      <!--    </div>-->
+      <SettingsPwa />
+      <TwDetails>
+        <template #summary>
+          <h2 class="tw-text-sm tw-font-medium">
+            {{ $t('settings.agenciesTitle') }}
+          </h2>
+        </template>
+        <p class="text-body-2 mb-2">
+          <!--            TODO: Translate-->
+          Les agences qui ne sont pas activés ne seront pas chargés dans
+          l'application. Ceci permet d'économiser des données.
+        </p>
         <SettingsAgencies v-if="dataIsLoaded" />
-        <div v-if="dataIsLoaded" class="my-3 mx-n3">
-          <v-divider />
-        </div>
-        <h2 class="text-subtitle-1 font-weight-bold">
+      </TwDetails>
+      <div>
+        <h2 class="tw-text-sm tw-font-medium">
           {{ $t('settings.autoRefresh') }}
         </h2>
         <p class="text-body-2 mb-2">
@@ -65,10 +69,9 @@
           ]"
           @input="setSetting('autoRefresh', $event)"
         />
-        <div class="my-3 mx-n3">
-          <v-divider />
-        </div>
-        <h2 class="text-subtitle-1 font-weight-bold">
+      </div>
+      <div>
+        <h2 class="tw-text-sm tw-font-medium">
           {{ $t('settings.theme') }}
         </h2>
         <SettingsItemGroup
@@ -93,18 +96,18 @@
           ]"
           @input="setSetting('theme', $event)"
         />
-        <div class="my-3 mx-n3">
-          <v-divider />
-        </div>
-        <h2 class="text-subtitle-1 font-weight-bold">Map theme</h2>
-        <!--        TODO: Change labels-->
+      </div>
+      <div>
+        <h2 class="tw-text-sm tw-font-medium">
+          <!--        TODO: Translate -->
+          {{ $t('settings.mapTheme') }}
+        </h2>
         <SettingsItemGroup
           :value="settings.mapTheme"
           :options="[
             {
               label: 'Default',
               value: 'default',
-              icon: mdiMonitor,
             },
             {
               label: 'Satellite',
@@ -114,10 +117,9 @@
           ]"
           @input="setSetting('mapTheme', $event)"
         />
-        <div class="my-3 mx-n3">
-          <v-divider />
-        </div>
-        <h2 class="text-subtitle-1 font-weight-bold">
+      </div>
+      <div>
+        <h2 class="tw-text-sm tw-font-medium">
           {{ $t('settings.defaultScreen') }}
         </h2>
         <SettingsItemGroup
@@ -146,22 +148,18 @@
           ]"
           @input="setSetting('launch', $event)"
         />
-        <div class="my-3 mx-n3">
-          <v-divider />
-        </div>
-        <TwDetails>
-          <template #summary>
-            <h2 class="text-subtitle-1 font-weight-bold">
-              {{ $t('settings.table') }}
-            </h2>
-          </template>
-          <p class="text-body-2 mb-2">{{ $t('settings.tableDesc') }}</p>
-          <SettingsTableColumns />
-        </TwDetails>
-        <div class="my-3 mx-n3">
-          <v-divider />
-        </div>
-        <h2 class="text-subtitle-1 font-weight-bold">
+      </div>
+      <TwDetails>
+        <template #summary>
+          <h2 class="tw-text-sm tw-font-medium">
+            {{ $t('settings.table') }}
+          </h2>
+        </template>
+        <p class="text-body-2 mb-2">{{ $t('settings.tableDesc') }}</p>
+        <SettingsTableColumns />
+      </TwDetails>
+      <div>
+        <h2 class="tw-text-sm tw-font-medium">
           {{ $t('settings.language') }}
         </h2>
         <SettingsItemGroup
@@ -178,10 +176,10 @@
           ]"
           @input="setSetting('lang', $event)"
         />
-      </v-container>
-      <v-spacer />
+      </div>
+      <div class="tw-grow" />
       <button
-        class="tw-flex tw-items-center tw-gap-4 tw-bg-primary-90 tw-p-4 tw-text-primary-10 dark:tw-bg-primary-30 dark:tw-text-primary-90"
+        class="-tw-mx-6 -tw-mb-6 tw-flex tw-items-center tw-gap-4 tw-bg-primary-90 tw-p-6 tw-text-primary-10 dark:tw-bg-primary-30 dark:tw-text-primary-90"
         @click="aboutDialog = true"
       >
         <img src="/img/logo-white.svg" height="40px" />
@@ -192,9 +190,9 @@
           <small class="!tw-mb-0">Version {{ version }}</small>
         </div>
       </button>
-    </div>
-    <SettingsAboutDialog v-model="aboutDialog" />
-  </v-navigation-drawer>
+      <SettingsAboutDialog v-model="aboutDialog" />
+    </aside>
+  </transition>
 </template>
 
 <script>
@@ -268,6 +266,9 @@ export default {
     },
   },
   methods: {
+    closeSheet() {
+      this.$emit('input', false)
+    },
     openNotificationsCentre() {
       this.$store.commit('app/set', {
         key: 'openNotificationsCentre',
