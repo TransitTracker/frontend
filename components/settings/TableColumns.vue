@@ -16,7 +16,7 @@
           :path="mdiReorderHorizontal"
           class="!tw-h-[1.125rem] !tw-w-[1.125rem]"
         />
-        <span>{{ $t(`properties.${column}`) }}</span>
+        <span>{{ $t(`vehicleFields.${column}`) }}</span>
       </div>
       <div
         v-if="!visibleColumns.length"
@@ -55,7 +55,7 @@
           :path="mdiReorderHorizontal"
           class="!tw-h-[1.125rem] !tw-w-[1.125rem]"
         />
-        <span>{{ $t(`properties.${column}`) }}</span>
+        <span>{{ $t(`vehicleFields.${column}`) }}</span>
       </div>
       <div
         v-if="!hiddenColumns.length"

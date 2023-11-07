@@ -1,5 +1,6 @@
 <template>
   <v-navigation-drawer
+    class="tw-bg-neutral-98 dark:tw-bg-neutral-16 tw-text-neutralVariant-30 dark:tw-text-neutralVariant-80"
     :value="value"
     fixed
     hide-overlay
@@ -7,7 +8,6 @@
     right
     width="33%"
     mobile-breakpoint="md"
-    class="tt-settings"
     style="min-width: 350px"
     @input="$emit('input', $event)"
   >
@@ -51,15 +51,20 @@
         </p>
         <SettingsItemGroup
           :value="settings.autoRefresh"
+          :options="[
+            {
+              label: $t('settings.autoRefreshOn'),
+              value: true,
+              icon: mdiSync,
+            },
+            {
+              label: $t('settings.autoRefreshOff'),
+              value: false,
+              icon: mdiSyncOff,
+            },
+          ]"
           @input="setSetting('autoRefresh', $event)"
-        >
-          <SettingsItem :icon="mdiSync" :value="true">
-            {{ $t('settings.autoRefreshOn') }}
-          </SettingsItem>
-          <SettingsItem :icon="mdiSyncOff" :value="false">
-            {{ $t('settings.autoRefreshOff') }}
-          </SettingsItem>
-        </SettingsItemGroup>
+        />
         <div class="my-3 mx-n3">
           <v-divider />
         </div>
@@ -68,47 +73,47 @@
         </h2>
         <SettingsItemGroup
           :value="settings.theme"
+          :options="[
+            {
+              label: $t('settings.themeLight'),
+              value: 'light',
+              icon: mdiWhiteBalanceSunny,
+            },
+            {
+              label: $t('settings.themeDark'),
+              value: 'dark',
+              icon: mdiWeatherNight,
+            },
+            {
+              label: $t('settings.themeSystem'),
+              description: $t('settings.themeSystemDesc'),
+              value: 'system',
+              icon: mdiMonitor,
+            },
+          ]"
           @input="setSetting('theme', $event)"
-        >
-          <SettingsItem :icon="mdiWhiteBalanceSunny" value="light">
-            {{ $t('settings.themeLight') }}
-          </SettingsItem>
-          <SettingsItem :icon="mdiWeatherNight" value="dark">
-            {{ $t('settings.themeDark') }}
-          </SettingsItem>
-          <SettingsItem
-            :icon="mdiMonitor"
-            value="system"
-            :description="$t('settings.themeSystemDesc')"
-          >
-            {{ $t('settings.themeSystem') }}
-          </SettingsItem>
-        </SettingsItemGroup>
+        />
         <div class="my-3 mx-n3">
           <v-divider />
         </div>
         <h2 class="text-subtitle-1 font-weight-bold">Map theme</h2>
+        <!--        TODO: Change labels-->
         <SettingsItemGroup
-          :value="settings.theme"
+          :value="settings.mapTheme"
+          :options="[
+            {
+              label: 'Default',
+              value: 'default',
+              icon: mdiMonitor,
+            },
+            {
+              label: 'Satellite',
+              value: 'satellite',
+              icon: mdiEarth,
+            },
+          ]"
           @input="setSetting('mapTheme', $event)"
-        >
-          <SettingsItem
-            :icon="mdiMonitor"
-            :value="null"
-            description="Use the same value as the app theme"
-          >
-            Default theme
-          </SettingsItem>
-          <SettingsItem :icon="mdiWhiteBalanceSunny" value="light">
-            {{ $t('settings.themeLight') }}
-          </SettingsItem>
-          <SettingsItem :icon="mdiWeatherNight" value="dark">
-            {{ $t('settings.themeDark') }}
-          </SettingsItem>
-          <SettingsItem :icon="mdiEarth" value="satellite">
-            Satellite
-          </SettingsItem>
-        </SettingsItemGroup>
+        />
         <div class="my-3 mx-n3">
           <v-divider />
         </div>
@@ -117,21 +122,30 @@
         </h2>
         <SettingsItemGroup
           :value="settings.launch"
+          :options="[
+            {
+              label: $t('settings.noRedirect'),
+              value: 'no',
+              icon: mdiCloseCircleOutline,
+            },
+            {
+              label: $t('app.tabHome'),
+              value: '/',
+              icon: mdiViewGrid,
+            },
+            {
+              label: $t('app.tabMap'),
+              value: '/map',
+              icon: mdiMap,
+            },
+            {
+              label: $t('app.tabTable'),
+              value: '/table',
+              icon: mdiTable,
+            },
+          ]"
           @input="setSetting('launch', $event)"
-        >
-          <SettingsItem :icon="mdiCloseCircleOutline" value="no">
-            {{ $t('settings.noRedirect') }}
-          </SettingsItem>
-          <SettingsItem :icon="mdiViewGrid" value="/">
-            {{ $t('app.tabHome') }}
-          </SettingsItem>
-          <SettingsItem :icon="mdiMap" value="/map">
-            {{ $t('app.tabMap') }}
-          </SettingsItem>
-          <SettingsItem :icon="mdiTable" value="/table">
-            {{ $t('app.tabTable') }}
-          </SettingsItem>
-        </SettingsItemGroup>
+        />
         <div class="my-3 mx-n3">
           <v-divider />
         </div>
@@ -152,24 +166,32 @@
         </h2>
         <SettingsItemGroup
           :value="settings.lang"
+          :options="[
+            {
+              label: 'English',
+              value: 'en',
+            },
+            {
+              label: 'Français',
+              value: 'fr',
+            },
+          ]"
           @input="setSetting('lang', $event)"
-        >
-          <SettingsItem value="en"> English </SettingsItem>
-          <SettingsItem value="fr"> Français </SettingsItem>
-        </SettingsItemGroup>
+        />
       </v-container>
       <v-spacer />
-      <div class="primary white--text">
-        <v-container
-          class="d-flex align-center cursor-pointer"
-          @click="aboutDialog = true"
-        >
-          <img src="/img/logo-white.svg" height="40px" />
-          <div class="ml-4 font-weight-bold">
-            {{ $t('aboutDialog.title') }}
-          </div>
-        </v-container>
-      </div>
+      <button
+        class="tw-flex tw-items-center tw-gap-4 tw-bg-primary-90 tw-p-4 tw-text-primary-10 dark:tw-bg-primary-30 dark:tw-text-primary-90"
+        @click="aboutDialog = true"
+      >
+        <img src="/img/logo-white.svg" height="40px" />
+        <div class="tw-text-left">
+          <p class="!tw-mb-0">
+            {{ $t('aboutDialog.title') }} <b>Transit&nbsp;Tracker</b>
+          </p>
+          <small class="!tw-mb-0">Version {{ version }}</small>
+        </div>
+      </button>
     </div>
     <SettingsAboutDialog v-model="aboutDialog" />
   </v-navigation-drawer>
@@ -240,6 +262,9 @@ export default {
     },
     settings() {
       return this.$store.state.settings
+    },
+    version() {
+      return process.env.version
     },
   },
   methods: {

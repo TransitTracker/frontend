@@ -110,8 +110,11 @@ export default {
       return this.$vuetify.theme.dark
     },
     mapStyle() {
+      // Use satellite
       const theme =
-        this.$store.state.settings.mapTheme ?? this.$store.state.settings.theme
+        this.$store.state.settings.mapTheme === 'satellite'
+          ? 'satellite'
+          : this.$store.state.settings.theme
 
       return (
         {

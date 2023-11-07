@@ -194,7 +194,7 @@ export default {
     already: 'Déjà sélectionné',
   },
   aboutDialog: {
-    title: 'À propos de Transit Tracker',
+    title: 'À propos de ',
     body: "Transit Tracker est une application à code source ouvert qui permet de transformer et visualiser les données en temps réel de plusieurs agences de transport en commun. L'application utilise de nombreux projets à code source ouvert, tels que :",
     openSource: 'Code source',
     dev: 'Développeurs',

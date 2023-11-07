@@ -9,7 +9,7 @@ module.exports = {
   content: [
     `components/tw/**/*.vue`,
     `components/VehicleSheet/**/*.vue`,
-    `components/settings/TableColumns.vue`,
+    `components/settings/**/*.vue`,
     `layouts/error.vue`,
     `pages/regions/_region/index.vue`,
     `pages/regions/_region/table.vue`,
@@ -53,6 +53,9 @@ module.exports = {
     extendExistingColors: true, */
       stepTonesBy10: true,
       inverseSteps: false,
+    }),
+    require('@tailwindcss/forms')({
+      strategy: 'class',
     }),
   ],
 }

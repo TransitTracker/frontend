@@ -30,10 +30,13 @@ export default function ({ $axios, app, error, store }, inject) {
   })
 
   instance.interceptors.request.use((config) => {
-    config.headers['Content-Language'] =
-      store.state.settings.lang || app.i18n.locale
+    const lang = store.state.settings.lang || app.i18n.locale
+    config.headers['Content-Language'] = lang
 
     if (config.cacheId) {
+      // Adding language to cacheId
+      config.cacheId = `${config.cacheId}-${lang}`
+
       const cache = localStorage.getItem(`cache:${config.cacheId}`)
 
       if (!cache) {

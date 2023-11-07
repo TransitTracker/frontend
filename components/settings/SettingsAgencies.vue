@@ -31,69 +31,61 @@
           :prepend-inner-icon="mdiMagnify"
           :color="darkMode ? 'white' : 'primary'"
         ></v-text-field>
-        <v-btn block depressed dark :loading="addAllLoading" @click="addAll">
-          <v-icon left>{{ mdiPlus }}</v-icon>
-          {{ $t('settings.agenciesAddAll') }}
-        </v-btn>
-        <v-list>
-          <v-list-item
-            v-for="(agency, slug) in filteredAgencies"
-            :key="slug"
-            class="mx-n2 md:mx-n0"
-          >
-            <v-list-item-avatar
-              :color="agency.color"
-              :size="$vuetify.breakpoint.smAndDown ? 24 : 40"
-            >
-              <v-icon
-                :small="$vuetify.breakpoint.smAndDown"
-                class="px-0"
-                size="24"
-                :style="{ color: agency.textColor }"
-                dark
-              >
-                {{ mdi[agency.defaultVehicleType] }}
-              </v-icon>
-            </v-list-item-avatar>
-            <v-list-item-content>
-              <v-list-item-title>
-                {{ agency.name }}
-              </v-list-item-title>
-              <v-list-item-subtitle>
-                <p class="mb-2 mt-1 text-truncate">
-                  {{ agency.cities && agency.cities.join(', ') }}
-                </p>
-                <v-chip
-                  v-for="region in agency.regions"
-                  :key="region"
-                  :color="region === '*' ? 'secondary-dark white--text' : null"
-                  label
-                  small
+        <button
+          v-if="activeAgencies.length !== availableAgencies.length"
+          :loading="addAllLoading"
+          class="tw-mt-2 tw-flex tw-h-8 tw-items-center tw-gap-x-2 tw-rounded-lg tw-border tw-border-solid tw-border-neutralVariant-50 tw-pl-2 tw-pr-4 tw-text-sm tw-leading-8 dark:tw-border-neutralVariant-60"
+          @click="addAll"
+        >
+          <TwIcon :path="mdiPlus" class="!tw-h-[1.125rem] !tw-w-[1.125rem]" />
+          <span>{{ $t('addAll') }}</span>
+        </button>
+
+        <div>
+          <ul class="tw-list-outside tw-list-none tw-space-y-4">
+            <li v-for="(agencies, section) in filteredAgencies" :key="section">
+              <b class="-tw-ml-6">
+                <div class="tw-flex tw-items-center">
+                  <input
+                    type="checkbox"
+                    class="tw-form-checkbox tw-rounded-sm tw-border-primary-40 tw-text-primary-10"
+                  />
+                </div>
+                {{ $t(section, { region: regions[currentRegion].name }) }}
+              </b>
+              <div class="tw-space-y-2">
+                <div
+                  v-for="agency in agencies"
+                  :key="agency.slug"
+                  class="tw-flex tw-items-center tw-gap-4"
+                  :checked="agency.slug in activeAgencies"
                 >
-                  {{
-                    region === '*'
-                      ? 'Local'
-                      : regions[region]
-                      ? regions[region].name
-                      : region
-                  }}
-                </v-chip>
-              </v-list-item-subtitle>
-            </v-list-item-content>
-            <v-list-item-action v-if="!agency.regions.includes('*')">
-              <v-btn
-                icon
-                :small="$vuetify.breakpoint.smAndDown"
-                @click="toggleAgency(agency)"
-              >
-                <v-icon v-if="activeAgencies.includes(slug)">
-                  {{ mdiMinus }}
-                </v-icon>
-                <v-icon v-else>{{ mdiPlus }}</v-icon>
-              </v-btn>
-            </v-list-item-action>
-          </v-list-item>
-        </v-list>
+                  <input
+                    :id="agency.slug"
+                    v-model="activeAgencies"
+                    type="checkbox"
+                    :name="agency.slug"
+                    :value="agency.slug"
+                  />
+                  <label :for="agency.slug">
+                    <p class="!tw-mb-0 tw-font-medium">{{ agency.name }}</p>
+                    <small>{{
+                      agency.cities && agency.cities.join(', ')
+                    }}</small>
+                  </label>
+                  <div class="tw-grow"></div>
+                  <span
+                    class="tw-h-4 tw-w-4 tw-rounded-full"
+                    :style="{
+                      backgroundColor: agency.color,
+                      color: agency.textColor,
+                    }"
+                  ></span>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
       </v-expansion-panel-content>
     </v-expansion-panel>
   </v-expansion-panels>
@@ -133,21 +125,37 @@ export default {
       return this.$vuetify.theme.dark
     },
     filteredAgencies() {
-      return Object.fromEntries(
-        Object.entries(this.$store.state.agencies.data)
-          .filter((value) => {
-            if (!this.search) return true
-            return value[1].name
-              .toUpperCase()
-              .includes(this.search.toUpperCase())
-          })
-          .sort((a, b) => {
-            const aIsPart = a[1].regions.includes(this.currentRegion)
-            const bIsPart = b[1].regions.includes(this.currentRegion)
-
-            return aIsPart === bIsPart ? 0 : aIsPart ? -1 : 1
-          })
-      )
+      return Object.values(this.$store.state.agencies.data)
+        .map((agency) => {
+          return {
+            ...agency,
+            isInCurrentRegion: agency.regions.includes(this.currentRegion),
+            searchString: `${agency.name} ${agency.shortName} ${
+              agency.slug
+            } ${agency.cities.join(' ')}`.toUpperCase(),
+          }
+        })
+        .filter(({ searchString }) => {
+          if (!this.search) return true
+          return searchString.includes(this.search.toUpperCase())
+        })
+        .sort((a, b) => {
+          return a.isInCurrentRegion === b.isInCurrentRegion
+            ? 0
+            : a.isInCurrentRegion
+            ? -1
+            : 1
+        })
+        .reduce((storage, agency) => {
+          const group = agency.isArchived
+            ? 'archived'
+            : agency.isInCurrentRegion
+            ? 'inRegion'
+            : 'outsideRegion'
+          storage[group] = storage[group] || []
+          storage[group].push(agency)
+          return storage
+        }, {})
     },
     regions() {
       return this.$store.state.regions.data
@@ -174,3 +182,20 @@ export default {
   },
 }
 </script>
+
+<i18n>
+{
+  "en": {
+    "addAll": "Add all agencies from all regions",
+    "archived": "Archived",
+    "inRegion": "In this region ({region})",
+    "outsideRegion": "Outside this region"
+  },
+  "fr": {
+    "addAll": "Ajouter toutes les agences de toutes les régions",
+    "archived": "Archivées",
+    "inRegion": "Dans cette région ({region})",
+    "outsideRegion": "À l'extérieur de cette région"
+  }
+}
+</i18n>

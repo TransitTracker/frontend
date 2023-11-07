@@ -199,7 +199,7 @@ export default {
     already: 'Already selected',
   },
   aboutDialog: {
-    title: 'About Transit Tracker',
+    title: 'About ',
     body: 'Transit Tracker is an open-source application that transforms and visualizes real-time data from multiple transit agencies. The application uses many open source projects, such as:',
     openSource: 'Open source',
     dev: 'Developers',
