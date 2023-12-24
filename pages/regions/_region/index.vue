@@ -35,9 +35,10 @@
           </h1>
           <TwFilledButton
             color="tonal"
-            class="tw-hidden md:tw-flex"
+            class="tw-hidden tw-no-underline md:tw-flex"
             with-icon
-            @click="open('RegionSwitcher')"
+            tag="NuxtLink"
+            :to="localePath('/')"
           >
             <TwIcon :path="mdiCity" />
             {{ $t('changeRegion') }}
@@ -194,29 +195,29 @@
         Transit&nbsp;Tracker
       </b>
       <span class="tw-hidden tw-grow md:tw-inline">
-        &bull; {{ $t('brandSlogan') }}
+        &bull; {{ $t('footer.brandSlogan') }}
       </span>
-      <span class="tw-block md:tw-hidden"> {{ $t('brandSlogan') }}</span>
-      <a
-        href="https://api.transittracker.ca"
-        target="_blank"
-        class="tw-text-primary-40 tw-no-underline hover:tw-text-primary-30 hover:tw-underline dark:tw-text-primary-80 dark:hover:tw-text-primary-90"
-      >
-        {{ $t('forDevelopers') }} </a
-      >&bull;
+      <span class="tw-block md:tw-hidden"> {{ $t('footer.brandSlogan') }}</span>
       <a
         href="https://api.transittracker.ca/vin"
         target="_blank"
         class="tw-text-primary-40 tw-no-underline hover:tw-text-primary-30 hover:tw-underline dark:tw-text-primary-80 dark:hover:tw-text-primary-90"
       >
-        {{ $t('exoVin') }} </a
+        {{ $t('footer.exoVin') }} </a
+      >&bull;
+      <a
+        href="https://api.transittracker.ca"
+        target="_blank"
+        class="tw-text-primary-40 tw-no-underline hover:tw-text-primary-30 hover:tw-underline dark:tw-text-primary-80 dark:hover:tw-text-primary-90"
+      >
+        {{ $t('footer.forDevelopers') }} </a
       >&bull;
       <a
         href="https://github.com/TransitTracker"
         target="_blank"
         class="tw-text-primary-40 tw-no-underline hover:tw-text-primary-30 hover:tw-underline dark:tw-text-primary-80 dark:hover:tw-text-primary-90"
       >
-        {{ $t('github') }}
+        {{ $t('footer.github') }}
       </a>
     </div>
   </div>
@@ -389,11 +390,7 @@ export default {
     "openDownload": "Open download wizard",
     "photoTitle": "Photos are welcome!",
     "photoBody": "Submit your photo representing public transit in your area! It could be posted on Transit Tracker, at the top of your region's page.",
-    "photoLink": "Submit a photo",
-    "brandSlogan": "Making real time transit data accessible",
-    "forDevelopers": "For Developers",
-    "exoVin": "exo VIN Project",
-    "github": "On GitHub"
+    "photoLink": "Submit a photo"
   },
   "fr": {
     "welcome": "Bienvenue sur",
@@ -412,11 +409,7 @@ export default {
     "openDownload": "Ouvrir l'assistant de téléchargement",
     "photoTitle": "Les photos sont les bienvenues !",
     "photoBody": "Proposez votre photo représentant le transport en commun dans votre région! Elle pourrait être affiché sur Transit Tracker, au haut de la page de votre région.",
-    "photoLink": "Proposer une photo",
-    "brandSlogan": "Rendre accessibles les données de transport en temps réel",
-    "forDevelopers": "Site pour les développeurs",
-    "exoVin": "Projet exo VIN",
-    "github": "Sur GitHub"
+    "photoLink": "Proposer une photo"
   }
 }
 </i18n>

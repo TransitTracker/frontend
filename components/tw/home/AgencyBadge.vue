@@ -18,8 +18,8 @@
     <p v-if="agency.isArchived" class="!tw-mb-0 tw-italic">
       {{ $t('home.archived') }}
     </p>
-    <p v-else-if="agency.slug in vehicleCounts" class="!tw-mb-0">
-      {{ $tc('landing.vehicles', vehicleCounts[agency.slug]) }}
+    <p v-else-if="vehicleCount !== null" class="!tw-mb-0">
+      {{ $tc('landing.vehicles', vehicleCount) }}
       <br class="md:tw-hidden" />
       <span class="tw-hidden md:tw-inline">&bull;</span>
       <TwTimeAgo :timestamp="timestamp" />
@@ -45,13 +45,13 @@ export default {
     },
   },
   computed: {
-    vehicleCounts() {
-      return this.$store.getters['vehicles/counts']
+    vehicleCount() {
+      return this.$store.getters['vehicles/count'](this.agency.slug)
     },
     isLoading() {
       if (this.agency.isArchived) return false
 
-      if (this.agency.slug in this.vehicleCounts) return false
+      if (this.vehicleCount !== null) return false
 
       return true
     },

@@ -14,10 +14,14 @@ module.exports = {
     `pages/regions/_region/index.vue`,
     `pages/regions/_region/table.vue`,
     `pages/admin.vue`,
+    `pages/index.vue`,
     `./nuxt.config.js`,
   ],
   theme: {
     extend: {
+      backgroundImage: {
+        'gradient-100': 'linear-gradient(100deg, var(--tw-gradient-stops))',
+      },
       fontSize: {
         '2xs': '0.6875rem',
       },

@@ -173,6 +173,38 @@
         </div>
       </template>
       <!-- eslint-disable-next-line -->
+      <template v-slot:item.properties.agencyId="{ item }">
+        {{ agencies[item.properties.agencyId].name }}
+      </template>
+      <!-- eslint-disable-next-line -->
+      <template v-slot:item.properties.vehicle.label="{ item }">
+        {{ item.properties.vehicle.label ?? item.properties.vehicle.id }}
+      </template>
+      <!-- eslint-disable-next-line -->
+      <template v-slot:item.properties.vehicle.type="{ item }">
+        {{ $t(`enum.vehicleType.${item.properties.vehicle.type}`) }}
+      </template>
+      <!-- eslint-disable-next-line -->
+      <template v-slot:item.properties.currentStatus="{ item }">
+        {{ $t(`enum.currentStatus.${item.properties.currentStatus}`) }}
+      </template>
+      <!-- eslint-disable-next-line -->
+      <template v-slot:item.properties.trip.scheduleRelationship="{ item }">
+        {{
+          $t(
+            `enum.scheduleRelationship.${item.properties.trip.scheduleRelationship}`
+          )
+        }}
+      </template>
+      <!-- eslint-disable-next-line -->
+      <template v-slot:item.properties.congestionLevel="{ item }">
+        {{ $t(`enum.congestionLevel.${item.properties.congestionLevel}`) }}
+      </template>
+      <!-- eslint-disable-next-line -->
+      <template v-slot:item.properties.occupancyStatus="{ item }">
+        {{ $t(`enum.occupancyStatus.${item.properties.occupancyStatus}`) }}
+      </template>
+      <!-- eslint-disable-next-line -->
       <template v-slot:item.properties.lastSeenAt="{ item }">
         <TwTimeAgo :timestamp="+item.properties.lastSeenAt" />
       </template>
@@ -305,6 +337,10 @@ export default {
     return {
       availableColumns: ['agency'],
       columnsProperties: {
+        'geometry.coordinates': {
+          filterable: false,
+          sortable: false,
+        },
         'properties.route.id': {
           sort: this.sortNumber,
           width: 100,
@@ -336,10 +372,6 @@ export default {
           width: 125,
         },
         'properties.tags': {
-          sortable: false,
-          filterable: false,
-        },
-        'position.lat': {
           sortable: false,
           filterable: false,
         },
@@ -401,13 +433,21 @@ export default {
     adminMode() {
       return this.$store.state.settings.adminMode
     },
+    agencies() {
+      return Object.fromEntries(
+        Object.values(this.$store.state.agencies.data).map((agency) => [
+          agency.id,
+          agency,
+        ])
+      )
+    },
     columns() {
+      // Agency ID is always displayed
       return [
         {
           text: this.$t(`vehicleFields.properties.agencyId`),
           value: 'properties.agencyId',
           divider: true,
-          filterable: true,
           sortable: true,
           ...this.columnsProperties['properties.agencyId'],
         },
@@ -485,7 +525,7 @@ export default {
     formatDate(value) {
       if (!value) return ''
 
-      const date = new Date(value)
+      const date = new Date(value * 1000)
 
       if (date instanceof Date && !isNaN(date)) {
         const formatted = Intl.DateTimeFormat(this.$i18n.locale, {

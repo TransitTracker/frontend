@@ -1,22 +1,25 @@
 <template>
-  <transition
-    enter-from-class="tw-translate-x-[150%]"
-    leave-to-class="tw-translate-x-[150%]"
-    enter-active-class="tw-transition tw-duration-400 tw-ease-emphasized-decelerate"
-    leave-active-class="tw-transition tw-duration-200 tw-ease-emphasized-accelerate"
+  <div
+    class="tw-fixed tw-inset-0 tw-z-50 tw-h-full tw-w-full"
+    :class="[value ? null : 'tw-invisible']"
   >
+    <div
+      class="tw-absolute tw-inset-0 tw-h-full tw-w-full tw-bg-black tw-transition-opacity"
+      :class="[value ? 'tw-opacity-50' : 'tw-opacity-0']"
+      @click="closeSheet"
+    ></div>
     <aside
-      v-show="value"
-      class="tw-fixed tw-inset-y-0 tw-left-auto tw-right-0 tw-z-10 tw-flex tw-h-full tw-w-1/3 tw-flex-col tw-gap-6 tw-overflow-hidden tw-rounded-l-2xl tw-bg-neutral-98 tw-p-6 tw-text-neutralVariant-30 dark:tw-bg-neutral-6 dark:tw-text-neutralVariant-80"
+      :class="[value ? null : 'tw-translate-x-full']"
+      class="tw-absolute tw-inset-y-0 tw-left-auto tw-right-0 tw-z-10 tw-flex tw-h-full tw-w-1/3 tw-flex-col tw-gap-6 tw-overflow-y-scroll tw-rounded-l-2xl tw-bg-neutral-98 tw-p-6 tw-text-neutralVariant-30 tw-transition-transform dark:tw-bg-neutral-6 dark:tw-text-neutralVariant-80"
       style="min-width: 350px"
     >
       <div
         class="tw-flex tw-items-center tw-justify-between tw-text-[1.375rem] tw-leading-7"
       >
         {{ $t('settings.title') }}
-        <StandardIconButton @click="closeSheet">
+        <TwStandardIconButton @click="closeSheet">
           <TwIcon :path="mdiClose" />
-        </StandardIconButton>
+        </TwStandardIconButton>
       </div>
       <!--    TODO: Rework notifications settings-->
       <!--    <div v-if="dataIsLoaded" class="primary-dark white&#45;&#45;text">-->
@@ -44,7 +47,7 @@
           Les agences qui ne sont pas activés ne seront pas chargés dans
           l'application. Ceci permet d'économiser des données.
         </p>
-        <SettingsAgencies v-if="dataIsLoaded" />
+        <!--        <SettingsAgencies v-if="dataIsLoaded" />-->
       </TwDetails>
       <div>
         <h2 class="tw-text-sm tw-font-medium">
@@ -99,15 +102,15 @@
       </div>
       <div>
         <h2 class="tw-text-sm tw-font-medium">
-          <!--        TODO: Translate -->
           {{ $t('settings.mapTheme') }}
         </h2>
         <SettingsItemGroup
           :value="settings.mapTheme"
           :options="[
             {
-              label: 'Default',
+              label: $t('settings.mapMap'),
               value: 'default',
+              icon: mdiRoad,
             },
             {
               label: 'Satellite',
@@ -178,21 +181,8 @@
         />
       </div>
       <div class="tw-grow" />
-      <button
-        class="-tw-mx-6 -tw-mb-6 tw-flex tw-items-center tw-gap-4 tw-bg-primary-90 tw-p-6 tw-text-primary-10 dark:tw-bg-primary-30 dark:tw-text-primary-90"
-        @click="aboutDialog = true"
-      >
-        <img src="/img/logo-white.svg" height="40px" />
-        <div class="tw-text-left">
-          <p class="!tw-mb-0">
-            {{ $t('aboutDialog.title') }} <b>Transit&nbsp;Tracker</b>
-          </p>
-          <small class="!tw-mb-0">Version {{ version }}</small>
-        </div>
-      </button>
-      <SettingsAboutDialog v-model="aboutDialog" />
     </aside>
-  </transition>
+  </div>
 </template>
 
 <script>
@@ -218,6 +208,7 @@ import {
   mdiWeatherNight,
   mdiWhiteBalanceSunny,
   mdiEarth,
+  mdiRoad,
 } from '@mdi/js'
 
 export default {
@@ -228,7 +219,6 @@ export default {
     },
   },
   data: () => ({
-    aboutDialog: false,
     mdiArrowRight,
     mdiBell,
     mdiClose,
@@ -246,6 +236,7 @@ export default {
     mdiWeatherNight,
     mdiWhiteBalanceSunny,
     mdiEarth,
+    mdiRoad,
     mdi: { bus: mdiBus, ferry: mdiFerry, train: mdiTrain, tram: mdiTram },
   }),
   computed: {
@@ -294,51 +285,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss">
-.tt-settings {
-  z-index: 11;
-
-  .v-expansion-panel-content__wrap {
-    padding: 0 !important;
-  }
-
-  &__container {
-    height: calc(100vh - 56px);
-  }
-
-  &__about {
-    background-color: #cfe5ff;
-    color: #001d36;
-    a {
-      color: #001d36;
-    }
-  }
-}
-
-@media (min-width: 960px) {
-  .tt-settings__container {
-    height: calc(100vh - 65px);
-  }
-}
-
-.theme--dark .tt-settings {
-  &__agencies {
-    background-color: #363636 !important;
-  }
-
-  &__about {
-    background-color: #00497a;
-    color: #cfe5ff !important;
-
-    &-by {
-      color: #cfe5ff !important;
-    }
-
-    .text-body-2,
-    .black--text {
-      color: white !important;
-    }
-  }
-}
-</style>

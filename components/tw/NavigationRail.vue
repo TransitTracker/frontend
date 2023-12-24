@@ -65,7 +65,12 @@
       >
         <TwIcon :path="mdiBell" />
       </TwStandardIconButton>
-      <TwStandardIconButton v-if="dataIsLoaded" @click="open('RegionSwitcher')">
+      <TwStandardIconButton
+        v-if="dataIsLoaded"
+        tag="NuxtLink"
+        :to="localePath('/')"
+        class="!tw-text-neutralVariant-30 dark:!tw-text-neutralVariant-80"
+      >
         <TwIcon :path="mdiCity" />
       </TwStandardIconButton>
       <TwStandardIconButton @click="open('SettingsDrawer')">

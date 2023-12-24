@@ -3,10 +3,10 @@
     <div
       v-for="option in options"
       :key="option.value"
-      class="tw-flex tw-cursor-pointer tw-flex-col tw-justify-center tw-rounded tw-px-4 tw-py-3"
+      class="tw-flex tw-cursor-pointer tw-flex-col tw-justify-center tw-rounded tw-px-4 tw-py-3 tw-transition-colors"
       :class="[
         option.value === value
-          ? 'text-white tw-bg-primary-40 dark:tw-bg-primary-80 dark:tw-text-primary-20'
+          ? 'tw-bg-primary-40 tw-text-white dark:tw-bg-primary-80 dark:tw-text-primary-20'
           : 'tw-bg-neutralVariant-90 dark:tw-bg-neutralVariant-30',
       ]"
       @click="$emit('input', option.value)"

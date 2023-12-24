@@ -29,6 +29,7 @@ export default function ({ app }) {
           info: null,
           success: '#10b981',
           warning: '#facc15',
+          anchor: null,
         },
       },
       options: {

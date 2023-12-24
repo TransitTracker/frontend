@@ -35,15 +35,18 @@
     <div>
       <ul class="tw-list-outside tw-list-none tw-space-y-4">
         <li v-for="(agencies, section) in filteredAgencies" :key="section">
-          <b class="-tw-ml-6">
-            <div class="tw-flex tw-items-center">
-              <input
-                type="checkbox"
-                class="tw-form-checkbox tw-rounded-sm tw-border-primary-40 tw-text-primary-10"
-              />
-            </div>
+          <label
+            class="-tw-ml-6 tw-flex tw-items-center tw-gap-1 tw-font-bold"
+            :for="section"
+          >
+            <TwCheckbox
+              :id="section"
+              :indeterminate="indeterminate[section]"
+              :value="allSelected[section]"
+              @input="toggleSection(section, $event)"
+            />
             {{ $t(section, { region: regions[currentRegion].name }) }}
-          </b>
+          </label>
           <div class="tw-space-y-2">
             <div
               v-for="agency in agencies"
@@ -51,12 +54,11 @@
               class="tw-flex tw-items-center tw-gap-4"
               :checked="agency.slug in activeAgencies"
             >
-              <input
+              <TwCheckbox
                 :id="agency.slug"
-                v-model="activeAgencies"
-                type="checkbox"
-                :name="agency.slug"
+                v-model="selectedAgencies"
                 :value="agency.slug"
+                class="tw-shrink-0"
               />
               <label :for="agency.slug">
                 <p class="!tw-mb-0 tw-font-medium">{{ agency.name }}</p>
@@ -64,7 +66,7 @@
               </label>
               <div class="tw-grow"></div>
               <span
-                class="tw-h-4 tw-w-4 tw-rounded-full"
+                class="tw-h-4 tw-w-4 tw-shrink-0 tw-rounded-full"
                 :style="{
                   backgroundColor: agency.color,
                   color: agency.textColor,
@@ -97,6 +99,17 @@ export default {
     mdiMinus,
     mdiPlus,
     mdi: { bus: mdiBus, ferry: mdiFerry, train: mdiTrain, tram: mdiTram },
+    allSelected: {
+      inRegion: false,
+      outsideRegion: false,
+      archived: false,
+    },
+    indeterminate: {
+      inRegion: false,
+      outsideRegion: false,
+      archived: false,
+    },
+    selectedAgencies: ['stm', 'trains', 'ttc', 'rtc', 'lr'],
   }),
   computed: {
     activeAgencies() {
@@ -148,10 +161,16 @@ export default {
       return this.$store.state.regions.data
     },
   },
+  watch: {
+    selectedAgencies(newValue) {
+      this.checkSelectedAgencies(newValue)
+    },
+  },
+  mounted() {
+    this.checkSelectedAgencies(this.selectedAgencies)
+  },
   methods: {
-    addAll() {
-      this.addAllLoading = true
-
+    addAllAgenciesFromSection(section) {
       Object.keys(this.availableAgencies)
         .filter((slug) => !this.activeAgencies.includes(slug))
         .forEach((slug) => {
@@ -160,11 +179,48 @@ export default {
             this.availableAgencies[slug]
           )
         })
+    },
+    toggleSection(section) {
+      if (this.indeterminate[section]) {
+        // add missing agencies
+        this.indeterminate[section] = false
+        this.allSelected[section] = true
+        return
+      }
 
-      this.addAllLoading = false
+      if (this.allSelected[section]) {
+        // remove all agencies
+        this.allSelected[section] = false
+        this.indeterminate[section] = false
+        return
+      }
+
+      // add all agencies
+      this.allSelected[section] = true
+      this.indeterminate[section] = false
     },
     toggleAgency(agency) {
       this.$store.dispatch('settings/toggleAgency', agency)
+    },
+    checkSelectedAgencies(selectedAgencies) {
+      Object.entries(this.filteredAgencies).forEach(([section, agencies]) => {
+        const slugs = agencies.map(({ slug }) => slug)
+
+        if (slugs.every((slug) => selectedAgencies.includes(slug))) {
+          this.allSelected[section] = true
+          this.indeterminate[section] = false
+          return
+        }
+
+        if (slugs.some((slug) => selectedAgencies.includes(slug))) {
+          this.allSelected[section] = false
+          this.indeterminate[section] = true
+          return
+        }
+
+        this.allSelected[section] = false
+        this.indeterminate[section] = false
+      })
     },
   },
 }

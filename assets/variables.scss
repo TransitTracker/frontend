@@ -24,3 +24,6 @@ $grid-breakpoints: (
   'lg': 1024px - 24px,
   'xl': 1280px - 24px
 );
+
+// Remove reset
+$reset: false;

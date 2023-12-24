@@ -3,6 +3,7 @@
     :is="tag"
     class="tw-overflow-hiddenfull tw-group tw-relative tw-flex tw-h-10 tw-items-center tw-rounded-full tw-text-sm tw-font-medium tw-leading-5 focus:tw-outline-none"
     :class="[buttonClasses, withIcon ? 'tw-gap-2 tw-pl-4 tw-pr-6' : 'tw-px-6']"
+    :to="to"
     @click="$emit('click')"
   >
     <div
@@ -30,6 +31,11 @@ export default {
       type: String,
       required: false,
       default: 'button',
+    },
+    to: {
+      type: String,
+      required: false,
+      default: null,
     },
   },
   computed: {

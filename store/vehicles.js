@@ -15,6 +15,13 @@ export const getters = {
 
     return counts
   },
+  count: (state) => (agencySlug) => {
+    if (!(agencySlug in state.data)) {
+      return null
+    }
+
+    return state.data[agencySlug].features.length
+  },
 }
 
 export const mutations = {
