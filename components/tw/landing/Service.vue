@@ -2,7 +2,7 @@
   <a
     :href="link"
     target="_blank"
-    class="tw-group tw-rounded-t-lg tw-pt-2 !tw-text-white tw-no-underline tw-transition-colors hover:tw-bg-secondary-90 hover:!tw-text-secondary-10 md:tw-px-2 md:first:-tw-ml-2 md:last:-tw-mr-2"
+    class="tw-group -tw-mx-2 tw-rounded-t-lg tw-px-2 tw-pt-2 !tw-text-white tw-no-underline tw-transition-colors hover:tw-bg-secondary-90 hover:!tw-text-secondary-10 md:first:-tw-ml-2 md:last:-tw-mr-2"
   >
     <h4 class="tw-font-medium">{{ title }}</h4>
     <p>

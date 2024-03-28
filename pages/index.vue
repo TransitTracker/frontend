@@ -71,21 +71,7 @@
           v-html="$t('welcome')"
         ></h1>
         <!-- eslint-enable vue/no-v-html -->
-        <h2
-          class="tw-mt-2 tw-min-h-[4.5rem] tw-font-heading tw-text-2xl tw-font-medium md:tw-text-3xl"
-        >
-          {{ $t('intro') }}
-          <span
-            id="tt-cities"
-            class="tw-relative tw-inline-block tw-font-bold tw-text-primary-40 tw-opacity-100 dark:tw-text-primary-80"
-          >
-            <span
-              id="tt-cities-line"
-              class="tw-absolute tw-left-0 tw-h-full tw-w-1 tw-origin-[0_50%] tw-bg-primary-40 dark:tw-bg-primary-80"
-            ></span>
-            <span id="tt-cities-letters" ref="letters"> Montréal </span>
-          </span>
-        </h2>
+        <TwLandingCities :cities="[]" />
         <div class="tw-flex tw-items-start tw-gap-x-4">
           <h3
             class="tw-relative tw-rounded tw-bg-white tw-p-2 tw-font-heading tw-text-xl tw-font-bold tw-text-primary-40 dark:tw-bg-primary-20 dark:tw-text-primary-80"
@@ -362,7 +348,6 @@
 </template>
 
 <script>
-import anime from 'animejs/lib/anime.es'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import {
@@ -402,7 +387,7 @@ export default {
       }${launch}`
     )
   },
-  async asyncData({ app }) {
+  asyncData({ app }) {
     const mapStyle = {
       dark: 'mapbox://styles/felixinx/ckv0dpig31p0516omjnkhbg4m?optimize=true',
       light: 'mapbox://styles/felixinx/cklvgeorj2t4417rtcbtk8lki?optimize=true',
@@ -595,42 +580,6 @@ export default {
         },
       })
     },
-    changeCity(city) {
-      if (!this.$refs.letters) return
-      this.$refs.letters.innerHTML = city.replace(
-        // eslint-disable-next-line
-        /([^\x00-\x80]|[^ ]|\w)/g,
-        "<span class='tw-inline-block'>$&</span>"
-      )
-      anime
-        .timeline()
-        .add({
-          target: '#tt-cities-line',
-          scaleY: [0, 1],
-          opacity: [0.5, 1],
-          easing: 'easeOutExpo',
-          duration: 700,
-        })
-        .add({
-          targets: '#tt-cities-line',
-          translateX: [
-            0,
-            this.$refs.letters.getBoundingClientRect().width + 10,
-          ],
-          skewX: [0, -10],
-          easing: 'easeOutExpo',
-          duration: 700,
-          delay: 100,
-        })
-        .add({
-          targets: '#tt-cities-letters > span',
-          opacity: [0, 1],
-          easing: 'easeOutExpo',
-          duration: 600,
-          offset: '-=775',
-          delay: (el, i) => 34 * (i + 1),
-        })
-    },
     createMap() {
       mapboxgl.accessToken = this.mapAccessToken
       this.map = new mapboxgl.Map({
@@ -651,7 +600,7 @@ export default {
       })
 
       this.map.on('load', async () => {
-        this.loadData()
+        await this.loadData()
       })
     },
   },
@@ -689,7 +638,7 @@ export default {
       "3d": "Check previous and upcoming departures, follow your favorite vehicle throughout its day.",
       "3n": "When provided by the agency.",
       "4t": "External links",
-      "4d": "Transit Tracker collaborates with other services, such as Fleets Stats, to offer you an even more comprehensive experience.",
+      "4d": "Transit Tracker collaborates with other services, such as FleetStats, to offer you an even more comprehensive experience.",
       "4n": "For certain agencies.",
       "5t": "Filters",
       "5d": "Both on the map and the list, apply filters to easily find the vehicles you are looking for.",
@@ -744,7 +693,7 @@ export default {
       "3d": "Consultez les départs précédents et suivants, suivez votre véhicule préféré pendant sa journée.",
       "3n": "Lorsque fourni par l'agence.",
       "4t": "Liens externes",
-      "4d": "Transit Tracker collabore avec d'autres services, tel que Fleets Stats afin de vous offrir une expérience encore plus complète.",
+      "4d": "Transit Tracker collabore avec d'autres services, tel que FleetStats afin de vous offrir une expérience encore plus complète.",
       "4n": "Pour certaines agences.",
       "5t": "Filtres",
       "5d": "Autant sur la carte que sur la liste, appliquez des filtres pour trouver facilement les véhicules que vous cherchez.",
