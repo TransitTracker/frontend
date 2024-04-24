@@ -48,10 +48,10 @@
     <script
       async
       defer
-      data-website-id="4007fee1-66a9-4b46-92e7-8fed4a802139"
+      data-website-id="69f24534-1974-4b50-9193-18cfadbdd7d8"
       data-domains="www.transittracker.ca,transittracker.ca"
       data-cache="true"
-      src="https://stats.felixinx.me/umami.js"
+      src="https://analytics.us.umami.is/script.js"
     ></script>
   </v-app>
 </template>
