@@ -8,7 +8,7 @@
       <dt
         class="tw-text-xs tw-font-medium tw-leading-4 tw-text-neutralVariant-30 dark:tw-text-neutralVariant-80"
       >
-        {{ $t(`properties.${property.field}`) }}
+        {{ $t(`properties.${property.key}`) }}
       </dt>
       <dd class="tw-mb-0 tw-leading-6">
         {{ property.format ? format(content) : content }} {{ property.suffix }}
@@ -25,9 +25,9 @@
     <TwBasicDialog v-if="property.help" v-model="helpOpen">
       <template #header>
         {{ $t('about') }}
-        {{ $t(`properties.${property.field}`) }}
+        {{ $t(`properties.${property.key}`) }}
       </template>
-      {{ $t(`help.${property.field}`) }}
+      {{ $t(`help.${property.key}`) }}
     </TwBasicDialog>
   </div>
 </template>
@@ -49,31 +49,28 @@ export default {
   data: () => ({
     mdiHelp,
     helpOpen: false,
-    dateStyle: 'long',
-    timeStyle: 'short',
   }),
   computed: {
     content() {
-      const field = this.property.field
-
-      if (field.includes('.')) {
-        const nested = field.split('.')
-        return this.vehicle[nested[0]][nested[1]]
-      }
+      const data = this.property.value
+        .split('.')
+        .reduce((o, i) => o[i], this.vehicle)
 
       if (this.property.condition === 'refDifferent') {
-        return this.vehicle.ref === this.vehicle.label
+        return this.vehicle.properties.vehicle.id ===
+          this.vehicle.properties.vehicle.label
           ? null
-          : this.vehicle[field]
+          : data
       }
 
       if (this.property.condition === 'shortNameDifferent') {
-        return this.vehicle.routeId === this.vehicle.trip.routeShortName
+        return this.vehicle.properties.route.id ===
+          this.vehicle.properties.route.shortName
           ? null
-          : this.vehicle[field]
+          : data
       }
 
-      return this.vehicle[field]
+      return data
     },
   },
   methods: {
@@ -83,9 +80,13 @@ export default {
     format() {
       if (this.property.format === 'date') {
         return Intl.DateTimeFormat(this.$i18n.locale, {
-          dateStyle: this.dateStyle,
-          timeStyle: this.timeStyle,
-        }).format(new Date(this.content))
+          dateStyle: 'long',
+          timeStyle: 'short',
+        }).format(new Date(this.content * 1000))
+      }
+
+      if (this.property.format === 'enum') {
+        return this.$t(`enums.${this.property.key}.${this.content}`)
       }
 
       return this.content

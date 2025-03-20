@@ -3,7 +3,7 @@
     class="tw-inset-x-0 tw-top-0 tw-z-20 tw-flex tw-h-16 tw-w-full tw-items-center tw-gap-x-4 tw-bg-primary-40 tw-px-4 dark:tw-bg-neutral-10 md:tw-hidden"
   >
     <NuxtLink
-      class="tw-group tw-relative -tw-my-2 -tw-mx-2 tw-flex tw-items-center tw-gap-4 tw-py-2 tw-px-2 !tw-text-white tw-no-underline focus:tw-outline-none dark:!tw-text-neutral-90 md:-tw-mr-4 md:tw-pr-4"
+      class="tw-group tw-relative -tw-mx-2 -tw-my-2 tw-flex tw-items-center tw-gap-4 tw-px-2 tw-py-2 !tw-text-white tw-no-underline focus:tw-outline-none dark:!tw-text-neutral-90 md:-tw-mr-4 md:tw-pr-4"
       :to="localePath('/')"
     >
       <div

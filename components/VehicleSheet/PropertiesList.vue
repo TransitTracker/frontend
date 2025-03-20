@@ -3,30 +3,14 @@
     <VehicleSheetProperty
       v-for="(property, index) in properties"
       :key="index"
-      :property="property"
+      :property="{ key: index, ...property }"
       :vehicle="vehicle"
     />
   </dl>
 </template>
 
 <script>
-import {
-  mdiBusStop,
-  mdiCalendarStart,
-  mdiCalendarMultiselect,
-  mdiClock,
-  mdiCounter,
-  mdiFormatLetterStartsWith,
-  mdiIdentifier,
-  mdiMapMarkerPath,
-  mdiSeatPassenger,
-  mdiSignDirection,
-  mdiSpeedometer,
-  mdiTicketConfirmation,
-  mdiTimelinePlus,
-  mdiTimetable,
-  mdiTrafficLight,
-} from '@mdi/js'
+import { FIELDS_DEFINITIONS } from '~/utils/fields'
 
 export default {
   props: {
@@ -40,101 +24,14 @@ export default {
       default: 'vehicle',
     },
   },
-  data: () => ({
-    groups: {
-      trip: [
-        {
-          field: 'speed',
-          icon: mdiSpeedometer,
-          suffix: 'km/h',
-        },
-        {
-          field: 'congestionLevel.label',
-          icon: mdiTrafficLight,
-        },
-        {
-          field: 'occupancyStatus.label',
-          icon: mdiSeatPassenger,
-        },
-        {
-          field: 'tripId',
-          icon: mdiIdentifier,
-          help: true,
-        },
-        {
-          field: 'routeId',
-          icon: mdiMapMarkerPath,
-          condition: 'shortNameDifferent',
-        },
-        {
-          field: 'headsign',
-          parent: 'trip',
-          icon: mdiSignDirection,
-        },
-        {
-          field: 'shortName',
-          parent: 'trip',
-          icon: mdiTicketConfirmation,
-        },
-        {
-          field: 'startTime',
-          icon: mdiClock,
-        },
-        {
-          field: 'scheduleRelationship.label',
-          icon: mdiTimelinePlus,
-          help: true,
-        },
-        {
-          field: 'currentStatus.label',
-          icon: mdiBusStop,
-          help: true,
-        },
-        {
-          field: 'currentStopSequence',
-          icon: mdiTimetable,
-          help: true,
-        },
-        {
-          field: 'serviceId',
-          parent: 'trip',
-          icon: mdiCalendarMultiselect,
-          help: true,
-        },
-      ],
-      vehicle: [
-        {
-          field: 'ref',
-          icon: mdiIdentifier,
-          help: true,
-          condition: 'refDifferent',
-        },
-        {
-          field: 'plate',
-          icon: mdiFormatLetterStartsWith,
-        },
-        {
-          field: 'odometer',
-          icon: mdiCounter,
-        },
-        {
-          field: 'createdAt',
-          icon: mdiCalendarStart,
-          format: 'date',
-        },
-      ],
-    },
-  }),
   computed: {
     properties() {
-      return this.groups[this.group].filter((property) => {
-        return !property.isQuick
-      })
-    },
-    quickProperties() {
-      return this.groups[this.group].filter((property) => {
-        return property.isQuick
-      })
+      return Object.entries(FIELDS_DEFINITIONS)
+        .filter(([key, value]) => value.group === this.group)
+        .reduce((acc, [key, value]) => {
+          acc[key] = value
+          return acc
+        }, {})
     },
   },
 }

@@ -4,28 +4,28 @@
     :class="[supportingText && 'tw-mb-5']"
   >
     <input
+      id="input"
       :value="value"
-      @input="$emit('input', $event.target.value)"
       type="text"
       :class="[backgroundClasses]"
-      class="tw-peer tw-h-14 tw-w-96 tw-rounded-t tw-border-b tw-pl-4 tw-pr-[52px] tw-pb-2 tw-pt-6 tw-placeholder-transparent focus:tw-border-b-2 focus:tw-border-primary-40 focus:tw-outline-none dark:focus:tw-border-primary-80"
+      class="tw-peer tw-h-14 tw-w-96 tw-rounded-t tw-border-b tw-pb-2 tw-pl-4 tw-pr-[52px] tw-pt-6 tw-placeholder-transparent focus:tw-border-b-2 focus:tw-border-primary-40 focus:tw-outline-none dark:focus:tw-border-primary-80"
       :placeholder="placeholder"
-      id="input"
+      @input="$emit('input', $event.target.value)"
     />
     <div
       class="tw-pointer-events-none tw-absolute tw-inset-0 peer-hover:tw-bg-opacity-10 dark:peer-hover:tw-bg-opacity-10"
     ></div>
     <label
       for="input"
-      class="tw-pointer-events-none tw-absolute tw-top-0 tw-left-0 tw-ml-4 tw-mr-[52px] tw-mt-2 tw-text-xs tw-duration-300 peer-placeholder-shown:tw-mt-4 peer-placeholder-shown:tw-text-base peer-focus:tw-mt-2 peer-focus:tw-text-xs peer-focus:tw-text-primary-40 dark:peer-focus:tw-text-primary-80"
+      class="tw-pointer-events-none tw-absolute tw-left-0 tw-top-0 tw-ml-4 tw-mr-[52px] tw-mt-2 tw-text-xs tw-duration-300 peer-placeholder-shown:tw-mt-4 peer-placeholder-shown:tw-text-base peer-focus:tw-mt-2 peer-focus:tw-text-xs peer-focus:tw-text-primary-40 dark:peer-focus:tw-text-primary-80"
     >
       {{ placeholder }}
     </label>
     <button
-      class="tw-absolute tw-right-3 tw-top-4"
-      @click="$emit('text-cleared')"
       v-if="value"
+      class="tw-absolute tw-right-3 tw-top-4"
       :title="clearText"
+      @click="$emit('text-cleared')"
     >
       <svg class="tw-h-6 tw-w-6" viewBox="0 0 24 24">
         <path

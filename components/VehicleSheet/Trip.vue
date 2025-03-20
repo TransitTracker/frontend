@@ -1,6 +1,6 @@
 <template>
   <li
-    class="-tw-mx-4 tw-flex tw-gap-4 tw-py-2 tw-px-4"
+    class="-tw-mx-4 tw-flex tw-gap-4 tw-px-4 tw-py-2"
     :class="[
       isCurrentTrip &&
         ' tw-bg-primary-90 tw-text-primary-10 dark:tw-bg-primary-30 dark:tw-text-primary-90',

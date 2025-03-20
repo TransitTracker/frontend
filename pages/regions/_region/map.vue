@@ -5,14 +5,22 @@
     <VehicleSheetEmptyState v-else />
     <div
       ref="mapPopup"
-      class="tt-map__popup black--text text-subtitle-1 d-flex align-center mt-n1 mb-n2"
+      class="-tw-mb-2 -tw-mt-1 tw-flex tw-items-center tw-text-base tw-text-black"
     >
-      <v-icon v-if="selectedVehicle.bearing" color="black" size="20">
-        class="mr-1" :style="{ transform:
-        `rotate(${selectedVehicle.bearing}deg)` }" >
-        {{ mdiNavigation }}
-      </v-icon>
-      <span>{{ selectedVehicle.label || selectedVehicle.ref }}</span>
+      <TwIcon
+        v-if="selectedVehicle?.properties?.position?.bearing"
+        :path="mdiNavigation"
+        class="tw-mr-1"
+        :style="{
+          transform: `rotate(${selectedVehicle.properties.position.bearing}deg)`,
+        }"
+      />
+      <span v-if="selectedVehicle.id">
+        {{
+          selectedVehicle.properties.vehicle.label ||
+          selectedVehicle.properties.vehicle.id
+        }}
+      </span>
     </div>
   </div>
 </template>
@@ -33,6 +41,7 @@ export default {
   name: 'PagesRegionMap',
   middleware: 'loadData',
   async asyncData({ $axios, params, query, store, error }) {
+    // TODO : Test deep link
     // Handle deep links coming from notifications or other apps
     const handleDeepLink = (vehicleData) => {
       store.commit('vehicles/setSelection', vehicleData)
@@ -106,6 +115,9 @@ export default {
     features() {
       return this.$store.state.vehicles.features
     },
+    selectedAgency() {
+      return this.$store.state.agencies.selection
+    },
     selectedVehicle() {
       return this.$store.state.vehicles.selection
     },
@@ -155,6 +167,7 @@ export default {
   },
   mounted() {
     mapboxgl.accessToken = this.mapAccessToken
+    // TODO: Fix map light on launch with dark mode
     this.map = new mapboxgl.Map({
       container: 'tt-map',
       style: this.darkMode ? this.mapStyle.dark : this.mapStyle.light,
@@ -300,7 +313,11 @@ export default {
         layout: {
           'icon-allow-overlap': true,
           'icon-anchor': 'bottom',
-          'icon-image': `{marker-symbol}`,
+          'icon-image': [
+            'concat',
+            `tt-${agency.slug}-`,
+            ['get', 'type', ['get', 'vehicle']],
+          ],
         },
       })
       this.map.addLayer({
@@ -317,14 +334,16 @@ export default {
       })
       // Add map events
       this.map.on('click', `tt-layer-${agency.slug}`, (e) => {
-        this.$store
-          .dispatch('vehicles/setSelectionById', {
-            id: e.features[0].properties.id,
-            agency,
-          })
-          .then((vehicle) => {
-            if (vehicle.id) this.selectVehicle(vehicle)
-          })
+        // Since Mapbox serialize object properties, we have to find the vehicle from the original data
+        const originalVehicle = this.$store.getters['vehicles/getVehicleById']({
+          agencySlug: agency.slug,
+          vehicleId: e.features[0].id,
+        })
+
+        if (!originalVehicle) return
+
+        this.$store.dispatch('vehicles/setSelectionAndAgency', originalVehicle)
+        this.selectVehicle(originalVehicle)
       })
       this.map.on('mouseenter', `tt-layer-${agency.slug}`, () => {
         this.map.getCanvas().style.cursor = 'pointer'
@@ -334,55 +353,58 @@ export default {
       })
     },
     selectVehicle(vehicle) {
-      // Zoom only if map only if zoom < 12
+      // Zoom only if map only is zoom < 12
       if (this.map.getZoom() < 12) {
         this.map.flyTo({
-          center: vehicle.position,
+          center: vehicle.geometry.coordinates,
           zoom: 12,
           padding: {
             left: this.$vuetify.breakpoint.mdAndUp ? 188 : 0,
           },
         })
       } else {
-        this.map.panTo(vehicle.position, {
+        this.map.panTo(vehicle.geometry.coordinates, {
           offset: [this.$vuetify.breakpoint.mdAndUp ? 188 : 0, 0],
         })
       }
 
-      if (vehicle.trip.shapeLink) {
+      if (vehicle.properties.trip.shapeId) {
+        // Remove shape while the new one download
+        this.map.getSource('tt-shape-source').setData(defaultGeojsonShapeData)
         this.map
           .getSource('tt-shape-source')
           .setData(
-            `${process.env.backendHost}/v2/agencies/${vehicle.agency}/shapes/${vehicle.trip.shapeId}`
+            `${process.env.backendHost}/v2/agencies/${this.selectedAgency.slug}/shapes/${vehicle.properties.trip.shapeId}`
           )
 
-        const routeColor = vehicle.trip.routeColor.toLowerCase()
+        const routeColor = vehicle.properties.route.color.toLowerCase()
 
+        // TODO: Can't get color from agency with slug
         this.map.setPaintProperty(
           'tt-shape-line',
           'line-color',
           routeColor === '#ffffff'
-            ? this.agencies[vehicle.agency].color
+            ? this.selectedAgency.color
             : routeColor ?? '#000000'
         )
         this.map.setPaintProperty(
           'tt-shape-stops',
           'circle-color',
           routeColor === '#ffffff'
-            ? this.agencies[vehicle.agency].color
+            ? this.selectedAgency.color
             : routeColor ?? '#000000'
         )
         this.map.setPaintProperty(
           'tt-shape-stops',
           'circle-stroke-color',
-          vehicle.trip.routeTextColor.toLowerCase()
+          vehicle.properties.route.textColor.toLowerCase()
         )
       } else {
         this.map.getSource('tt-shape-source').setData(defaultGeojsonShapeData)
       }
 
       new mapboxgl.Popup({ offset: [0, -35], closeButton: false })
-        .setLngLat(vehicle.position)
+        .setLngLat(vehicle.geometry.coordinates)
         .setDOMContent(this.$refs.mapPopup)
         .addTo(this.map)
     },
@@ -413,6 +435,7 @@ export default {
 </script>
 
 <style lang="scss">
+/* TODO: remove height of alert if present */
 #tt-map {
   height: 100vh;
   width: 100%;
@@ -421,10 +444,6 @@ export default {
 .tt-map {
   &-container {
     position: relative;
-  }
-
-  &__popup {
-    display: none;
   }
 }
 

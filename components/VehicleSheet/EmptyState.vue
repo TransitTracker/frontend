@@ -1,6 +1,6 @@
 <template>
   <aside
-    class="tw-absolute tw-top-[calc(100vh-14rem)] tw-flex tw-min-h-[6rem] tw-w-full tw-items-center tw-gap-4 tw-overflow-y-auto tw-rounded-t-[1.75rem] tw-bg-neutral-99 tw-p-4 tw-text-left tw-text-neutral-10 dark:tw-bg-neutral-10 dark:tw-text-neutral-90 md:tw-top-4 md:tw-left-4 md:tw-max-h-max md:tw-min-h-[12rem] md:tw-w-96 md:tw-flex-col md:tw-rounded-xl md:tw-text-center"
+    class="tw-absolute tw-top-[calc(100vh-14rem)] tw-flex tw-min-h-[6rem] tw-w-full tw-items-center tw-gap-4 tw-overflow-y-auto tw-rounded-t-[1.75rem] tw-bg-neutral-99 tw-p-4 tw-text-left tw-text-neutral-10 dark:tw-bg-neutral-10 dark:tw-text-neutral-90 md:tw-left-4 md:tw-top-4 md:tw-max-h-max md:tw-min-h-[12rem] md:tw-w-96 md:tw-flex-col md:tw-rounded-xl md:tw-text-center"
   >
     <svg
       class="tw-h-12 tw-w-12 md:tw-h-32 md:tw-w-32"

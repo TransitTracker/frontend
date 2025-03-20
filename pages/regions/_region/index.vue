@@ -47,7 +47,7 @@
     </div>
     <div class="tw-container tw-mx-auto tw-p-4">
       <div class="tw-flex tw-items-center tw-gap-x-2">
-        <h2 class="text-[2rem] tw-font-medium tw-leading-10">
+        <h2 class="tw-text-[2rem] tw-font-medium tw-leading-10">
           {{ $tc('vehicleTotal', totalCount) }}
         </h2>
         <div class="tw-grow"></div>
@@ -116,24 +116,16 @@
         </p>
       </div>
       -->
-      <details
+      <TwDetails
         class="tw-bg-neutralVariant-90 tw-p-4 tw-leading-6 tw-tracking-wide tw-text-neutralVariant-30 dark:tw-bg-neutralVariant-30 dark:tw-text-neutral-80 md:tw-order-3 md:tw-col-span-full md:tw-min-w-[18rem] md:tw-basis-1/3 md:tw-rounded-xl"
-        :open="creditsOpen"
       >
-        <summary class="tw-list-none">
+        <template #summary>
           <h2
             class="text-[2rem] tw-font-medium tw-leading-10 tw-tracking-normal"
           >
             {{ $t('creditsTitle') }}
-            <TwStandardIconButton
-              :class="{ 'tw-rotate-180': creditsOpen }"
-              class="tw-float-right tw-transition-transform tw-duration-200 tw-ease-linear"
-              @click="creditsOpen = !creditsOpen"
-            >
-              <TwIcon :path="mdiChevronDown" />
-            </TwStandardIconButton>
           </h2>
-        </summary>
+        </template>
         <p class="mt-4" v-html="region.credits"></p>
         <p>{{ $t('creditsBody') }}</p>
         <ul>
@@ -144,7 +136,7 @@
             </a>
           </li>
         </ul>
-      </details>
+      </TwDetails>
       <div
         class="tw-p-4 tw-leading-6 tw-tracking-wide dark:tw-border-neutralVariant-60 md:tw-order-2 md:tw-min-w-[18rem] md:tw-basis-1/3 md:tw-rounded-xl md:tw-border md:tw-border-solid md:tw-border-neutralVariant-50"
       >
@@ -154,14 +146,17 @@
         <p class="tw-mt-4">
           {{ $t('downloadBody') }}
         </p>
-        <TwTextButton
-          with-icon
-          class="-tw-ml-4"
-          @click="open('DownloadAssistant')"
+        <!--        TODO: Fix this-->
+        <NuxtLink
+          :to="localePath(`/regions/${regionSlug}/download`)"
+          tag="div"
+          exact
         >
-          <TwIcon :path="mdiDownload" />
-          {{ $t('openDownload') }}
-        </TwTextButton>
+          <TwTextButton with-icon class="-tw-ml-4" tag="a" href="#">
+            <TwIcon :path="mdiDownload" />
+            {{ $t('openDownload') }}
+          </TwTextButton>
+        </NuxtLink>
       </div>
       <div
         class="tw-relative tw-bg-primary-90 tw-p-4 tw-leading-6 tw-tracking-wide tw-text-primary-10 dark:tw-bg-primary-30 dark:tw-text-primary-90 md:tw-order-1 md:tw-min-w-[18rem] md:tw-basis-1/3 md:tw-rounded-xl"
@@ -386,7 +381,7 @@ export default {
     "creditsBody": "For each agency, all intellectual property rights relating to the data belong to them. Here are the respective licenses for agencies in this region:",
     "downloadTitle": "Download data",
     "downloadBody": "Transit Tracker allows you to download either the data you see on the screen or an archive of all the data recorded by the server.",
-    "openDownload": "Open download wizard",
+    "openDownload": "Open download page",
     "photoTitle": "Photos are welcome!",
     "photoBody": "Submit your photo representing public transit in your area! It could be posted on Transit Tracker, at the top of your region's page.",
     "photoLink": "Submit a photo",

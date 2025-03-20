@@ -3,3 +3,9 @@
 @tailwind components;
 
 @tailwind utilities;
+
+/* Make sure to not display the little arrow */
+details > summary::marker,
+details > summary::-webkit-details-marker {
+  display: none;
+}

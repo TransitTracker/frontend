@@ -52,11 +52,6 @@ export default {
     mdiOpenInNew,
     link: {},
   }),
-  mounted() {
-    this.$store.dispatch('links/get', this.linkId).then((link) => {
-      this.link = link
-    })
-  },
   computed: {
     generatedUrl() {
       if (!this.link.url) {
@@ -65,9 +60,14 @@ export default {
 
       return this.link.url
         .replace(':id', this.vehicle.id)
-        .replace(':ref', this.vehicle.ref)
-        .replace(':trip', this.vehicle.tripId)
+        .replace(':ref', this.vehicle.properties.vehicle.id)
+        .replace(':trip', this.vehicle.properties.trip.id)
     },
+  },
+  mounted() {
+    this.$store.dispatch('links/get', this.linkId).then((link) => {
+      this.link = link
+    })
   },
 }
 </script>

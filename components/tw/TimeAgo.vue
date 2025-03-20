@@ -33,6 +33,11 @@ export default {
       return 'en'
     },
   },
+  watch: {
+    timestamp(newT, oldT) {
+      if (newT !== oldT) this.calculateTimeAgo()
+    },
+  },
   mounted() {
     this.calculateTimeAgo()
     // Set timer to refresh every 10 seconds the timeago

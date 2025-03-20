@@ -1,32 +1,35 @@
 <template>
   <div
-    v-if="vehicle.trip.routeShortName"
+    v-if="vehicle.properties.route.shortName"
     :style="{
-      color: vehicle.trip.routeTextColor,
-      backgroundColor: vehicle.trip.routeColor,
+      color: textColor,
+      backgroundColor: color,
     }"
     class="tw-flex tw-rounded-lg tw-px-2 tw-py-1"
   >
-    <b class="mr-1">{{ vehicle.trip.routeShortName }}</b>
+    <b class="mr-1">{{ vehicle.properties.route.shortName }}</b>
     <span class="tw-font-medium">
-      <b>{{ vehicle.trip.routeLongName }}</b>
-      <div v-if="vehicle.trip.headsign" class="tw-flex tw-items-center">
+      <b>{{ vehicle.properties.route.longName }}</b>
+      <div
+        v-if="vehicle.properties.trip.headsign"
+        class="tw-flex tw-items-center"
+      >
         <TwIcon :path="mdiArrowRight" class="tw-h-5 tw-w-5 tw-gap-x-1" />
-        {{ vehicle.trip.headsign }}
+        {{ vehicle.properties.trip.headsign }}
       </div>
     </span>
   </div>
   <div
     v-else
     :style="{
-      border: `1px solid ${agency.color}`,
-      color: agency.color,
-      backgroundColor: agency.textColor,
+      border: `1px solid ${color}`,
+      color: color,
+      backgroundColor: textColor,
     }"
     class="tw-rounded-lg tw-px-2 tw-py-1 tw-font-bold"
   >
     Route
-    {{ vehicle.routeId }}
+    {{ vehicle.properties.route.id }}
   </div>
 </template>
 
@@ -34,7 +37,6 @@
 import { mdiArrowRight } from '@mdi/js'
 
 export default {
-  data: () => ({ mdiArrowRight }),
   props: {
     agency: {
       type: Object,
@@ -43,6 +45,15 @@ export default {
     vehicle: {
       type: Object,
       required: true,
+    },
+  },
+  data: () => ({ mdiArrowRight }),
+  computed: {
+    color() {
+      return this.vehicle.properties.route.color ?? this.agency.color
+    },
+    textColor() {
+      return this.vehicle.properties.route.textColor ?? this.agency.textColor
     },
   },
 }

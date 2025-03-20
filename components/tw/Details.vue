@@ -1,5 +1,5 @@
 <template>
-  <details @toggle="toggle" ref="details">
+  <details ref="details" @toggle="toggle">
     <summary
       class="tw-flex tw-cursor-pointer tw-list-none tw-items-center tw-justify-between"
     >

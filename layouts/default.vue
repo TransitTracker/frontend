@@ -10,11 +10,9 @@
       />
       <RegionSwitcher v-model="openRegionSwitcher" />
       <SettingsDrawer v-model="openSettingsDrawer" />
-      <HomeDownloadDialog v-model="openDownloadAssistant" />
       <nuxt />
     </v-main>
     <TwNavigationBar v-if="dataIsLoaded" />
-    <component :is="byodInjector" />
     <v-snackbar
       v-model="updateAvailable"
       :color="settingsDarkMode ? 'white' : null"
@@ -45,14 +43,6 @@
         </v-btn>
       </template>
     </v-snackbar>
-    <script
-      async
-      defer
-      data-website-id="4007fee1-66a9-4b46-92e7-8fed4a802139"
-      data-domains="www.transittracker.ca,transittracker.ca"
-      data-cache="true"
-      src="https://stats.felixinx.me/umami.js"
-    ></script>
   </v-app>
 </template>
 
@@ -71,7 +61,6 @@ export default {
   data: () => ({
     loading: false,
     regionSwitcher: false,
-    byodInjector: null,
     mdiCog,
     mdiFolderUpload,
     mdiMap,
@@ -100,9 +89,6 @@ export default {
     },
     settingsAutoRefresh() {
       return this.$store.state.settings.autoRefresh
-    },
-    settingsByod() {
-      return this.$store.state.settings.activateByod
     },
     settingsDarkMode() {
       const setting = this.$store.state.settings.theme
@@ -147,14 +133,6 @@ export default {
       },
       set(value) {
         this.$store.commit('app/set', { key: 'openSettingsDrawer', value })
-      },
-    },
-    openDownloadAssistant: {
-      get() {
-        return this.$store.state.app.openDownloadAssistant
-      },
-      set(value) {
-        this.$store.commit('app/set', { key: 'openDownloadAssistant', value })
       },
     },
     updatePending() {
