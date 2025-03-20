@@ -105,7 +105,6 @@ export const FIELDS_DEFINITIONS = {
     icon: mdiTicketConfirmation,
   },
   'trip.serviceId': {
-    // TODO: Add to API
     value: 'properties.trip.serviceId',
     width: 125,
     icon: mdiCalendarMultiselect,
@@ -113,7 +112,6 @@ export const FIELDS_DEFINITIONS = {
     group: 'trip',
   },
   'trip.blockId': {
-    // TODO: Add to API
     value: 'properties.trip.blockId',
     width: 125,
   },

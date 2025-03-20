@@ -379,7 +379,6 @@ export default {
 
         const routeColor = vehicle.properties.route.color.toLowerCase()
 
-        // TODO: Can't get color from agency with slug
         this.map.setPaintProperty(
           'tt-shape-line',
           'line-color',

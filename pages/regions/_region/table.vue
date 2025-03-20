@@ -406,7 +406,6 @@ export default {
     },
     columns() {
       return this.$store.getters['settings/visibleTableColumns'].map(
-        // TODO: add choices to agency, currentStatus, scheduleRelationship, congestionLevel, occupancyStatus
         (column) => ({
           text: this.$t(FIELDS_DEFINITIONS[column].value),
           divider: true,

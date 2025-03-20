@@ -146,7 +146,6 @@
         <p class="tw-mt-4">
           {{ $t('downloadBody') }}
         </p>
-        <!--        TODO: Fix this-->
         <NuxtLink
           :to="localePath(`/regions/${regionSlug}/download`)"
           tag="div"

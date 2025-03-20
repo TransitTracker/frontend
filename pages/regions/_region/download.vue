@@ -226,9 +226,10 @@ export default {
     mdiRestart,
     mdiCheckCircle,
   }),
-  head: {
-    // TODO: Translate
-    title: 'Download data',
+  head() {
+    return {
+      title: this.$t('title'),
+    }
   },
   computed: {
     currentRegion() {
