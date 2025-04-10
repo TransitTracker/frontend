@@ -8,7 +8,7 @@
       <dt
         class="tw-text-xs tw-font-medium tw-leading-4 tw-text-neutralVariant-30 dark:tw-text-neutralVariant-80"
       >
-        {{ $t(`properties.${property.key}`) }}
+        {{ $t(property.value) }}
       </dt>
       <dd class="tw-mb-0 tw-leading-6">
         {{ property.format ? format(content) : content }} {{ property.suffix }}

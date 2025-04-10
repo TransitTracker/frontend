@@ -1,7 +1,6 @@
-import { set } from 'vue'
+import Vue, { set } from 'vue'
 
 export const state = () => ({
-  data: {},
   features: {},
   selection: {},
   warning: null,
@@ -37,8 +36,7 @@ export const mutations = {
     state.warning = warning
   },
   emptyData(state, agency) {
-    set(state.data, agency.slug, [])
-    set(state.features, agency.slug, [])
+    Vue.delete(state.features, agency.slug)
   },
 }
 

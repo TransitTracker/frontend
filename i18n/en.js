@@ -25,7 +25,6 @@ export default {
     openMap: 'Open map from {region}',
     openTable: 'Open table from {region}',
     seoTitle: 'An Overview of Public Transit for Several Canadian Cities',
-    // Padding
     seoDescription:
       'Transit Tracker is an app that lets you find hundreds of buses, trains and streetcars from major Canadian cities, such as Montreal and Toronto, on a single map!',
   },
@@ -53,12 +52,7 @@ export default {
   },
   mapFooter: {
     select: 'Please select a vehicle to see more information',
-    // Padding
     scroll: 'Scroll',
-  },
-  mapTag: {
-    electric: 'Electric',
-    mirrorCameras: 'Mirror cameras',
   },
   geometry: {
     coordinates: 'Position',
@@ -133,7 +127,6 @@ export default {
     agenciesAddAll: 'Add all agencies',
     autoRefresh: 'Auto refresh',
     autoRefreshDesc: 'Update every 60 or 120 seconds, depending on the agency.',
-    // Padding
     autoRefreshOn: 'On',
     autoRefreshOff: 'Off',
     theme: 'Theme',
@@ -146,7 +139,6 @@ export default {
     table: 'Table columns',
     tableDesc:
       'You can customize the orders of the columns displayed in the app, and change their visibility.',
-    // Padding
     language: 'Language',
   },
   alert: {
@@ -180,7 +172,6 @@ export default {
     downloadStep: 'Download',
     downloadBtn: 'Download',
     downloadLoading: 'Downloading... this should take less than a minute.',
-    // Padding
     downloadReady: 'Your file is now ready.',
     downloadError:
       'There was an error while preparing your file. Please try again later.',
@@ -220,9 +211,7 @@ export default {
     title: 'Notifications',
     warning: 'Wait!',
     warning429: 'Wait a few minutes before trying again.',
-    // Padding
     unavailable: 'Notifications are not available in your browser.',
-    // Padding
     authorize: 'Authorize',
     authorizeTitle: 'Allow notifications in your browser',
     authorizeBody:
