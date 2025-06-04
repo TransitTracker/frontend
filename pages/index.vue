@@ -65,67 +65,41 @@
         <!-- eslint-disable vue/no-v-html -->
         <h1
           class="tw-font-heading tw-text-4xl tw-font-bold tw-leading-[2.75rem] md:tw-text-5xl"
-          v-html="$t('landing.welcome')"
+          v-html="$t('welcome')"
         ></h1>
         <!-- eslint-enable vue/no-v-html -->
         <h2
           class="tw-mt-2 tw-min-h-[4.5rem] tw-font-heading tw-text-2xl tw-font-medium md:tw-text-3xl"
         >
-          {{ $t('landing.intro') }} <br />
+          {{ $t('intro') }} <br />
           <span
-            class="tt-landing-content__cities tw-font-bold tw-text-primary-40 dark:tw-text-primary-80"
+            class="tt-cities tw-relative tw-inline-block tw-font-bold tw-text-primary-40 !tw-opacity-100 dark:tw-text-primary-80"
           >
-            <span class="tt-landing-content__cities__line"></span>
-            <span ref="letters" class="tt-landing-content__cities__letters">
+            <span
+              class="tt-cities-line tw-absolute tw-left-0 tw-h-full tw-w-1 tw-origin-[0_50%] tw-bg-current"
+            ></span>
+            <span ref="letters" class="tt-cities-letters tw-inline-block">
               Montréal
             </span>
           </span>
         </h2>
         <div class="tw-flex tw-items-start tw-gap-x-4">
-          <h3
-            class="tw-relative tw-rounded tw-bg-white tw-p-2 tw-font-heading tw-text-xl tw-font-bold tw-text-primary-40 dark:tw-bg-primary-20 dark:tw-text-primary-80"
-          >
-            <span
-              class="tw-absolute tw-right-0 tw-top-0 -tw-mr-1 -tw-mt-1 tw-flex tw-h-3 tw-w-3"
-            >
-              <span
-                class="tw-absolute tw-inline-flex tw-h-full tw-w-full tw-animate-ping tw-rounded-full tw-bg-secondary-50/75"
-              ></span>
-              <span
-                class="tw-relative tw-inline-flex tw-h-3 tw-w-3 tw-rounded-full tw-bg-secondary-40"
-              ></span>
-            </span>
-            2687 <br />
-            <small
-              class="tw-text-md tw-font-medium tw-text-primary-10 dark:tw-text-primary-90"
-            >
-              véhicules <span class="tw-sr-only">en ce moment</span>
-            </small>
-          </h3>
-          <h3
-            class="tw-rounded tw-bg-white tw-p-2 tw-font-heading tw-text-xl tw-font-bold tw-text-primary-40 dark:tw-bg-primary-20 dark:tw-text-primary-80"
-          >
-            43 <br />
-            <small
-              class="tw-text-md tw-font-medium tw-text-primary-10 dark:tw-text-primary-90"
-              >agences</small
-            >
-          </h3>
-          <h3
-            class="tw-rounded tw-bg-white tw-p-2 tw-font-heading tw-text-xl tw-font-bold tw-text-primary-40 dark:tw-bg-primary-20 dark:tw-text-primary-80"
-          >
-            13904 <br />
-            <small
-              class="tw-text-md tw-font-medium tw-text-primary-10 dark:tw-text-primary-90"
-              >véhicules depuis 2018</small
-            >
-          </h3>
+          <!--          TODO: Get stats from backend-->
+          <TwLandingStatistic
+            :label="$t('vehicles')"
+            :number="2687"
+            :label-sr="$t('rightNow')"
+            has-ping
+          />
+          <TwLandingStatistic :label="$t('agencies')" :number="43" />
+          <TwLandingStatistic :label="$t('vehiclesSince')" :number="13904" />
         </div>
         <div>
           <p class="!tw-mb-0 tw-flex tw-items-end tw-gap-x-2 tw-leading-8">
-            Explorez par vous même!
+            {{ $t('explore') }}
             <TwIcon :path="mdiArrowDownRight" />
           </p>
+          <!--          TODO: Convertir chip-->
           <v-chip-group column>
             <v-chip
               v-for="feature in regionsFeatures.features"
@@ -150,81 +124,57 @@
     >
       <div class="tw-container tw-mx-auto tw-p-8">
         <h3 class="tw-font-heading tw-text-3xl tw-font-bold">
-          Tous vos véhicules préférés, réunis en un seul endroit
+          {{ $t('headline') }}
         </h3>
         <p class="!tw-mb-0 tw-mt-1 tw-max-w-prose tw-text-lg">
-          Votre société de transport offre peut-être de voir tous les véhicules
-          présent sur une ligne, Transit&nbsp;Tracker vous offre de voir
-          <b>tous les véhicules d'une région</b>! Découvrez votre région, sous
-          un tout nouvelle angle.
+          {{ $t('descriptionPt1') }} <b>{{ $t('descriptionPt2Bold') }}</b>
+          {{ $t('descriptionPt3') }}
         </p>
-        <div class="tw-mt-8 tw-items-center tw-gap-x-8 md:tw-flex">
-          <div class="tw-flex md:tw-w-2/3">
-            <div
-              class="tw-w-full tw-items-center tw-justify-start tw-shadow-xl"
+        <div
+          class="tw-mt-8 tw-items-center tw-gap-x-8 tw-space-y-4 md:tw-flex md:tw-space-y-0"
+        >
+          <div class="tw-group tw-relative tw-flex md:tw-w-2/3">
+            <img
+              :src="`/img/screenshots/${activeTab}-${locale}-${
+                darkMode ? 'dark' : 'light'
+              }.png`"
+              :alt="$t('imageAlt')"
+              class="tw-block tw-w-full tw-rounded-lg tw-shadow-xl"
+            />
+            <NuxtLink
+              :to="localePath(`/regions/mtl/${activeTab}`)"
+              class="tw-absolute tw-inset-0 tw-h-full tw-w-full"
             >
-              <div
-                class="tw-flex tw-h-4 tw-w-full tw-items-center tw-justify-end tw-gap-2 tw-rounded-t-lg tw-bg-neutralVariant-90 tw-px-2"
+              <TwFilledButton
+                color="tonal"
+                with-icon-right
+                class="!tw-absolute -tw-right-4 -tw-top-4"
+                @click="$router.push(localePath(`/regions/mtl/${activeTab}`))"
               >
-                <div
-                  class="tw-h-2 tw-w-2 tw-rounded-full tw-bg-neutralVariant-30"
-                ></div>
-                <div
-                  class="tw-h-2 tw-w-2 tw-rounded-full tw-bg-neutralVariant-30"
-                ></div>
-                <div
-                  class="tw-h-2 tw-w-2 tw-rounded-full tw-bg-neutralVariant-30"
-                ></div>
-              </div>
-              <img
-                src="https://i.imgur.com/BH01Fpz.png"
-                alt=""
-                class="tw-aspect-video tw-w-full tw-rounded-b-lg"
-              />
-            </div>
+                {{ $t('exploreNow') }}
+                <TwIcon :path="mdiArrowTopRight" />
+              </TwFilledButton>
+            </NuxtLink>
           </div>
           <div
-            class="tw-space-y-4 md:tw-w-1/3"
+            class="tw-space-y-2 md:tw-w-1/3 md:tw-space-y-4"
             role="tablist"
             aria-orientation="vertical"
           >
-            <div
-              class="tw-cursor-pointer tw-space-y-2 tw-rounded-2xl tw-px-8 tw-py-6 tw-transition-colors tw-duration-200 tw-ease-emphasized"
-              :class="[
-                activeTab === 'map'
-                  ? 'tw-bg-primary-40 tw-text-white dark:tw-bg-primary-80 dark:tw-text-primary-10'
-                  : 'hover:tw-bg-primary-90 hover:dark:tw-bg-primary-30',
-              ]"
+            <TwLandingScreenshotChoice
+              :title="$t('onMap')"
+              :is-tab-active="activeTab === 'map'"
+              :description="$t('onMapDesc')"
+              :icon="mdiMap"
               @click="activeTab = 'map'"
-            >
-              <div class="tw-flex tw-items-center tw-gap-4">
-                <TwIcon :path="mdiMap" class="!tw-h-12 !tw-w-12" />
-                <h4 class="tw-text-lg">Sur une carte</h4>
-              </div>
-              <p class="!tw-mb-0">
-                Obtenez une vue d'ensemble de votre région. Explorez de plus
-                près, cliquez sur un véhicule et consultez-y tous ses détails.
-              </p>
-            </div>
-            <div
-              class="tw-cursor-pointer tw-space-y-2 tw-rounded-xl tw-px-8 tw-py-6 tw-transition-colors tw-duration-200 tw-ease-emphasized"
-              :class="[
-                activeTab === 'table'
-                  ? 'tw-bg-primary-40 tw-text-white dark:tw-bg-primary-80 dark:tw-text-primary-10'
-                  : 'hover:tw-bg-primary-90 hover:dark:tw-bg-primary-30',
-              ]"
-              @click="activeTab = 'table'"
-            >
-              <div class="tw-flex tw-items-center tw-gap-4">
-                <TwIcon :path="mdiTable" class="!tw-h-12 !tw-w-12" />
-                <h4 class="tw-text-lg">Ou une liste</h4>
-              </div>
-              <p class="!tw-mb-0">
-                Utilisez les filtres pour trouvez rapidement les véhicules qui
-                vous intéressent. Ajoutez ou supprimez des colonnes pour
-                afficher les informations intéressantes pour vous.
-              </p>
-            </div>
+            />
+            <TwLandingScreenshotChoice
+              :title="$t('onList')"
+              :is-tab-active="activeTab === 'table'"
+              :description="$t('onListDesc')"
+              :icon="mdiTable"
+              @click.prevent="activeTab = 'table'"
+            />
           </div>
         </div>
       </div>
@@ -234,36 +184,35 @@
     >
       <div class="tw-container tw-mx-auto tw-p-8">
         <h3 class="tw-text-center tw-font-heading tw-text-3xl tw-font-bold">
-          Et encore plus
+          {{ $t('andMore') }}
         </h3>
         <p class="tw-mt-1 tw-text-center tw-text-lg">
-          Transit Tracker offre une tonne de fonctionnalités pour vous permettre
-          d'obtenir
+          {{ $t('andMoreDesc') }}
         </p>
         <div class="tw-mt-4 tw-grid tw-gap-4 md:tw-grid-cols-4">
           <TwLandingFeature
             :icon="mdiBell"
-            title="Notifications"
-            description="Recevez des notifications sur votre téléphone lorsqu'un nouveau véhicule est ajouté à la flotte de votre agence."
-            note="Lorsque compatible avec votre navigateur."
+            :title="$t('notifications')"
+            :description="$t('notificationsDesc')"
+            :note="$t('notificationsNote')"
           />
           <TwLandingFeature
             :icon="mdiDownload"
-            title="Téléchargement"
-            description="Exportez les données récoltés par Transit Tracker, sur le dernier statut de chaque véhicule."
-            note="Lorsque permis par la license de l'agence."
+            :title="$t('download')"
+            :description="$t('downloadDesc')"
+            :note="$t('downloadNote')"
           />
           <TwLandingFeature
             :icon="mdiTimeline"
-            title="Prochains départs"
-            description="Consultez les départs précédents et suivants, suivez votre véhicule préféré pendant sa journée."
-            note="Lorsque fourni par l'agence."
+            :title="$t('departures')"
+            :description="$t('departuresDesc')"
+            :note="$t('departuresNote')"
           />
           <TwLandingFeature
             :icon="mdiOpenInNew"
-            title="Liens externes"
-            description="Transit Tracker collabore avec d'autres services, tel que Fleets Stats afin de vous offrir une expérience encore plus complète."
-            note="Pour certaines agences."
+            :title="$t('external')"
+            :description="$t('externalDesc')"
+            :note="$t('externalNote')"
           />
         </div>
       </div>
@@ -271,47 +220,26 @@
     <section
       class="tw-w-full tw-bg-primary-10 tw-text-center tw-text-primary-90"
     >
-      <div class="tw-container tw-mx-auto tw-p-8 md:tw-pb-0">
+      <div class="tw-container tw-mx-auto tw-p-8">
         <h3 class="tw-font-heading tw-text-3xl tw-font-bold">
-          Pour aller plus loin
+          {{ $t('goFurther') }}
         </h3>
         <p class="tw-mx-auto !tw-mb-0 tw-mt-1 tw-max-w-prose tw-text-lg">
-          Transit Tracker est plus qu'une simple application, c'est un service
-          qui permet un partage de données pour plusieurs usages.
+          {{ $t('goFurtherDesc') }}
         </p>
         <div
-          class="tw-mx-auto tw-mt-4 tw-grid tw-gap-4 md:tw-max-w-[75%] md:tw-grid-cols-2"
+          class="tw-mx-auto tw-mt-4 tw-grid tw-gap-4 md:tw-mt-8 md:tw-max-w-[75%] md:tw-grid-cols-2"
         >
-          <div>
-            <h4 class="font-medium">Projet exo VIN</h4>
-            <p>
-              Consultez les VIN et la spécification technique de chaque bus
-              d'exo, puis retrouvez leur utilisation à travers les différents
-              secteurs et opérateurs du réseau.
-            </p>
-            <a
-              class="md:max-w-[75%] tw-block tw-w-full tw-rounded-full tw-bg-primary-30 tw-p-2 tw-text-center tw-text-lg tw-leading-none !tw-text-white tw-no-underline hover:tw-underline hover:tw-decoration-2 hover:tw-underline-offset-8 md:tw-rounded-b-none md:tw-rounded-t-xl md:tw-py-4"
-              href="https://vin.transittracker.ca"
-              target="_blank"
-            >
-              <b>vin</b>.transittracker.ca
-            </a>
-          </div>
-          <div>
-            <h4 class="font-medium">API pour développeurs</h4>
-            <p>
-              Les développeurs peuvent utiliser une API JSON simple pour se
-              connecter aux données de Transit Tracker. Une alternative simple à
-              la complexité de Protocol Buffers.
-            </p>
-            <a
-              class="md:max-w-[75%] tw-block tw-w-full tw-rounded-full tw-bg-primary-30 tw-p-2 tw-text-center tw-text-lg tw-leading-none !tw-text-white tw-no-underline hover:tw-underline hover:tw-decoration-2 hover:tw-underline-offset-8 md:tw-rounded-b-none md:tw-rounded-t-xl md:tw-py-4"
-              href="https://api.transittracker.ca"
-              target="_blank"
-            >
-              <b>api</b>.transittracker.ca
-            </a>
-          </div>
+          <TwLandingFurtherBlock
+            :title="$t('vin')"
+            subdomain="vin"
+            :description="$t('vinDesc')"
+          />
+          <TwLandingFurtherBlock
+            :title="$t('api')"
+            subdomain="api"
+            :description="$t('apiDesc')"
+          />
         </div>
       </div>
     </section>
@@ -334,12 +262,10 @@
         </div>
         <div>
           <h3 class="tw-font-heading tw-text-3xl tw-font-bold">
-            Un projet fièrement Open Source
+            {{ $t('openSource') }}
           </h3>
           <p class="tw-mt-1 tw-text-lg">
-            Le code source de Transit Tracker est pleinement ouvert et
-            disponible sur notre GitHub. N'hésitez pas à contribuer au projet ou
-            à vous en inspirer!
+            {{ $t('openSourceDesc') }}
           </p>
           <TwFilledButton
             with-icon
@@ -349,7 +275,7 @@
             class="!tw-inline-flex"
           >
             <TwIcon :path="mdiOpenInNew" />
-            Notre page GitHub
+            {{ $t('github') }}
           </TwFilledButton>
         </div>
       </div>
@@ -393,6 +319,7 @@ import {
   mdiHeart,
   mdiPlus,
   mdiCodeTags,
+  mdiArrowTopRight,
 } from '@mdi/js'
 
 export default {
@@ -450,6 +377,7 @@ export default {
       mdiHeart,
       mdiPlus,
       mdiCodeTags,
+      mdiArrowTopRight,
     }
   },
   data: () => ({
@@ -509,6 +437,9 @@ export default {
     darkMode() {
       return this.$vuetify.theme.dark
     },
+    locale() {
+      return this.$i18n.locale
+    },
   },
   mounted() {
     setTimeout(() => {
@@ -529,7 +460,7 @@ export default {
       cities[j] = temp
     }
 
-    cities.push(this.$t('landing.introCities'))
+    cities.push(this.$t('introCities'))
 
     const delayLoop = (fn, delay) => {
       return (x, i) => {
@@ -547,19 +478,19 @@ export default {
       this.$refs.letters.innerHTML = city.replace(
         // eslint-disable-next-line
         /([^\x00-\x80]|[^ ]|\w)/g,
-        "<span class='tt-landing-content__cities__letter'>$&</span>"
+        "<span class='tt-cities-letters'>$&</span>"
       )
       anime
         .timeline()
         .add({
-          target: '.tt-landing-content__cities__line',
+          target: '.tt-cities-line',
           scaleY: [0, 1],
           opacity: [0.5, 1],
           easing: 'easeOutExpo',
           duration: 700,
         })
         .add({
-          targets: '.tt-landing-content__cities__line',
+          targets: '.tt-cities-line',
           translateX: [
             0,
             this.$refs.letters.getBoundingClientRect().width + 10,
@@ -570,7 +501,7 @@ export default {
           delay: 100,
         })
         .add({
-          targets: '.tt-landing-content__cities__letter',
+          targets: '.tt-cities-letters',
           opacity: [0, 1],
           easing: 'easeOutExpo',
           duration: 600,
@@ -578,7 +509,7 @@ export default {
           delay: (el, i) => 34 * (i + 1),
         })
         .add({
-          targets: '.tt-landing-content__cities',
+          targets: '.tt-cities',
           opacity: 0,
           duration: 1000,
           easing: 'easeOutExpo',
@@ -677,68 +608,31 @@ export default {
 </script>
 
 <style lang="scss">
-.theme--light .tt-landing-content {
-  color: #011d32;
-  background-color: #deecf9;
-
-  &__cities {
-    color: #2374ab;
-    &__line {
-      background-color: #2374ab;
-    }
-  }
-}
-
-.theme--dark .tt-landing-content {
-  color: #cbe5ff;
-  background-color: #003c5e;
-
-  &__cities {
-    color: #91ccff;
-    &__line {
-      background-color: #91ccff;
-    }
-  }
-}
+//.theme--light .tt-landing-content {
+//  color: #011d32;
+//  background-color: #deecf9;
+//
+//  &__cities {
+//    color: #2374ab;
+//    &__line {
+//      background-color: #2374ab;
+//    }
+//  }
+//}
+//
+//.theme--dark .tt-landing-content {
+//  color: #cbe5ff;
+//  background-color: #003c5e;
+//
+//  &__cities {
+//    color: #91ccff;
+//    &__line {
+//      background-color: #91ccff;
+//    }
+//  }
+//}
 
 .tt-landing {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  position: relative;
-
-  &-content {
-    overflow: hidden;
-    position: relative;
-
-    h1,
-    h2 {
-      z-index: 2;
-    }
-
-    &__subtitle {
-      min-height: 96px;
-    }
-
-    &__cities {
-      position: relative;
-      display: inline-block;
-      opacity: 1 !important;
-
-      &__line {
-        position: absolute;
-        left: 0;
-        height: 100%;
-        width: 4px;
-        transform-origin: 0 50%;
-      }
-
-      &__letter {
-        display: inline-block;
-      }
-    }
-  }
-
   &-map {
     &-popup {
       min-width: 200px;
@@ -873,12 +767,94 @@ export default {
 <i18n>
 {
   "en": {
-    "brandSlogan": "Making real time transit data accessible",
-    "by": "Made by"
+    "welcome": "Welcome to Transit Tracker",
+    "intro": "An overview of the public transit network for",
+    "introCities": "several Canadian cities",
+    "brandSlogan": "Making real-time transit data accessible",
+    "by": "Made by",
+    "vehicles": "vehicles",
+    "rightNow": "right now",
+    "agencies": "agencies",
+    "vehiclesSince": "vehicles since 2018",
+    "explore": "Explore for yourself!",
+    "headline": "All your favorite vehicles, in one place",
+    "descriptionPt1": "Your transit agency might show vehicles on a line, but Transit Tracker lets you see",
+    "descriptionPt2Bold": "all vehicles in a region",
+    "descriptionPt3": "! Discover your area from a whole new angle.",
+    "imageAlt": "Screenshot of the application",
+    "exploreNow": "Explore now",
+    "onMap": "On a map",
+    "onMapDesc": "Get a full view of your region. Zoom in, click on any vehicle, and access all its details.",
+    "onList": "Or in a list",
+    "onListDesc": "Use filters to quickly find vehicles that interest you. Add or remove columns to show only the info that matters to you.",
+    "andMore": "And even more",
+    "andMoreDesc": "Transit Tracker offers tons of features to help you access",
+    "notifications": "Notifications",
+    "notificationsDesc": "Get notified on your device when a new vehicle is added to your agency’s fleet.",
+    "notificationsNote": "When supported by your browser.",
+    "download": "Download",
+    "downloadDesc": "Export data collected by Transit Tracker about each vehicle’s latest status.",
+    "downloadNote": "When permitted by the agency’s license.",
+    "departures": "Upcoming departures",
+    "departuresDesc": "Check previous and upcoming departures and follow your favorite vehicle throughout the day.",
+    "departuresNote": "When provided by the agency.",
+    "external": "External links",
+    "externalDesc": "Transit Tracker integrates with services like FleetSighter to bring you an even more complete experience.",
+    "externalNote": "For select agencies.",
+    "goFurther": "Go further",
+    "goFurtherDesc": "Transit Tracker is more than just an app — it’s a data-sharing platform for many uses.",
+    "vin": "Exo VIN project",
+    "vinDesc": "Look up VINs and technical specifications for every exo bus, and track their usage across sectors and operators.",
+    "api": "API for developers",
+    "apiDesc": "Developers can use a simple JSON API to connect with Transit Tracker data — a simpler alternative to Protocol Buffers.",
+    "openSource": "Proudly Open Source",
+    "openSourceDesc": "Transit Tracker's source code is fully open and available on our GitHub. Feel free to contribute or build upon it!",
+    "github": "Our GitHub page"
   },
   "fr": {
+    "welcome": "Bienvenue dans Transit&nbsp;Tracker",
+    "intro": "Une vue d'ensemble du réseau de transport en commun pour",
+    "introCities": "plusieurs villes canadiennes",
     "brandSlogan": "Rendre accessibles les données de transport en temps réel",
-    "by": "Conçu par"
+    "by": "Conçu par",
+    "vehicles": "véhicules",
+    "rightNow": "en ce moment",
+    "agencies": "agences",
+    "vehiclesSince": "véhicules depuis 2018",
+    "explore": "Explorez par vous-même!",
+    "headline": "Tous vos véhicules préférés, réunis en un seul endroit",
+    "descriptionPt1": "Votre société de transport permet peut-être de voir les véhicules présents sur une ligne, Transit Tracker vous permet de voir",
+    "descriptionPt2Bold": "tous les véhicules d'une région",
+    "descriptionPt3": " ! Découvrez votre région sous un tout nouvel angle.",
+    "imageAlt": "Capture d'écran de l'application",
+    "exploreNow": "Explorer maintenant",
+    "onMap": "Sur une carte",
+    "onMapDesc": "Obtenez une vue d'ensemble de votre région. Zoomez, cliquez sur un véhicule et consultez tous ses détails.",
+    "onList": "Ou dans une liste",
+    "onListDesc": "Utilisez les filtres pour trouver rapidement les véhicules qui vous intéressent. Ajoutez ou retirez des colonnes pour afficher les informations pertinentes.",
+    "andMore": "Et bien plus encore",
+    "andMoreDesc": "Transit Tracker offre une multitude de fonctionnalités pour vous permettre d'accéder à",
+    "notifications": "Notifications",
+    "notificationsDesc": "Recevez des notifications sur votre appareil lorsqu’un nouveau véhicule est ajouté à la flotte de votre agence.",
+    "notificationsNote": "Si compatible avec votre navigateur.",
+    "download": "Téléchargement",
+    "downloadDesc": "Exportez les données recueillies par Transit Tracker sur le dernier statut de chaque véhicule.",
+    "downloadNote": "Si permis par la licence de l’agence.",
+    "departures": "Prochains départs",
+    "departuresDesc": "Consultez les départs précédents et à venir, suivez votre véhicule préféré au fil de sa journée.",
+    "departuresNote": "Lorsque fourni par l’agence.",
+    "external": "Liens externes",
+    "externalDesc": "Transit Tracker collabore avec d'autres services, comme FleetSighter, pour vous offrir une expérience encore plus riche.",
+    "externalNote": "Pour certaines agences.",
+    "goFurther": "Pour aller plus loin",
+    "goFurtherDesc": "Transit Tracker est plus qu’une simple application — c’est une plateforme de partage de données pour divers usages.",
+    "vin": "Projet VIN d’exo",
+    "vinDesc": "Consultez les VIN et les spécifications techniques de chaque bus d’exo, puis suivez leur utilisation dans les différents secteurs et opérateurs du réseau.",
+    "api": "API pour développeurs",
+    "apiDesc": "Les développeurs peuvent utiliser une API JSON simple pour accéder aux données de Transit Tracker — une alternative à la complexité de Protocol Buffers.",
+    "openSource": "Un projet fièrement Open Source",
+    "openSourceDesc": "Le code source de Transit Tracker est totalement ouvert et disponible sur notre GitHub. Contribuez ou inspirez-vous-en!",
+    "github": "Notre page GitHub"
   }
 }
 </i18n>
