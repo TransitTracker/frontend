@@ -10,52 +10,63 @@
         <div ref="popup" class="tw-min-w-[12rem]">
           <NuxtLink
             :to="localePath(`/regions/${currentPopup.slug}`)"
-            class="tw-flex tw-items-center tw-font-heading tw-text-xl tw-font-medium tw-leading-7"
-            :class="[`umami--click--landing-${currentPopup.slug}`]"
+            class="tw-group tw-flex tw-items-center tw-font-heading tw-text-xl tw-font-medium tw-leading-7 tw-no-underline"
           >
             {{ currentPopup.name }}
+            <!--             tt-landing-map-popup__arrow -->
             <svg
               style="width: 20px; height: 20px"
-              class="ml-1 tt-landing-map-popup__arrow"
+              class="tw-ml-1 tw-overflow-hidden"
               viewBox="0 0 24 24"
             >
-              <path fill="currentColor" :d="mdiArrowRight" />
+              <path
+                fill="currentColor"
+                :d="mdiArrowRight"
+                class="-tw-translate-x-5 tw-transition-transform group-hover:tw-translate-x-0"
+              />
             </svg>
           </NuxtLink>
           <b class="tw-text-sm tw-font-medium tw-leading-5">
             {{ $tc('landing.agencies', currentPopup.agencies) }}
             <br />
-            <span class="tt-landing-map-popup__dot success d-inline-block mr-1">
-              <div class="tt-landing-map-popup__dot--animate success"></div>
+            <!--            tt-landing-map-popup__dot -->
+            <span
+              class="tw-relative tw-mr-1 tw-inline-flex tw-h-3 tw-w-3 tw-rounded-full"
+            >
+              <span
+                class="tw-absolute tw-inline-flex tw-h-full tw-w-full tw-animate-ping tw-rounded-full tw-bg-secondary-50/75 dark:tw-bg-secondary-90/75"
+              ></span>
+              <span
+                class="tw-relative tw-inline-flex tw-h-3 tw-w-3 tw-rounded-full tw-bg-secondary-40 dark:tw-bg-secondary-80"
+              ></span>
             </span>
+
             {{ $tc('landing.vehicles', currentPopup.vehicles) }}
           </b>
-          <div class="d-flex secondark-dark--text mt-1">
-            <NuxtLink
-              :to="localePath(`/regions/${currentPopup.slug}/map`)"
-              class="mr-2 secondary-dark--text"
-              :class="[`umami--click--landing-${currentPopup.slug}-map`]"
-              style="height: 24px"
+          <div class="tw-mt-1 tw-flex tw-gap-2">
+            <TwStandardIconButton
+              class="tw-cursor-pointer tw-text-primary-10 dark:tw-text-primary-90"
               :title="$t('landing.openMap', { region: currentPopup.name })"
+              @click="
+                $router.push(localePath(`/regions/${currentPopup.slug}/map`))
+              "
             >
-              <v-btn icon small>
-                <v-icon>{{ mdiMap }}</v-icon>
-              </v-btn>
-            </NuxtLink>
-            <NuxtLink
-              :to="localePath(`/regions/${currentPopup.slug}/table`)"
-              class="tw-text-primary-10 dark:tw-text-primary-90"
-              :class="[`umami--click--landing-${currentPopup.slug}-table`]"
-              style="height: 24px"
+              <TwIcon :path="mdiMap" />
+            </TwStandardIconButton>
+            <TwStandardIconButton
+              class="tw-cursor-pointer tw-text-primary-10 dark:tw-text-primary-90"
               :title="$t('landing.openTable', { region: currentPopup.name })"
+              @click="
+                $router.push(localePath(`/regions/${currentPopup.slug}/table`))
+              "
             >
-              <v-btn icon small>
-                <v-icon>{{ mdiTable }}</v-icon>
-              </v-btn>
-            </NuxtLink>
+              <TwIcon :path="mdiTable" />
+            </TwStandardIconButton>
           </div>
+          <!--          tt-landing-map-popup__border-->
           <div
-            class="tt-landing-map-popup__border tw-bg-primary-40 dark:tw-bg-primary-80"
+            class="tw-absolute tw-inset-0 tw-bg-primary-40 dark:tw-bg-primary-80"
+            style="clip-path: polygon(91% 0, 95% 0, 85% 100%, 81% 100%)"
           ></div>
         </div>
       </div>
@@ -87,12 +98,15 @@
           <!--          TODO: Get stats from backend-->
           <TwLandingStatistic
             :label="$t('vehicles')"
-            :number="2687"
+            :number="totalActiveVehicles"
             :label-sr="$t('rightNow')"
             has-ping
           />
-          <TwLandingStatistic :label="$t('agencies')" :number="43" />
-          <TwLandingStatistic :label="$t('vehiclesSince')" :number="13904" />
+          <TwLandingStatistic :label="$t('agencies')" :number="totalAgencies" />
+          <TwLandingStatistic
+            :label="$t('vehiclesSince')"
+            :number="totalVehicles"
+          />
         </div>
         <div>
           <p class="!tw-mb-0 tw-flex tw-items-end tw-gap-x-2 tw-leading-8">
@@ -114,9 +128,8 @@
           </v-chip-group>
         </div>
       </div>
-      <div class="tt-landing-overlay"></div>
       <div
-        class="tw-pointer-events-none tw-absolute tw-inset-0 tw-z-[1] tw-bg-gradient-100 tw-from-primary-90 tw-from-50% tw-to-transparent tw-to-70%"
+        class="tw-pointer-events-none tw-absolute tw-inset-0 tw-z-[1] tw-bg-gradient-100 tw-from-primary-90 tw-from-50% tw-to-transparent tw-to-70% dark:tw-from-primary-30"
       ></div>
     </div>
     <section
@@ -166,14 +179,14 @@
               :is-tab-active="activeTab === 'map'"
               :description="$t('onMapDesc')"
               :icon="mdiMap"
-              @click="activeTab = 'map'"
+              @click.native="activeTab = 'map'"
             />
             <TwLandingScreenshotChoice
               :title="$t('onList')"
               :is-tab-active="activeTab === 'table'"
               :description="$t('onListDesc')"
               :icon="mdiTable"
-              @click.prevent="activeTab = 'table'"
+              @click.native="activeTab = 'table'"
             />
           </div>
         </div>
@@ -228,7 +241,7 @@
           {{ $t('goFurtherDesc') }}
         </p>
         <div
-          class="tw-mx-auto tw-mt-4 tw-grid tw-gap-4 md:tw-mt-8 md:tw-max-w-[75%] md:tw-grid-cols-2"
+          class="tw-mx-auto tw-mt-4 tw-grid tw-gap-4 md:tw-mt-8 md:tw-max-w-[75%] md:tw-grid-cols-2 md:tw-gap-8 lg:tw-gap-12"
         >
           <TwLandingFurtherBlock
             :title="$t('vin')"
@@ -349,11 +362,11 @@ export default {
     const mapAccessToken = process.env.mapboxAccessToken
 
     const regionsResponse = await app.$axios.get('/landing')
-    let totalVehicles = 0
+    let totalActiveVehicles = 0
     let totalAgencies = 0
     regionsResponse.data.features.forEach((region) => {
       totalAgencies += region.properties.agencies
-      totalVehicles += region.properties.vehicles
+      totalActiveVehicles += region.properties.vehicles
     })
 
     const vehiclesResponse = await app.$axios.get('/landing/vehicles')
@@ -363,8 +376,9 @@ export default {
       mapStyle,
       regionsFeatures: regionsResponse.data,
       vehiclesFeatures: vehiclesResponse.data,
+      totalActiveVehicles,
       totalAgencies,
-      totalVehicles,
+      totalVehicles: regionsResponse.data.stats.totalVehiclesRecorded,
       mdiArrowRight,
       mdiArrowDown,
       mdiArrowDownRight,
@@ -473,6 +487,9 @@ export default {
     cities.forEach(delayLoop(this.changeCity, 3875))
   },
   methods: {
+    changeTab(tab) {
+      this.activeTab = tab
+    },
     changeCity(city) {
       if (!this.$refs.letters) return
       this.$refs.letters.innerHTML = city.replace(
@@ -522,9 +539,12 @@ export default {
         container: 'tt-landing-map',
         style: this.darkMode ? this.mapStyle.dark : this.mapStyle.light,
         bounds: [
-          [-85.9, 41.5],
-          [-66.7, 49.7],
+          [-83, 42],
+          [-70, 48],
         ],
+        fitBoundsOptions: {
+          padding: { left: 100 },
+        },
         maxPitch: 0,
         pitchWithRotate: false,
         scollZoom: false,
@@ -635,7 +655,7 @@ export default {
 .tt-landing {
   &-map {
     &-popup {
-      min-width: 200px;
+      //min-width: 200px;
 
       .mapboxgl-popup-content {
         padding: 8px 32px 8px 12px;
@@ -645,42 +665,42 @@ export default {
         border-radius: 8px;
       }
 
-      &:hover &__arrow path {
-        transform: translateX(0px);
-      }
+      //&:hover &__arrow path {
+      //transform: translateX(0px);
+      //}
 
-      &__arrow {
-        overflow: hidden;
-        path {
-          transform: translateX(-20px);
-          transition: transform ease-in 0.1s;
-        }
-      }
+      //&__arrow {
+      //  overflow: hidden;
+      //  path {
+      //    transform: translateX(-20px);
+      //    transition: transform ease-in 0.1s;
+      //  }
+      //}
 
-      &__border {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        clip-path: polygon(91% 0, 95% 0, 85% 100%, 81% 100%);
-      }
+      //&__border {
+      //  position: absolute;
+      //  top: 0;
+      //  bottom: 0;
+      //  left: 0;
+      //  right: 0;
+      //
+      //}
 
-      &__dot {
-        position: relative;
-        width: 8px;
-        height: 8px;
-        border-radius: 100%;
-        margin-bottom: 1px;
-
-        &--animate {
-          animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
-          position: absolute;
-          inset: 0 0 0 0;
-          border-radius: 100%;
-          opacity: 0.75;
-        }
-      }
+      //&__dot {
+      //  position: relative;
+      //  width: 8px;
+      //  height: 8px;
+      //  border-radius: 100%;
+      //  margin-bottom: 1px;
+      //
+      //  &--animate {
+      //    animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+      //    position: absolute;
+      //    inset: 0 0 0 0;
+      //    border-radius: 100%;
+      //    opacity: 0.75;
+      //  }
+      //}
     }
   }
 }
@@ -695,71 +715,71 @@ export default {
   }
 }
 
-// From Tailwind
-@keyframes ping {
-  75%,
-  100% {
-    transform: scale(2);
-    opacity: 0;
-  }
-}
+//// From Tailwind
+//@keyframes ping {
+//  75%,
+//  100% {
+//    transform: scale(2);
+//    opacity: 0;
+//  }
+//}
 
 @media (min-width: 960px) {
-  .theme--light .tt-landing-overlay {
-    background: linear-gradient(
-      100deg,
-      rgba(222, 236, 249, 1) 0%,
-      rgba(222, 236, 249, 1) 50%,
-      rgba(222, 236, 249, 0) 70%,
-      rgba(222, 236, 249, 0) 100%
-    );
-  }
-
-  .theme--dark .tt-landing-overlay {
-    background: linear-gradient(
-      100deg,
-      rgba(0, 60, 94, 1) 0%,
-      rgba(0, 60, 94, 1) 50%,
-      rgba(0, 60, 94, 0) 70%,
-      rgba(0, 60, 94, 0) 100%
-    );
-  }
+  //.theme--light .tt-landing-overlay {
+  //  background: linear-gradient(
+  //    100deg,
+  //    rgba(222, 236, 249, 1) 0%,
+  //    rgba(222, 236, 249, 1) 50%,
+  //    rgba(222, 236, 249, 0) 70%,
+  //    rgba(222, 236, 249, 0) 100%
+  //  );
+  //}
+  //
+  //.theme--dark .tt-landing-overlay {
+  //  background: linear-gradient(
+  //    100deg,
+  //    rgba(0, 60, 94, 1) 0%,
+  //    rgba(0, 60, 94, 1) 50%,
+  //    rgba(0, 60, 94, 0) 70%,
+  //    rgba(0, 60, 94, 0) 100%
+  //  );
+  //}
   .tt-landing {
-    &-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      pointer-events: none;
-    }
-    &-content {
-      pointer-events: none;
-      background-color: transparent !important;
-      height: 100%;
-      z-index: 2;
-      width: 45%;
+    //&-overlay {
+    //position: absolute;
+    //top: 0;
+    //left: 0;
+    //right: 0;
+    //bottom: 0;
+    //pointer-events: none;
+    //}
+    //&-content {
+    //  pointer-events: none;
+    //  background-color: transparent !important;
+    //  height: 100%;
+    //  z-index: 2;
+    //  width: 45%;
+    //
+    //  h1,
+    //  h2 {
+    //    max-width: 85%;
+    //  }
+    //
+    //  &__subtitle {
+    //    min-height: 64px;
+    //  }
+    //
+    //  .v-item-group {
+    //    pointer-events: all;
+    //  }
+    //}
 
-      h1,
-      h2 {
-        max-width: 85%;
-      }
-
-      &__subtitle {
-        min-height: 64px;
-      }
-
-      .v-item-group {
-        pointer-events: all;
-      }
-    }
-
-    &-map {
-      width: 55%;
-      position: absolute;
-      left: 45%;
-      height: 100%;
-    }
+    //&-map {
+    //  width: 55%;
+    //  position: absolute;
+    //  left: 45%;
+    //  height: 100%;
+    //}
   }
 }
 </style>

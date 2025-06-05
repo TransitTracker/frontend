@@ -1,11 +1,11 @@
 <template>
-  <div>
-    <h4 class="font-medium">{{ title }}</h4>
-    <p>
+  <div class="tw-flex tw-flex-col tw-items-center">
+    <h4 class="tw-font-medium">{{ title }}</h4>
+    <p class="tw-mt-1 tw-grow">
       {{ description }}
     </p>
     <a
-      class="md:max-w-[75%] tw-block tw-w-full tw-rounded-full tw-bg-primary-30 tw-p-2 tw-text-center tw-text-lg tw-leading-none !tw-text-white tw-no-underline hover:tw-underline hover:tw-decoration-2 hover:tw-underline-offset-8 md:tw-py-4"
+      class="tw-block tw-w-full tw-rounded-full tw-bg-primary-30 tw-p-2 tw-text-center tw-text-lg tw-leading-none !tw-text-white tw-no-underline hover:tw-underline hover:tw-decoration-2 hover:tw-underline-offset-8 md:tw-max-w-[75%] md:tw-py-4"
       :href="`https://${subdomain}.transittracker.ca`"
       target="_blank"
     >

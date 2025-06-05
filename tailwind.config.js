@@ -24,6 +24,10 @@ module.exports = {
       backgroundImage: {
         'gradient-100': 'linear-gradient(100deg, var(--tw-gradient-stops))',
       },
+      gradientColorStopPositions: {
+        50: '50%',
+        70: '70%',
+      },
       fontSize: {
         '2xs': '0.6875rem',
       },
