@@ -176,10 +176,11 @@ export default {
         [-66.7, 49.7],
       ],
       attributionControl: false,
+      dragRotate: false,
+      language: 'auto',
       maxPitch: 0,
       pitchWithRotate: false,
-      dragRotate: false,
-      touchZoomRotate: false,
+      touchZoomRotate: true,
     })
     this.map.addControl(new mapboxgl.AttributionControl(), 'top-right')
     this.map.addControl(

@@ -1,6 +1,6 @@
 <template>
   <footer
-    class="tw-absolute tw-top-[calc(100vh-14rem)] tw-mb-[4rem] tw-w-full tw-space-y-4 tw-overflow-y-auto tw-rounded-t-[1.75rem] tw-bg-neutral-99 tw-p-4 tw-pb-20 tw-text-neutral-10 dark:tw-bg-neutral-10 dark:tw-text-neutral-90 md:tw-left-4 md:tw-top-4 md:tw-max-h-[calc(100vh-41px-32px)] md:tw-w-96 md:tw-rounded-xl md:tw-pb-4"
+    class="tw-absolute tw-top-[calc(100vh-14rem)] tw-mb-[4rem] tw-w-full tw-space-y-2 tw-overflow-y-auto tw-rounded-t-[1.75rem] tw-bg-neutral-99 tw-p-4 tw-pb-20 tw-text-neutral-10 dark:tw-bg-neutral-10 dark:tw-text-neutral-90 md:tw-left-4 md:tw-top-4 md:tw-max-h-[calc(100vh-41px-32px)] md:tw-w-96 md:tw-rounded-xl md:tw-pb-4 xl:tw-space-y-4"
   >
     <div class="-tw-mt-4 md:tw-hidden">
       <div
@@ -19,7 +19,7 @@
       <MapVehicleAvatar />
       <div class="tw-ml-2 tw-grow md:tw-ml-0">
         <h2
-          class="tw-break-all tw-text-2xl tw-leading-8 md:tw-text-4xl md:tw-leading-[2.75rem]"
+          class="tw-break-all tw-text-2xl tw-leading-8 xl:tw-text-4xl xl:tw-leading-[2.75rem]"
         >
           {{
             vehicle.properties.vehicle.label ?? vehicle.properties.vehicle.id
@@ -35,7 +35,7 @@
           </TwFilledIconButton>
         </h2>
         <h3
-          class="tw-text-xs tw-font-medium tw-leading-4 md:tw-text-base md:tw-font-normal md:tw-leading-6"
+          class="tw-text-xs tw-font-medium tw-leading-4 xl:tw-text-base xl:tw-font-normal xl:tw-leading-6"
         >
           <span class="md:tw-hidden">{{ agency.shortName }}</span>
           <span class="tw-hidden md:tw-inline">{{ agency.name }}<br /></span>
@@ -67,7 +67,7 @@
       v-if="vehicle.properties.tags.length"
       class="-tw-ml-6 tw-flex tw-items-center tw-gap-x-2"
     >
-      <TwTag v-for="tag in vehicle.tags" :key="tag" :tag-id="tag" />
+      <TwTag v-for="tag in vehicle.properties.tags" :key="tag" :tag-id="tag" />
     </ul>
 
     <div

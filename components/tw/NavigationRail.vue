@@ -54,10 +54,19 @@
       <div class="tw-grow"></div>
       <TwNavigationBarButton
         v-if="adminMode"
-        :to="localePath('/debug')"
+        :to="localePath('/admin')"
         :icon="mdiTools"
       >
-        Admin
+        admin
+        <span
+          class="tw-bg-black tw-px-1 tw-py-0.5 tw-text-xs tw-text-white dark:tw-bg-white dark:tw-text-black"
+        >
+          <span class="tw-inline md:tw-hidden">sm</span>
+          <span class="tw-hidden md:tw-inline lg:tw-hidden">md</span>
+          <span class="tw-hidden lg:tw-inline xl:tw-hidden">lg</span>
+          <span class="tw-hidden xl:tw-inline 2xl:tw-hidden">xl</span>
+          <span class="tw-hidden 2xl:tw-inline">xl</span>
+        </span>
       </TwNavigationBarButton>
       <TwStandardIconButton
         v-if="dataIsLoaded"

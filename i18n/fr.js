@@ -92,7 +92,7 @@ export default {
     firstSeenAt: 'Première apparition',
     lastSeenAt: 'Dernière apparition',
     tags: 'Étiquettes',
-    agencyShort: 'Agence (raccourci)',
+    agencyShort: 'Agence (court)',
     actions: 'Actions',
   },
   table: {
