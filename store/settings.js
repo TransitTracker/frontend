@@ -12,7 +12,6 @@ export const state = () => ({
   launch: 'no',
   lang: null,
   theme: 'system',
-  preferDesktopView: true,
   pushSubscriptionUuid: null,
   selectedTableColumns: [
     'label',

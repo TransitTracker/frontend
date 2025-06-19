@@ -44,6 +44,9 @@ module.exports = {
         12: '.12',
         16: '.16',
       },
+      outlineWidth: {
+        3: '3px',
+      },
     },
     fontFamily: {
       sans: ['Inter', ...defaultTheme.fontFamily.sans],

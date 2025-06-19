@@ -7,7 +7,7 @@
         id="tt-landing-map"
         class="tw-z-0 tw-grow md:tw-order-2 md:tw-w-[55%]"
       >
-        <div ref="popup" class="tw-min-w-[12rem]">
+        <div ref="popup" class="tw-invisible tw-min-w-[12rem]">
           <NuxtLink
             :to="localePath(`/regions/${currentPopup.slug}`)"
             class="tw-group tw-flex tw-items-center tw-font-heading tw-text-xl tw-font-medium tw-leading-7 tw-no-underline"
@@ -83,16 +83,7 @@
           class="tw-mt-2 tw-min-h-[4.5rem] tw-font-heading tw-text-2xl tw-font-medium md:tw-text-3xl"
         >
           {{ $t('intro') }} <br />
-          <span
-            class="tt-cities tw-relative tw-inline-block tw-font-bold tw-text-primary-40 !tw-opacity-100 dark:tw-text-primary-80"
-          >
-            <span
-              class="tt-cities-line tw-absolute tw-left-0 tw-h-full tw-w-1 tw-origin-[0_50%] tw-bg-current"
-            ></span>
-            <span ref="letters" class="tt-cities-letters tw-inline-block">
-              Montréal
-            </span>
-          </span>
+          <TwLandingCitiesAnimation :cities="cities" />
         </h2>
         <div class="tw-flex tw-items-start tw-gap-x-4">
           <!--          TODO: Get stats from backend-->
@@ -113,19 +104,17 @@
             {{ $t('explore') }}
             <TwIcon :path="mdiArrowDownRight" />
           </p>
-          <!--          TODO: Convertir chip-->
-          <v-chip-group column>
-            <v-chip
+          <ul class="tw-flex tw-flex-wrap tw-gap-2 !tw-pl-0">
+            <TwChip
               v-for="feature in regionsFeatures.features"
               :key="feature.properties.slug"
-              label
-              outlined
-              nuxt
-              :to="localePath(`/regions/${feature.properties.slug}/`)"
+              @click.native="
+                $router.push(localePath(`/regions/${feature.properties.slug}`))
+              "
             >
               {{ feature.properties.name }}
-            </v-chip>
-          </v-chip-group>
+            </TwChip>
+          </ul>
         </div>
       </div>
       <div
@@ -316,7 +305,6 @@
 </template>
 
 <script>
-import anime from 'animejs/lib/anime.es'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import {
@@ -354,31 +342,14 @@ export default {
       }${launch}`
     )
   },
-  async asyncData({ app }) {
-    const mapStyle = {
-      dark: 'mapbox://styles/felixinx/ckv0dpig31p0516omjnkhbg4m?optimize=true',
-      light: 'mapbox://styles/felixinx/cklvgeorj2t4417rtcbtk8lki?optimize=true',
-    }
-    const mapAccessToken = process.env.mapboxAccessToken
-
-    const regionsResponse = await app.$axios.get('/landing')
-    let totalActiveVehicles = 0
-    let totalAgencies = 0
-    regionsResponse.data.features.forEach((region) => {
-      totalAgencies += region.properties.agencies
-      totalActiveVehicles += region.properties.vehicles
-    })
-
-    const vehiclesResponse = await app.$axios.get('/landing/vehicles')
-
+  asyncData() {
     return {
-      mapAccessToken,
-      mapStyle,
-      regionsFeatures: regionsResponse.data,
-      vehiclesFeatures: vehiclesResponse.data,
-      totalActiveVehicles,
-      totalAgencies,
-      totalVehicles: regionsResponse.data.stats.totalVehiclesRecorded,
+      mapAccessToken: process.env.mapboxAccessToken,
+      mapStyle: {
+        dark: 'mapbox://styles/felixinx/ckv0dpig31p0516omjnkhbg4m?optimize=true',
+        light:
+          'mapbox://styles/felixinx/cklvgeorj2t4417rtcbtk8lki?optimize=true',
+      },
       mdiArrowRight,
       mdiArrowDown,
       mdiArrowDownRight,
@@ -399,6 +370,14 @@ export default {
       type: 'FeatureCollection',
       features: [],
     },
+    vehiclesFeatures: {
+      type: 'FeatureCollection',
+      features: [],
+    },
+    totalActiveVehicles: 0,
+    totalAgencies: 0,
+    totalVehicles: 0,
+    cities: [],
     currentPopup: {},
     activeTab: 'map',
   }),
@@ -456,82 +435,31 @@ export default {
     },
   },
   mounted() {
-    setTimeout(() => {
-      this.createMap()
-    }, 10)
-
-    const cities = []
-
-    this.regionsFeatures.features.forEach((feature) => {
-      cities.push(...feature.properties.cities)
-    })
-
-    // Randomize array
-    for (let i = cities.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * i)
-      const temp = cities[i]
-      cities[i] = cities[j]
-      cities[j] = temp
-    }
-
-    cities.push(this.$t('introCities'))
-
-    const delayLoop = (fn, delay) => {
-      return (x, i) => {
-        setTimeout(() => {
-          fn(x)
-        }, i * delay)
-      }
-    }
-
-    cities.forEach(delayLoop(this.changeCity, 3875))
+    this.getData()
   },
   methods: {
-    changeTab(tab) {
-      this.activeTab = tab
-    },
-    changeCity(city) {
-      if (!this.$refs.letters) return
-      this.$refs.letters.innerHTML = city.replace(
-        // eslint-disable-next-line
-        /([^\x00-\x80]|[^ ]|\w)/g,
-        "<span class='tt-cities-letters'>$&</span>"
-      )
-      anime
-        .timeline()
-        .add({
-          target: '.tt-cities-line',
-          scaleY: [0, 1],
-          opacity: [0.5, 1],
-          easing: 'easeOutExpo',
-          duration: 700,
-        })
-        .add({
-          targets: '.tt-cities-line',
-          translateX: [
-            0,
-            this.$refs.letters.getBoundingClientRect().width + 10,
-          ],
-          skewX: [0, -10],
-          easing: 'easeOutExpo',
-          duration: 700,
-          delay: 100,
-        })
-        .add({
-          targets: '.tt-cities-letters',
-          opacity: [0, 1],
-          easing: 'easeOutExpo',
-          duration: 600,
-          offset: '-=775',
-          delay: (el, i) => 34 * (i + 1),
-        })
-        .add({
-          targets: '.tt-cities',
-          opacity: 0,
-          duration: 1000,
-          easing: 'easeOutExpo',
-          delay: 1000,
-        })
+    async getData() {
+      const regionsResponse = await this.$axios.get('/landing')
+
+      regionsResponse.data.features.forEach((region) => {
+        this.totalAgencies += region.properties.agencies
+        this.totalActiveVehicles += region.properties.vehicles
+      })
+
+      this.regionsFeatures = regionsResponse.data
+      this.totalVehicles = regionsResponse.data.stats.totalVehiclesRecorded
+
+      const vehiclesResponse = await this.$axios.get('/landing/vehicles')
+      this.vehiclesFeatures = vehiclesResponse.data
+
+      // Prepare data to start city animation
+      this.cities = []
+      this.regionsFeatures.features.forEach((feature) => {
+        this.cities.push(...feature.properties.cities)
+      })
+      this.cities.push(this.$t('introCities'))
+
+      this.createMap()
     },
     createMap() {
       mapboxgl.accessToken = this.mapAccessToken
@@ -628,79 +556,20 @@ export default {
 </script>
 
 <style lang="scss">
-//.theme--light .tt-landing-content {
-//  color: #011d32;
-//  background-color: #deecf9;
-//
-//  &__cities {
-//    color: #2374ab;
-//    &__line {
-//      background-color: #2374ab;
-//    }
-//  }
-//}
-//
-//.theme--dark .tt-landing-content {
-//  color: #cbe5ff;
-//  background-color: #003c5e;
-//
-//  &__cities {
-//    color: #91ccff;
-//    &__line {
-//      background-color: #91ccff;
-//    }
-//  }
-//}
-
 .tt-landing {
   &-map {
     &-popup {
-      //min-width: 200px;
-
       .mapboxgl-popup-content {
         padding: 8px 32px 8px 12px;
         box-shadow: none;
         clip-path: polygon(0 0, 95% 0, 85% 100%, 0 100%);
         position: relative;
         border-radius: 8px;
+        // Make it visible only when it's in the popup, prevents the blue bar to appear at page load
+        .tw-invisible {
+          visibility: visible;
+        }
       }
-
-      //&:hover &__arrow path {
-      //transform: translateX(0px);
-      //}
-
-      //&__arrow {
-      //  overflow: hidden;
-      //  path {
-      //    transform: translateX(-20px);
-      //    transition: transform ease-in 0.1s;
-      //  }
-      //}
-
-      //&__border {
-      //  position: absolute;
-      //  top: 0;
-      //  bottom: 0;
-      //  left: 0;
-      //  right: 0;
-      //
-      //}
-
-      //&__dot {
-      //  position: relative;
-      //  width: 8px;
-      //  height: 8px;
-      //  border-radius: 100%;
-      //  margin-bottom: 1px;
-      //
-      //  &--animate {
-      //    animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
-      //    position: absolute;
-      //    inset: 0 0 0 0;
-      //    border-radius: 100%;
-      //    opacity: 0.75;
-      //  }
-      //}
     }
   }
 }
@@ -712,74 +581,6 @@ export default {
 
   .mapboxgl-popup-content {
     background: #121212;
-  }
-}
-
-//// From Tailwind
-//@keyframes ping {
-//  75%,
-//  100% {
-//    transform: scale(2);
-//    opacity: 0;
-//  }
-//}
-
-@media (min-width: 960px) {
-  //.theme--light .tt-landing-overlay {
-  //  background: linear-gradient(
-  //    100deg,
-  //    rgba(222, 236, 249, 1) 0%,
-  //    rgba(222, 236, 249, 1) 50%,
-  //    rgba(222, 236, 249, 0) 70%,
-  //    rgba(222, 236, 249, 0) 100%
-  //  );
-  //}
-  //
-  //.theme--dark .tt-landing-overlay {
-  //  background: linear-gradient(
-  //    100deg,
-  //    rgba(0, 60, 94, 1) 0%,
-  //    rgba(0, 60, 94, 1) 50%,
-  //    rgba(0, 60, 94, 0) 70%,
-  //    rgba(0, 60, 94, 0) 100%
-  //  );
-  //}
-  .tt-landing {
-    //&-overlay {
-    //position: absolute;
-    //top: 0;
-    //left: 0;
-    //right: 0;
-    //bottom: 0;
-    //pointer-events: none;
-    //}
-    //&-content {
-    //  pointer-events: none;
-    //  background-color: transparent !important;
-    //  height: 100%;
-    //  z-index: 2;
-    //  width: 45%;
-    //
-    //  h1,
-    //  h2 {
-    //    max-width: 85%;
-    //  }
-    //
-    //  &__subtitle {
-    //    min-height: 64px;
-    //  }
-    //
-    //  .v-item-group {
-    //    pointer-events: all;
-    //  }
-    //}
-
-    //&-map {
-    //  width: 55%;
-    //  position: absolute;
-    //  left: 45%;
-    //  height: 100%;
-    //}
   }
 }
 </style>

@@ -180,9 +180,8 @@ export default {
       language: 'auto',
       maxPitch: 0,
       pitchWithRotate: false,
-      touchZoomRotate: true,
     })
-    this.map.addControl(new mapboxgl.AttributionControl(), 'top-right')
+    this.map.addControl(new mapboxgl.AttributionControl(), 'bottom-left')
     this.map.addControl(
       new mapboxgl.GeolocateControl({
         positionOptions: {
@@ -447,16 +446,22 @@ export default {
   }
 }
 
-@media only screen and (max-width: 768px) {
+@media (width < 48rem) {
   .mapboxgl-ctrl-bottom-left,
   .mapboxgl-ctrl-bottom-right {
     margin-bottom: 2rem;
   }
-}
-
-@media (max-width: 768px) {
   #tt-map {
     height: calc(100vh - 64px - 64px - 96px + 28px);
   }
+}
+@media (width >= 48rem) {
+  .mapboxgl-ctrl:has(.mapboxgl-ctrl-logo) {
+    position: absolute;
+    bottom: 1.5rem;
+  }
+}
+
+@media (width < 48rem) {
 }
 </style>
