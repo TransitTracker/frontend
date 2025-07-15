@@ -1,11 +1,81 @@
 <template>
   <div>
     <div
-      class="tw-relative tw-flex tw-h-full tw-w-full tw-flex-col md:tw-h-[75vh] md:tw-flex-row"
+      class="tw-relative tw-flex tw-w-full tw-flex-col md:tw-h-[75vh] md:tw-flex-row"
     >
       <div
+        class="tw-relative tw-z-[2] tw-flex tw-shrink-0 tw-grow tw-flex-col tw-space-y-8 tw-overflow-hidden tw-bg-primary-90 tw-p-8 tw-text-primary-10 dark:tw-bg-primary-30 dark:tw-text-primary-90 md:tw-order-1 md:tw-mb-0 md:tw-w-[45%] md:tw-justify-center md:tw-pb-0 md:tw-pt-0"
+      >
+        <!-- eslint-disable vue/no-v-html -->
+        <h1
+          class="tw-font-heading tw-text-4xl tw-font-bold tw-leading-[2.75rem] md:tw-text-5xl"
+          v-html="$t('welcome')"
+        ></h1>
+        <!-- eslint-enable vue/no-v-html -->
+        <h2
+          class="tw-mt-2 tw-min-h-[4.5rem] tw-font-heading tw-text-2xl tw-font-medium md:tw-text-3xl"
+        >
+          {{ $t('intro') }} <br />
+          <TwLandingCitiesAnimation :cities="cities" />
+        </h2>
+        <div class="tw-flex tw-items-start tw-gap-x-4">
+          <!--          TODO: Get stats from backend-->
+          <TwLandingStatistic
+            :label="$t('vehicles')"
+            :number="totalActiveVehicles"
+            :label-sr="$t('rightNow')"
+            has-ping
+          />
+          <TwLandingStatistic :label="$t('agencies')" :number="totalAgencies" />
+          <TwLandingStatistic
+            :label="$t('vehiclesSince')"
+            :number="totalVehicles"
+          />
+        </div>
+        <div>
+          <p class="!tw-mb-1 tw-flex tw-items-end tw-gap-x-2 tw-leading-8">
+            {{ $t('explore') }}
+            <TwIcon :path="mdiArrowDownRight" />
+          </p>
+          <ul
+            v-if="!regionsFeatures.features.length"
+            class="tw-flex tw-flex-wrap tw-gap-2 !tw-pl-0"
+          >
+            <li class="tw-list-none">
+              <TwChip class="tw-w-20" />
+            </li>
+            <li class="tw-list-none">
+              <TwChip class="tw-w-28" />
+            </li>
+            <li class="tw-list-none">
+              <TwChip class="tw-w-16" />
+            </li>
+          </ul>
+          <ul v-else class="tw-flex tw-flex-wrap tw-gap-2 !tw-pl-0">
+            <li
+              v-for="feature in regionsFeatures.features"
+              :key="feature.properties.slug"
+              class="tw-list-none"
+            >
+              <TwChip
+                @click.native="
+                  $router.push(
+                    localePath(`/regions/${feature.properties.slug}`)
+                  )
+                "
+              >
+                {{ feature.properties.name }}
+              </TwChip>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div
+        class="tw-pointer-events-none tw-absolute tw-inset-0 tw-z-[1] tw-hidden tw-bg-gradient-100 tw-from-primary-90 tw-from-50% tw-to-transparent tw-to-70% dark:tw-from-primary-30 md:tw-block"
+      ></div>
+      <div
         id="tt-landing-map"
-        class="tw-z-0 tw-grow md:tw-order-2 md:tw-w-[55%]"
+        class="tw-z-0 tw-order-2 tw-h-[50vh] tw-grow md:tw-h-full md:tw-w-[55%]"
       >
         <div ref="popup" class="tw-invisible tw-min-w-[12rem]">
           <NuxtLink
@@ -70,56 +140,6 @@
           ></div>
         </div>
       </div>
-      <div
-        class="tw-relative tw-z-[2] tw-flex tw-shrink-0 tw-grow tw-flex-col tw-space-y-8 tw-overflow-hidden tw-bg-primary-90 tw-p-8 tw-text-primary-10 dark:tw-bg-primary-30 dark:tw-text-primary-90 md:tw-order-1 md:tw-mb-0 md:tw-w-[45%] md:tw-justify-center md:tw-pb-0 md:tw-pt-0"
-      >
-        <!-- eslint-disable vue/no-v-html -->
-        <h1
-          class="tw-font-heading tw-text-4xl tw-font-bold tw-leading-[2.75rem] md:tw-text-5xl"
-          v-html="$t('welcome')"
-        ></h1>
-        <!-- eslint-enable vue/no-v-html -->
-        <h2
-          class="tw-mt-2 tw-min-h-[4.5rem] tw-font-heading tw-text-2xl tw-font-medium md:tw-text-3xl"
-        >
-          {{ $t('intro') }} <br />
-          <TwLandingCitiesAnimation :cities="cities" />
-        </h2>
-        <div class="tw-flex tw-items-start tw-gap-x-4">
-          <!--          TODO: Get stats from backend-->
-          <TwLandingStatistic
-            :label="$t('vehicles')"
-            :number="totalActiveVehicles"
-            :label-sr="$t('rightNow')"
-            has-ping
-          />
-          <TwLandingStatistic :label="$t('agencies')" :number="totalAgencies" />
-          <TwLandingStatistic
-            :label="$t('vehiclesSince')"
-            :number="totalVehicles"
-          />
-        </div>
-        <div>
-          <p class="!tw-mb-0 tw-flex tw-items-end tw-gap-x-2 tw-leading-8">
-            {{ $t('explore') }}
-            <TwIcon :path="mdiArrowDownRight" />
-          </p>
-          <ul class="tw-flex tw-flex-wrap tw-gap-2 !tw-pl-0">
-            <TwChip
-              v-for="feature in regionsFeatures.features"
-              :key="feature.properties.slug"
-              @click.native="
-                $router.push(localePath(`/regions/${feature.properties.slug}`))
-              "
-            >
-              {{ feature.properties.name }}
-            </TwChip>
-          </ul>
-        </div>
-      </div>
-      <div
-        class="tw-pointer-events-none tw-absolute tw-inset-0 tw-z-[1] tw-bg-gradient-100 tw-from-primary-90 tw-from-50% tw-to-transparent tw-to-70% dark:tw-from-primary-30"
-      ></div>
     </div>
     <section
       class="tw-w-full tw-bg-neutral-99 tw-text-neutral-10 dark:tw-bg-neutral-10 dark:tw-text-neutral-90"
@@ -462,6 +482,14 @@ export default {
       this.createMap()
     },
     createMap() {
+      const calculateLeftPadding = () => {
+        if (window.width > 768) {
+          return 0
+        }
+        return (
+          (document.getElementById('tt-landing-map')?.offsetWidth ?? 200) / 4
+        )
+      }
       mapboxgl.accessToken = this.mapAccessToken
       this.map = new mapboxgl.Map({
         container: 'tt-landing-map',
@@ -471,7 +499,10 @@ export default {
           [-70, 48],
         ],
         fitBoundsOptions: {
-          padding: { left: 100 },
+          // Calculate padding to make sure that Toronto is fully visible
+          padding: {
+            left: calculateLeftPadding(),
+          },
         },
         maxPitch: 0,
         pitchWithRotate: false,
@@ -588,7 +619,7 @@ export default {
 <i18n>
 {
   "en": {
-    "welcome": "Welcome to Transit Tracker",
+    "welcome": "Welcome to Transit&nbsp;Tracker",
     "intro": "An overview of the public transit network for",
     "introCities": "several Canadian cities",
     "brandSlogan": "Making real-time transit data accessible",

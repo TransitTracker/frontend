@@ -77,22 +77,21 @@
       </ul>
       <div
         v-else
-        class="tw-relative -tw-mx-4 tw-mt-4 tw-space-y-4 tw-bg-secondary-90 tw-p-4 tw-text-center tw-text-secondary-10 dark:tw-bg-secondary-30 dark:tw-text-secondary-90 md:tw-mx-0 md:tw-rounded-xl md:tw-text-left"
+        class="tw-relative -tw-mx-4 tw-mt-4 tw-overflow-hidden tw-bg-secondary-90 tw-p-4 tw-text-center tw-text-secondary-10 dark:tw-bg-secondary-30 dark:tw-text-secondary-90 md:tw-mx-0 md:tw-rounded-xl md:tw-pr-64 md:tw-text-left"
       >
-        <!-- TODO come back icon! -->
-        <!-- <TwIcon
-          class="tw-absolute -tw-right-4 -tw-bottom-4 !tw-h-64 !tw-w-64 tw-bg-opacity-50"
+        <TwIcon
+          class="tw-absolute -tw-bottom-4 -tw-right-4 tw-hidden !tw-h-64 !tw-w-64 tw-text-secondary-10/50 dark:tw-text-secondary-90/50 md:tw-block"
           :path="mdiBusMultiple"
-        /> -->
-        <p class="tw-mb-0 tw-text-4xl tw-font-bold tw-leading-[2.75rem]">
+        />
+        <p class="tw-max-w-prose tw-text-4xl tw-font-bold tw-leading-[2.75rem]">
           {{ $t('emptyTitle', { region: region.name }) }}
         </p>
-        <p class="tw-mb-0 tw-leading-6 tw-tracking-wide">
+        <p class="tw-mt-4 tw-leading-6 tw-tracking-wide">
           {{ $tc('emptyDescription', region.agencies.length) }}
         </p>
         <TwFilledButton
           with-icon
-          class="tw-mx-auto md:tw-mx-0"
+          class="tw-mx-auto tw-mt-4 md:tw-mx-0"
           color="secondary"
           @click="addAll"
         >

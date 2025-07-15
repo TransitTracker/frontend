@@ -217,39 +217,48 @@
       <!-- eslint-disable-next-line -->
       <template v-slot:item.properties.vehicle.type="{ item }">
         {{
-          item.properties.vehicle.type !== null &&
-          $t(`enums.vehicleType.label.${item.properties.vehicle.type}`)
+          item.properties.vehicle.type !== null
+            ? $t(`enums.vehicleType.label.${item.properties.vehicle.type}`)
+            : ''
         }}
       </template>
       <!-- eslint-disable-next-line -->
       <template v-slot:item.properties.currentStatus="{ item }">
         {{
-          item.properties.currentStatus !== null &&
-          $t(`enums.currentStatus.label.${item.properties.currentStatus}`)
+          item.properties.currentStatus !== null
+            ? $t(`enums.currentStatus.label.${item.properties.currentStatus}`)
+            : ''
         }}
       </template>
       <!-- eslint-disable-next-line -->
       <template v-slot:item.properties.trip.scheduleRelationship="{ item }">
         {{
-          item.properties.trip.scheduleRelationship !== null &&
-          $t(
-            `enums.scheduleRelationship.label.${item.properties.trip.scheduleRelationship}`
-          )
+          item.properties.trip.scheduleRelationship !== null
+            ? $t(
+                `enums.scheduleRelationship.label.${item.properties.trip.scheduleRelationship}`
+              )
+            : ''
         }}
       </template>
       <!-- eslint-disable-next-line -->
       <template v-slot:item.properties.congestionLevel="{ item }">
         <!--        TODO: Verify to remove or not 0 enum value-->
         {{
-          item.properties.congestionLevel !== null &&
-          $t(`enums.congestionLevel.label.${item.properties.congestionLevel}`)
+          item.properties.congestionLevel !== null
+            ? $t(
+                `enums.congestionLevel.label.${item.properties.congestionLevel}`
+              )
+            : ''
         }}
       </template>
       <!-- eslint-disable-next-line -->
       <template v-slot:item.properties.occupancyStatus="{ item }">
         {{
-          item.properties.occupancyStatus !== null &&
-          $t(`enums.occupancyStatus.label.${item.properties.occupancyStatus}`)
+          item.properties.occupancyStatus !== null
+            ? $t(
+                `enums.occupancyStatus.label.${item.properties.occupancyStatus}`
+              )
+            : ''
         }}
       </template>
       <!-- eslint-disable-next-line -->

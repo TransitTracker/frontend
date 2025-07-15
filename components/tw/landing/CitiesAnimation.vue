@@ -28,6 +28,10 @@ export default {
       this.startAnimation()
     },
   },
+  mounted() {
+    // Display default city while data is being requested
+    this.changeCity('Montréal')
+  },
   methods: {
     startAnimation() {
       const cities = this.cities

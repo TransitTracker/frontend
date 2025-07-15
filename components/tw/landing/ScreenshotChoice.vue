@@ -11,7 +11,7 @@
       <TwIcon :path="icon" class="md:!tw-h-12 md:!tw-w-12" />
       <h4 class="tw-text-lg">{{ title }}</h4>
     </div>
-    <p class="!tw-mb-0">
+    <p class="!tw-mb-0 tw-text-left">
       {{ description }}
     </p>
   </button>
