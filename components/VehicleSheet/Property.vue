@@ -1,16 +1,16 @@
 <template>
-  <div v-if="content" class="tw-flex tw-h-14 tw-items-center">
+  <div v-if="content" class="tw-flex tw-h-12 tw-items-center xl:tw-h-14">
     <TwIcon
       :path="property.icon"
       class="tw-text-primary-40 dark:tw-text-primary-80"
     />
     <div class="tw-ml-3">
       <dt
-        class="tw-text-xs tw-font-medium tw-leading-4 tw-text-neutralVariant-30 dark:tw-text-neutralVariant-80"
+        class="tw-text-[0.6875rem] tw-font-medium tw-leading-4 tw-text-neutralVariant-30 dark:tw-text-neutralVariant-80 xl:tw-text-xs"
       >
-        {{ $t(`properties.${property.field}`) }}
+        {{ $t(property.value) }}
       </dt>
-      <dd class="tw-mb-0 tw-leading-6">
+      <dd class="tw-mb-0 tw-text-sm tw-leading-6 xl:tw-text-base">
         {{ property.format ? format(content) : content }} {{ property.suffix }}
       </dd>
     </div>
@@ -20,14 +20,14 @@
       class="tw-h-10 tw-w-10"
       @click="openHelp"
     >
-      <TwIcon :path="mdiHelp" class="tw-h-6 tw-w-6" />
+      <TwIcon :path="mdiHelp" />
     </TwStandardIconButton>
     <TwBasicDialog v-if="property.help" v-model="helpOpen">
       <template #header>
         {{ $t('about') }}
-        {{ $t(`properties.${property.field}`) }}
+        {{ $t(property.value) }}
       </template>
-      {{ $t(`help.${property.field}`) }}
+      {{ $t(`help.${property.key}`) }}
     </TwBasicDialog>
   </div>
 </template>
@@ -49,31 +49,28 @@ export default {
   data: () => ({
     mdiHelp,
     helpOpen: false,
-    dateStyle: 'long',
-    timeStyle: 'short',
   }),
   computed: {
     content() {
-      const field = this.property.field
-
-      if (field.includes('.')) {
-        const nested = field.split('.')
-        return this.vehicle[nested[0]][nested[1]]
-      }
+      const data = this.property.value
+        .split('.')
+        .reduce((o, i) => o[i], this.vehicle)
 
       if (this.property.condition === 'refDifferent') {
-        return this.vehicle.ref === this.vehicle.label
+        return this.vehicle.properties.vehicle.id ===
+          this.vehicle.properties.vehicle.label
           ? null
-          : this.vehicle[field]
+          : data
       }
 
       if (this.property.condition === 'shortNameDifferent') {
-        return this.vehicle.routeId === this.vehicle.trip.routeShortName
+        return this.vehicle.properties.route.id ===
+          this.vehicle.properties.route.shortName
           ? null
-          : this.vehicle[field]
+          : data
       }
 
-      return this.vehicle[field]
+      return data
     },
   },
   methods: {
@@ -83,9 +80,13 @@ export default {
     format() {
       if (this.property.format === 'date') {
         return Intl.DateTimeFormat(this.$i18n.locale, {
-          dateStyle: this.dateStyle,
-          timeStyle: this.timeStyle,
-        }).format(new Date(this.content))
+          dateStyle: 'long',
+          timeStyle: 'short',
+        }).format(new Date(this.content * 1000))
+      }
+
+      if (this.property.format === 'enum') {
+        return this.$t(`enums.${this.property.key}.${this.content}`)
       }
 
       return this.content
@@ -107,7 +108,10 @@ export default {
          "currentStatus":{
             "label":"This is the status of the vehicle in relation to the stops. When a vehicle heads for a stop, it is “In transit to”. When approaching, it becomes “incoming”. Then at the stop, it is “Stopped at”."
          },
-         "currentStopSequence":"This field represents the position of the vehicle in relation to the number of stops served by the trip. As the journey progresses and the vehicle approaches its final stop, this number increases."
+         "currentStopSequence":"This field represents the position of the vehicle in relation to the number of stops served by the trip. As the journey progresses and the vehicle approaches its final stop, this number increases.",
+         "trip": {
+          "serviceId": "This is an internal field to identify at what dates this trip is running."
+         }
       }
    },
    "fr":{
@@ -121,7 +125,10 @@ export default {
          "currentStatus":{
             "label":"Il s'agit du statut du véhicule en relation avec les arrêts. Lorsqu'un véhicule se dirige vers un arrêt, il affiche le statut « En déplacement ». En s'approchant, il devient « Arrive au prochain arrêt ». Puis à l'arrêt, il est « À l'arrêt »."
          },
-         "currentStopSequence":"Ce champ représente la position du véhicule en relation au nombre d'arrêts desservis par le voyage. Plus que le voyage avance et que le véhicule s'approche de son arrêt final, ce chiffre augmente."
+         "currentStopSequence":"Ce champ représente la position du véhicule en relation au nombre d'arrêts desservis par le voyage. Plus que le voyage avance et que le véhicule s'approche de son arrêt final, ce chiffre augmente.",
+         "trip": {
+          "serviceId": "Ce champ interne identifie à quelles dates ce voyage circule."
+         }
       }
    }
 }

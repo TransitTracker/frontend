@@ -10,16 +10,48 @@ module.exports = {
     `components/tw/**/*.vue`,
     `components/VehicleSheet/**/*.vue`,
     `components/settings/TableColumns.vue`,
+    `components/Loading.vue`,
     `layouts/error.vue`,
+    `pages/regions/_region/download.vue`,
     `pages/regions/_region/index.vue`,
+    `pages/regions/_region/map.vue`,
     `pages/regions/_region/table.vue`,
     `pages/admin.vue`,
+    `pages/index.vue`,
     `./nuxt.config.js`,
   ],
   theme: {
     extend: {
+      animation: {
+        progress: 'progress 2s infinite linear',
+      },
+      backgroundImage: {
+        'gradient-100': 'linear-gradient(100deg, var(--tw-gradient-stops))',
+      },
       fontSize: {
         '2xs': '0.6875rem',
+      },
+      gradientColorStopPositions: {
+        50: '50%',
+        70: '70%',
+      },
+      keyframes: {
+        progress: {
+          '0%': { transform: 'translateX(0) scaleX(0)' },
+          '40%': { transform: 'translateX(0) scaleX(0.4)' },
+          '100%': { transform: 'translateX(100%) scaleX(0.5)' },
+        },
+      },
+      opacity: {
+        8: '.08',
+        12: '.12',
+        16: '.16',
+      },
+      outlineWidth: {
+        3: '3px',
+      },
+      transformOrigin: {
+        'left-right': '0% 50%',
       },
       transitionTimingFunction: {
         emphasized: '	cubic-bezier(0.2, 0.0, 0, 1.0)',
@@ -28,11 +60,6 @@ module.exports = {
         standard: '	cubic-bezier(0.2, 0.0, 0, 1.0)',
         'standard-decelerate': 'cubic-bezier(0, 0, 0, 1)',
         'standard-accelerate': 'cubic-bezier(0.3, 0, 1, 1)',
-      },
-      opacity: {
-        8: '.08',
-        12: '.12',
-        16: '.16',
       },
     },
     fontFamily: {

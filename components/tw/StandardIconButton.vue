@@ -2,8 +2,8 @@
   <button
     class="tw-group tw-relative tw-flex tw-h-10 tw-w-10 tw-items-center tw-justify-center focus:tw-outline-none"
     :class="[buttonClasses]"
-    @click="$emit('click')"
     :disabled="disabled"
+    @click="$emit('click')"
   >
     <div
       class="tw-absolute tw-inset-0 tw-h-full tw-w-full tw-rounded-full tw-bg-opacity-0 tw-transition-colors tw-duration-200 group-hover:tw-bg-opacity-8 group-focus:tw-bg-opacity-12 dark:tw-bg-opacity-0"

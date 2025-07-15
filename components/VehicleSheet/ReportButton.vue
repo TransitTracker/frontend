@@ -22,17 +22,17 @@ export default {
   computed: {
     cVehicle() {
       if (this.vehicle) return this.vehicle
-      return this.$store.state.vehicles.selection
+      return this.$store.state.vehicles.selection ?? {}
     },
     url() {
       const url = new URL(
         this.$i18n.locale === 'fr' ? process.env.reportFr : process.env.reportEn
       )
 
-      url.searchParams.append('agency', this.cVehicle.agency)
+      url.searchParams.append('agency', this.cVehicle.properties?.agencyId)
       url.searchParams.append('id', this.cVehicle.id)
-      url.searchParams.append('ref', this.cVehicle.ref)
-      url.searchParams.append('label', this.cVehicle.label)
+      url.searchParams.append('ref', this.cVehicle.properties?.vehicle?.id)
+      url.searchParams.append('label', this.cVehicle.properties?.vehicle?.label)
 
       return url.href
     },

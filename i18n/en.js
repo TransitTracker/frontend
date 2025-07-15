@@ -6,7 +6,7 @@ export default {
     tabHome: 'Home',
     tabMap: 'Map',
     tabTable: 'Table',
-    tabByod: 'BYOD',
+    tabDownload: 'Data',
     tabSettings: 'Settings',
   },
   error: {
@@ -20,17 +20,11 @@ export default {
     intro: 'An overview of the public transport network for',
     introCities: 'several Canadian cities',
     body: 'There are currently {totalVehicles} active vehicles across {totalAgencies} agencies.',
-    byodNew: 'New!',
-    byodTitle: 'Import your own data',
-    byodBody:
-      'You can now use the Transit Tracker interface with any GTFS Realtime dataset.',
-    byodStart: 'Start now',
     agencies: 'No agencies | 1 agency | {n} agencies',
     vehicles: 'No vehicles | 1 vehicle | {n} vehicles',
     openMap: 'Open map from {region}',
     openTable: 'Open table from {region}',
     seoTitle: 'An Overview of Public Transit for Several Canadian Cities',
-    // Padding
     seoDescription:
       'Transit Tracker is an app that lets you find hundreds of buses, trains and streetcars from major Canadian cities, such as Montreal and Toronto, on a single map!',
   },
@@ -58,52 +52,46 @@ export default {
   },
   mapFooter: {
     select: 'Please select a vehicle to see more information',
-    // Padding
     scroll: 'Scroll',
   },
-  mapTag: {
-    electric: 'Electric',
-    mirrorCameras: 'Mirror cameras',
+  geometry: {
+    coordinates: 'Position',
   },
   properties: {
-    agency: 'Agency',
-    ref: 'Vehicle ID',
-    label: 'Vehicle number',
-    tags: 'Tags',
-    timestamp: 'Last seen',
-    tripId: 'Trip ID',
-    startTime: 'Trip Start Time',
-    routeId: 'Route ID',
-    bearing: 'Bearing (°)',
-    speed: 'Speed (km/h)',
-    vehicleType: 'Vehicle Type',
-    plate: 'License Plate',
-    odometer: 'Odometer',
-    currentStopSequence: 'Stop sequence',
-    createdAt: 'First seen',
-    actions: 'Actions',
     trip: {
-      headsign: 'Trip Headsign',
+      id: 'Trip ID',
       shortName: 'Departure number',
-      routeShortName: 'Route name',
-      serviceId: 'Service ID',
+      headsign: 'Trip Headsign',
+      startTime: 'Trip Start Time',
+      scheduleRelationship: 'Schedule Relationship',
       blockId: 'Block ID',
+      serviceId: 'Service ID',
+    },
+    route: {
+      id: 'Route ID',
+      shortName: 'Route name',
+    },
+    vehicle: {
+      id: 'Vehicle ID',
+      label: 'Vehicle number',
+      licensePlate: 'License Plate',
+      type: 'Vehicle Type',
     },
     position: {
-      lat: 'Position',
+      bearing: 'Bearing (°)',
+      odometer: 'Odometer',
+      speed: 'Speed (km/h)',
     },
-    currentStatus: {
-      label: 'Status',
-    },
-    scheduleRelationship: {
-      label: 'Schedule Relationship',
-    },
-    congestionLevel: {
-      label: 'Congestion Level',
-    },
-    occupancyStatus: {
-      label: 'Occupancy Status',
-    },
+    agencyId: 'Agency',
+    currentStopSequence: 'Stop sequence',
+    currentStatus: 'Status',
+    congestionLevel: 'Congestion Level',
+    occupancyStatus: 'Occupancy Status',
+    firstSeenAt: 'First seen',
+    lastSeenAt: 'Last seen',
+    tags: 'Tags',
+    agencyShort: 'Agency (short)',
+    actions: 'Actions',
   },
   table: {
     empty: 'No vehicles!',
@@ -122,80 +110,6 @@ export default {
     filterRouteId: 'Apply filter only on route ID',
     routeId: 'Route ID',
   },
-  byod: {
-    title: 'Bring Your Own Data',
-    subtitle:
-      'You can use the interface of Transit Tracker with your own feeds from your favourite agencies from all over the world.',
-    list: 'List of agencies',
-    lastUpdated: 'Last updated:',
-    noAgencies: 'No agencies',
-    getStarted: 'To get started, click the button below',
-    isSynced: 'This agency is synchronized with Transit Tracker',
-    isNotSynced: 'This agency is not synchronized with Transit Tracker',
-    rename: 'Rename agency',
-    save: 'Save',
-    sync: 'Sync agency with Transit Tracker',
-    unSync: 'Remove agency from the current session of Transit Tracker',
-    manage: 'Manage this agency (add static and real time GTFS files)',
-    // Padding
-    newAgency: 'New agency',
-    removeModule: "Don't need the BYOD module anymore?",
-    disable: 'Disable',
-    addModule: 'BYOD is a feature for advanced users',
-    addModuleDesc:
-      'You need basic knowledge of the GTFS (<i>General Transit Feed Specification</i>) format to use this feature. Also take note that enabling this feature will have a performance impact on the overall performance of the application.',
-    enable: 'Enable',
-    createTitle: 'Create a new agency',
-    validationEmpty: 'Name is required',
-    validationLength: 'Name is too long',
-    nameLabel: 'Agency name',
-    iconLabel: 'Icon',
-    bus: 'Bus',
-    train: 'Train',
-    tram: 'Tram',
-    ferry: 'Ferry',
-    createAdd: 'Add',
-    seoDescription:
-      'Use the Transit Tracker interface with your own GTFS Realtime feeds.',
-    agency: {
-      back: 'Back to all custom agencies',
-      delete: 'Delete agency',
-      syncNow: 'Sync now',
-      staticGtfs: 'Static GTFS',
-      staticType: 'Type',
-      routes: 'routes',
-      services: 'services',
-      stops: 'stops',
-      shapes: 'shapes',
-      trips: 'trips',
-      saved: '{n} {type} saved in your browser.',
-      empty: "You haven't imported any {type} yet.",
-      upload: 'Click to select the {file} file',
-      message: 'Importing a new file will overwrite any existing {type}.',
-      import: 'Import',
-      realtimeTitle: 'GTFS Realtime entities',
-      realtimeDesc: 'Upload a GTFS-RT feed in the protocol buffer format.',
-      emptyExisting: 'Empty existing entities:',
-      local: 'Local',
-      remote: 'Remote',
-      remoteUrl: 'Remote URL',
-      realtimeMessage:
-        'You can import as many files as you want. Entity with the same ID will be updated.',
-      realtimeError: 'There was an error while fetching this URL:',
-      corsError: 'This could be a CORS error.',
-      autoRefresh: 'Auto refresh every minute',
-      saveAndFetch: 'Save and fetch feed',
-      note: 'If the agency is activated, and the vehicles imported, they will be accessible in every region of Transit Tracker. All imported data is saved directly in your browser.',
-      wait: 'Please wait. It could take a couple of minutes.',
-    },
-    data: {
-      backTo: 'Back to',
-      id: 'ID',
-      type: 'Type',
-      entity: 'Entity',
-      seoTitle: 'Real time entities',
-    },
-  },
   settings: {
     open: 'Open settings',
     title: 'Settings',
@@ -213,7 +127,6 @@ export default {
     agenciesAddAll: 'Add all agencies',
     autoRefresh: 'Auto refresh',
     autoRefreshDesc: 'Update every 60 or 120 seconds, depending on the agency.',
-    // Padding
     autoRefreshOn: 'On',
     autoRefreshOff: 'Off',
     theme: 'Theme',
@@ -226,7 +139,6 @@ export default {
     table: 'Table columns',
     tableDesc:
       'You can customize the orders of the columns displayed in the app, and change their visibility.',
-    // Padding
     language: 'Language',
   },
   alert: {
@@ -260,7 +172,6 @@ export default {
     downloadStep: 'Download',
     downloadBtn: 'Download',
     downloadLoading: 'Downloading... this should take less than a minute.',
-    // Padding
     downloadReady: 'Your file is now ready.',
     downloadError:
       'There was an error while preparing your file. Please try again later.',
@@ -300,9 +211,7 @@ export default {
     title: 'Notifications',
     warning: 'Wait!',
     warning429: 'Wait a few minutes before trying again.',
-    // Padding
     unavailable: 'Notifications are not available in your browser.',
-    // Padding
     authorize: 'Authorize',
     authorizeTitle: 'Allow notifications in your browser',
     authorizeBody:
@@ -331,5 +240,58 @@ export default {
     showUuid: 'show your secret id',
     unsubscribe: 'Unsubscribe',
     active: 'Active subscription',
+  },
+  enums: {
+    vehicleType: {
+      label: {
+        0: 'Tram',
+        1: 'Subway',
+        2: 'Train',
+        3: 'Bus',
+        4: 'Ferry',
+        5: 'CableTram',
+        6: 'AerialLift',
+        7: 'Funicular',
+        11: 'Trolleybus',
+        12: 'Monorail',
+      },
+    },
+    scheduleRelationship: {
+      label: {
+        0: 'Scheduled',
+        1: 'Skipped',
+        2: 'No data',
+        3: 'Unscheduled',
+      },
+    },
+    currentStatus: {
+      label: {
+        0: 'Incoming at',
+        1: 'Stopped at',
+        2: 'In transit to',
+      },
+    },
+    congestionLevel: {
+      label: {
+        0: 'Unknown congestion level',
+        1: 'Running smoothly',
+        2: 'Stop and go',
+        3: 'Congestion',
+        4: 'Severe congestion',
+      },
+    },
+    occupancyStatus: {
+      label: {
+        0: 'Empty',
+        1: 'Many seats available',
+        2: 'Few seats available',
+        3: 'Standing room only',
+        4: 'Crushed standing room only',
+        5: 'Full',
+        6: 'Not accepting passengers',
+        7: 'No data available',
+        8: 'Not boardable',
+      },
+    },
   },
 }

@@ -1,6 +1,6 @@
 <template>
   <a
-    class="tw-flex tw-items-center tw-justify-between tw-gap-4 tw-rounded-lg tw-border tw-border-solid tw-border-neutralVariant-50 tw-px-4 tw-py-2 !tw-text-neutral-10 tw-no-underline dark:tw-border-neutralVariant-60 dark:!tw-text-neutral-90"
+    class="tw-flex tw-items-center tw-justify-between tw-gap-4 tw-rounded-lg tw-border tw-border-solid tw-border-neutralVariant-50 tw-px-2 tw-py-1 !tw-text-neutral-10 tw-no-underline dark:tw-border-neutralVariant-60 dark:!tw-text-neutral-90 xl:tw-px-4 xl:tw-py-2"
     :title="$t('openLink')"
     :href="generatedUrl"
     target="_blank"
@@ -9,14 +9,20 @@
     ]"
   >
     <div class="tw-grow tw-space-y-1">
-      <p v-if="link.title" class="!tw-mb-0 tw-text-sm tw-leading-5">
+      <p
+        v-if="link.title"
+        class="!tw-mb-0 tw-text-xs tw-leading-5 xl:tw-text-sm"
+      >
         {{ link.title }}
       </p>
       <div
         v-else
         class="tw-h-4 tw-w-1/2 tw-rounded-sm tw-bg-neutralVariant-90 dark:tw-bg-neutralVariant-30"
       ></div>
-      <p v-if="link.title" class="tw-text-xs tw-font-medium tw-leading-4">
+      <p
+        v-if="link.title"
+        class="tw-text-2xs tw-font-medium tw-leading-4 xl:tw-text-xs"
+      >
         {{ link.description }}
       </p>
       <div
@@ -24,7 +30,11 @@
         class="tw-h-4 tw-w-1/3 tw-rounded-sm tw-bg-neutralVariant-90 dark:tw-bg-neutralVariant-30"
       ></div>
     </div>
-    <TwIcon v-if="link.title" class="tw-h-5 tw-w-5" :path="mdiOpenInNew" />
+    <TwIcon
+      v-if="link.title"
+      class="!tw-h-5 !tw-w-5 tw-shrink-0"
+      :path="mdiOpenInNew"
+    />
     <div
       v-else
       class="tw-h-4 tw-w-4 tw-rounded-full tw-bg-neutralVariant-90 dark:tw-bg-neutralVariant-30"
@@ -52,11 +62,6 @@ export default {
     mdiOpenInNew,
     link: {},
   }),
-  mounted() {
-    this.$store.dispatch('links/get', this.linkId).then((link) => {
-      this.link = link
-    })
-  },
   computed: {
     generatedUrl() {
       if (!this.link.url) {
@@ -65,9 +70,14 @@ export default {
 
       return this.link.url
         .replace(':id', this.vehicle.id)
-        .replace(':ref', this.vehicle.ref)
-        .replace(':trip', this.vehicle.tripId)
+        .replace(':ref', this.vehicle.properties.vehicle.id)
+        .replace(':trip', this.vehicle.properties.trip.id)
     },
+  },
+  mounted() {
+    this.$store.dispatch('links/get', this.linkId).then((link) => {
+      this.link = link
+    })
   },
 }
 </script>

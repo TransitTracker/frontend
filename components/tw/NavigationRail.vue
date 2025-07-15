@@ -45,19 +45,28 @@
         {{ $t('app.tabTable') }}
       </TwNavigationBarButton>
       <TwNavigationBarButton
-        :to="localePath(`/byod`)"
-        :icon="mdiFolderUploadOutline"
-        :active-icon="mdiFolderUpload"
+        :to="localePath(`/regions/${region}/download`)"
+        :icon="mdiDownloadOutline"
+        :active-icon="mdiDownload"
       >
-        {{ $t('app.tabByod') }}
+        {{ $t('app.tabDownload') }}
       </TwNavigationBarButton>
       <div class="tw-grow"></div>
       <TwNavigationBarButton
-        :to="localePath('/debug')"
-        :icon="mdiTools"
         v-if="adminMode"
+        :to="localePath('/admin')"
+        :icon="mdiTools"
       >
-        Admin
+        admin
+        <span
+          class="tw-bg-black tw-px-1 tw-py-0.5 tw-text-xs tw-text-white dark:tw-bg-white dark:tw-text-black"
+        >
+          <span class="tw-inline md:tw-hidden">sm</span>
+          <span class="tw-hidden md:tw-inline lg:tw-hidden">md</span>
+          <span class="tw-hidden lg:tw-inline xl:tw-hidden">lg</span>
+          <span class="tw-hidden xl:tw-inline 2xl:tw-hidden">xl</span>
+          <span class="tw-hidden 2xl:tw-inline">xl</span>
+        </span>
       </TwNavigationBarButton>
       <TwStandardIconButton
         v-if="dataIsLoaded"
@@ -81,8 +90,8 @@ import {
   mdiHome,
   mdiMap,
   mdiMapOutline,
-  mdiFolderUpload,
-  mdiFolderUploadOutline,
+  mdiDownload,
+  mdiDownloadOutline,
   mdiBell,
   mdiCity,
   mdiCog,
@@ -98,8 +107,8 @@ export default {
       'M21 21v-4.65H3V21h18Zm0-6.65V9.625H3v4.725h18Zm0-6.725V3H3v4.625h18Z',
     msTableOutline:
       'M19 19v-3H5v3h14Zm0-5v-4H5v4h14Zm0-6V5H5v3h14ZM5 21q-.825 0-1.413-.587Q3 19.825 3 19V5q0-.825.587-1.413Q4.175 3 5 3h14q.825 0 1.413.587Q21 4.175 21 5v14q0 .825-.587 1.413Q19.825 21 19 21Z',
-    mdiFolderUpload,
-    mdiFolderUploadOutline,
+    mdiDownload,
+    mdiDownloadOutline,
     mdiBell,
     mdiCity,
     mdiCog,

@@ -1,31 +1,7 @@
+import { FIELDS_DEFINITIONS } from '~/utils/fields'
+
 // A list of all available columns for table
-const availableColumns = [
-  'ref',
-  'label',
-  'tags',
-  'timestamp',
-  'tripId',
-  'trip.headsign',
-  'trip.shortName',
-  'startTime',
-  'routeId',
-  'trip.routeShortName',
-  'trip.serviceId',
-  'trip.blockId',
-  'position.lat',
-  'bearing',
-  'speed',
-  'vehicleType',
-  'plate',
-  'odometer',
-  'currentStopSequence',
-  'currentStatus.label',
-  'scheduleRelationship.label',
-  'congestionLevel.label',
-  'occupancyStatus.label',
-  'createdAt',
-  'actions',
-]
+const availableColumns = Object.keys(FIELDS_DEFINITIONS)
 
 export const state = () => ({
   activeAgencies: [],
@@ -36,8 +12,6 @@ export const state = () => ({
   launch: 'no',
   lang: null,
   theme: 'system',
-  activateByod: false,
-  preferDesktopView: true,
   pushSubscriptionUuid: null,
   selectedTableColumns: [
     'label',

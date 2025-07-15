@@ -1,8 +1,13 @@
 <template>
   <component
     :is="tag"
-    class="tw-overflow-hiddenfull tw-group tw-relative tw-flex tw-h-10 tw-items-center tw-rounded-full tw-text-sm tw-font-medium tw-leading-5 focus:tw-outline-none"
-    :class="[buttonClasses, withIcon ? 'tw-gap-2 tw-pl-4 tw-pr-6' : 'tw-px-6']"
+    class="tw-group tw-relative tw-flex tw-h-10 tw-items-center tw-overflow-hidden tw-rounded-full tw-text-sm tw-font-medium tw-leading-5 !tw-no-underline focus:tw-outline-none"
+    :class="[
+      buttonClasses,
+      withIcon && 'tw-gap-2 tw-pl-4 tw-pr-6',
+      withIconRight && 'tw-gap-2 tw-pl-6 tw-pr-4',
+      !withIcon && !withIconRight && 'tw-px-6',
+    ]"
     @click="$emit('click')"
   >
     <div
@@ -26,6 +31,11 @@ export default {
       required: false,
       default: false,
     },
+    withIconRight: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     tag: {
       type: String,
       required: false,
@@ -36,13 +46,13 @@ export default {
     buttonClasses() {
       switch (this.color) {
         case 'tonal':
-          return 'tw-bg-secondary-90 tw-text-secondary-10 dark:tw-bg-secondary-30 dark:tw-text-secondary-90'
+          return 'tw-bg-secondary-90 !tw-text-secondary-10 dark:tw-bg-secondary-30 dark:!tw-text-secondary-90'
 
         case 'secondary':
-          return 'tw-bg-secondary-40 tw-text-white dark:tw-bg-secondary-80 dark:tw-text-secondary-20'
+          return 'tw-bg-secondary-40 !tw-text-white dark:tw-bg-secondary-80 dark:!tw-text-secondary-20'
 
         default:
-          return 'tw-bg-primary-40 tw-text-white dark:tw-bg-primary-80 dark:tw-text-primary-20'
+          return 'tw-bg-primary-40 !tw-text-white dark:tw-bg-primary-80 dark:!tw-text-primary-20'
       }
     },
     stateLayerClasses() {

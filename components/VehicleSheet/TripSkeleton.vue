@@ -1,5 +1,5 @@
 <template>
-  <li class="-tw-mx-4 tw-flex tw-animate-pulse tw-gap-4 tw-py-2 tw-px-4">
+  <li class="-tw-mx-4 tw-flex tw-animate-pulse tw-gap-4 tw-px-4 tw-py-2">
     <div
       class="tw-relative -tw-my-2 tw-border-y-0 tw-border-l tw-border-r-0 tw-border-solid tw-border-neutralVariant-50 dark:tw-border-neutralVariant-60"
     >

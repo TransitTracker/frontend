@@ -35,7 +35,7 @@
         <TwIcon :path="isActive ? activeIcon ?? icon : icon" />
       </div>
       <p
-        class="!tw-mb-0 tw-pt-1 tw-text-center"
+        class="!tw-mb-0 tw-pt-1 tw-text-center tw-text-xs"
         :class="[isActive && 'tw-text-secondary-10 dark:tw-text-secondary-90']"
       >
         <slot></slot>

@@ -138,23 +138,6 @@
           </v-list-item-content>
         </v-list-item>
       </div>
-      <v-list-item v-if="vehicle.meta.json">
-        <v-list-item-icon>
-          <v-icon>{{ mdiCodeJson }}</v-icon>
-        </v-list-item-icon>
-        <v-list-item-content>
-          <v-list-item-title>
-            <json-viewer :value="vehicle.meta.json" sort copyable>
-              <template #copy="slots">
-                <v-btn small icon color="secondary">
-                  <v-icon v-if="slots.copied">{{ mdiClipboardCheck }}</v-icon>
-                  <v-icon v-else>{{ mdiContentCopy }}</v-icon>
-                </v-btn>
-              </template>
-            </json-viewer>
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
     </v-list>
     <!-- </div> -->
   </div>
@@ -162,8 +145,6 @@
 </template>
 
 <script>
-// import collect from 'collect.js'
-import JsonViewer from 'vue-json-viewer'
 import Vue from 'vue'
 import VueTimeago from 'vue-timeago'
 import {
@@ -172,7 +153,6 @@ import {
   mdiClipboardCheck,
   mdiClock,
   mdiClose,
-  mdiCodeJson,
   mdiContentCopy,
   mdiCounter,
   mdiFormatLetterStartsWith,
@@ -195,7 +175,6 @@ import {
 Vue.use(VueTimeago, {})
 
 export default {
-  components: { JsonViewer },
   filters: {
     timestampToTime(timestamp) {
       const date = new Date(timestamp * 1000)
@@ -215,7 +194,6 @@ export default {
     mdiClipboardCheck,
     mdiClock,
     mdiClose,
-    mdiCodeJson,
     mdiContentCopy,
     mdiCounter,
     mdiFormatLetterStartsWith,

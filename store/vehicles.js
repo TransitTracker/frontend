@@ -1,7 +1,6 @@
-import { set } from 'vue'
+import Vue, { set } from 'vue'
 
 export const state = () => ({
-  data: {},
   features: {},
   selection: {},
   warning: null,
@@ -10,17 +9,23 @@ export const state = () => ({
 export const getters = {
   counts(state) {
     const counts = {}
-    Object.keys(state.data).forEach((agency) => {
-      counts[agency] = state.data[agency].length
+    Object.keys(state.features).forEach((agency) => {
+      counts[agency] = state.features[agency].features.length
     })
 
     return counts
   },
+  getVehicleById:
+    (state) =>
+    ({ agencySlug, vehicleId }) => {
+      return state.features[agencySlug].features.find(
+        (vehicle) => vehicle.id === vehicleId
+      )
+    },
 }
 
 export const mutations = {
-  set(state, { agency, vehicles, features }) {
-    set(state.data, agency.slug, vehicles)
+  set(state, { agency, features }) {
     set(state.features, agency.slug, features)
   },
   setSelection(state, selection) {
@@ -31,8 +36,7 @@ export const mutations = {
     state.warning = warning
   },
   emptyData(state, agency) {
-    set(state.data, agency.slug, [])
-    set(state.features, agency.slug, [])
+    Vue.delete(state.features, agency.slug)
   },
 }
 
@@ -43,37 +47,62 @@ export const actions = {
       return
     }
 
-    const response = await this.$axios.get(`/agencies/${agency.slug}/vehicles`)
+    const response = await this.$axios.get(
+      `/agencies/${agency.slug}/vehicles.geojson`
+    )
     commit('set', {
       agency,
-      vehicles: response.data.data,
-      features: response.data.geojson,
+      features: response.data,
     })
 
     // Commit timestamp
     commit(
       'agencies/setTime',
-      { agency, timestamp: response.data.timestamp },
+      { agency, timestamp: response.data.lastRefreshAt },
       { root: true }
     )
 
     // If selected vehicle is from this agency, replace it or erase it
+    // TODO: agencySlug is not available anymore in selection
     if (state.selection.agency === agency.slug) {
-      const vehicle = response.data.data.find(
+      const vehicle = response.data.features.find(
         ({ id }) => id === state.selection.id
       )
       if (vehicle) commit('setSelection', vehicle)
       else commit('setSelection', {})
     }
   },
-  setSelectionById({ commit, state }, { id, agency }) {
-    const vehicle = state.data[agency.slug].find((vehicle) => vehicle.id === id)
+  setSelectionWithId(
+    { commit, rootState, dispatch, state },
+    { agencySlug, vehicleId }
+  ) {
+    const vehicle = state.features[agencySlug]?.features?.find(
+      (vehicle) => vehicle.id === vehicleId
+    )
 
     if (!vehicle) {
       return {}
     }
 
+    if (vehicle.properties.agencyId !== rootState.agencies.selection?.id) {
+      dispatch('agencies/setSelectionById', vehicle.properties.agencyId, {
+        root: true,
+      })
+    }
+
     commit('setSelection', vehicle)
-    return vehicle
+  },
+  setSelectionAndAgency({ commit, rootState, dispatch }, vehicleSelection) {
+    if (
+      vehicleSelection.properties.agencyId !== rootState.agencies.selection?.id
+    ) {
+      dispatch(
+        'agencies/setSelectionById',
+        vehicleSelection.properties.agencyId,
+        { root: true }
+      )
+    }
+
+    commit('setSelection', vehicleSelection)
   },
 }

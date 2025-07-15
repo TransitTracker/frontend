@@ -11,9 +11,13 @@
           :key="column"
           class="pr-2 tw-flex tw-h-8 tw-items-center tw-gap-x-2 tw-rounded-lg tw-border tw-border-solid tw-border-neutralVariant-50 tw-pl-3 dark:tw-border-neutralVariant-60"
         >
-          <span>
-            {{ $t(`properties.${column}`) }}
+          <span v-if="!(column in filterOptions)">
+            {{ $t(column) }}
             : {{ value }}
+          </span>
+          <span v-else>
+            {{ $t(column) }}
+            : {{ filterOptions[column][value] }}
           </span>
           <button
             :title="$t('removeFilter')"
@@ -38,7 +42,6 @@
     <v-data-table
       v-if="columns && columns.length >= 1"
       class="tt-table tw-border-x-0 tw-border-b-0 tw-border-t tw-border-solid tw-border-t-[#e0e0e0] dark:tw-border-t-[#fff]/12"
-      group-by="agency"
       :headers="columns"
       :items="vehicles"
       :items-per-page="100"
@@ -54,11 +57,11 @@
         <thead class="v-data-table-header tt-table-header">
           <tr>
             <th
+              v-for="column in props.headers"
+              :key="column.value"
               class="v-data-table__divider tw-relative"
               role="columnheader"
               scope="col"
-              v-for="column in props.headers"
-              :key="column.value"
               :aria-sort="
                 sortBy !== column.value
                   ? 'none'
@@ -134,19 +137,23 @@
                   v-on-clickaway="resetFilterModal"
                   class="tw-absolute tw-top-full tw-z-10 -tw-ml-4 tw-bg-neutralVariant-90 tw-p-2 dark:tw-bg-neutralVariant-30"
                 >
-                  <select
-                    v-if="column.choices"
+                  <TwSelect
+                    v-if="column.value in filterOptions"
+                    :id="column.value"
                     :value="filters[column.value]"
+                    :name="column.value"
+                    :label="$t('filterBy', { column: column.text })"
                     @input="setFilter(column.value, $event)"
                   >
+                    <option value=""></option>
                     <option
-                      v-for="option in filterOptions[column.value]"
-                      :key="option.value"
-                      :value="option.value"
+                      v-for="(item, index) in filterOptions[column.value]"
+                      :key="index"
+                      :value="index"
                     >
-                      {{ option.text }}
+                      {{ item }}
                     </option>
-                  </select>
+                  </TwSelect>
                   <TwFilledTextField
                     v-else
                     :value="filters[column.value]"
@@ -172,10 +179,10 @@
         </td>
       </template>
       <!-- eslint-disable-next-line -->
-      <template v-slot:item.tags="{ item }">
+      <template v-slot:item.properties.tags="{ item }">
         <div class="tw-flex tw-gap-2">
           <TwTag
-            v-for="tagId in item.tags"
+            v-for="tagId in item.properties.tags"
             :key="tagId"
             :tag-id="tagId"
             small
@@ -183,49 +190,109 @@
         </div>
       </template>
       <!-- eslint-disable-next-line -->
-      <template v-slot:item.timestamp="{ item }">
-        <TwTimeAgo :timestamp="+item.timestamp" />
+      <template v-slot:item.properties.agencyId="{ item }">
+        {{ agencies[item.properties.agencyId].name }}
       </template>
       <!-- eslint-disable-next-line -->
-      <template v-slot:item.trip.routeShortName="{ item }">
-        {{ item.trip.routeShortName }} {{ item.trip.routeLongName }}
+      <template v-slot:item.properties.agencyShort="{ item }">
+        {{ agencies[item.properties.agencyId].shortName }}
+      </template>
+      <!-- eslint-disable-next-line -->
+      <template v-slot:item.properties.lastSeenAt="{ item }">
+        <TwTimeAgo :timestamp="+item.properties.lastSeenAt" />
+      </template>
+      <!-- eslint-disable-next-line -->
+      <template v-slot:item.properties.firstSeenAt="{ item }">
+        <TwTimestamp :timestamp="+item.properties.firstSeenAt" />
+      </template>
+      <!-- eslint-disable-next-line -->
+      <template v-slot:item.properties.route.shortName="{ item }">
+        {{ item.properties.route.shortName }}
+        {{ item.properties.route.longName }}
       </template>
       <!-- eslint-disable-next-line -->
       <template v-slot:item.createdAt="{ item }">
-        {{ formatDate(item.createdAt) }}
+        {{ formatDate(item.properties.firstSeenAt) }}
       </template>
       <!-- eslint-disable-next-line -->
-      <template v-slot:item.actions="{ item }">
+      <template v-slot:item.properties.vehicle.type="{ item }">
+        {{
+          item.properties.vehicle.type !== null
+            ? $t(`enums.vehicleType.label.${item.properties.vehicle.type}`)
+            : ''
+        }}
+      </template>
+      <!-- eslint-disable-next-line -->
+      <template v-slot:item.properties.currentStatus="{ item }">
+        {{
+          item.properties.currentStatus !== null
+            ? $t(`enums.currentStatus.label.${item.properties.currentStatus}`)
+            : ''
+        }}
+      </template>
+      <!-- eslint-disable-next-line -->
+      <template v-slot:item.properties.trip.scheduleRelationship="{ item }">
+        {{
+          item.properties.trip.scheduleRelationship !== null
+            ? $t(
+                `enums.scheduleRelationship.label.${item.properties.trip.scheduleRelationship}`
+              )
+            : ''
+        }}
+      </template>
+      <!-- eslint-disable-next-line -->
+      <template v-slot:item.properties.congestionLevel="{ item }">
+        <!--        TODO: Verify to remove or not 0 enum value-->
+        {{
+          item.properties.congestionLevel !== null
+            ? $t(
+                `enums.congestionLevel.label.${item.properties.congestionLevel}`
+              )
+            : ''
+        }}
+      </template>
+      <!-- eslint-disable-next-line -->
+      <template v-slot:item.properties.occupancyStatus="{ item }">
+        {{
+          item.properties.occupancyStatus !== null
+            ? $t(
+                `enums.occupancyStatus.label.${item.properties.occupancyStatus}`
+              )
+            : ''
+        }}
+      </template>
+      <!-- eslint-disable-next-line -->
+      <template v-slot:item.properties.actions="{ item }">
         <div class="tw-flex tw-items-center tw-gap-2">
           <TwStandardIconButton
-            @click="setSelection('links', item)"
             :title="$t('see', { see: $t('externalLinks') })"
+            @click="setSelection('links', item)"
           >
             <TwIcon :path="mdiOpenInNew" />
           </TwStandardIconButton>
           <TwStandardIconButton
-            @click="setSelection('map', item)"
             :title="$t('viewMap')"
+            @click="setSelection('map', item)"
           >
             <TwIcon :path="mdiMapMarkerOutline" />
           </TwStandardIconButton>
           <TwStandardIconButton
-            @click="setSelection('blocks', item)"
-            v-if="item.trip.blockId"
+            v-if="item.properties.trip.blockId"
             :title="$t('see', { see: $t('relatedTrips') })"
+            @click="setSelection('blocks', item)"
           >
             <TwIcon :path="mdiTimelineText" />
           </TwStandardIconButton>
-          <TwFilledIconButton
-            v-if="adminMode"
-            tag="a"
-            :href="`https://admin.transittracker.ca/vehicles/${item.id}/edit`"
-            target="_blank"
-            class="tw-inline-flex"
-            color="primary"
-          >
-            <TwIcon :path="mdiTooltipEdit" />
-          </TwFilledIconButton>
+          <!--          <TwFilledIconButton-->
+          <!--            v-if="adminMode"-->
+          <!--            tag="a"-->
+          <!--            :href="`https://admin.transittracker.ca/vehicles/${item.id}/edit`"-->
+          <!--            target="_blank"-->
+          <!--            class="tw-inline-flex"-->
+          <!--            color="primary"-->
+          <!--          >-->
+          <!--            <TwIcon :path="mdiTooltipEdit" />-->
+          <!--          </TwFilledIconButton>-->
         </div>
       </template>
     </v-data-table>
@@ -288,6 +355,7 @@ import {
   mdiTooltipEdit,
 } from '@mdi/js'
 import { mixin as clickaway } from 'vue-clickaway'
+import { FIELDS_DEFINITIONS } from '~/utils/fields'
 
 export default {
   mixins: [clickaway],
@@ -313,79 +381,6 @@ export default {
   data() {
     return {
       availableColumns: ['agency'],
-      columnsProperties: {
-        routeId: {
-          sort: this.sortNumber,
-          width: 100,
-        },
-        bearing: {
-          sort: this.sortNumber,
-        },
-        speed: {
-          sort: this.sortNumber,
-        },
-        odometer: {
-          sort: this.sortNumber,
-        },
-        stopSequence: {
-          sort: this.sortNumber,
-        },
-        timestamp: {
-          filterable: false,
-          sort: this.sortTimestamp,
-          width: 125,
-        },
-        createdAt: {
-          filterable: false,
-          sort: this.sortDate,
-          width: 150,
-        },
-        startTime: {
-          filterable: false,
-          width: 125,
-        },
-        tags: {
-          sortable: false,
-          filterable: false,
-        },
-        'position.lat': {
-          sortable: false,
-          filterable: false,
-        },
-        actions: {
-          sortable: false,
-          filterable: false,
-        },
-        label: {
-          width: 125,
-        },
-        tripId: {
-          width: 200,
-        },
-        'trip.shortName': {
-          width: 125,
-        },
-        'trip.headsign': {
-          width: 150,
-        },
-        'trip.routeShortName': {
-          width: 150,
-        },
-        'currentStatus.label': {
-          width: 150,
-        },
-        'scheduleRelationship.label': {
-          width: 150,
-        },
-        'congestionLevel.label': {
-          width: 150,
-        },
-        'occupancyStatus.label': {
-          width: 150,
-        },
-
-        // TODO: add choices to agency, currentStatus, scheduleRelationship, congestionLevel, occupancyStatus
-      },
       linksDialog: false,
       blocksDialog: false,
       searchColumn: 'ref',
@@ -411,17 +406,21 @@ export default {
       return this.$store.state.settings.adminMode
     },
     agencies() {
-      return this.$store.state.agencies.data
+      return Object.fromEntries(
+        Object.values(this.$store.state.agencies.data).map((item) => [
+          item.id,
+          item,
+        ])
+      )
     },
     columns() {
       return this.$store.getters['settings/visibleTableColumns'].map(
         (column) => ({
-          text: this.$t(`properties.${column}`),
-          value: column,
+          text: this.$t(FIELDS_DEFINITIONS[column].value),
           divider: true,
           filterable: true,
           sortable: true,
-          ...this.columnsProperties[column],
+          ...FIELDS_DEFINITIONS[column],
         })
       )
     },
@@ -437,46 +436,57 @@ export default {
     filters() {
       return this.$store.state.app.filters
     },
+    filterOptions() {
+      return {
+        'properties.vehicle.type': this.$t('enums.vehicleType.label'),
+        'properties.trip.scheduleRelationship': this.$t(
+          'enums.scheduleRelationship.label'
+        ),
+        'properties.currentStatus': this.$t('enums.currentStatus.label'),
+        'properties.congestionLevel': this.$t('enums.congestionLevel.label'),
+        'properties.occupancyStatus': this.$t('enums.occupancyStatus.label'),
+      }
+    },
     vehicles() {
       // Get all vehicles
-      let vehicles = []
-      const state = this.$store.state.vehicles.data
-      Object.keys(state).forEach((agency) => {
-        vehicles = [...vehicles, ...state[agency]]
-      })
+      const vehicles = Object.values(this.$store.state.vehicles.features)
+        .flatMap(({ features }) => features)
+        .filter((item) => {
+          return Object.entries(this.filters).every(([key, searchTerm]) => {
+            // Ignore empty searchTerm
+            if (!searchTerm) return true
 
-      return vehicles.filter((item) => {
-        return Object.entries(this.filters).every(([key, searchTerm]) => {
-          // Exception for route short name since it's used with route long name
-          if (key === 'trip.routeShortName') {
-            return (
-              `${item.trip.routeShortName} ${item.trip.routeLongName}` ?? ''
-            )
+            // Exception for agencies column
+            if (key.includes('agency')) {
+              return (
+                `${this.agencies[item.properties.agencyId].name} ${
+                  this.agencies[item.properties.agencyId].shortName
+                }` ?? ''
+              )
+                .toUpperCase()
+                .includes(searchTerm.toString().toUpperCase())
+            }
+
+            // Exception for route short name since it's used with route long name
+            if (key === 'properties.route.shortName') {
+              return (
+                `${item.properties.route.shortName} ${item.properties.route.longName}` ??
+                ''
+              )
+                .toUpperCase()
+                .includes(searchTerm.toString().toUpperCase())
+            }
+
+            return key
+              .split('.')
+              .reduce((acc, part) => acc?.[part] ?? '', item)
+              .toString()
               .toUpperCase()
               .includes(searchTerm.toString().toUpperCase())
-          }
-
-          // Custom return for nested column
-          if (key.includes('.')) {
-            const [parent, child] = key.split('.')
-            return (item[parent][child] ?? '')
-              .toUpperCase()
-              .includes(searchTerm.toString().toUpperCase())
-          }
-
-          let value = item[key] ?? ''
-
-          // For numbers
-          if (typeof item[key] === 'number') {
-            value = item[key] + ''
-          }
-
-          // Everything else
-          return value
-            .toUpperCase()
-            .includes(searchTerm.toString().toUpperCase())
+          })
         })
-      })
+
+      return vehicles
     },
   },
   methods: {
@@ -508,10 +518,11 @@ export default {
       this.$store.commit('app/removeFilter', column)
     },
     setFilter(column, value) {
-      this.$store.commit('app/setFilter', { column, value })
+      const stringValue = value?.target?.value ?? value
+      this.$store.commit('app/setFilter', { column, stringValue })
     },
     setSelection(action, vehicle) {
-      this.$store.commit('vehicles/setSelection', vehicle)
+      this.$store.dispatch('vehicles/setSelectionAndAgency', vehicle)
 
       switch (action) {
         case 'links':

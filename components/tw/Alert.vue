@@ -1,8 +1,8 @@
 <template>
   <figure
+    v-if="alert"
     class="tw-flex tw-w-full tw-items-center tw-gap-4 tw-py-2 tw-pl-4 tw-pr-6"
     :class="[alertClasses]"
-    v-if="alert"
   >
     <TwIcon :path="alert.icon" class="tw-shrink-0" />
     <div class="tw-grow">
@@ -22,8 +22,8 @@
       v-if="alert.canBeClosed"
       :title="$t('close')"
       :color="buttonColor"
-      @click="markAsRead"
       class="tw-hidden md:tw-flex"
+      @click="markAsRead"
     >
       <TwIcon :path="mdiClose" />
     </TwStandardIconButton>
@@ -34,7 +34,7 @@
       <template #header>
         {{ alert.title }}
       </template>
-      <div v-html="alert.body" class="tw-mt-2"></div>
+      <div class="tw-mt-2" v-html="alert.body"></div>
       <div v-if="alert.action === 'newAgencies'" class="tw-space-y-4 tw-pb-2">
         <TwAlertAgency
           v-for="slug in alert.actionParameters.agencies.split(',')"
@@ -45,7 +45,7 @@
 
       <template #footer>
         <div class="tw-flex tw-justify-between">
-          <TwTextButton @click="markAsRead" type="submit">
+          <TwTextButton type="submit" @click="markAsRead">
             {{ $t('close') }}
           </TwTextButton>
           <form method="dialog">

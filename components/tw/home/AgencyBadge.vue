@@ -1,5 +1,6 @@
 <template>
   <li
+    v-if="!agency.isArchived"
     class="tw-relative tw-overflow-hidden tw-rounded-lg tw-px-2 tw-py-1 tw-text-sm tw-leading-5 md:tw-p-2"
     :style="{ backgroundColor: `${agency.color}26` }"
   >
@@ -15,10 +16,7 @@
     <b class="tw-font-medium md:tw-hidden">
       {{ agency.shortName }}
     </b>
-    <p v-if="agency.isArchived" class="!tw-mb-0 tw-italic">
-      {{ $t('home.archived') }}
-    </p>
-    <p v-else-if="agency.slug in vehicleCounts" class="!tw-mb-0">
+    <p v-if="agency.slug in vehicleCounts" class="!tw-mb-0">
       {{ $tc('landing.vehicles', vehicleCounts[agency.slug]) }}
       <br class="md:tw-hidden" />
       <span class="tw-hidden md:tw-inline">&bull;</span>
@@ -49,8 +47,6 @@ export default {
       return this.$store.getters['vehicles/counts']
     },
     isLoading() {
-      if (this.agency.isArchived) return false
-
       if (this.agency.slug in this.vehicleCounts) return false
 
       return true

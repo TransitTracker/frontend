@@ -27,16 +27,16 @@
         {{ $t('app.tabTable') }}
       </TwNavigationBarButton>
       <TwNavigationBarButton
-        :to="localePath(`/byod`)"
-        :icon="mdiFolderUploadOutline"
-        :active-icon="mdiFolderUpload"
+        :to="localePath(`/regions/${region}/download`)"
+        :icon="mdiDownloadOutline"
+        :active-icon="mdiDownload"
       >
-        {{ $t('app.tabByod') }}
+        {{ $t('app.tabDownload') }}
       </TwNavigationBarButton>
       <TwNavigationBarButton
+        v-if="adminMode"
         :to="localePath('/debug')"
         :icon="mdiTools"
-        v-if="adminMode"
       >
         Admin
       </TwNavigationBarButton>
@@ -50,8 +50,8 @@ import {
   mdiHome,
   mdiMap,
   mdiMapOutline,
-  mdiFolderUpload,
-  mdiFolderUploadOutline,
+  mdiDownload,
+  mdiDownloadOutline,
   mdiTools,
 } from '@mdi/js'
 export default {
@@ -64,8 +64,8 @@ export default {
       'M21 21v-4.65H3V21h18Zm0-6.65V9.625H3v4.725h18Zm0-6.725V3H3v4.625h18Z',
     msTableOutline:
       'M19 19v-3H5v3h14Zm0-5v-4H5v4h14Zm0-6V5H5v3h14ZM5 21q-.825 0-1.413-.587Q3 19.825 3 19V5q0-.825.587-1.413Q4.175 3 5 3h14q.825 0 1.413.587Q21 4.175 21 5v14q0 .825-.587 1.413Q19.825 21 19 21Z',
-    mdiFolderUpload,
-    mdiFolderUploadOutline,
+    mdiDownload,
+    mdiDownloadOutline,
     mdiTools,
   }),
   computed: {

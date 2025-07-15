@@ -1,6 +1,6 @@
 <template>
   <footer
-    class="tw-absolute tw-top-[calc(100vh-14rem)] tw-mb-[4rem] tw-w-full tw-space-y-4 tw-overflow-y-auto tw-rounded-t-[1.75rem] tw-bg-neutral-99 tw-p-4 tw-pb-20 tw-text-neutral-10 dark:tw-bg-neutral-10 dark:tw-text-neutral-90 md:tw-left-4 md:tw-top-4 md:tw-max-h-[calc(100vh-41px-32px)] md:tw-w-96 md:tw-rounded-xl md:tw-pb-4"
+    class="tw-absolute tw-top-[calc(100vh-14rem)] tw-mb-[4rem] tw-w-full tw-space-y-2 tw-overflow-y-auto tw-rounded-t-[1.75rem] tw-bg-neutral-99 tw-p-4 tw-pb-20 tw-text-neutral-10 dark:tw-bg-neutral-10 dark:tw-text-neutral-90 md:tw-left-2 md:tw-top-2 md:tw-max-h-[calc(100vh-41px-32px)] md:tw-w-96 md:tw-rounded-xl md:tw-pb-4 xl:tw-left-4 xl:tw-top-4 xl:tw-space-y-4"
   >
     <div class="-tw-mt-4 md:tw-hidden">
       <div
@@ -19,9 +19,11 @@
       <MapVehicleAvatar />
       <div class="tw-ml-2 tw-grow md:tw-ml-0">
         <h2
-          class="tw-text-2xl tw-leading-8 md:tw-text-4xl md:tw-leading-[2.75rem]"
+          class="tw-break-all tw-text-2xl tw-leading-8 xl:tw-text-4xl xl:tw-leading-[2.75rem]"
         >
-          {{ vehicle.label ?? vehicle.ref }}
+          {{
+            vehicle.properties.vehicle.label ?? vehicle.properties.vehicle.id
+          }}
           <TwFilledIconButton
             v-if="adminMode"
             tag="a"
@@ -33,31 +35,27 @@
           </TwFilledIconButton>
         </h2>
         <h3
-          class="tw-text-xs tw-font-medium tw-leading-4 md:tw-text-base md:tw-font-normal md:tw-leading-6"
+          class="tw-text-xs tw-font-medium tw-leading-4 xl:tw-text-base xl:tw-font-normal xl:tw-leading-6"
         >
           <span class="md:tw-hidden">{{ agency.shortName }}</span>
           <span class="tw-hidden md:tw-inline">{{ agency.name }}<br /></span>
-          <span v-if="vehicle.timestamp">
+          <span v-if="vehicle.properties.lastSeenAt">
             <span class="md:tw-hidden">&bull;</span>
-            <TwTimeAgo :timestamp="parseInt(vehicle.timestamp)" />
+            <TwTimeAgo :timestamp="vehicle.properties.lastSeenAt" />
           </span>
         </h3>
       </div>
       <div
         :style="{
-          border: vehicle.trip.routeShortName
+          border: vehicle.properties.route.shortName
             ? 'none'
             : `1px solid ${agency.color}`,
-          color: vehicle.trip.routeTextColor ?? agency.textColor,
-          backgroundColor: vehicle.trip.routeColor ?? agency.color,
+          color: vehicle.properties.route.textColor ?? agency.textColor,
+          backgroundColor: vehicle.properties.route.color ?? agency.color,
         }"
         class="tw-rounded-lg tw-px-2 tw-py-1 tw-font-bold md:tw-hidden"
       >
-        {{
-          vehicle.trip.routeShortName
-            ? vehicle.trip.routeShortName
-            : vehicle.routeId
-        }}
+        {{ vehicle.properties.route.shortName ?? vehicle.properties.route.id }}
       </div>
     </div>
     <VehicleSheetRouteIndicator
@@ -66,17 +64,17 @@
       class="tw-hidden md:tw-flex"
     />
     <ul
-      v-if="vehicle.tags.length"
+      v-if="vehicle.properties.tags.length"
       class="-tw-ml-6 tw-flex tw-items-center tw-gap-x-2"
     >
-      <TwTag v-for="tag in vehicle.tags" :key="tag" :tag-id="tag" />
+      <TwTag v-for="tag in vehicle.properties.tags" :key="tag" :tag-id="tag" />
     </ul>
 
     <div
-      v-if="vehicle.links.length"
+      v-if="vehicle.properties.links.length"
       class="-tw-mx-4 tw-h-px tw-border-t tw-bg-neutralVariant-80"
     />
-    <TwDetails v-if="vehicle.links.length" small-icon>
+    <TwDetails v-if="vehicle.properties.links.length" small-icon>
       <template #summary>
         <h3 class="tw-text-neutral10 tw-text-sm tw-font-medium tw-leading-5">
           {{ $t('externalLinks') }}
@@ -89,26 +87,28 @@
       {{ $t('trip') }}
     </h3>
     <VehicleSheetRouteIndicator
-      v-if="vehicle.trip.routeShortName"
+      v-if="vehicle.properties.route.shortName"
       :vehicle="vehicle"
       :agency="agency"
       class="md:tw-hidden"
     />
     <VehicleSheetPropertiesList :vehicle="vehicle" group="trip" />
     <div
-      v-if="vehicle.trip.blockId"
+      v-if="vehicle.properties.trip.blockId"
       class="-tw-mx-4 tw-h-px tw-border-t tw-bg-neutralVariant-80"
     />
-    <TwDetails v-if="vehicle.trip.blockId" small-icon>
+    <TwDetails v-if="vehicle.properties.trip.blockId" small-icon>
       <template #summary>
         <h3 class="tw-text-neutral10 tw-text-sm tw-font-medium tw-leading-5">
           {{ $t('relatedTrips') }}
         </h3>
       </template>
+      <!--      TODO: Load trips only if details is open -->
       <VehicleSheetTripsList />
       <VehicleSheetProperty
         :property="{
-          field: 'trip.blockId',
+          key: 'trip.blockId',
+          value: 'properties.trip.blockId',
           icon: mdiIdentifier,
         }"
         :vehicle="vehicle"
@@ -149,7 +149,7 @@ export default {
       return this.$store.state.settings.adminMode
     },
     agency() {
-      return this.$store.state.agencies.data[this.vehicle.agency] ?? {}
+      return this.$store.state.agencies.selection ?? {}
     },
     warning() {
       return this.$store.state.vehicles.warning

@@ -4,16 +4,16 @@
       <p v-if="adminMode">Admin mode is On</p>
       <p v-else>Admin mode is Off</p>
       <button
-        @click="toggleAdmin(true)"
         :disabled="adminMode"
         class="tw-bg-primary-40 tw-p-2 tw-text-white disabled:tw-cursor-not-allowed disabled:tw-bg-neutral-30"
+        @click="toggleAdmin(true)"
       >
         Turn On
       </button>
       <button
         :disabled="!adminMode"
-        @click="toggleAdmin(false)"
         class="tw-bg-primary-40 tw-p-2 tw-text-white disabled:tw-cursor-not-allowed disabled:tw-bg-neutral-30"
+        @click="toggleAdmin(false)"
       >
         Turn Off
       </button>

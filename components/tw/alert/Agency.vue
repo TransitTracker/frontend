@@ -1,6 +1,6 @@
 <template>
   <li
-    class="tw-relative tw-flex tw-justify-between tw-gap-x-2 tw-overflow-hidden tw-rounded-lg tw-py-1 tw-px-2 tw-text-sm tw-leading-5 md:tw-p-2"
+    class="tw-relative tw-flex tw-justify-between tw-gap-x-2 tw-overflow-hidden tw-rounded-lg tw-px-2 tw-py-1 tw-text-sm tw-leading-5 md:tw-p-2"
     :style="{ backgroundColor: `${agency.color}26` }"
   >
     <div>
@@ -17,8 +17,8 @@
     ></div>
     <TwStandardIconButton
       type="button"
-      @click="addAgency()"
       :style="{ color: agency.textColor }"
+      @click="addAgency()"
     >
       <TwIcon
         :path="activeAgencies.includes(agency.slug) ? mdiCheck : mdiPlusCircle"
@@ -30,16 +30,16 @@
 <script>
 import { mdiPlusCircle, mdiCheck } from '@mdi/js'
 export default {
-  data: () => ({
-    mdiPlusCircle,
-    mdiCheck,
-  }),
   props: {
     agencySlug: {
       type: String,
       required: true,
     },
   },
+  data: () => ({
+    mdiPlusCircle,
+    mdiCheck,
+  }),
   computed: {
     activeAgencies() {
       return this.$store.state.settings.activeAgencies

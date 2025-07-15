@@ -48,9 +48,6 @@
 import { mdiClose } from '@mdi/js'
 
 export default {
-  data: () => ({
-    mdiClose,
-  }),
   props: {
     value: {
       type: Boolean,
@@ -61,6 +58,9 @@ export default {
       required: true,
     },
   },
+  data: () => ({
+    mdiClose,
+  }),
   watch: {
     value(value) {
       this.handleState(value)

@@ -5,12 +5,14 @@
     class="tt-map__vehicle-avatar"
   >
     <svg
-      v-if="vehicle.bearing"
+      v-if="vehicle.properties.position.bearing"
       :viewBox="$vuetify.breakpoint.smAndDown ? '0 0 64 64' : '0 0 85 85'"
       fill="none"
       class="tt-map__vehicle-avatar__arrow d-md-block"
       xmlns="http://www.w3.org/2000/svg"
-      :style="{ transform: `rotate(${vehicle.bearing}deg)` }"
+      :style="{
+        transform: `rotate(${vehicle.properties.position.bearing}deg)`,
+      }"
     >
       <path
         fill-rule="evenodd"
@@ -27,27 +29,27 @@
       :color="agency.textColor"
       :size="$vuetify.breakpoint.smAndDown ? 24 : 28"
     >
-      {{ mdi[vehicle.vehicleType] }}
+      {{ mdi[vehicle.properties.vehicle.type] }}
     </v-icon>
   </v-avatar>
 </template>
 
 <script>
-import { mdiBus, mdiBusElectric, mdiFerry, mdiTrain, mdiTram } from '@mdi/js'
+import { mdiBus, mdiSubway, mdiFerry, mdiTrain, mdiTram } from '@mdi/js'
 
 export default {
   data: () => ({
     mdi: {
-      bus: mdiBus,
-      'bus-electric': mdiBusElectric,
-      ferry: mdiFerry,
-      train: mdiTrain,
-      tram: mdiTram,
+      0: mdiTram,
+      1: mdiSubway,
+      2: mdiTrain,
+      3: mdiBus,
+      4: mdiFerry,
     },
   }),
   computed: {
     agency() {
-      return this.$store.state.agencies.data[this.vehicle?.agency] ?? {}
+      return this.$store.state.agencies.selection ?? {}
     },
     vehicle() {
       return this.$store.state.vehicles.selection ?? {}

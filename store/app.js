@@ -10,7 +10,6 @@ export const state = () => ({
   openNotificationsCentre: false,
   openRegionSwitcher: false,
   openSettingsDrawer: false,
-  openDownloadAssistant: false,
   updatePending: false,
   notificationsCentre: false,
   filters: {},
@@ -23,11 +22,11 @@ export const mutations = {
   set(state, { key, value }) {
     state[key] = value
   },
-  setFilter(state, { column, value }) {
-    Vue.set(state.filters, column, value)
+  setFilter(state, { column, stringValue }) {
+    Vue.set(state.filters, column, stringValue)
 
     // Delete the filter if it's empty
-    if (value === '') {
+    if (stringValue === '' || !stringValue) {
       Vue.delete(state.filters, column)
     }
   },
