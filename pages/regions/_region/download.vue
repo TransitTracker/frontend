@@ -61,7 +61,7 @@
               </h2>
             </div>
             <div
-              class="tw-mt-4 tw-flex tw-flex-col tw-gap-y-4 tw-divide-y tw-divide-solid tw-divide-neutralVariant-80 dark:tw-divide-neutralVariant-30"
+              class="tw-mt-4 tw-flex tw-flex-col tw-divide-y tw-divide-solid tw-divide-neutralVariant-80 *:tw-border-x-0 *:tw-py-2 dark:tw-divide-neutralVariant-30"
             >
               <TwDetails
                 v-for="region in regions"
@@ -264,7 +264,6 @@ export default {
     },
     async downloadPartOfHistory(url) {
       const response = await this.$axios.get(url)
-      console.log('downloadPartOfHistory', response.data)
 
       this.data.push(...response.data.features)
 
