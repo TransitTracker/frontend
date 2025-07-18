@@ -40,39 +40,16 @@ const defaultGeojsonShapeData = {
 export default {
   name: 'PagesRegionMap',
   middleware: 'loadData',
-  async asyncData({ $axios, params, query, store, error }) {
-    // TODO : Test deep link
-    // Handle deep links coming from notifications or other apps
-    const handleDeepLink = (vehicleData) => {
-      store.commit('vehicles/setSelection', vehicleData)
-
-      if (!vehicleData.isActive) {
-        store.commit('vehicles/setWarning', 'vehicleInactive')
-      }
-
-      if (!store.state.settings.activeAgencies.includes(vehicleData.agency)) {
-        store.commit('vehicles/setWarning', 'agencyInactive')
-      }
-    }
-
-    async function tryRequest(url) {
-      try {
-        const { data } = await $axios.get(url)
-        return handleDeepLink(data.data)
-      } catch (e) {
-        return error({
-          statusCode: 404,
-          message: 'Vehicle not found',
-        })
-      }
-    }
+  asyncData({ params, query }) {
+    // Prepare the url for the vehicle request
+    let vehicleRequestUrl = ''
 
     if (query.vehicle) {
-      await tryRequest(`/vehicles/${query.vehicle}`)
+      vehicleRequestUrl = `/vehicles.geojson/${query.vehicle}`
     }
 
     if (query.ref && query.agency) {
-      await tryRequest(`/agencies/${query.agency}/vehicles/${query.ref}`)
+      vehicleRequestUrl = `/agencies/${query.agency}/vehicles.geojson/${query.ref}`
     }
 
     return {
@@ -83,6 +60,7 @@ export default {
       },
       mapAccessToken: process.env.mapboxAccessToken,
       mdiNavigation,
+      vehicleRequestUrl,
     }
   },
   data: () => ({
@@ -274,8 +252,38 @@ export default {
       // If it's the case, switch the base style now
       // TODO: fix this
     })
+
+    // Handle deeplink and load single vehicle after map loading
+    if (this.vehicleRequestUrl) {
+      this.handleDeeplink(this.vehicleRequestUrl)
+    }
   },
   methods: {
+    async handleDeeplink(url) {
+      let vehicleData
+      try {
+        const { data } = await this.$axios.get(url)
+        vehicleData = data.data
+      } catch (error) {
+        // Vehicle probably doesn't exist, load the map normally without a pre-selected vehicle
+        // TODO: Warn user (with toast?)
+        return
+      }
+
+      this.$store.commit('vehicles/setSelection', vehicleData)
+      this.$store.dispatch(
+        'agencies/setSelectionById',
+        vehicleData.properties.agencyId
+      )
+
+      if (!vehicleData.properties.isActive) {
+        this.$store.commit('vehicles/setWarning', 'vehicleInactive')
+      }
+
+      this.selectVehicle(vehicleData)
+
+      // TODO: Warning when agency is inactive
+    },
     addAgencyLayers(features, agency) {
       // Don't continue if map is not ready
       if (!this.mapReady || !this.mapStyleReady) {
