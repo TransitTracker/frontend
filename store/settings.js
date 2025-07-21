@@ -23,6 +23,7 @@ export const state = () => ({
     'startTime',
     'actions',
   ],
+  tableGroupBy: 'properties.agencyId',
   debugMode: false,
 })
 
