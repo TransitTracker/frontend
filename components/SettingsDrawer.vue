@@ -110,6 +110,26 @@
         <div class="my-3 mx-n3">
           <v-divider />
         </div>
+        <h2 class="text-subtitle-1 font-weight-bold">
+          {{ $t('grouping') }}
+        </h2>
+        <p class="text-body-2 mb-2">
+          {{ $t('groupingDesc') }}
+        </p>
+        <SettingsItemGroup
+          :value="settings.tableGroupBy"
+          @input="setSetting('tableGroupBy', $event)"
+        >
+          <SettingsItem :icon="mdiMenu" :value="null">
+            {{ $t('noGrouping') }}
+          </SettingsItem>
+          <SettingsItem :icon="mdiFormatListGroup" value="properties.agencyId">
+            {{ $t('groupByAgency') }}
+          </SettingsItem>
+        </SettingsItemGroup>
+        <div class="my-3 mx-n3">
+          <v-divider />
+        </div>
         <TwDetails>
           <template #summary>
             <h2 class="text-subtitle-1 font-weight-bold">
@@ -172,6 +192,8 @@ import {
   mdiViewList,
   mdiWeatherNight,
   mdiWhiteBalanceSunny,
+  mdiMenu,
+  mdiFormatListGroup,
 } from '@mdi/js'
 
 export default {
@@ -199,6 +221,8 @@ export default {
     mdiViewList,
     mdiWeatherNight,
     mdiWhiteBalanceSunny,
+    mdiMenu,
+    mdiFormatListGroup,
     mdi: { bus: mdiBus, ferry: mdiFerry, train: mdiTrain, tram: mdiTram },
   }),
   computed: {
@@ -289,3 +313,19 @@ export default {
   }
 }
 </style>
+<i18n>
+{
+  "en": {
+    "grouping": "Group table rows",
+    "groupingDesc": "If grouping is disabled, you can display the agency column using the setting below.",
+    "noGrouping": "Don’t group rows",
+    "groupByAgency": "Group rows by agency"
+  },
+  "fr": {
+    "grouping": "Regrouper les véhicules dans la liste",
+    "groupingDesc": "Si le regroupement est désactivé, vous pouvez afficher la colonne « Agence » en utilisant le paramètre ci-dessous.",
+    "noGrouping": "Ne pas regrouper les véhicules",
+    "groupByAgency": "Regrouper les véhicules par agence"
+  }
+}
+</i18n>

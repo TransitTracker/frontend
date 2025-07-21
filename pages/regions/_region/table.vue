@@ -36,7 +36,7 @@
         :title="$t('openSettings')"
         @click="openSettings"
       >
-        <TwIcon :path="mdiTune" />
+        <TwIcon :path="mdiTableColumnPlusAfter" />
       </TwStandardIconButton>
     </div>
     <v-data-table
@@ -52,6 +52,7 @@
       :fixed-header="true"
       :sort-by="sortBy"
       :sort-desc="sortDesc"
+      :group-by="tableGroupBy"
     >
       <template #header="{ props }">
         <thead class="v-data-table-header tt-table-header">
@@ -313,7 +314,7 @@
         {{ $t('noColumnsInstructions') }}
       </p>
       <TwFilledButton with-icon @click="openSettings">
-        <TwIcon :path="mdiTune" />
+        <TwIcon :path="mdiTableColumnPlusAfter" />
         {{ $t('openSettingsShort') }}
       </TwFilledButton>
     </div>
@@ -345,7 +346,7 @@ import {
   mdiOpenInNew,
   mdiPlus,
   mdiMapMarkerOutline,
-  mdiTune,
+  mdiTableColumnPlusAfter,
   mdiFilter,
   mdiFilterOutline,
   mdiClose,
@@ -353,6 +354,8 @@ import {
   mdiTimelineText,
   mdiArrowUp,
   mdiTooltipEdit,
+  mdiFormatListGroup,
+  mdiMenu,
 } from '@mdi/js'
 import { mixin as clickaway } from 'vue-clickaway'
 import { FIELDS_DEFINITIONS } from '~/utils/fields'
@@ -362,7 +365,7 @@ export default {
   middleware: 'loadData',
   asyncData() {
     return {
-      mdiTune,
+      mdiTableColumnPlusAfter,
       mdiMagnify,
       mdiMapMarker,
       mdiMinus,
@@ -376,6 +379,8 @@ export default {
       mdiTimelineText,
       mdiArrowUp,
       mdiTooltipEdit,
+      mdiFormatListGroup,
+      mdiMenu,
     }
   },
   data() {
@@ -446,6 +451,9 @@ export default {
         'properties.congestionLevel': this.$t('enums.congestionLevel.label'),
         'properties.occupancyStatus': this.$t('enums.occupancyStatus.label'),
       }
+    },
+    tableGroupBy() {
+      return this.$store.state.settings.tableGroupBy
     },
     vehicles() {
       // Get all vehicles
@@ -542,23 +550,6 @@ export default {
         default:
           break
       }
-    },
-    sortDate(a, b) {
-      return new Date(b) - new Date(a)
-    },
-    sortTimestamp(a, b) {
-      return new Date(+b * 1000) - new Date(+a * 1000)
-    },
-    sortNumber(a, b) {
-      const cook = (c) => {
-        if (c === undefined || c === null) return -Infinity
-        return c.indexOf('.') ? parseFloat(c) : parseInt(c, 10)
-      }
-      a = typeof a === 'number' ? a : cook(a)
-      b = typeof b === 'number' ? b : cook(b)
-      if (a < b) return -1
-      if (a > b) return 1
-      return 0
     },
     toggleSort({ value, sortable }) {
       if (!sortable) {
