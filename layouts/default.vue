@@ -168,7 +168,8 @@ export default {
       this.verifyNotificationSubscriptionStatus()
     }
 
-    // Import tag data
+    // Import links and tag data
+    this.$store.dispatch('links/getAll')
     this.$store.dispatch('tags/getAll')
   },
   methods: {

@@ -24,7 +24,9 @@ export const mutations = {
 
 export const actions = {
   async load({ commit }, region) {
-    const alerts = await this.$axios.get(`/regions/${region}/alerts`)
+    const alerts = await this.$axios.get(`/regions/${region}/alerts`, {
+      cacheId: `alerts-${region}`,
+    })
     alerts.data.data.forEach((alert) => {
       commit('add', alert)
     })
