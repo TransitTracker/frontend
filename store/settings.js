@@ -1,4 +1,4 @@
-import { FIELDS_DEFINITIONS } from '~/utils/fields'
+import { FIELDS_DEFINITIONS, DEFAULT_TABLE_COLUMNS } from '~/utils/fields'
 
 // A list of all available columns for table
 const availableColumns = Object.keys(FIELDS_DEFINITIONS)
@@ -13,16 +13,7 @@ export const state = () => ({
   lang: null,
   theme: 'system',
   pushSubscriptionUuid: null,
-  selectedTableColumns: [
-    'label',
-    'tags',
-    'routeId',
-    'trip.routeShortName',
-    'trip.headsign',
-    'tripId',
-    'startTime',
-    'actions',
-  ],
+  selectedTableColumns: DEFAULT_TABLE_COLUMNS,
   tableGroupBy: 'properties.agencyId',
   debugMode: false,
 })

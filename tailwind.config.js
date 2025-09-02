@@ -9,7 +9,7 @@ module.exports = {
   content: [
     `components/tw/**/*.vue`,
     `components/VehicleSheet/**/*.vue`,
-    `components/settings/TableColumns.vue`,
+    `components/settings/**/*.vue`,
     `components/Loading.vue`,
     `layouts/error.vue`,
     `pages/regions/_region/download.vue`,
@@ -50,6 +50,9 @@ module.exports = {
       outlineWidth: {
         3: '3px',
       },
+      spacing: {
+        100: '25rem',
+      },
       transformOrigin: {
         'left-right': '0% 50%',
       },
@@ -60,6 +63,7 @@ module.exports = {
         standard: '	cubic-bezier(0.2, 0.0, 0, 1.0)',
         'standard-decelerate': 'cubic-bezier(0, 0, 0, 1)',
         'standard-accelerate': 'cubic-bezier(0.3, 0, 1, 1)',
+        'standard-spatial': '	cubic-bezier(0.27, 1.06, 0.18, 1.00)',
       },
     },
     fontFamily: {

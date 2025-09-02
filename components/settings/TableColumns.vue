@@ -26,17 +26,30 @@
       </div>
     </draggable>
     <!-- TODO: Convert chip to component with hover effect -->
-    <button
-      v-if="visibleColumns.length !== availableColumns.length"
-      class="tw-mt-2 tw-flex tw-h-8 tw-items-center tw-gap-x-2 tw-rounded-lg tw-border tw-border-solid tw-border-neutralVariant-50 tw-pl-2 tw-pr-4 tw-text-sm tw-leading-8 dark:tw-border-neutralVariant-60"
-      @click="addAll"
-    >
-      <TwIcon
-        :path="mdiTableColumnPlusAfter"
-        class="!tw-h-[1.125rem] !tw-w-[1.125rem]"
-      />
-      <span>{{ $t('addAll') }}</span>
-    </button>
+    <div class="tw-mt-2 tw-flex tw-flex-wrap tw-gap-2">
+      <button
+        v-if="visibleColumns.length !== availableColumns.length"
+        class="tw-flex tw-h-8 tw-items-center tw-gap-x-2 tw-rounded-lg tw-border tw-border-solid tw-border-neutralVariant-50 tw-pl-2 tw-pr-4 tw-text-sm tw-leading-8 dark:tw-border-neutralVariant-60"
+        @click="addAll"
+      >
+        <TwIcon
+          :path="mdiTableColumnPlusAfter"
+          class="!tw-h-[1.125rem] !tw-w-[1.125rem]"
+        />
+        <span>{{ $t('addAll') }}</span>
+      </button>
+      <button
+        v-if="!isCurrentlyDefault"
+        class="tw-flex tw-h-8 tw-items-center tw-gap-x-2 tw-rounded-lg tw-border tw-border-solid tw-border-neutralVariant-50 tw-pl-2 tw-pr-4 tw-text-sm tw-leading-8 dark:tw-border-neutralVariant-60"
+        @click="resetToDefault"
+      >
+        <TwIcon
+          :path="mdiTableRefresh"
+          class="!tw-h-[1.125rem] !tw-w-[1.125rem]"
+        />
+        <span>{{ $t('resetToDefault') }}</span>
+      </button>
+    </div>
     <h3 class="tw-mt-4 tw-text-xs tw-font-medium tw-leading-4">
       {{ $t('hidden') }}
     </h3>
@@ -71,8 +84,12 @@
 <script>
 import draggable from 'vuedraggable'
 
-import { mdiReorderHorizontal, mdiTableColumnPlusAfter } from '@mdi/js'
-import { FIELDS_DEFINITIONS } from '~/utils/fields'
+import {
+  mdiReorderHorizontal,
+  mdiTableColumnPlusAfter,
+  mdiTableRefresh,
+} from '@mdi/js'
+import { FIELDS_DEFINITIONS, DEFAULT_TABLE_COLUMNS } from '~/utils/fields'
 
 export default {
   components: {
@@ -81,6 +98,7 @@ export default {
   data: () => ({
     mdiReorderHorizontal,
     mdiTableColumnPlusAfter,
+    mdiTableRefresh,
   }),
   computed: {
     availableColumns() {
@@ -110,6 +128,14 @@ export default {
         })
       },
     },
+    isCurrentlyDefault() {
+      if (this.visibleColumns.length !== DEFAULT_TABLE_COLUMNS.length)
+        return false
+
+      return this.visibleColumns.every(
+        (value, index) => value === DEFAULT_TABLE_COLUMNS[index]
+      )
+    },
   },
   methods: {
     addAll() {
@@ -120,6 +146,12 @@ export default {
     },
     getLabel(column) {
       return this.$t(FIELDS_DEFINITIONS[column]?.value)
+    },
+    resetToDefault() {
+      this.$store.commit('settings/set', {
+        setting: 'selectedTableColumns',
+        value: DEFAULT_TABLE_COLUMNS,
+      })
     },
   },
 }
@@ -138,14 +170,16 @@ export default {
       "addAll": "Make all columns visible",
       "hidden": "Hidden",
       "dropHereVisible": "Grab and drop a column here to make it visible",
-      "dropHereHidden": "Grab and drop a column here to hide it"
+      "dropHereHidden": "Grab and drop a column here to hide it",
+      "resetToDefault": "Reset to default values"
     },
     "fr": {
       "visible": "Visible",
       "addAll": "Rendre toutes les colonnes visibles",
       "hidden": "Caché",
       "dropHereVisible": "Prenez et déposez une colonne ici pour la rendre visible",
-      "dropHereHidden": "Prenez et déposez une colonne ici pour la masquer"
+      "dropHereHidden": "Prenez et déposez une colonne ici pour la masquer",
+      "resetToDefault": "Réinitialiser aux valeurs par défaut"
     }
   }
 </i18n>

@@ -13,6 +13,7 @@ export const state = () => ({
   updatePending: false,
   notificationsCentre: false,
   filters: {},
+  settingsView: '',
 })
 
 export const mutations = {
