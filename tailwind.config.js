@@ -51,10 +51,15 @@ module.exports = {
         3: '3px',
       },
       spacing: {
+        4.5: '1.125rem',
         100: '25rem',
       },
       transformOrigin: {
         'left-right': '0% 50%',
+      },
+      transitionDelay: {
+        350: '350ms',
+        750: '750ms',
       },
       transitionTimingFunction: {
         emphasized: '	cubic-bezier(0.2, 0.0, 0, 1.0)',
@@ -64,6 +69,9 @@ module.exports = {
         'standard-decelerate': 'cubic-bezier(0, 0, 0, 1)',
         'standard-accelerate': 'cubic-bezier(0.3, 0, 1, 1)',
         'standard-spatial': '	cubic-bezier(0.27, 1.06, 0.18, 1.00)',
+        'standard-effects-fast': 'cubic-bezier(0.31, 0.94, 0.34, 1.00)',
+        'standard-effects': 'cubic-bezier(0.34, 0.80, 0.34, 1.00)',
+        'standard-effects-slow': 'cubic-bezier(0.34, 0.88, 0.34, 1.00)',
       },
     },
     fontFamily: {

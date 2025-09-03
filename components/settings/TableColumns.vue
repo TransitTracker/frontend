@@ -25,30 +25,21 @@
         {{ $t('dropHereVisible') }}
       </div>
     </draggable>
-    <!-- TODO: Convert chip to component with hover effect -->
     <div class="tw-mt-2 tw-flex tw-flex-wrap tw-gap-2">
-      <button
+      <TwChip
+        :icon="mdiTableColumnPlusAfter"
         v-if="visibleColumns.length !== availableColumns.length"
-        class="tw-flex tw-h-8 tw-items-center tw-gap-x-2 tw-rounded-lg tw-border tw-border-solid tw-border-neutralVariant-50 tw-pl-2 tw-pr-4 tw-text-sm tw-leading-8 dark:tw-border-neutralVariant-60"
-        @click="addAll"
+        @click.native="addAll"
       >
-        <TwIcon
-          :path="mdiTableColumnPlusAfter"
-          class="!tw-h-[1.125rem] !tw-w-[1.125rem]"
-        />
-        <span>{{ $t('addAll') }}</span>
-      </button>
-      <button
+        {{ $t('addAll') }}
+      </TwChip>
+      <TwChip
+        :icon="mdiTableRefresh"
         v-if="!isCurrentlyDefault"
-        class="tw-flex tw-h-8 tw-items-center tw-gap-x-2 tw-rounded-lg tw-border tw-border-solid tw-border-neutralVariant-50 tw-pl-2 tw-pr-4 tw-text-sm tw-leading-8 dark:tw-border-neutralVariant-60"
-        @click="resetToDefault"
+        @click.native="resetToDefault"
       >
-        <TwIcon
-          :path="mdiTableRefresh"
-          class="!tw-h-[1.125rem] !tw-w-[1.125rem]"
-        />
-        <span>{{ $t('resetToDefault') }}</span>
-      </button>
+        {{ $t('resetToDefault') }}
+      </TwChip>
     </div>
     <h3 class="tw-mt-4 tw-text-xs tw-font-medium tw-leading-4">
       {{ $t('hidden') }}

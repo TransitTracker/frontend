@@ -6,7 +6,12 @@
         <TwIcon :path="mdiArrowRight" />
       </TwStandardIconButton>
     </div>
-    <p v-if="description" class="!tw-mb-0 tw-text-sm">{{ description }}</p>
+    <p
+      v-if="description"
+      class="!tw-mb-0 tw-text-sm tw-text-neutralVariant-10 dark:tw-text-neutralVariant-90"
+    >
+      {{ description }}
+    </p>
     <div class="tw-mt-2 tw-grid tw-grid-cols-2 tw-gap-2">
       <slot />
     </div>

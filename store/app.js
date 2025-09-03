@@ -45,21 +45,22 @@ export const actions = {
       return false
     }
 
+    // Set the currentRegion
     await commit(
       'settings/set',
       { setting: 'currentRegion', value: regionSlug },
       { root: true }
     )
 
-    // Make an array of all selected agencies
-    const activeAgencies = rootState.regions.data[regionSlug].agencies.filter(
+    // Make an array of all visible agencies
+    const visibleAgencies = rootState.regions.data[regionSlug].agencies.filter(
       (agency) => {
-        return rootState.settings.activeAgencies.includes(agency.slug)
+        return !rootState.settings.hiddenAgencies.includes(agency.slug)
       }
     )
 
     // For each selected agency, load vehicles
-    activeAgencies.forEach((agency) => {
+    visibleAgencies.forEach((agency) => {
       dispatch('vehicles/load', agency, { root: true })
     })
 

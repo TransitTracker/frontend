@@ -5,6 +5,7 @@ const availableColumns = Object.keys(FIELDS_DEFINITIONS)
 
 export const state = () => ({
   activeAgencies: [],
+  hiddenAgencies: [],
   autoRefresh: false,
   configurationDone: false,
   readAlerts: [],
@@ -72,10 +73,21 @@ export const actions = {
     dispatch('regions/connectToAutoRefresh', region, { root: true })
   },
   toggleAgency({ commit, dispatch, rootState, state }, agency) {
-    const setting = [...state.activeAgencies]
+    const setting = [...state.hiddenAgencies]
 
+    // Is already in array
     if (setting.includes(agency.slug)) {
+      // Remove from hidden agencies
       setting.splice(setting.indexOf(agency.slug), 1)
+
+      // Load agency if in current region
+      if (agency.regions.includes(state.currentRegion)) {
+        dispatch('vehicles/load', agency, { root: true })
+      }
+      // Is not in array
+    } else {
+      // Add to hidden agencies
+      setting.push(agency.slug)
 
       // Remove times and data
       commit('vehicles/emptyData', agency, { root: true })
@@ -85,14 +97,10 @@ export const actions = {
       if (rootState.vehicles.selection.agency === agency.slug) {
         commit('vehicles/setSelection', {}, { root: true })
       }
-    } else {
-      setting.push(agency.slug)
-      if (agency.regions.includes(state.currentRegion)) {
-        dispatch('vehicles/load', agency, { root: true })
-      }
     }
 
-    commit('set', { setting: 'activeAgencies', value: setting })
+    // Update settings
+    commit('set', { setting: 'hiddenAgencies', value: setting })
   },
 }
 

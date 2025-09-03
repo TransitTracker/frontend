@@ -300,15 +300,17 @@ export default {
   },
   computed: {
     activeAgencies() {
-      const activeAgencies = this.$store.state.settings.activeAgencies
+      const hiddenAgencies = this.$store.state.settings.hiddenAgencies
 
       return Object.values(this.$store.state.agencies.data)
         .filter(({ slug, regions }) => {
           if (regions.includes('*')) {
             return true
           }
+
+          // Show all agencies except those hidden or not in this region
           return (
-            activeAgencies.includes(slug) && regions.includes(this.regionSlug)
+            !hiddenAgencies.includes(slug) && regions.includes(this.regionSlug)
           )
         })
         .sort((x, y) => {

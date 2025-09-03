@@ -56,10 +56,18 @@
         >
           <div class="tw-col-span-full tw-flex tw-items-center tw-gap-x-2">
             <TwIcon
-              :path="mdiAlertCircle"
-              class="tw-text-error-40 dark:tw-text-error-80"
+              :path="
+                settings.hiddenAgencies.length === 0
+                  ? mdiCheckCircle
+                  : mdiAlertCircle
+              "
+              :class="[
+                settings.hiddenAgencies.length === 0
+                  ? 'tw-text-primary-40 dark:tw-text-primary-80'
+                  : 'tw-text-error-40 dark:tw-text-error-80',
+              ]"
             />
-            5 agencies are hidden
+            {{ $tc('hiddenAgenciesQuantity', settings.hiddenAgencies.length) }}
           </div>
         </SettingsGroup>
         <SettingsGroup
@@ -162,7 +170,7 @@
         class="tw-px-4 tw-pb-4 tw-pt-20"
         ref="hiddenAgencies"
       >
-        WIP
+        <SettingsHiddenAgencies />
       </div>
       <div
         v-else-if="view === 'listColumns'"
@@ -287,8 +295,9 @@ export default {
     "allSettings": "Settings",
     "notifications": "Notifications",
     "notificationsDesc": "Activate browser push notifications for new vehicles in your favorite agencies and/or general news about the app.",
-    "hiddenAgencies": "Hidden Agencies",
+    "hiddenAgencies": "Visible Agencies",
     "hiddenAgenciesDesc": "By default, all agencies are visible. You can hide some of them here to prevent them from appearing in the interface.",
+    "hiddenAgenciesQuantity": "All agencies are visible | One hidden agency | {count} hidden agencies",
     "autoRefresh": "Auto refresh",
     "autoRefreshDesc": "Update every 60 or 120 seconds, depending on the agency.",
     "autoRefreshOn": "On",
@@ -313,8 +322,9 @@ export default {
     "allSettings": "Paramètres",
     "notifications": "Notifications",
     "notificationsDesc": "Activez les notifications pousées du navigateur pour les nouveaux véhicules dans vos agences préférées et/ou les actualités générales de l'application.",
-    "hiddenAgencies": "Agences masquées",
+    "hiddenAgencies": "Agences visibles",
     "hiddenAgenciesDesc": "Par défaut, toutes les agences sont visibles. Vous pouvez en masquer certaines ici pour les empêcher d'apparaître dans l'interface.",
+    "hiddenAgenciesQuantity": "Toutes les agences sont visibles | Une agence masquée | {count} agences masquées",
     "autoRefresh": "Rafraichissement automatique",
     "autoRefreshDesc": "Mise à jour toutes les 60 ou 120 secondes, selon l'agence.",
     "autoRefreshOn": "Activé",
