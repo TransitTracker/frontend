@@ -22,10 +22,10 @@
       </ul>
       <div class="tw-mt-8 tw-min-h-96 md:tw-min-h-[unset]">
         <Transition
-          enter-active-class="tw-transition tw-duration-250 tw-absolute"
+          enter-active-class="tw-transition tw-duration-300 tw-ease-standard-effects-slow tw-absolute"
           enter-from-class="tw-translate-x-full tw-opacity-0"
           enter-to-class="tw-translate-x-0 tw-opacity-1"
-          leave-active-class="tw-transition tw-duration-250 tw-absolute"
+          leave-active-class="tw-transition tw-duration-300 tw-ease-standard-effects-slow tw-absolute"
           leave-from-class="tw-translate-x-0 tw-opacity-1"
           leave-to-class="-tw-translate-x-full tw-opacity-0"
           mode="out-in"

@@ -520,7 +520,10 @@ export default {
       this.filterModal = ''
     },
     openSettings() {
-      this.$store.commit('app/set', { key: 'openSettingsDrawer', value: true })
+      this.$store.commit('app/set', {
+        key: 'settingsView',
+        value: 'listColumns',
+      })
     },
     removeFilter(column) {
       this.$store.commit('app/removeFilter', column)

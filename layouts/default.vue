@@ -9,7 +9,7 @@
         v-model="openNotificationsCentre"
       />
       <RegionSwitcher v-model="openRegionSwitcher" />
-      <SettingsDrawer v-model="openSettingsDrawer" />
+      <SettingsDrawer />
       <nuxt />
     </v-main>
     <TwNavigationBar v-if="dataIsLoaded" />
@@ -127,13 +127,8 @@ export default {
         this.$store.commit('app/set', { key: 'openRegionSwitcher', value })
       },
     },
-    openSettingsDrawer: {
-      get() {
-        return this.$store.state.app.openSettingsDrawer
-      },
-      set(value) {
-        this.$store.commit('app/set', { key: 'openSettingsDrawer', value })
-      },
+    settingsView() {
+      return this.$store.state.app.settingsView
     },
     updatePending() {
       return this.$store.state.app.updatePending

@@ -9,7 +9,6 @@ export const state = () => ({
   updateAvailable: false,
   openNotificationsCentre: false,
   openRegionSwitcher: false,
-  openSettingsDrawer: false,
   updatePending: false,
   notificationsCentre: false,
   filters: {},

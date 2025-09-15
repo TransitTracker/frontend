@@ -77,7 +77,7 @@
       <TwStandardIconButton v-if="dataIsLoaded" @click="open('RegionSwitcher')">
         <TwIcon :path="mdiCity" />
       </TwStandardIconButton>
-      <TwStandardIconButton @click="open('SettingsDrawer')">
+      <TwStandardIconButton @click="openSettings()">
         <TwIcon :path="mdiCog" />
       </TwStandardIconButton>
     </ul>
@@ -130,12 +130,12 @@ export default {
   methods: {
     open(setting) {
       this.$store.commit('app/set', { key: 'open' + setting, value: true })
-      if (setting === 'SettingsDrawer') {
-        this.$store.commit('app/set', {
-          key: 'settingsView',
-          value: 'allSettings',
-        })
-      }
+    },
+    openSettings() {
+      this.$store.commit('app/set', {
+        key: 'settingsView',
+        value: 'allSettings',
+      })
     },
   },
 }

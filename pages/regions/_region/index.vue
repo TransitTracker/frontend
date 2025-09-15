@@ -59,7 +59,7 @@
         <TwOutlinedIconButton
           class="tw-float-right"
           :title="$t('manageAgencies')"
-          @click="open('SettingsDrawer')"
+          @click="openSettings()"
         >
           <TwIcon :path="mdiTune" />
         </TwOutlinedIconButton>
@@ -357,6 +357,12 @@ export default {
             this.availableAgencies[slug]
           )
         })
+    },
+    openSettings() {
+      this.$store.commit('app/set', {
+        key: 'settingsView',
+        value: 'hiddenAgencies',
+      })
     },
     open(setting) {
       this.$store.commit('app/set', { key: 'open' + setting, value: true })
