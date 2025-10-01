@@ -43,15 +43,26 @@
           <SettingsGroup
             v-if="dataIsLoaded"
             :title="$t('notifications')"
-            :description="$t('notificationsDesc')"
-            new-view="notifications"
+            :description="
+              notificationState !== 'unsupported' && $t('notificationsDesc')
+            "
+            :new-view="notificationState !== 'unsupported' && 'notifications'"
           >
-            <div class="tw-col-span-full tw-flex tw-items-center tw-gap-x-2">
+            <div
+              class="tw-col-span-full tw-flex tw-items-center tw-gap-x-2"
+              v-if="notificationState !== 'available'"
+            >
               <TwIcon
                 :path="mdiAlertCircle"
                 class="tw-text-surfaceVariant-40 dark:tw-text-surfaceVariant-80"
               />
-              Not supported
+              {{
+                $t(
+                  notificationState === 'unsupported'
+                    ? 'notificationsUnsupported'
+                    : 'notificationsEnabled'
+                )
+              }}
             </div>
           </SettingsGroup>
           <SettingsGroup
@@ -171,7 +182,7 @@
           class="tw-px-4 tw-pb-4 tw-pt-20"
           ref="notifications"
         >
-          WIP
+          <SettingsNotifications />
         </div>
         <div
           v-else-if="view === 'hiddenAgencies'"
@@ -276,13 +287,16 @@ export default {
         this.$store.commit('app/set', { key: 'settingsView', value: newView })
       },
     },
-  },
-  methods: {
-    openNotificationsCentre() {
-      this.$store.commit('app/set', {
-        key: 'openNotificationsCentre',
-        value: true,
-      })
+    notificationState() {
+      if (!('Notification' in window)) {
+        return 'unsupported'
+      }
+
+      if (this.$store.state.settings.pushSubscriptionUuid) {
+        return 'activated'
+      }
+
+      return 'available'
     },
   },
   watch: {
@@ -298,6 +312,8 @@ export default {
     "allSettings": "Settings",
     "notifications": "Notifications",
     "notificationsDesc": "Activate browser push notifications for new vehicles in your favorite agencies and/or general news about the app.",
+    "notificationsUnsupported": "Not supported",
+    "notificationsEnabled": "Activated",
     "hiddenAgencies": "Visible Agencies",
     "hiddenAgenciesDesc": "By default, all agencies are visible. You can hide some of them here to prevent them from appearing in the interface.",
     "hiddenAgenciesQuantity": "All agencies are visible | One hidden agency | {count} hidden agencies",
@@ -325,6 +341,8 @@ export default {
     "allSettings": "Paramètres",
     "notifications": "Notifications",
     "notificationsDesc": "Activez les notifications pousées du navigateur pour les nouveaux véhicules dans vos agences préférées et/ou les actualités générales de l'application.",
+    "notificationsUnsupported": "Non pris en charge",
+    "notificationsEnabled": "Activé",
     "hiddenAgencies": "Agences visibles",
     "hiddenAgenciesDesc": "Par défaut, toutes les agences sont visibles. Vous pouvez en masquer certaines ici pour les empêcher d'apparaître dans l'interface.",
     "hiddenAgenciesQuantity": "Toutes les agences sont visibles | Une agence masquée | {count} agences masquées",
