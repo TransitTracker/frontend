@@ -4,10 +4,6 @@
     <TwNavigationRail />
     <v-main class="mb-16 mb-md-0 ml-md-20">
       <TwAlert />
-      <NotificationsCentre
-        v-if="dataIsLoaded"
-        v-model="openNotificationsCentre"
-      />
       <RegionSwitcher v-model="openRegionSwitcher" />
       <SettingsDrawer />
       <nuxt />
@@ -110,14 +106,6 @@ export default {
     },
     updateAvailable() {
       return this.$store.state.app.updateAvailable
-    },
-    openNotificationsCentre: {
-      get() {
-        return this.$store.state.app.openNotificationsCentre
-      },
-      set(value) {
-        this.$store.commit('app/set', { key: 'openNotificationsCentre', value })
-      },
     },
     openRegionSwitcher: {
       get() {

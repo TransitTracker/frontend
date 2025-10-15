@@ -7,10 +7,8 @@ export const state = () => ({
   installPrompt: null,
   installOutcome: null,
   updateAvailable: false,
-  openNotificationsCentre: false,
   openRegionSwitcher: false,
   updatePending: false,
-  notificationsCentre: false,
   filters: {},
   settingsView: '',
 })

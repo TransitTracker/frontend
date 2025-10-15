@@ -70,7 +70,7 @@
       </TwNavigationBarButton>
       <TwStandardIconButton
         v-if="dataIsLoaded"
-        @click="open('NotificationsCentre')"
+        @click="openSettings('notifications')"
       >
         <TwIcon :path="mdiBell" />
       </TwStandardIconButton>
@@ -131,10 +131,10 @@ export default {
     open(setting) {
       this.$store.commit('app/set', { key: 'open' + setting, value: true })
     },
-    openSettings() {
+    openSettings(view = 'allSettings') {
       this.$store.commit('app/set', {
         key: 'settingsView',
-        value: 'allSettings',
+        value: view,
       })
     },
   },

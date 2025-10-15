@@ -50,19 +50,13 @@
           >
             <div
               class="tw-col-span-full tw-flex tw-items-center tw-gap-x-2"
-              v-if="notificationState !== 'available'"
+              v-if="notificationState === 'unsupported'"
             >
               <TwIcon
                 :path="mdiAlertCircle"
                 class="tw-text-surfaceVariant-40 dark:tw-text-surfaceVariant-80"
               />
-              {{
-                $t(
-                  notificationState === 'unsupported'
-                    ? 'notificationsUnsupported'
-                    : 'notificationsEnabled'
-                )
-              }}
+              {{ $t('notificationsUnsupported') }}
             </div>
           </SettingsGroup>
           <SettingsGroup
