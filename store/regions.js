@@ -11,13 +11,16 @@ export const mutations = {
 }
 
 export const actions = {
-  async loadAll({ commit }) {
+  async loadAll({ commit, rootState }) {
+    const agenciesSlugs = []
+
     // Get all regions and agencies, commit it to the store
     const response = await this.$axios.get('/regions', { cacheId: 'regions' })
     response.data.data.forEach((region) => {
       commit('add', region)
       region.agencies.forEach((agency) => {
         commit('agencies/add', agency, { root: true })
+        agenciesSlugs.push(agency.slug)
       })
     })
 
@@ -25,6 +28,28 @@ export const actions = {
     const slugs = response.data.data.map((region) => {
       return region.slug
     })
+
+    // Migrate old activeAgencies settings
+    if (rootState.settings.activeAgencies.length) {
+      const hiddenAgencies = agenciesSlugs.filter((slug) => {
+        return !rootState.settings.activeAgencies.includes(slug)
+      })
+
+      // Save settings
+      commit(
+        'settings/set',
+        {
+          setting: 'hiddenAgencies',
+          value: hiddenAgencies,
+        },
+        { root: true }
+      )
+      commit(
+        'settings/set',
+        { setting: 'activeAgencies', value: [] },
+        { root: true }
+      )
+    }
 
     return slugs
   },
@@ -36,9 +61,9 @@ export const actions = {
 
     // Add the new channel
     this.$echo.channel(region.slug).listen('VehiclesUpdated', (event) => {
-      // Check if autoRefresh is enabled and if agency is selected in settings
+      // Check if autoRefresh is enabled and if agency is hidden in settings
       if (!rootState.settings.autoRefresh) return false
-      if (!rootState.settings.activeAgencies.includes(event.slug)) {
+      if (rootState.settings.hiddenAgencies.includes(event.slug)) {
         return false
       }
 

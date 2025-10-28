@@ -61,7 +61,7 @@ export const actions = {
     // Make an array of all selected agencies
     const activeAgencies = rootState.regions.data[region.slug].agencies.filter(
       (agency) => {
-        return state.activeAgencies.includes(agency.slug)
+        return !state.hiddenAgencies.includes(agency.slug)
       }
     )
 
