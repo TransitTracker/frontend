@@ -1,6 +1,17 @@
 <template>
   <div>
-    <h3 class="tw-text-xs tw-font-medium tw-leading-4">{{ $t('visible') }}</h3>
+    <div
+      class="tw-flex tw-flex-col tw-gap-2 tw-rounded-xl tw-bg-secondary-90 tw-p-4 tw-text-sm tw-text-secondary-30 dark:tw-bg-secondary-30 dark:tw-text-secondary-90"
+    >
+      <div class="tw-flex tw-items-center tw-gap-2">
+        <TwIcon :path="mdiInformationOutline" />
+        <b>{{ $t('emptyColumnsTitle') }}</b>
+      </div>
+      {{ $t('emptyColumns') }}
+    </div>
+    <h3 class="tw-mt-4 tw-text-xs tw-font-medium tw-leading-4">
+      {{ $t('visible') }}
+    </h3>
     <draggable
       v-model="visibleColumns"
       group="tableColumns"
@@ -79,6 +90,7 @@ import {
   mdiReorderHorizontal,
   mdiTableColumnPlusAfter,
   mdiTableRefresh,
+  mdiInformationOutline,
 } from '@mdi/js'
 import { FIELDS_DEFINITIONS, DEFAULT_TABLE_COLUMNS } from '~/utils/fields'
 
@@ -90,6 +102,7 @@ export default {
     mdiReorderHorizontal,
     mdiTableColumnPlusAfter,
     mdiTableRefresh,
+    mdiInformationOutline,
   }),
   computed: {
     availableColumns() {
@@ -157,6 +170,8 @@ export default {
 <i18n>
   {
     "en": {
+      "emptyColumnsTitle": "Empty columns",
+      "emptyColumns": "Each agency provides different data, which means some columns may be empty. Transit Tracker strives to retrieve as much information as possible, as long as it is provided by the agency.",
       "visible": "Visible",
       "addAll": "Make all columns visible",
       "hidden": "Hidden",
@@ -165,6 +180,9 @@ export default {
       "resetToDefault": "Reset to default values"
     },
     "fr": {
+
+      "emptyColumnsTitle": "Colonnes vides",
+      "emptyColumns": "Chaque agence fournit des données différentes, ce qui peut rendre certaines colonnes vides. Transit Tracker s’efforce de récupérer le maximum d’informations disponibles, tant que celles-ci sont fournies par l’agence.",
       "visible": "Visible",
       "addAll": "Rendre toutes les colonnes visibles",
       "hidden": "Caché",
