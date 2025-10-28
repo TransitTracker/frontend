@@ -158,7 +158,7 @@
           </SettingsGroup>
           <div class="tw-grow"></div>
           <button
-            class="tw-group tw-relative tw-flex tw-items-center tw-justify-center tw-gap-x-4 tw-rounded-t-xl tw-bg-primary-90 tw-p-4 tw-text-primary-30 dark:tw-bg-primary-30 dark:tw-text-primary-90"
+            class="tw-group tw-relative tw-flex tw-items-center tw-justify-center tw-gap-x-4 tw-rounded-t-xl tw-bg-primary-40 tw-p-4 tw-text-white dark:tw-bg-primary-30 dark:tw-text-primary-90"
             @click="view = 'about'"
           >
             <div

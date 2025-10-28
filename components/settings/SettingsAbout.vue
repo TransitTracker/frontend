@@ -16,14 +16,14 @@
         />
       </svg>
       <h1 class="tw-mt-4 tw-font-heading">{{ $t('appName') }}</h1>
-      <h3>{{ $t('slogan') }}</h3>
-      <p class="!tw-mb-0">Version {{ version }}</p>
+      <h3 class="tw-my-2">{{ $t('slogan') }}</h3>
+      <p class="!tw-mb-0">{{ $t('version') }} {{ version }}</p>
     </div>
-    <h3 class="tw-mt-4 tw-text-lg tw-font-medium">Technologies</h3>
-    <p class="!tw-mb-0">
-      Transit Tracker ne serait pas possible sans l'utiliser des technologies et
-      libraries suivantes, crées par d'autres développeurs :
-    </p>
+
+    <h3 class="tw-mt-4 tw-text-lg tw-font-medium">
+      {{ $t('technologies.title') }}
+    </h3>
+    <p class="!tw-mb-0">{{ $t('technologies.desc') }}</p>
 
     <ul>
       <li>PHP</li>
@@ -33,74 +33,34 @@
       <li>Nuxt.js</li>
       <li>Vuetify</li>
     </ul>
-    <h3 class="tw-mt-4 tw-text-lg tw-font-medium">Comment ca fonctionne?</h3>
-    <p class="!tw-mb-1">
-      La quasi totalité des données diffusées dans l'application proviennent des
-      sociétés de transport. Voici comment ce processus s'effectue :
-    </p>
-    <ol class="">
-      <li>
-        Transit Tracker récupère la liste des véhicules actifs auprès de
-        l'agence, environ à chaque minute ou deux minutes;
-      </li>
-      <li>
-        Le serveur tente d'extraire le plus d'information possible afin de les
-        stocker dans la base de donnée;
-      </li>
-      <li>
-        Le serveur associe certaines informations, comme le numéro de la route,
-        à partir des données statiques récupérées quotidiennement;
-      </li>
-      <li>
-        Lors de leur visite, les visiteurs de l'application télécharge du
-        serveur la liste des véhicules actifs avec les données reliées.
-      </li>
-    </ol>
-    <p class="!tw-mb-1 tw-mt-2">
-      Avec ce fonctionnement, il y a certains points à prendre en considération
-      :
-    </p>
-    <ul>
-      <li>
-        <b>Différences entre les agences :</b> Ce n'est pas toutes les agences
-        qui fournissent les mêmes données. Il peut alors y avoir certaines
-        informations disponibles chez une agence mais pas chez l'autre;
-      </li>
-      <li>
-        <b>Données incorrectes :</b> Transit Tracker n'effectue pas de
-        validation des données, il retransmet ce que l'agence fourni. Il peut y
-        avoir des erreurs dans ces données;
-      </li>
-      <li>
-        <b>Contribution communautaire :</b> Pour certaines agences, comme les
-        secteurs d'autobus d'exo, nous utilisons les contributions
-        communautaires pour relier les identifiants des véhicules avec leur
-        numéro de flotte.
-        <a href="https://vin.transittracker.ca" target="_blank"
-          >Voir le projet exo VIN</a
-        >;
-      </li>
-    </ul>
+
     <h3 class="tw-mt-4 tw-text-lg tw-font-medium">
-      Sans publicité et sans suivi
+      {{ $t('howItWorks.title') }}
     </h3>
-    <p class="!tw-mb-0">
-      Les coûts d'opérations de Transit Tracker (serveur, domaine) sont assumées
-      par son créateur. Aucune publicité n'est diffusée dans l'application.
-      <br />
-      Le programme Cloudflare Web Analytics est utilisée pour obtenir certaines
-      statistiques sur l'application. Contrairement à d'autres produits,
-      celui-ci ne fait pas le suivi des visiteurs individuels, étant conçu pour
-      le respect de la vie privée.
-    </p>
-    <h3 class="tw-mt-4 tw-text-lg tw-font-medium">Vous êtes développeurs?</h3>
-    <p class="!tw-mb-0">
-      Vous pouvez utiliser la plupart des données de Transit Tracker dans votre
-      application! <br />
-      Le code source de Transit Tracker est aussi disponible sur GitHub. Vous
-      êtes bienvenues de contribuer au développement de l'application ou de vous
-      en inspirer!
-    </p>
+    <p class="!tw-mb-1">{{ $t('howItWorks.intro') }}</p>
+
+    <ol>
+      <li>{{ $t('howItWorks.steps.1') }}</li>
+      <li>{{ $t('howItWorks.steps.2') }}</li>
+      <li>{{ $t('howItWorks.steps.3') }}</li>
+      <li>{{ $t('howItWorks.steps.4') }}</li>
+    </ol>
+
+    <p class="!tw-mb-1 tw-mt-2">{{ $t('considerations.intro') }}</p>
+    <ul>
+      <li v-html="$t('considerations.agencies')"></li>
+      <li v-html="$t('considerations.incorrectData')"></li>
+      <li v-html="$t('considerations.community')"></li>
+    </ul>
+
+    <h3 class="tw-mt-4 tw-text-lg tw-font-medium">{{ $t('privacy.title') }}</h3>
+    <p class="!tw-mb-0" v-html="$t('privacy.desc')"></p>
+
+    <h3 class="tw-mt-4 tw-text-lg tw-font-medium">
+      {{ $t('developers.title') }}
+    </h3>
+    <p class="!tw-mb-0">{{ $t('developers.desc') }}</p>
+
     <div class="tw-mt-2 tw-flex tw-flex-wrap tw-items-center tw-gap-2">
       <TwFilledButton
         color="secondary"
@@ -110,7 +70,7 @@
         with-icon
       >
         <TwIcon :path="mdiApi" />
-        Documentation de l'API
+        {{ $t('developers.apiDocs') }}
       </TwFilledButton>
       <TwFilledButton
         color="secondary"
@@ -120,21 +80,16 @@
         with-icon
       >
         <TwIcon :path="mdiGithub" />
-        GitHub
+        {{ $t('developers.github') }}
       </TwFilledButton>
     </div>
-    <h3 class="tw-mt-4 tw-text-lg tw-font-medium">
-      À propos de l'auteur et du projet
-    </h3>
+
+    <h3 class="tw-mt-4 tw-text-lg tw-font-medium">{{ $t('author.title') }}</h3>
     <p class="!tw-mb-0">
       <b>Félix Desjardins</b><br />
-      Transit Tracker est mon projet depuis plus de 7 ans (2018)! Je ne suis pas
-      un développeur professionnel, loin de là. Toutefois, ce projet me permet
-      de rester à jour sur les dernières technologies tout en m'amusant! Transit
-      Tracker est en constante évolution, et avance selon mes disponibilités
-      (alors parfois, il peut y avoir un certain temps entre les mises à jour).
-      N'hésitez pas à me joindre pour me signaler tout problème ou commentaires!
+      {{ $t('author.desc') }}
     </p>
+
     <div class="tw-mt-2 tw-flex tw-flex-wrap tw-items-center tw-gap-2">
       <TwFilledButton
         color="secondary"
@@ -144,7 +99,7 @@
         with-icon
       >
         <TwIcon :path="mdiLinkedin" />
-        LinkedIn
+        {{ $t('author.linkedin') }}
       </TwFilledButton>
       <TwFilledButton
         color="secondary"
@@ -154,7 +109,7 @@
         with-icon
       >
         <TwIcon :path="mdiEmail" />
-        Me contacter
+        {{ $t('author.contact') }}
       </TwFilledButton>
     </div>
   </div>
@@ -179,10 +134,88 @@ export default {
 </script>
 
 <i18n>
-  {
-    "fr": {
-      "appName": "Transit Tracker",
-      "slogan": "Rendre accessible les données de transport en commun"
+{
+  "fr": {
+    "appName": "Transit Tracker",
+    "slogan": "Rendre accessible les données de transport en commun",
+    "version": "Version",
+    "technologies": {
+      "title": "Technologies",
+      "desc": "Transit Tracker ne serait pas possible sans l’utilisation des technologies et bibliothèques suivantes, créées par d’autres développeurs :"
+    },
+    "howItWorks": {
+      "title": "Comment ça fonctionne?",
+      "intro": "La quasi-totalité des données diffusées dans l'application proviennent des sociétés de transport. Voici comment ce processus s'effectue :",
+      "steps": {
+        "1": "Transit Tracker récupère la liste des véhicules actifs auprès de l'agence, environ à chaque minute ou deux minutes;",
+        "2": "Le serveur tente d'extraire le plus d'information possible afin de les stocker dans la base de données;",
+        "3": "Le serveur associe certaines informations, comme le numéro de la route, à partir des données statiques récupérées quotidiennement;",
+        "4": "Lors de leur visite, les visiteurs de l'application téléchargent du serveur la liste des véhicules actifs avec les données reliées."
+      }
+    },
+    "considerations": {
+      "intro": "Avec ce fonctionnement, il y a certains points à prendre en considération :",
+      "agencies": "<b>Différences entre les agences :</b> Ce ne sont pas toutes les agences qui fournissent les mêmes données. Il peut alors y avoir certaines informations disponibles chez une agence mais pas chez l'autre;",
+      "incorrectData": "<b>Données incorrectes :</b> Transit Tracker n'effectue pas de validation des données, il retransmet ce que l'agence fournit. Il peut y avoir des erreurs dans ces données;",
+      "community": "<b>Contribution communautaire :</b> Pour certaines agences, comme les secteurs d'autobus d'exo, nous utilisons les contributions communautaires pour relier les identifiants des véhicules à leur numéro de flotte. <a href='https://vin.transittracker.ca' target='_blank'>Voir le projet exo VIN</a>."
+    },
+    "privacy": {
+      "title": "Sans publicité et sans suivi",
+      "desc": "Les coûts d’opération de Transit Tracker (serveur, domaine) sont assumés par son créateur. Aucune publicité n'est diffusée dans l'application.<br />Le programme Cloudflare Web Analytics est utilisé pour obtenir certaines statistiques sur l'application. Contrairement à d'autres produits, celui-ci ne fait pas le suivi des visiteurs individuels, étant conçu pour le respect de la vie privée."
+    },
+    "developers": {
+      "title": "Vous êtes développeur?",
+      "desc": "Vous pouvez utiliser la plupart des données de Transit Tracker dans votre application! Le code source de Transit Tracker est aussi disponible sur GitHub. Vous êtes bienvenus de contribuer au développement de l'application ou de vous en inspirer!",
+      "apiDocs": "Documentation de l'API",
+      "github": "GitHub"
+    },
+    "author": {
+      "title": "À propos de l'auteur et du projet",
+      "desc": "Transit Tracker est mon projet depuis plus de sept ans (2018)! Je ne suis pas un développeur professionnel, loin de là. Toutefois, ce projet me permet de rester à jour sur les dernières technologies tout en m'amusant! Transit Tracker est en constante évolution, et avance selon mes disponibilités (alors parfois, il peut y avoir un certain temps entre les mises à jour). N'hésitez pas à me joindre pour me signaler tout problème ou commentaire!",
+      "linkedin": "LinkedIn",
+      "contact": "Me contacter"
+    }
+  },
+  "en": {
+    "appName": "Transit Tracker",
+    "slogan": "Making real-time transit data accessible",
+    "version": "Version",
+    "technologies": {
+      "title": "Technologies",
+      "desc": "Transit Tracker would not be possible without the use of the following technologies and libraries created by other developers:"
+    },
+    "howItWorks": {
+      "title": "How does it work?",
+      "intro": "Almost all data displayed in the app comes from transit agencies. Here’s how the process works:",
+      "steps": {
+        "1": "Transit Tracker fetches the list of active vehicles from the agency every one to two minutes;",
+        "2": "The server extracts as much information as possible to store in the database;",
+        "3": "The server links certain data, such as route numbers, using static data updated daily;",
+        "4": "When visiting, app users download the list of active vehicles with related data from the server."
+      }
+    },
+    "considerations": {
+      "intro": "There are a few points to keep in mind:",
+      "agencies": "<b>Differences between agencies:</b> Not all agencies provide the same data. Some information may be available for one agency but not another;",
+      "incorrectData": "<b>Incorrect data:</b> Transit Tracker does not validate the data—it simply relays what the agency provides, which may include errors;",
+      "community": "<b>Community contribution:</b> For some agencies, such as exo bus sectors, we use community contributions to link vehicle IDs with their fleet numbers. <a href='https://vin.transittracker.ca' target='_blank'>See the exo VIN project</a>;"
+    },
+    "privacy": {
+      "title": "No ads, no tracking",
+      "desc": "Transit Tracker’s operational costs (server, domain) are covered by its creator. No ads are displayed in the app.<br />Cloudflare Web Analytics is used to gather general usage statistics. Unlike other tools, it doesn’t track individual visitors and is designed with privacy in mind."
+    },
+    "developers": {
+      "title": "Are you a developer?",
+      "desc": "You can use most of Transit Tracker’s data in your own app! The source code is also available on GitHub. You’re welcome to contribute or take inspiration from it.",
+      "apiDocs": "API Documentation",
+      "github": "GitHub"
+    },
+    "author": {
+      "title": "About the author and project",
+      "desc": "Transit Tracker has been my project for over 7 years (since 2018)! I'm not a professional developer, but this project allows me to stay up-to-date with new technologies while having fun. The project is constantly evolving and progresses as I have time—so sometimes there may be gaps between updates. Feel free to reach out with feedback or issues!",
+      "linkedin": "LinkedIn",
+      "contact": "Contact me"
     }
   }
+}
 </i18n>
