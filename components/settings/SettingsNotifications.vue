@@ -299,6 +299,11 @@ export default {
       this.$set(this.profile, 'generalNews', data.data.generalNews)
       this.selectedAgencies = data.data.newVehicle.agencies
       this.isLoading = false
+
+      // If the language setting does not match, update it now
+      if (data.data.isFrench !== (this.$i18n.locale === 'fr')) {
+        this.updateProfile()
+      }
     },
     async subscribe() {
       this.isLoading = true

@@ -71,7 +71,7 @@ export default {
     openSettings() {
       this.$store.commit('app/set', {
         key: 'settingsView',
-        value: 'allSettings',
+        value: 'index',
       })
     },
     switchLanguage() {

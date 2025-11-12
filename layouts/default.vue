@@ -6,6 +6,7 @@
       <TwAlert />
       <RegionSwitcher v-model="openRegionSwitcher" />
       <SettingsDrawer />
+      <TwAlertDrawer />
       <nuxt />
     </v-main>
     <TwNavigationBar v-if="dataIsLoaded" />

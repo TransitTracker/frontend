@@ -10,7 +10,8 @@ export const state = () => ({
   openRegionSwitcher: false,
   updatePending: false,
   filters: {},
-  settingsView: '',
+  settingsView: false,
+  alertsView: false,
 })
 
 export const mutations = {
@@ -19,6 +20,10 @@ export const mutations = {
   },
   set(state, { key, value }) {
     state[key] = value
+
+    // Ensure that only one side sheet is open at a time
+    if (key === 'settingsView') state.alertsView = false
+    if (key === 'alertsView') state.settingsView = false
   },
   setFilter(state, { column, stringValue }) {
     Vue.set(state.filters, column, stringValue)
@@ -62,7 +67,7 @@ export const actions = {
     })
 
     // Load alerts for this region
-    dispatch('alerts/load', regionSlug, { root: true })
+    dispatch('alerts/loadForOneRegion', regionSlug, { root: true })
 
     commit('setDataAsLoaded')
 

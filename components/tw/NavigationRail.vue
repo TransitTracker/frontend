@@ -68,10 +68,7 @@
           <span class="tw-hidden 2xl:tw-inline">xl</span>
         </span>
       </TwNavigationBarButton>
-      <TwStandardIconButton
-        v-if="dataIsLoaded"
-        @click="openSettings('notifications')"
-      >
+      <TwStandardIconButton v-if="dataIsLoaded" @click="openAlerts()">
         <TwIcon :path="mdiBell" />
       </TwStandardIconButton>
       <TwStandardIconButton v-if="dataIsLoaded" @click="open('RegionSwitcher')">
@@ -131,7 +128,10 @@ export default {
     open(setting) {
       this.$store.commit('app/set', { key: 'open' + setting, value: true })
     },
-    openSettings(view = 'allSettings') {
+    openAlerts() {
+      this.$store.commit('app/set', { key: 'alertsView', value: 'index' })
+    },
+    openSettings(view = 'index') {
       this.$store.commit('app/set', {
         key: 'settingsView',
         value: view,
