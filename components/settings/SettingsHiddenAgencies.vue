@@ -125,7 +125,7 @@ export default {
     "en": {
       "completeDesc": "By default, all agencies are visible. You can hide some of them here to prevent them from appearing in the interface. There can be a small delay between the activation of an agency and it's loading into the app.",
       "makeAllAgenciesVisible": "Make all agencies visible",
-      "hiddenAgenciesCount": "Toutes les agences sont visibles ({total}). | Une agence masquée sur {total}. | {count} agences masquées sur {total}."
+      "hiddenAgenciesCount": "All agencies are visible ({total}). | One agency is hidden out of {total}. | {count} agencies are hidden out of {total}."
     },
     "fr": {
       "completeDesc": "Par défaut, toutes les agences sont visibles. Vous pouvez en masquer certaines ici pour les empêcher d'apparaître dans l'interface. Il peut y avoir un léger délai entre l'activation d'une agence et son chargement dans l'application.",
