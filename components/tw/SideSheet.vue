@@ -27,7 +27,7 @@
             <TwIcon :path="mdiClose" />
           </TwStandardIconButton>
         </div>
-        <div class="tw-min-h-full tw-px-4 tw-pb-4 tw-pt-20">
+        <div class="tw-min-h-full tw-px-4 tw-pb-4">
           <div
             class="tw-flex tw-w-full tw-items-center tw-justify-center tw-pt-20"
             v-if="isLoading"

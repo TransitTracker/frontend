@@ -94,7 +94,10 @@ export default {
       return this.$store.state.settings.hiddenAgencies
     },
     regions() {
-      return this.$store.state.regions.data
+      return Object.values(this.$store.state.regions.data).map((region) => ({
+        ...region,
+        agencies: region.agencies.filter(({ isArchived }) => !isArchived),
+      }))
     },
   },
   methods: {

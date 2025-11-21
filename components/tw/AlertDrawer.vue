@@ -7,7 +7,8 @@
     @back="alertsView = 'index'"
     @close="alertsView = false"
   >
-    <div v-if="alertsView === 'index'">
+    <div v-if="alertsView === 'index'" ref="index">
+      <div class="tw-h-20"></div>
       <p class="tw-mb-2 tw-text-sm">{{ $t('description') }}</p>
 
       <div class="tw-flex tw-flex-wrap tw-items-center tw-gap-2">
@@ -29,7 +30,7 @@
           tabindex="0"
           class="-tw-mx-4 tw-flex tw-items-start tw-justify-between tw-gap-4 tw-px-4 tw-py-2"
           :class="[
-            !alert.isRead &&
+            alert.isUnread &&
               'tw-bg-primary-90 tw-text-primary-30 dark:tw-bg-primary-30 dark:tw-text-primary-90',
           ]"
           v-for="alert in alerts"
@@ -53,7 +54,8 @@
         </li>
       </ul>
     </div>
-    <article v-if="viewIsShow && selectedAlert">
+    <article v-if="viewIsShow && selectedAlert" ref="show">
+      <div class="tw-h-18"></div>
       <div
         v-if="selectedAlert.image"
         class="-tw-mx-4 -tw-mt-2 tw-h-32 tw-bg-cover tw-bg-center lg:tw-h-64"
@@ -167,7 +169,7 @@ export default {
             this.$t(`categories.${alertCategory[alert.category].key}`),
             calculateTimeAgo(alert.createdAt),
           ].join(' • '),
-          isRead: this.readAlerts.includes(alert.id),
+          isUnread: !this.readAlerts.includes(alert.id) && alert.status !== 3,
           ...alert,
         }))
         .sort((a, b) => b.createdAt - a.createdAt)
@@ -190,7 +192,7 @@ export default {
       return new Intl.RelativeTimeFormat(this.lang)
     },
     unreadAlerts() {
-      return this.alerts.filter(({ isRead }) => !isRead)
+      return this.alerts.filter(({ isUnread }) => isUnread)
     },
     selectedAlert() {
       const alert =
@@ -214,6 +216,12 @@ export default {
       }
 
       return 'en'
+    },
+  },
+  watch: {
+    viewAlert(old, newView) {
+      const ref = newView === 'index' ? 'index' : 'show'
+      this.$refs[ref].scrollIntoView()
     },
   },
 }

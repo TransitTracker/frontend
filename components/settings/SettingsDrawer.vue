@@ -2,7 +2,7 @@
   <TwSideSheet
     :show-back-button="view !== 'index'"
     :title="$t(view)"
-    :is-active="view"
+    :is-active="!!view"
     @back="view = 'index'"
     @close="view = false"
   >
@@ -11,6 +11,7 @@
       v-if="view === 'index'"
       ref="index"
     >
+      <div class="tw-h-12"></div>
       <SettingsPwa />
       <SettingsGroup :title="$t('language')">
         <SettingsItem value="en" setting="lang"> English </SettingsItem>
@@ -135,19 +136,22 @@
       </button>
     </div>
     <div v-else-if="view === 'notifications'" ref="notifications">
+      <div class="tw-h-20"></div>
       <SettingsNotifications />
     </div>
     <div v-else-if="view === 'hiddenAgencies'" ref="hiddenAgencies">
+      <div class="tw-h-20"></div>
       <SettingsHiddenAgencies />
     </div>
     <div v-else-if="view === 'listColumns'" ref="listColumns">
+      <div class="tw-h-20"></div>
       <p class="tw-mb-2 tw-text-sm">{{ $t('listColumnsDesc') }}</p>
       <SettingsTableColumns />
     </div>
     <div v-else-if="view === 'about'" ref="about">
+      <div class="tw-h-18"></div>
       <SettingsAbout />
     </div>
-    <SettingsAboutDialog v-model="aboutDialog" />
   </TwSideSheet>
 </template>
 <script>
@@ -181,7 +185,6 @@ import {
 
 export default {
   data: () => ({
-    aboutDialog: false,
     mdiArrowRight,
     mdiBell,
     mdiClose,

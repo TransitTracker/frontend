@@ -1,32 +1,32 @@
 <template>
-  <figure
-    v-if="alert"
-    class="tw-flex tw-w-full tw-items-center tw-gap-4 tw-py-2 tw-pl-4 tw-pr-6"
-    :class="[alertClasses]"
-  >
-    <TwIcon :path="alert.icon" class="tw-shrink-0" />
-    <div class="tw-grow">
-      <figcaption class="tw-leading-6 tw-tracking-wide">
-        {{ alert.title }}
-      </figcaption>
-      <p
-        class="!tw-mb-0 tw-overflow-hidden tw-text-ellipsis tw-text-sm tw-leading-5 tw-tracking-wide"
-      >
-        {{ alert.subtitle }}
-      </p>
-    </div>
-    <TwTextButton :color="buttonColor" @click="openDialog = true">
-      {{ $t('open') }}
-    </TwTextButton>
-    <TwStandardIconButton
-      v-if="alert.canBeClosed"
-      :title="$t('close')"
-      :color="buttonColor"
-      class="tw-hidden md:tw-flex"
-      @click="markAsRead"
+  <figure v-if="alert" class="tw-w-full tw-py-2" :class="[alertClasses]">
+    <div
+      class="tw-container tw-mx-auto tw-flex tw-items-center tw-gap-4 tw-px-4"
     >
-      <TwIcon :path="mdiClose" />
-    </TwStandardIconButton>
+      <TwIcon :path="alert.icon" class="tw-shrink-0" />
+      <div class="tw-grow">
+        <figcaption class="tw-leading-6 tw-tracking-wide">
+          {{ alert.title }}
+        </figcaption>
+        <p
+          class="!tw-mb-0 tw-overflow-hidden tw-text-ellipsis tw-text-sm tw-leading-5 tw-tracking-wide"
+        >
+          {{ alert.subtitle }}
+        </p>
+      </div>
+      <TwTextButton :color="buttonColor" @click="openDialog = true">
+        {{ $t('open') }}
+      </TwTextButton>
+      <TwStandardIconButton
+        v-if="alert.canBeClosed"
+        :title="$t('close')"
+        :color="buttonColor"
+        class="tw-hidden md:tw-flex"
+        @click="markAsRead"
+      >
+        <TwIcon :path="mdiClose" />
+      </TwStandardIconButton>
+    </div>
     <TwImageDialog
       v-model="openDialog"
       :image="`url(${backendHost}/storage/content/alerts/${alert.image})`"
