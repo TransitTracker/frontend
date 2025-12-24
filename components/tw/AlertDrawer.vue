@@ -139,19 +139,28 @@ export default {
       }
 
       return Object.values(this.$store.state.alerts.allAlerts)
-        .map((alert) => ({
-          thirdLine: [
-            alert.regions
-              ?.map(
-                (slug) => this.$store.state.regions.data?.[slug]?.name || ''
-              )
-              .join(', '),
+        .map((alert) => {
+          const thirdLineSegments = [
             this.$t(`categories.${alertCategory[alert.category].key}`),
             calculateTimeAgo(alert.createdAt),
-          ].join(' • '),
-          isUnread: !this.readAlerts.includes(alert.id) && alert.status !== 3,
-          ...alert,
-        }))
+          ]
+
+          if (alert.regions?.length) {
+            thirdLineSegments.unshift(
+              alert.regions
+                ?.map(
+                  (slug) => this.$store.state.regions.data?.[slug]?.name || ''
+                )
+                .join(', ')
+            )
+          }
+
+          return {
+            thirdLine: thirdLineSegments.join(' • '),
+            isUnread: !this.readAlerts.includes(alert.id) && alert.status !== 3,
+            ...alert,
+          }
+        })
         .sort((a, b) => b.createdAt - a.createdAt)
     },
     alertsView: {
