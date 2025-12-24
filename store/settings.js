@@ -6,8 +6,7 @@ const availableColumns = Object.keys(FIELDS_DEFINITIONS)
 export const state = () => ({
   activeAgencies: [],
   hiddenAgencies: [],
-  autoRefresh: false,
-  configurationDone: false,
+  autoRefresh: true,
   readAlerts: [],
   currentRegion: 'mtl',
   launch: 'no',
