@@ -16,9 +16,9 @@
           {{ $t('openSettings') }}
         </TwChip>
         <TwChip
+          v-if="unreadAlerts.length"
           :icon="mdiCheckAll"
           @click.native="markAllAsRead"
-          v-if="unreadAlerts.length"
         >
           {{ $t('markAllAsRead') }}
         </TwChip>
@@ -26,6 +26,8 @@
 
       <ul class="tw-mt-4 tw-list-none !tw-pl-0">
         <li
+          v-for="alert in alerts"
+          :key="alert.id"
           role="button"
           tabindex="0"
           class="-tw-mx-4 tw-flex tw-items-start tw-justify-between tw-gap-4 tw-px-4 tw-py-2"
@@ -33,8 +35,6 @@
             alert.isUnread &&
               'tw-bg-primary-90 tw-text-primary-30 dark:tw-bg-primary-30 dark:tw-text-primary-90',
           ]"
-          v-for="alert in alerts"
-          :key="alert.id"
           @click="viewAlert(alert)"
           @keyup.enter="viewAlert(alert)"
         >
@@ -45,9 +45,9 @@
             <small>{{ alert.thirdLine }}</small>
           </div>
           <TwStandardIconButton
-            @click="viewAlert(alert)"
             :title="$t('view')"
             class="!tw-shrink-0"
+            @click="viewAlert(alert)"
           >
             <TwIcon :path="mdiArrowRight" />
           </TwStandardIconButton>
@@ -69,10 +69,15 @@
       >
         {{ selectedAlert.title }}
       </h2>
-      <small class="tw-text-sm tw-leading-5">
-        {{ selectedAlert.subtitle }} &bull; {{ selectedAlert.date }}
-      </small>
+      <div class="tw-flex tw-items-center tw-gap-2 tw-pt-2">
+        <TwChip tag="div">{{ selectedAlert.categoryLabel }}</TwChip>
+        <small class="tw-text-sm tw-leading-5">
+          {{ selectedAlert.date }}
+        </small>
+      </div>
+      <!-- eslint-disable vue/no-v-html -->
       <div class="tw-mt-4" v-html="selectedAlert.body"></div>
+      <!-- eslint-enable vue/no-v-html -->
     </article>
   </TwSideSheet>
 </template>
@@ -89,31 +94,6 @@ export default {
     backendHost: process.env.backendHost,
     isLoading: false,
   }),
-  mounted() {
-    this.isLoading = true
-    this.$store.dispatch('alerts/loadAll').then(() => (this.isLoading = false))
-  },
-  methods: {
-    viewAlert(alert) {
-      this.alertsView = `show/${alert.id}`
-      this.markAsRead(alert)
-    },
-    markAllAsRead() {
-      this.unreadAlerts.forEach((alert) => this.markAsRead(alert))
-    },
-    markAsRead(alert) {
-      const value = [...this.readAlerts]
-      value.push(alert.id)
-
-      this.$store.commit('settings/set', { setting: 'readAlerts', value })
-    },
-    openSettings() {
-      this.$store.commit('app/set', {
-        key: 'settingsView',
-        value: 'notifications',
-      })
-    },
-  },
   computed: {
     alerts() {
       const SECONDS_IN = {
@@ -208,6 +188,9 @@ export default {
       return {
         ...alert,
         date: dtf.format(alert.createdAt * 1000),
+        categoryLabel: this.$t(
+          `categories.${alertCategory[alert.category].key}`
+        ),
       }
     },
     lang() {
@@ -222,6 +205,31 @@ export default {
     viewAlert(old, newView) {
       const ref = newView === 'index' ? 'index' : 'show'
       this.$refs[ref].scrollIntoView()
+    },
+  },
+  mounted() {
+    this.isLoading = true
+    this.$store.dispatch('alerts/loadAll').then(() => (this.isLoading = false))
+  },
+  methods: {
+    viewAlert(alert) {
+      this.alertsView = `show/${alert.id}`
+      this.markAsRead(alert)
+    },
+    markAllAsRead() {
+      this.unreadAlerts.forEach((alert) => this.markAsRead(alert))
+    },
+    markAsRead(alert) {
+      const value = [...this.readAlerts]
+      value.push(alert.id)
+
+      this.$store.commit('settings/set', { setting: 'readAlerts', value })
+    },
+    openSettings() {
+      this.$store.commit('app/set', {
+        key: 'settingsView',
+        value: 'notifications',
+      })
     },
   },
 }

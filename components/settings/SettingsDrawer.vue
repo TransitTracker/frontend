@@ -7,9 +7,9 @@
     @close="view = false"
   >
     <div
-      class="-tw-mb-4 tw-flex tw-flex-col tw-gap-6"
       v-if="view === 'index'"
       ref="index"
+      class="-tw-mb-4 tw-flex tw-flex-col tw-gap-6"
     >
       <div class="tw-h-12"></div>
       <SettingsPwa />
@@ -26,8 +26,8 @@
         :new-view="notificationState !== 'unsupported' && 'notifications'"
       >
         <div
-          class="tw-col-span-full tw-flex tw-items-center tw-gap-x-2"
           v-if="notificationState === 'unsupported'"
+          class="tw-col-span-full tw-flex tw-items-center tw-gap-x-2"
         >
           <TwIcon
             :path="mdiAlertCircle"
@@ -260,7 +260,7 @@ export default {
     "hiddenAgenciesDesc": "By default, all agencies are visible. You can hide some of them here to prevent them from appearing in the interface.",
     "hiddenAgenciesQuantity": "All agencies are visible | One hidden agency | {count} hidden agencies",
     "autoRefresh": "Auto refresh",
-    "autoRefreshDesc": "Update every 60 or 120 seconds, depending on the agency.",
+    "autoRefreshDesc": "Automatic data update, every 60 to 180 seconds, depending on the agency.",
     "autoRefreshOn": "On",
     "autoRefreshOff": "Off",
     "theme": "Theme",
@@ -289,7 +289,7 @@ export default {
     "hiddenAgenciesDesc": "Par défaut, toutes les agences sont visibles. Vous pouvez en masquer certaines ici pour les empêcher d'apparaître dans l'interface.",
     "hiddenAgenciesQuantity": "Toutes les agences sont visibles | Une agence masquée | {count} agences masquées",
     "autoRefresh": "Rafraichissement automatique",
-    "autoRefreshDesc": "Mise à jour toutes les 60 ou 120 secondes, selon l'agence.",
+    "autoRefreshDesc": "Mise à jour automatique des données, toutes les 60 à 180 secondes, selon l'agence.",
     "autoRefreshOn": "Activé",
     "autoRefreshOff": "Désactivé",
     "theme": "Thème",
