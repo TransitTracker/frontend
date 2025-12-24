@@ -28,6 +28,14 @@
         do not have permission to edit all vehicles.
       </p>
     </div>
+    <TwDetails>
+      <template #summary>
+        <h2>For developpers only</h2>
+      </template>
+      <button class="tw-bg-primary-40 tw-p-2 tw-text-white" @click="addEruda">
+        Load Eruda
+      </button>
+    </TwDetails>
   </div>
 </template>
 
@@ -49,6 +57,21 @@ export default {
         setting: 'adminMode',
         value: newState,
       })
+      window.location.reload()
+    },
+    addEruda() {
+      const existing = document.getElementById('eruda-script')
+      if (existing) return // Already loaded
+
+      const script = document.createElement('script')
+      script.src = '//cdn.jsdelivr.net/npm/eruda'
+      script.id = 'eruda-script'
+
+      script.onload = () => {
+        window.eruda?.init()
+      }
+
+      document.body.appendChild(script)
     },
   },
 }

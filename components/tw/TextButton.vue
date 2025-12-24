@@ -41,6 +41,8 @@ export default {
       switch (this.color) {
         case 'onPrimary':
           return 'tw-text-white dark:tw-text-primary-20'
+        case 'onSecondary':
+          return 'tw-text-white dark:tw-text-secondary-20'
         case 'onNavbar':
           return 'tw-text-white dark:tw-text-neutral-90'
         case 'onError':
@@ -56,6 +58,8 @@ export default {
       switch (this.color) {
         case 'onPrimary':
           return 'tw-bg-white dark:tw-bg-primary-20'
+        case 'onSecondary':
+          return 'tw-bg-white dark:tw-bg-secondary-20'
         case 'onNavbar':
           return 'tw-text-white dark:tw-text-neutral-90'
         case 'onError':

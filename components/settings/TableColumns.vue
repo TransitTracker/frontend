@@ -1,6 +1,17 @@
 <template>
   <div>
-    <h3 class="tw-text-xs tw-font-medium tw-leading-4">{{ $t('visible') }}</h3>
+    <div
+      class="tw-flex tw-flex-col tw-gap-2 tw-rounded-xl tw-bg-secondary-90 tw-p-4 tw-text-sm tw-text-secondary-30 dark:tw-bg-secondary-30 dark:tw-text-secondary-90"
+    >
+      <div class="tw-flex tw-items-center tw-gap-2">
+        <TwIcon :path="mdiInformationOutline" />
+        <b>{{ $t('emptyColumnsTitle') }}</b>
+      </div>
+      {{ $t('emptyColumns') }}
+    </div>
+    <h3 class="tw-mt-4 tw-text-xs tw-font-medium tw-leading-4">
+      {{ $t('visible') }}
+    </h3>
     <draggable
       v-model="visibleColumns"
       group="tableColumns"
@@ -25,18 +36,22 @@
         {{ $t('dropHereVisible') }}
       </div>
     </draggable>
-    <!-- TODO: Convert chip to component with hover effect -->
-    <button
-      v-if="visibleColumns.length !== availableColumns.length"
-      class="tw-mt-2 tw-flex tw-h-8 tw-items-center tw-gap-x-2 tw-rounded-lg tw-border tw-border-solid tw-border-neutralVariant-50 tw-pl-2 tw-pr-4 tw-text-sm tw-leading-8 dark:tw-border-neutralVariant-60"
-      @click="addAll"
-    >
-      <TwIcon
-        :path="mdiTableColumnPlusAfter"
-        class="!tw-h-[1.125rem] !tw-w-[1.125rem]"
-      />
-      <span>{{ $t('addAll') }}</span>
-    </button>
+    <div class="tw-mt-2 tw-flex tw-flex-wrap tw-gap-2">
+      <TwChip
+        :icon="mdiTableColumnPlusAfter"
+        v-if="visibleColumns.length !== availableColumns.length"
+        @click.native="addAll"
+      >
+        {{ $t('addAll') }}
+      </TwChip>
+      <TwChip
+        :icon="mdiTableRefresh"
+        v-if="!isCurrentlyDefault"
+        @click.native="resetToDefault"
+      >
+        {{ $t('resetToDefault') }}
+      </TwChip>
+    </div>
     <h3 class="tw-mt-4 tw-text-xs tw-font-medium tw-leading-4">
       {{ $t('hidden') }}
     </h3>
@@ -71,8 +86,13 @@
 <script>
 import draggable from 'vuedraggable'
 
-import { mdiReorderHorizontal, mdiTableColumnPlusAfter } from '@mdi/js'
-import { FIELDS_DEFINITIONS } from '~/utils/fields'
+import {
+  mdiReorderHorizontal,
+  mdiTableColumnPlusAfter,
+  mdiTableRefresh,
+  mdiInformationOutline,
+} from '@mdi/js'
+import { FIELDS_DEFINITIONS, DEFAULT_TABLE_COLUMNS } from '~/utils/fields'
 
 export default {
   components: {
@@ -81,6 +101,8 @@ export default {
   data: () => ({
     mdiReorderHorizontal,
     mdiTableColumnPlusAfter,
+    mdiTableRefresh,
+    mdiInformationOutline,
   }),
   computed: {
     availableColumns() {
@@ -110,6 +132,14 @@ export default {
         })
       },
     },
+    isCurrentlyDefault() {
+      if (this.visibleColumns.length !== DEFAULT_TABLE_COLUMNS.length)
+        return false
+
+      return this.visibleColumns.every(
+        (value, index) => value === DEFAULT_TABLE_COLUMNS[index]
+      )
+    },
   },
   methods: {
     addAll() {
@@ -120,6 +150,12 @@ export default {
     },
     getLabel(column) {
       return this.$t(FIELDS_DEFINITIONS[column]?.value)
+    },
+    resetToDefault() {
+      this.$store.commit('settings/set', {
+        setting: 'selectedTableColumns',
+        value: DEFAULT_TABLE_COLUMNS,
+      })
     },
   },
 }
@@ -134,18 +170,25 @@ export default {
 <i18n>
   {
     "en": {
+      "emptyColumnsTitle": "Empty columns",
+      "emptyColumns": "Each agency provides different data, which means some columns may be empty. Transit Tracker strives to retrieve as much information as possible, as long as it is provided by the agency.",
       "visible": "Visible",
       "addAll": "Make all columns visible",
       "hidden": "Hidden",
       "dropHereVisible": "Grab and drop a column here to make it visible",
-      "dropHereHidden": "Grab and drop a column here to hide it"
+      "dropHereHidden": "Grab and drop a column here to hide it",
+      "resetToDefault": "Reset to default values"
     },
     "fr": {
+
+      "emptyColumnsTitle": "Colonnes vides",
+      "emptyColumns": "Chaque agence fournit des données différentes, ce qui peut rendre certaines colonnes vides. Transit Tracker s’efforce de récupérer le maximum d’informations disponibles, tant que celles-ci sont fournies par l’agence.",
       "visible": "Visible",
       "addAll": "Rendre toutes les colonnes visibles",
       "hidden": "Caché",
       "dropHereVisible": "Prenez et déposez une colonne ici pour la rendre visible",
-      "dropHereHidden": "Prenez et déposez une colonne ici pour la masquer"
+      "dropHereHidden": "Prenez et déposez une colonne ici pour la masquer",
+      "resetToDefault": "Réinitialiser aux valeurs par défaut"
     }
   }
 </i18n>

@@ -165,6 +165,7 @@ export default {
     },
     workbox: {
       importScripts: ['sw-push.js'],
+      dev: true,
     },
   },
 }

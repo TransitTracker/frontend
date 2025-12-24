@@ -28,7 +28,7 @@
         </div>
         <div class="tw-p-6">
           <h2
-            class="tw-text-2xl tw-leading-8 tw-text-neutral-10 dark:tw-text-neutral-90"
+            class="tw-font-heading tw-text-2xl tw-leading-8 tw-text-neutral-10 dark:tw-text-neutral-90"
           >
             <slot name="header"></slot>
           </h2>

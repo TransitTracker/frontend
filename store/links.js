@@ -16,9 +16,18 @@ export const actions = {
       return state.data[id]
     }
 
-    const alert = await this.$axios.get(`/links/${id}`)
+    const alert = await this.$axios.get(`/links/${id}`, {
+      cacheId: `link-${id}`,
+    })
     commit('add', alert.data.data)
 
     return alert.data.data
+  },
+  async getAll({ commit }) {
+    const links = await this.$axios.get('/links', { cacheId: 'links' })
+
+    links.data.data.forEach((link) => {
+      commit('add', link)
+    })
   },
 }

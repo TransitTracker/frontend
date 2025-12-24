@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="tw-fixed tw-inset-y-0 tw-left-0 tw-z-10 tw-hidden tw-h-full tw-w-20 tw-bg-neutral-99 tw-text-sm tw-font-medium tw-leading-4 tw-tracking-wider dark:tw-bg-neutral-10 md:tw-block"
+    class="tw-fixed tw-inset-y-0 tw-left-0 tw-z-30 tw-hidden tw-h-full tw-w-20 tw-bg-neutral-99 tw-text-sm tw-font-medium tw-leading-4 tw-tracking-wider dark:tw-bg-neutral-10 md:tw-block"
   >
     <ul
       class="tw-flex tw-h-full tw-list-none tw-flex-col tw-items-center tw-gap-y-3 tw-bg-primary-40/25 tw-py-4 !tw-pl-0 dark:tw-bg-primary-80/12"
@@ -68,16 +68,13 @@
           <span class="tw-hidden 2xl:tw-inline">xl</span>
         </span>
       </TwNavigationBarButton>
-      <TwStandardIconButton
-        v-if="dataIsLoaded"
-        @click="open('NotificationsCentre')"
-      >
+      <TwStandardIconButton v-if="dataIsLoaded" @click="openAlerts()">
         <TwIcon :path="mdiBell" />
       </TwStandardIconButton>
       <TwStandardIconButton v-if="dataIsLoaded" @click="open('RegionSwitcher')">
         <TwIcon :path="mdiCity" />
       </TwStandardIconButton>
-      <TwStandardIconButton @click="open('SettingsDrawer')">
+      <TwStandardIconButton @click="openSettings()">
         <TwIcon :path="mdiCog" />
       </TwStandardIconButton>
     </ul>
@@ -130,6 +127,15 @@ export default {
   methods: {
     open(setting) {
       this.$store.commit('app/set', { key: 'open' + setting, value: true })
+    },
+    openAlerts() {
+      this.$store.commit('app/set', { key: 'alertsView', value: 'index' })
+    },
+    openSettings(view = 'index') {
+      this.$store.commit('app/set', {
+        key: 'settingsView',
+        value: view,
+      })
     },
   },
 }

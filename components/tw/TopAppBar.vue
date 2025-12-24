@@ -37,7 +37,7 @@
     <TwTextButton v-else color="onNavbar" @click="switchLanguage">
       {{ settingsLang === 'en' ? 'FR' : 'EN' }}
     </TwTextButton>
-    <TwStandardIconButton color="onNavbar" @click="open('SettingsDrawer')">
+    <TwStandardIconButton color="onNavbar" @click="openSettings()">
       <TwIcon :path="mdiCog" />
     </TwStandardIconButton>
   </nav>
@@ -67,6 +67,12 @@ export default {
   methods: {
     open(setting) {
       this.$store.commit('app/set', { key: 'open' + setting, value: true })
+    },
+    openSettings() {
+      this.$store.commit('app/set', {
+        key: 'settingsView',
+        value: 'index',
+      })
     },
     switchLanguage() {
       this.$i18n.setLocale(this.settingsLang === 'en' ? 'fr' : 'en')

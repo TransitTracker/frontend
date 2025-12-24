@@ -114,35 +114,6 @@ export default {
   },
   settings: {
     open: 'Ouvrir les paramètres',
-    title: 'Paramètres',
-    pwa: {
-      install: 'Installer Transit Tracker',
-      success: 'Succès!',
-      error: "Erreur lors de l'installation",
-      updateAvailable: 'Une mise à jour est disponible',
-      updatePending:
-        "La mise à jour est en cours d'installation! Lorsque prête, la page rafraîchira.",
-      installUpdate: 'Rafraîchir maintenant',
-    },
-    agenciesTitle: 'Agences',
-    searchAgency: 'Rechercher une agence',
-    agenciesAddAll: 'Ajouter toutes les agences',
-    autoRefresh: 'Rafraichissement automatique',
-    autoRefreshDesc:
-      "Mise à jour toutes les 60 ou 120 secondes, selon l'agence.",
-    autoRefreshOn: 'Activé',
-    autoRefreshOff: 'Désactivé',
-    theme: 'Thème',
-    themeLight: 'Thème clair',
-    themeDark: 'Thème foncé',
-    themeSystem: 'Système',
-    themeSystemDesc: 'Selon les préférences de votre navigateur',
-    defaultScreen: 'Écran par défaut',
-    noRedirect: 'Ne pas rediriger',
-    table: 'Colonnes de la liste',
-    tableDesc:
-      "Vous pouvez personnaliser l'ordre des colonnes affichées dans l'application et modifier leur visibilité.",
-    language: 'Langue',
   },
   alert: {
     readMore: 'Lire plus',

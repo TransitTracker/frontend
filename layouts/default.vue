@@ -4,12 +4,9 @@
     <TwNavigationRail />
     <v-main class="mb-16 mb-md-0 ml-md-20">
       <TwAlert />
-      <NotificationsCentre
-        v-if="dataIsLoaded"
-        v-model="openNotificationsCentre"
-      />
       <RegionSwitcher v-model="openRegionSwitcher" />
-      <SettingsDrawer v-model="openSettingsDrawer" />
+      <SettingsDrawer />
+      <TwAlertDrawer />
       <nuxt />
     </v-main>
     <TwNavigationBar v-if="dataIsLoaded" />
@@ -111,14 +108,6 @@ export default {
     updateAvailable() {
       return this.$store.state.app.updateAvailable
     },
-    openNotificationsCentre: {
-      get() {
-        return this.$store.state.app.openNotificationsCentre
-      },
-      set(value) {
-        this.$store.commit('app/set', { key: 'openNotificationsCentre', value })
-      },
-    },
     openRegionSwitcher: {
       get() {
         return this.$store.state.app.openRegionSwitcher
@@ -127,13 +116,8 @@ export default {
         this.$store.commit('app/set', { key: 'openRegionSwitcher', value })
       },
     },
-    openSettingsDrawer: {
-      get() {
-        return this.$store.state.app.openSettingsDrawer
-      },
-      set(value) {
-        this.$store.commit('app/set', { key: 'openSettingsDrawer', value })
-      },
+    settingsView() {
+      return this.$store.state.app.settingsView
     },
     updatePending() {
       return this.$store.state.app.updatePending
@@ -168,7 +152,8 @@ export default {
       this.verifyNotificationSubscriptionStatus()
     }
 
-    // Import tag data
+    // Import links and tag data
+    this.$store.dispatch('links/getAll')
     this.$store.dispatch('tags/getAll')
   },
   methods: {

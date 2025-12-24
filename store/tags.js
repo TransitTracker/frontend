@@ -22,7 +22,7 @@ export const actions = {
     return {}
   },
   async getAll({ commit }) {
-    const tags = await this.$axios.get('/tags')
+    const tags = await this.$axios.get('/tags', { cacheId: 'tags' })
 
     tags.data.data.forEach((tag) => {
       commit('add', tag)

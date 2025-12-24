@@ -59,7 +59,7 @@
         <TwOutlinedIconButton
           class="tw-float-right"
           :title="$t('manageAgencies')"
-          @click="open('SettingsDrawer')"
+          @click="openSettings()"
         >
           <TwIcon :path="mdiTune" />
         </TwOutlinedIconButton>
@@ -300,15 +300,17 @@ export default {
   },
   computed: {
     activeAgencies() {
-      const activeAgencies = this.$store.state.settings.activeAgencies
+      const hiddenAgencies = this.$store.state.settings.hiddenAgencies
 
       return Object.values(this.$store.state.agencies.data)
         .filter(({ slug, regions }) => {
           if (regions.includes('*')) {
             return true
           }
+
+          // Show all agencies except those hidden or not in this region
           return (
-            activeAgencies.includes(slug) && regions.includes(this.regionSlug)
+            !hiddenAgencies.includes(slug) && regions.includes(this.regionSlug)
           )
         })
         .sort((x, y) => {
@@ -355,6 +357,12 @@ export default {
             this.availableAgencies[slug]
           )
         })
+    },
+    openSettings() {
+      this.$store.commit('app/set', {
+        key: 'settingsView',
+        value: 'hiddenAgencies',
+      })
     },
     open(setting) {
       this.$store.commit('app/set', { key: 'open' + setting, value: true })

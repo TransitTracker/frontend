@@ -1,28 +1,19 @@
-import { FIELDS_DEFINITIONS } from '~/utils/fields'
+import { FIELDS_DEFINITIONS, DEFAULT_TABLE_COLUMNS } from '~/utils/fields'
 
 // A list of all available columns for table
 const availableColumns = Object.keys(FIELDS_DEFINITIONS)
 
 export const state = () => ({
   activeAgencies: [],
-  autoRefresh: false,
-  configurationDone: false,
+  hiddenAgencies: [],
+  autoRefresh: true,
   readAlerts: [],
   currentRegion: 'mtl',
   launch: 'no',
   lang: null,
   theme: 'system',
   pushSubscriptionUuid: null,
-  selectedTableColumns: [
-    'label',
-    'tags',
-    'routeId',
-    'trip.routeShortName',
-    'trip.headsign',
-    'tripId',
-    'startTime',
-    'actions',
-  ],
+  selectedTableColumns: DEFAULT_TABLE_COLUMNS,
   tableGroupBy: 'properties.agencyId',
   debugMode: false,
 })
@@ -69,7 +60,7 @@ export const actions = {
     // Make an array of all selected agencies
     const activeAgencies = rootState.regions.data[region.slug].agencies.filter(
       (agency) => {
-        return state.activeAgencies.includes(agency.slug)
+        return !state.hiddenAgencies.includes(agency.slug)
       }
     )
 
@@ -81,10 +72,21 @@ export const actions = {
     dispatch('regions/connectToAutoRefresh', region, { root: true })
   },
   toggleAgency({ commit, dispatch, rootState, state }, agency) {
-    const setting = [...state.activeAgencies]
+    const setting = [...state.hiddenAgencies]
 
+    // Is already in array
     if (setting.includes(agency.slug)) {
+      // Remove from hidden agencies
       setting.splice(setting.indexOf(agency.slug), 1)
+
+      // Load agency if in current region
+      if (agency.regions.includes(state.currentRegion)) {
+        dispatch('vehicles/load', agency, { root: true })
+      }
+      // Is not in array
+    } else {
+      // Add to hidden agencies
+      setting.push(agency.slug)
 
       // Remove times and data
       commit('vehicles/emptyData', agency, { root: true })
@@ -94,14 +96,10 @@ export const actions = {
       if (rootState.vehicles.selection.agency === agency.slug) {
         commit('vehicles/setSelection', {}, { root: true })
       }
-    } else {
-      setting.push(agency.slug)
-      if (agency.regions.includes(state.currentRegion)) {
-        dispatch('vehicles/load', agency, { root: true })
-      }
     }
 
-    commit('set', { setting: 'activeAgencies', value: setting })
+    // Update settings
+    commit('set', { setting: 'hiddenAgencies', value: setting })
   },
 }
 

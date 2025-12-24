@@ -226,3 +226,14 @@ function sortNumber(a, b) {
   if (a > b) return 1
   return 0
 }
+
+export const DEFAULT_TABLE_COLUMNS = [
+  'label',
+  'tags',
+  'routeId',
+  'trip.routeShortName',
+  'trip.headsign',
+  'tripId',
+  'startTime',
+  'actions',
+]

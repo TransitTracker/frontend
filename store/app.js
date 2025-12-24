@@ -7,12 +7,11 @@ export const state = () => ({
   installPrompt: null,
   installOutcome: null,
   updateAvailable: false,
-  openNotificationsCentre: false,
   openRegionSwitcher: false,
-  openSettingsDrawer: false,
   updatePending: false,
-  notificationsCentre: false,
   filters: {},
+  settingsView: false,
+  alertsView: false,
 })
 
 export const mutations = {
@@ -21,6 +20,10 @@ export const mutations = {
   },
   set(state, { key, value }) {
     state[key] = value
+
+    // Ensure that only one side sheet is open at a time
+    if (key === 'settingsView') state.alertsView = false
+    if (key === 'alertsView') state.settingsView = false
   },
   setFilter(state, { column, stringValue }) {
     Vue.set(state.filters, column, stringValue)
@@ -44,26 +47,27 @@ export const actions = {
       return false
     }
 
+    // Set the currentRegion
     await commit(
       'settings/set',
       { setting: 'currentRegion', value: regionSlug },
       { root: true }
     )
 
-    // Make an array of all selected agencies
-    const activeAgencies = rootState.regions.data[regionSlug].agencies.filter(
+    // Make an array of all visible agencies
+    const visibleAgencies = rootState.regions.data[regionSlug].agencies.filter(
       (agency) => {
-        return rootState.settings.activeAgencies.includes(agency.slug)
+        return !rootState.settings.hiddenAgencies.includes(agency.slug)
       }
     )
 
     // For each selected agency, load vehicles
-    activeAgencies.forEach((agency) => {
+    visibleAgencies.forEach((agency) => {
       dispatch('vehicles/load', agency, { root: true })
     })
 
     // Load alerts for this region
-    dispatch('alerts/load', regionSlug, { root: true })
+    dispatch('alerts/loadForOneRegion', regionSlug, { root: true })
 
     commit('setDataAsLoaded')
 

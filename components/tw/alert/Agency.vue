@@ -18,10 +18,10 @@
     <TwStandardIconButton
       type="button"
       :style="{ color: agency.textColor }"
-      @click="addAgency()"
+      @click="toggleAgency()"
     >
       <TwIcon
-        :path="activeAgencies.includes(agency.slug) ? mdiCheck : mdiPlusCircle"
+        :path="hiddenAgencies.includes(agency.slug) ? mdiPlusCircle : mdiCheck"
       />
     </TwStandardIconButton>
   </li>
@@ -41,8 +41,8 @@ export default {
     mdiCheck,
   }),
   computed: {
-    activeAgencies() {
-      return this.$store.state.settings.activeAgencies
+    hiddenAgencies() {
+      return this.$store.state.settings.hiddenAgencies
     },
     agency() {
       return this.$store.state.agencies.data[this.agencySlug]
@@ -54,7 +54,7 @@ export default {
     },
   },
   methods: {
-    addAgency() {
+    toggleAgency() {
       this.$store.dispatch('settings/toggleAgency', this.agency)
     },
   },
