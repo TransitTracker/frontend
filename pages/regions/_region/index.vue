@@ -57,7 +57,7 @@
           {{ $t('manageAgenciesTrick') }}
         </small>
         <TwOutlinedIconButton
-          class="tw-float-right"
+          class="tw-float-right tw-flex-shrink-0"
           :title="$t('manageAgencies')"
           @click="openSettings()"
         >
@@ -125,7 +125,9 @@
             {{ $t('creditsTitle') }}
           </h2>
         </template>
+        <!-- eslint-disable vue/no-v-html -->
         <p class="mt-4" v-html="region.credits"></p>
+        <!-- eslint-enable vue/no-v-html -->
         <p>{{ $t('creditsBody') }}</p>
         <ul>
           <li v-for="agency in activeAgencies" :key="agency.slug">
