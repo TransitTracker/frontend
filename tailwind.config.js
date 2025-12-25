@@ -11,6 +11,7 @@ module.exports = {
     `components/VehicleSheet/**/*.vue`,
     `components/settings/**/*.vue`,
     `components/Loading.vue`,
+    `layouts/default.vue`,
     `layouts/error.vue`,
     `pages/regions/_region/download.vue`,
     `pages/regions/_region/index.vue`,

@@ -17,10 +17,10 @@
     <div class="flex-grow-1"></div>
     <TwStandardIconButton
       v-if="property.help"
-      class="tw-h-10 tw-w-10"
+      class="tw-h-8 tw-w-8 md:tw-h-10 md:tw-w-10"
       @click="openHelp"
     >
-      <TwIcon :path="mdiHelp" />
+      <TwIcon :path="mdiHelp" class="!tw-h-5 !tw-w-5" />
     </TwStandardIconButton>
     <TwBasicDialog v-if="property.help" v-model="helpOpen">
       <template #header>

@@ -2,7 +2,7 @@
   <v-app class="tt-app">
     <TwTopAppBar />
     <TwNavigationRail />
-    <v-main class="mb-16 mb-md-0 ml-md-20">
+    <v-main class="mb-16 mb-md-0 ml-md-20 tw-mt-16 md:tw-mt-0">
       <TwAlert />
       <RegionSwitcher v-model="openRegionSwitcher" />
       <SettingsDrawer />
@@ -167,13 +167,11 @@ export default {
 
       // Occurs when the user accepts the update and the new SW is ready to take control
       this.workbox.addEventListener('controlling', () => {
-        console.log('WB Controlling')
         window.location.reload()
       })
 
       // The new SW is installing but is waiting for activation
       this.workbox.addEventListener('waiting', (event) => {
-        console.log('WB Waiting')
         this.$store.commit('app/set', {
           key: 'updateAvailable',
           value: true,
@@ -181,7 +179,6 @@ export default {
       })
     },
     installUpdate() {
-      console.log('WB skip waiting')
       this.$store.commit('app/set', {
         key: 'updatePending',
         value: true,
