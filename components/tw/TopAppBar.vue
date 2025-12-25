@@ -25,6 +25,9 @@
       </h1>
     </NuxtLink>
     <div class="tw-grow"></div>
+    <TwStandardIconButton color="onNavbar" @click="openAlerts()">
+      <TwIcon :path="mdiBell" />
+    </TwStandardIconButton>
     <TwStandardIconButton
       v-if="dataIsLoaded"
       :title="$t('regionSwitcher.title')"
@@ -44,10 +47,11 @@
 </template>
 
 <script>
-import { mdiCog, mdiCity } from '@mdi/js'
+import { mdiBell, mdiCog, mdiCity } from '@mdi/js'
 
 export default {
   data: () => ({
+    mdiBell,
     mdiCog,
     mdiCity,
   }),
@@ -67,6 +71,9 @@ export default {
   methods: {
     open(setting) {
       this.$store.commit('app/set', { key: 'open' + setting, value: true })
+    },
+    openAlerts() {
+      this.$store.commit('app/set', { key: 'alertsView', value: 'index' })
     },
     openSettings() {
       this.$store.commit('app/set', {
