@@ -7,7 +7,7 @@ export const state = () => ({
   installPrompt: null,
   installOutcome: null,
   updateAvailable: false,
-  openRegionSwitcher: false,
+  regionSwitcherVisible: false,
   updatePending: false,
   filters: {},
   settingsView: false,

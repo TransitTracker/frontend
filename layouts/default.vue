@@ -1,16 +1,36 @@
 <template>
-  <v-app class="tt-app">
-    <TwTopAppBar />
-    <TwNavigationRail />
-    <v-main class="mb-16 mb-md-0 ml-md-20 tw-mt-16 md:tw-mt-0">
-      <TwAlert />
-      <RegionSwitcher v-model="openRegionSwitcher" />
-      <SettingsDrawer />
-      <TwAlertDrawer />
-      <nuxt />
-    </v-main>
-    <TwNavigationBar v-if="dataIsLoaded" />
-    <v-snackbar
+  <div
+    class="tt-app tw-relative tw-flex tw-font-sans tw-leading-normal"
+    :class="[settingsDarkMode && 'theme--dark tw-text-white']"
+  >
+    <!-- <v-app class="tt-app"> -->
+    <div
+      class="tw-relative tw-flex tw-min-h-screen tw-max-w-full tw-shrink tw-grow tw-basis-auto tw-flex-col"
+    >
+      <TwTopAppBar />
+      <TwNavigationRail />
+      <main
+        class="tw-mb-16 tw-mt-16 tw-flex tw-max-w-full tw-shrink-0 tw-grow tw-basis-auto tw-p-0 md:tw-mb-0 md:tw-ml-20 md:tw-mt-0"
+      >
+        <div class="tw-relative tw-max-w-full tw-shrink tw-grow tw-basis-auto">
+          <TwAlert />
+          <TwRegionSwitcher v-if="regionSwitcherVisible" />
+          <SettingsDrawer />
+          <TwAlertDrawer />
+          <nuxt />
+        </div>
+      </main>
+
+      <!-- <v-main class="mb-16 mb-md-0 ml-md-20 tw-mt-16 md:tw-mt-0">
+        <TwAlert />
+        <TwRegionSwitcher v-if="regionSwitcherVisible" />
+        <SettingsDrawer />
+        <TwAlertDrawer />
+        <nuxt />
+      </v-main> -->
+
+      <TwNavigationBar v-if="dataIsLoaded" />
+      <!-- <v-snackbar
       v-model="updateAvailable"
       :color="settingsDarkMode ? 'white' : null"
       app
@@ -39,8 +59,10 @@
           {{ $t('settings.pwa.installUpdate') }}
         </v-btn>
       </template>
-    </v-snackbar>
-  </v-app>
+    </v-snackbar> -->
+    </div>
+    <!-- </v-app> -->
+  </div>
 </template>
 
 <script>
@@ -108,19 +130,14 @@ export default {
     updateAvailable() {
       return this.$store.state.app.updateAvailable
     },
-    openRegionSwitcher: {
-      get() {
-        return this.$store.state.app.openRegionSwitcher
-      },
-      set(value) {
-        this.$store.commit('app/set', { key: 'openRegionSwitcher', value })
-      },
-    },
     settingsView() {
       return this.$store.state.app.settingsView
     },
     updatePending() {
       return this.$store.state.app.updatePending
+    },
+    regionSwitcherVisible() {
+      return this.$store.state.app.regionSwitcherVisible
     },
   },
   mounted() {

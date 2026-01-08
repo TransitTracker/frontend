@@ -71,7 +71,7 @@
       <TwStandardIconButton v-if="dataIsLoaded" @click="openAlerts()">
         <TwIcon :path="mdiBell" />
       </TwStandardIconButton>
-      <TwStandardIconButton v-if="dataIsLoaded" @click="open('RegionSwitcher')">
+      <TwStandardIconButton v-if="dataIsLoaded" @click="openRegionSwitcher()">
         <TwIcon :path="mdiCity" />
       </TwStandardIconButton>
       <TwStandardIconButton @click="openSettings()">
@@ -125,11 +125,14 @@ export default {
     },
   },
   methods: {
-    open(setting) {
-      this.$store.commit('app/set', { key: 'open' + setting, value: true })
-    },
     openAlerts() {
       this.$store.commit('app/set', { key: 'alertsView', value: 'index' })
+    },
+    openRegionSwitcher() {
+      this.$store.commit('app/set', {
+        key: 'regionSwitcherVisible',
+        value: true,
+      })
     },
     openSettings(view = 'index') {
       this.$store.commit('app/set', {
