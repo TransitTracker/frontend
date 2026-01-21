@@ -14,7 +14,7 @@
       >
         <div class="tw-relative tw-max-w-full tw-shrink tw-grow tw-basis-auto">
           <TwAlert />
-          <TwRegionSwitcher v-if="regionSwitcherVisible" />
+          <TwRegionSwitcher />
           <SettingsDrawer />
           <TwAlertDrawer />
           <nuxt />

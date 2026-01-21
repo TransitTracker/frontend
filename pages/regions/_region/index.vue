@@ -37,7 +37,7 @@
             color="tonal"
             class="tw-hidden md:tw-flex"
             with-icon
-            @click="open('RegionSwitcher')"
+            @click="openRegionSwitcher()"
           >
             <TwIcon :path="mdiCity" />
             {{ $t('changeRegion') }}
@@ -366,8 +366,11 @@ export default {
         value: 'hiddenAgencies',
       })
     },
-    open(setting) {
-      this.$store.commit('app/set', { key: 'open' + setting, value: true })
+    openRegionSwitcher() {
+      this.$store.commit('app/set', {
+        key: 'regionSwitcherVisible',
+        value: true,
+      })
     },
   },
 }

@@ -1,7 +1,7 @@
 <template>
   <dialog
     ref="dialog"
-    class="tw-m-auto tw-min-w-[17.5rem] tw-max-w-[35rem] tw-rounded-[1.75rem] tw-border-none tw-bg-neutral-99 tw-p-6 tw-text-neutralVariant-30 backdrop:tw-bg-black/75 dark:tw-bg-neutral-10 dark:tw-text-neutralVariant-80"
+    class="tw-m-auto tw-min-w-[17.5rem] tw-max-w-[35rem] tw-rounded-[1.75rem] tw-border-none tw-bg-neutral-99 tw-p-6 tw-text-neutralVariant-30 backdrop:tw-bg-black/75 open:tw-animate-dialogOpen dark:tw-bg-neutral-10 dark:tw-text-neutralVariant-80"
   >
     <form method="dialog">
       <h2

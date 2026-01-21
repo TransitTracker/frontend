@@ -32,7 +32,7 @@
       v-if="dataIsLoaded"
       :title="$t('regionSwitcher.title')"
       color="onNavbar"
-      @click="open('RegionSwitcher')"
+      @click="openRegionSwitcher()"
     >
       <!-- {{ region }} -->
       <TwIcon :path="mdiCity" />
@@ -69,11 +69,14 @@ export default {
     },
   },
   methods: {
-    open(setting) {
-      this.$store.commit('app/set', { key: 'open' + setting, value: true })
-    },
     openAlerts() {
       this.$store.commit('app/set', { key: 'alertsView', value: 'index' })
+    },
+    openRegionSwitcher() {
+      this.$store.commit('app/set', {
+        key: 'regionSwitcherVisible',
+        value: true,
+      })
     },
     openSettings() {
       this.$store.commit('app/set', {

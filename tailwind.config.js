@@ -25,6 +25,7 @@ module.exports = {
     extend: {
       animation: {
         progress: 'progress 2s infinite linear',
+        dialogOpen: 'dialogOpen 300ms cubic-bezier(0.27, 1.06, 0.18, 1.00)',
       },
       backgroundImage: {
         'gradient-100': 'linear-gradient(100deg, var(--tw-gradient-stops))',
@@ -41,6 +42,10 @@ module.exports = {
           '0%': { transform: 'translateX(0) scaleX(0)' },
           '40%': { transform: 'translateX(0) scaleX(0.4)' },
           '100%': { transform: 'translateX(100%) scaleX(0.5)' },
+        },
+        dialogOpen: {
+          '0%': { trasnform: 'scale(0)' },
+          '100%': { trasnform: 'scale(1)' },
         },
       },
       opacity: {
@@ -72,7 +77,7 @@ module.exports = {
         standard: '	cubic-bezier(0.2, 0.0, 0, 1.0)',
         'standard-decelerate': 'cubic-bezier(0, 0, 0, 1)',
         'standard-accelerate': 'cubic-bezier(0.3, 0, 1, 1)',
-        'standard-spatial': '	cubic-bezier(0.27, 1.06, 0.18, 1.00)',
+        'standard-spatial': 'cubic-bezier(0.27, 1.06, 0.18, 1.00)',
         'standard-effects-fast': 'cubic-bezier(0.31, 0.94, 0.34, 1.00)',
         'standard-effects': 'cubic-bezier(0.34, 0.80, 0.34, 1.00)',
         'standard-effects-slow': 'cubic-bezier(0.34, 0.88, 0.34, 1.00)',
