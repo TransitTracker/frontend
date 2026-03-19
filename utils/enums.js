@@ -31,3 +31,15 @@ export const alertStatus = {
     canBeClosed: false,
   },
 }
+
+export const carriageCategory = {
+  0: {
+    key: 'Locomotive',
+  },
+  1: {
+    key: 'Coach',
+  },
+  2: {
+    key: 'CabCar',
+  },
+}

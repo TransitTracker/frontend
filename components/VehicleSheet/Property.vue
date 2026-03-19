@@ -14,7 +14,7 @@
         {{ property.format ? format(content) : content }} {{ property.suffix }}
       </dd>
     </div>
-    <div class="flex-grow-1"></div>
+    <div class="tw-grow"></div>
     <TwStandardIconButton
       v-if="property.help"
       class="tw-h-8 tw-w-8 md:tw-h-10 md:tw-w-10"

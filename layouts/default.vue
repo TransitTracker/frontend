@@ -172,6 +172,7 @@ export default {
     // Import links and tag data
     this.$store.dispatch('links/getAll')
     this.$store.dispatch('tags/getAll')
+    this.$store.dispatch('carriageTypes/getAll')
   },
   methods: {
     async handleWorkboxEvents() {

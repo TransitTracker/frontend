@@ -1,5 +1,5 @@
 <template>
-  <div class="tw-flex tw-flex-col tw-items-center">
+  <div class="tw-flex tw-flex-col tw-items-center tw-space-y-2">
     <h4 class="tw-font-medium">{{ title }}</h4>
     <p class="tw-mt-1 tw-grow">
       {{ description }}

@@ -7,7 +7,7 @@
     }"
     class="tw-flex tw-rounded-lg tw-px-2 tw-py-1 tw-text-sm xl:tw-text-base"
   >
-    <b class="mr-1">{{ vehicle.properties.route.shortName }}</b>
+    <b class="tw-mr-1">{{ vehicle.properties.route.shortName }}</b>
     <span class="tw-font-medium">
       <b>{{ vehicle.properties.route.longName }}</b>
       <div

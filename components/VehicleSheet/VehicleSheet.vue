@@ -71,6 +71,28 @@
     </ul>
 
     <div
+      v-if="vehicle.properties.carriageDetails.length"
+      class="-tw-mx-4 tw-flex tw-flex-nowrap tw-gap-1 tw-overflow-x-auto"
+    >
+      <div
+        v-for="(carriage, index) in vehicle.properties.carriageDetails"
+        :key="carriage.id"
+        class="tw-w-24 tw-shrink-0 first:tw-ml-4 last:tw-mr-4"
+      >
+        <small class="tw-block tw-text-center tw-text-xs">
+          {{ carriage.label ?? carriage.id }}
+        </small>
+        <TwCarriage
+          class="tw-h-10 tw-w-24"
+          :title="carriage.label ?? carriage.id"
+          :is-first="index === 0"
+          :is-last="index === vehicle.properties.carriageDetails.length - 1"
+          :type="carriage.type"
+        />
+      </div>
+    </div>
+
+    <div
       v-if="vehicle.properties.links.length"
       class="-tw-mx-4 tw-h-px tw-border-t tw-bg-neutralVariant-80"
     />

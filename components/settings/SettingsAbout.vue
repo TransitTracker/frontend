@@ -19,98 +19,103 @@
       <h3 class="tw-my-2">{{ $t('slogan') }}</h3>
       <p class="!tw-mb-0">{{ $t('version') }} {{ version }}</p>
     </div>
+    <div class="tw-prose dark:tw-prose-invert">
+      <h3 class="tw-mt-4 tw-text-lg tw-font-medium">
+        {{ $t('technologies.title') }}
+      </h3>
+      <p class="!tw-mb-0">{{ $t('technologies.desc') }}</p>
 
-    <h3 class="tw-mt-4 tw-text-lg tw-font-medium">
-      {{ $t('technologies.title') }}
-    </h3>
-    <p class="!tw-mb-0">{{ $t('technologies.desc') }}</p>
+      <ul>
+        <li>PHP</li>
+        <li>Laravel</li>
+        <li>Javascript</li>
+        <li>Vue.js</li>
+        <li>Nuxt.js</li>
+        <li>Vuetify</li>
+      </ul>
 
-    <ul>
-      <li>PHP</li>
-      <li>Laravel</li>
-      <li>Javascript</li>
-      <li>Vue.js</li>
-      <li>Nuxt.js</li>
-      <li>Vuetify</li>
-    </ul>
+      <h3 class="tw-mt-4 tw-text-lg tw-font-medium">
+        {{ $t('howItWorks.title') }}
+      </h3>
+      <p class="!tw-mb-1">{{ $t('howItWorks.intro') }}</p>
 
-    <h3 class="tw-mt-4 tw-text-lg tw-font-medium">
-      {{ $t('howItWorks.title') }}
-    </h3>
-    <p class="!tw-mb-1">{{ $t('howItWorks.intro') }}</p>
+      <ol>
+        <li>{{ $t('howItWorks.steps.1') }}</li>
+        <li>{{ $t('howItWorks.steps.2') }}</li>
+        <li>{{ $t('howItWorks.steps.3') }}</li>
+        <li>{{ $t('howItWorks.steps.4') }}</li>
+      </ol>
 
-    <ol>
-      <li>{{ $t('howItWorks.steps.1') }}</li>
-      <li>{{ $t('howItWorks.steps.2') }}</li>
-      <li>{{ $t('howItWorks.steps.3') }}</li>
-      <li>{{ $t('howItWorks.steps.4') }}</li>
-    </ol>
+      <p class="!tw-mb-1 tw-mt-2">{{ $t('considerations.intro') }}</p>
+      <ul>
+        <li v-html="$t('considerations.agencies')"></li>
+        <li v-html="$t('considerations.incorrectData')"></li>
+        <li v-html="$t('considerations.community')"></li>
+      </ul>
 
-    <p class="!tw-mb-1 tw-mt-2">{{ $t('considerations.intro') }}</p>
-    <ul>
-      <li v-html="$t('considerations.agencies')"></li>
-      <li v-html="$t('considerations.incorrectData')"></li>
-      <li v-html="$t('considerations.community')"></li>
-    </ul>
+      <h3 class="tw-mt-4 tw-text-lg tw-font-medium">
+        {{ $t('privacy.title') }}
+      </h3>
+      <p class="!tw-mb-0" v-html="$t('privacy.desc')"></p>
 
-    <h3 class="tw-mt-4 tw-text-lg tw-font-medium">{{ $t('privacy.title') }}</h3>
-    <p class="!tw-mb-0" v-html="$t('privacy.desc')"></p>
+      <h3 class="tw-mt-4 tw-text-lg tw-font-medium">
+        {{ $t('developers.title') }}
+      </h3>
+      <p class="!tw-mb-0">{{ $t('developers.desc') }}</p>
 
-    <h3 class="tw-mt-4 tw-text-lg tw-font-medium">
-      {{ $t('developers.title') }}
-    </h3>
-    <p class="!tw-mb-0">{{ $t('developers.desc') }}</p>
+      <div class="tw-mt-2 tw-flex tw-flex-wrap tw-items-center tw-gap-2">
+        <TwFilledButton
+          color="secondary"
+          tag="a"
+          href="https://api.transittracker.ca/docs"
+          target="_blank"
+          with-icon
+        >
+          <TwIcon :path="mdiApi" />
+          {{ $t('developers.apiDocs') }}
+        </TwFilledButton>
+        <TwFilledButton
+          color="secondary"
+          tag="a"
+          href="https://github.com/TransitTracker"
+          target="_blank"
+          with-icon
+        >
+          <TwIcon :path="mdiGithub" />
+          {{ $t('developers.github') }}
+        </TwFilledButton>
+      </div>
 
-    <div class="tw-mt-2 tw-flex tw-flex-wrap tw-items-center tw-gap-2">
-      <TwFilledButton
-        color="secondary"
-        tag="a"
-        href="https://api.transittracker.ca/docs"
-        target="_blank"
-        with-icon
-      >
-        <TwIcon :path="mdiApi" />
-        {{ $t('developers.apiDocs') }}
-      </TwFilledButton>
-      <TwFilledButton
-        color="secondary"
-        tag="a"
-        href="https://github.com/TransitTracker"
-        target="_blank"
-        with-icon
-      >
-        <TwIcon :path="mdiGithub" />
-        {{ $t('developers.github') }}
-      </TwFilledButton>
-    </div>
+      <h3 class="tw-mt-4 tw-text-lg tw-font-medium">
+        {{ $t('author.title') }}
+      </h3>
+      <p class="!tw-mb-0">
+        <b>Félix Desjardins</b><br />
+        {{ $t('author.desc') }}
+      </p>
 
-    <h3 class="tw-mt-4 tw-text-lg tw-font-medium">{{ $t('author.title') }}</h3>
-    <p class="!tw-mb-0">
-      <b>Félix Desjardins</b><br />
-      {{ $t('author.desc') }}
-    </p>
-
-    <div class="tw-mt-2 tw-flex tw-flex-wrap tw-items-center tw-gap-2">
-      <TwFilledButton
-        color="secondary"
-        tag="a"
-        href="https://www.linkedin.com/in/felix-desjardins/"
-        target="_blank"
-        with-icon
-      >
-        <TwIcon :path="mdiLinkedin" />
-        {{ $t('author.linkedin') }}
-      </TwFilledButton>
-      <TwFilledButton
-        color="secondary"
-        tag="a"
-        href="https://docs.google.com/forms/d/e/1FAIpQLSda-86sV12itRXPhLaw-WDDJI38GOSefq_7X006s1YP6pN4eg/viewform"
-        target="_blank"
-        with-icon
-      >
-        <TwIcon :path="mdiEmail" />
-        {{ $t('author.contact') }}
-      </TwFilledButton>
+      <div class="tw-mt-2 tw-flex tw-flex-wrap tw-items-center tw-gap-2">
+        <TwFilledButton
+          color="secondary"
+          tag="a"
+          href="https://www.linkedin.com/in/felix-desjardins/"
+          target="_blank"
+          with-icon
+        >
+          <TwIcon :path="mdiLinkedin" />
+          {{ $t('author.linkedin') }}
+        </TwFilledButton>
+        <TwFilledButton
+          color="secondary"
+          tag="a"
+          href="https://docs.google.com/forms/d/e/1FAIpQLSda-86sV12itRXPhLaw-WDDJI38GOSefq_7X006s1YP6pN4eg/viewform"
+          target="_blank"
+          with-icon
+        >
+          <TwIcon :path="mdiEmail" />
+          {{ $t('author.contact') }}
+        </TwFilledButton>
+      </div>
     </div>
   </div>
 </template>

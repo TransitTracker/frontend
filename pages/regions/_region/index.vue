@@ -125,18 +125,20 @@
             {{ $t('creditsTitle') }}
           </h2>
         </template>
-        <!-- eslint-disable vue/no-v-html -->
-        <p class="mt-4" v-html="region.credits"></p>
-        <!-- eslint-enable vue/no-v-html -->
-        <p>{{ $t('creditsBody') }}</p>
-        <ul>
-          <li v-for="agency in activeAgencies" :key="agency.slug">
-            {{ agency.name }}<br />
-            <a target="_blank" :href="agency.license.url">
-              {{ agency.license.title }}
-            </a>
-          </li>
-        </ul>
+        <div class="tw-prose dark:tw-prose-invert">
+          <!-- eslint-disable vue/no-v-html -->
+          <p class="mt-4" v-html="region.credits"></p>
+          <!-- eslint-enable vue/no-v-html -->
+          <p>{{ $t('creditsBody') }}</p>
+          <ul>
+            <li v-for="agency in activeAgencies" :key="agency.slug">
+              {{ agency.name }}<br />
+              <a target="_blank" :href="agency.license.url">
+                {{ agency.license.title }}
+              </a>
+            </li>
+          </ul>
+        </div>
       </TwDetails>
       <div
         class="tw-p-4 tw-leading-6 tw-tracking-wide dark:tw-border-neutralVariant-60 md:tw-order-2 md:tw-min-w-[18rem] md:tw-basis-1/3 md:tw-rounded-xl md:tw-border md:tw-border-solid md:tw-border-neutralVariant-50"
@@ -150,6 +152,7 @@
         <NuxtLink
           :to="localePath(`/regions/${regionSlug}/download`)"
           tag="div"
+          class="tw-mt-2"
           exact
         >
           <TwTextButton with-icon class="-tw-ml-4" tag="a" href="#">
@@ -168,7 +171,7 @@
           {{ $t('photoBody') }}
         </p>
         <TwTextButton
-          class="-tw-ml-3 tw-text-primary-10 dark:tw-text-primary-95"
+          class="-tw-ml-3 tw-mt-2 tw-text-primary-10 dark:tw-text-primary-95"
           href="https://docs.google.com/forms/d/e/1FAIpQLSecgmVPlQUGiAT4dXu4yv6i0UKtSpJfEFw_98lvoT-hqnVbSQ/viewform?usp=sf_link"
           tag="a"
           target="_blank"

@@ -25,7 +25,10 @@ module.exports = {
     extend: {
       animation: {
         progress: 'progress 2s infinite linear',
-        dialogOpen: 'dialogOpen 300ms cubic-bezier(0.27, 1.06, 0.18, 1.00)',
+        dialogOpen: 'dialogOpen 250ms cubic-bezier(0.05, 0.7, 0.1, 1)',
+        scrimEnter: 'scrimEnter 250ms cubic-bezier(0.05, 0.7, 0.1, 1)',
+        dialogClose: 'dialogClose 200ms cubic-bezier(0.3, 0, 0.8, 0.15)',
+        scrimClose: 'scrimClose 200ms cubic-bezier(0.3, 0, 0.8, 0.15)',
       },
       backgroundImage: {
         'gradient-100': 'linear-gradient(100deg, var(--tw-gradient-stops))',
@@ -44,8 +47,20 @@ module.exports = {
           '100%': { transform: 'translateX(100%) scaleX(0.5)' },
         },
         dialogOpen: {
-          '0%': { trasnform: 'scale(0)' },
-          '100%': { trasnform: 'scale(1)' },
+          '0%': { opacity: 0, transform: 'scale(0.8)' },
+          '100%': { opacity: 1, transform: 'scale(1)' },
+        },
+        dialogClose: {
+          '0%': { opacity: 1, transform: 'scale(1)' },
+          '100%': { opacity: 0, transform: 'scale(0.8)' },
+        },
+        scrimEnter: {
+          '0%': { opacity: 0 },
+          '100%': { opacity: 1 },
+        },
+        scrimClose: {
+          '0%': { opacity: 1 },
+          '100%': { opacity: 0 },
         },
       },
       opacity: {
@@ -102,5 +117,6 @@ module.exports = {
       stepTonesBy10: true,
       inverseSteps: false,
     }),
+    require('@tailwindcss/typography'),
   ],
 }

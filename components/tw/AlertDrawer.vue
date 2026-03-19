@@ -56,14 +56,11 @@
     </div>
     <article v-if="viewIsShow && selectedAlert" ref="show">
       <div class="tw-h-18"></div>
-      <div
+      <img
         v-if="selectedAlert.image"
-        class="-tw-mx-4 -tw-mt-2 tw-h-32 tw-bg-cover tw-bg-center lg:tw-h-64"
-        :style="{
-          backgroundImage: `url(${backendHost}/storage/content/alerts/${selectedAlert.image})`,
-          width: 'calc(100% + 2rem)',
-        }"
-      ></div>
+        :src="`${backendHost}/storage/content/alerts/${selectedAlert.image}`"
+        class="-tw-mx-4 -tw-mt-2 tw-max-h-64 tw-w-[calc(100%+2rem)] tw-object-cover"
+      />
       <h2
         class="tw-mt-6 tw-font-heading tw-text-2xl tw-leading-8 tw-text-neutral-10 dark:tw-text-neutral-90"
       >
@@ -76,7 +73,10 @@
         </small>
       </div>
       <!-- eslint-disable vue/no-v-html -->
-      <div class="tw-mt-4" v-html="selectedAlert.body"></div>
+      <div
+        class="tw-prose tw-mt-4 dark:tw-prose-invert"
+        v-html="selectedAlert.body"
+      ></div>
       <!-- eslint-enable vue/no-v-html -->
     </article>
   </TwSideSheet>

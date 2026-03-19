@@ -8,18 +8,20 @@
       >
         {{ $t('title') }}
       </h1>
-      <p class="!tw-mb-2 tw-mt-4">
-        {{ $t('description') }}
-      </p>
-      <b>{{ $t('notice') }}</b>
-      <ul>
-        <li>
-          {{ $t('noticeLicense') }}
-        </li>
-        <li>
-          {{ $t('noticeAccuracy') }}
-        </li>
-      </ul>
+      <div class="tw-prose dark:tw-prose-invert">
+        <p class="!tw-mb-2 tw-mt-4">
+          {{ $t('description') }}
+        </p>
+        <b>{{ $t('notice') }}</b>
+        <ul>
+          <li>
+            {{ $t('noticeLicense') }}
+          </li>
+          <li>
+            {{ $t('noticeAccuracy') }}
+          </li>
+        </ul>
+      </div>
       <div class="tw-mt-8 tw-min-h-96 md:tw-min-h-[unset]">
         <Transition
           enter-active-class="tw-transition tw-duration-300 tw-ease-standard-effects-slow tw-absolute"
@@ -317,11 +319,32 @@ export default {
 
       const flattenObj = (obj, keys = []) => {
         return Object.keys(obj).reduce((acc, key) => {
+          const value = obj[key]
+          const newKeys = keys.concat(key)
+
+          if (Array.isArray(value)) {
+            if (value.length === 0) {
+              return Object.assign(acc, { [newKeys.join('.')]: '' })
+            }
+
+            if (value.every((item) => isPlainObj(item))) {
+              // Array of objects: flatten each and prefix keys with index
+              value.forEach((item, index) => {
+                const flatItem = flattenObj(item, newKeys.concat(String(index)))
+                Object.assign(acc, flatItem)
+              })
+              return acc
+            }
+
+            // Array of primitives: join as comma-separated string
+            return Object.assign(acc, { [newKeys.join('.')]: value.join(', ') })
+          }
+
           return Object.assign(
             acc,
-            isPlainObj(obj[key])
-              ? flattenObj(obj[key], keys.concat(key))
-              : { [keys.concat(key).join('.')]: obj[key] }
+            isPlainObj(value)
+              ? flattenObj(value, newKeys)
+              : { [newKeys.join('.')]: value }
           )
         }, {})
       }

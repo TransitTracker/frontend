@@ -80,7 +80,7 @@
         <div ref="popup" class="tw-invisible tw-min-w-[12rem]">
           <NuxtLink
             :to="localePath(`/regions/${currentPopup.slug}`)"
-            class="tw-group tw-flex tw-items-center tw-font-heading tw-text-xl tw-font-medium tw-leading-7 tw-no-underline"
+            class="tw-group tw-flex tw-items-center tw-font-heading tw-text-xl tw-font-medium tw-leading-7 tw-text-primary-40 tw-no-underline dark:tw-text-primary-80"
           >
             {{ currentPopup.name }}
             <!--             tt-landing-map-popup__arrow -->

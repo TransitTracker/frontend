@@ -1,17 +1,33 @@
 <template>
   <dialog
     ref="dialog"
-    class="tw-m-auto tw-min-w-[17.5rem] tw-max-w-[35rem] tw-rounded-[1.75rem] tw-border-none tw-bg-neutral-99 tw-p-6 tw-text-neutralVariant-30 backdrop:tw-bg-black/75 open:tw-animate-dialogOpen dark:tw-bg-neutral-10 dark:tw-text-neutralVariant-80"
+    :data-state="state"
+    class="tw-mx-4 tw-my-auto tw-min-w-[calc(100vw-2rem)] tw-max-w-[35rem] tw-rounded-[1.75rem] tw-border-none tw-bg-neutral-99 tw-p-6 tw-text-neutralVariant-30 backdrop:tw-bg-black/75 data-[state=closing]:tw-animate-dialogClose data-[state=open]:tw-animate-dialogOpen data-[state=closing]:backdrop:tw-animate-scrimClose data-[state=open]:backdrop:tw-animate-scrimEnter dark:tw-bg-neutral-10 dark:tw-text-neutralVariant-80 md:tw-mx-auto md:tw-min-w-[17.5rem]"
   >
-    <form method="dialog">
+    <form @submit.prevent="requestClose">
+      <div
+        v-if="imageSrc"
+        class="tw-relative -tw-m-6 tw-h-32 tw-w-[calc(100%+3rem)] tw-bg-cover tw-bg-center lg:tw-h-64"
+        :style="{ backgroundImage: imageSrc }"
+      >
+        <TwFilledIconButton
+          color="surface"
+          value="submit"
+          :title="$t('close')"
+          class="!tw-absolute tw-right-4 tw-top-4"
+        >
+          <TwIcon :path="mdiClose" />
+        </TwFilledIconButton>
+      </div>
       <h2
         class="tw-text-2xl tw-leading-8 tw-text-neutral-10 dark:tw-text-neutral-90"
+        :class="[imageSrc && 'tw-pt-12']"
       >
         <slot name="header"></slot>
       </h2>
       <p class="tw-mt-4 tw-text-sm tw-leading-5"><slot /></p>
       <slot name="footer">
-        <TwTextButton class="tw-float-right" value="cancel">
+        <TwTextButton class="tw-float-right" type="submit">
           {{ $t('close') }}
         </TwTextButton>
       </slot>
@@ -20,40 +36,59 @@
 </template>
 
 <script>
+import { mdiClose } from '@mdi/js'
+
 export default {
   props: {
     value: {
       type: Boolean,
       required: true,
     },
+    imageSrc: {
+      type: String,
+      required: false,
+      default: null,
+    },
   },
+  data: () => ({
+    mdiClose,
+    state: 'closed',
+  }),
   watch: {
-    value(value) {
-      this.handleState(value)
+    value(val) {
+      val ? this.openDialog() : this.closeDialog()
     },
   },
   mounted() {
-    this.$refs.dialog.addEventListener('close', this.closeDialog)
-    this.$refs.dialog.addEventListener('cancel', this.closeDialog)
+    this.$refs.dialog.addEventListener('cancel', this.onNativeClose)
+    this.$refs.dialog.addEventListener('close', this.onNativeClose)
   },
   beforeDestroy() {
-    this.$refs.dialog.removeEventListener('close', this.closeDialog)
-    this.$refs.dialog.removeEventListener('cancel', this.closeDialog)
+    this.$refs.dialog.removeEventListener('cancel', this.onNativeClose)
+    this.$refs.dialog.removeEventListener('close', this.onNativeClose)
   },
   methods: {
+    onNativeClose(e) {
+      e.preventDefault()
+      this.requestClose()
+    },
+    requestClose() {
+      this.$emit('input', false)
+      this.closeDialog()
+    },
+    openDialog() {
+      if (this.$refs.dialog.open) return
+      this.$refs.dialog.showModal()
+      this.state = 'open'
+    },
     closeDialog() {
-      this.handleInput()
-    },
-    handleInput(value = false) {
-      this.handleState(value)
-      this.$emit('input', value)
-    },
-    handleState(isOpen) {
-      if (isOpen) {
-        this.$refs.dialog.showModal()
-      } else {
+      if (!this.$refs.dialog.open) return
+      this.state = 'closing'
+
+      setTimeout(() => {
         this.$refs.dialog.close()
-      }
+        this.state = 'closed'
+      }, 200)
     },
   },
 }

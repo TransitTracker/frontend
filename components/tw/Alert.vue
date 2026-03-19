@@ -27,14 +27,19 @@
         <TwIcon :path="mdiClose" />
       </TwStandardIconButton>
     </div>
-    <TwImageDialog
+    <TwBasicDialog
       v-model="openDialog"
-      :image="`url(${backendHost}/storage/content/alerts/${alert.image})`"
+      :image-src="`url(${backendHost}/storage/content/alerts/${alert.image})`"
     >
       <template #header>
         {{ alert.title }}
       </template>
-      <div class="tw-mt-2" v-html="alert.body"></div>
+      <!-- eslint-disable vue/no-v-html -->
+      <div
+        class="tw-prose tw-mt-2 dark:tw-prose-invert"
+        v-html="alert.body"
+      ></div>
+      <!-- eslint-enable vue/no-v-html -->
       <div v-if="alert.action === 'newAgencies'" class="tw-space-y-4 tw-pb-2">
         <TwAlertAgency
           v-for="slug in alert.actionParameters.agencies.split(',')"
@@ -55,7 +60,7 @@
           </form>
         </div>
       </template>
-    </TwImageDialog>
+    </TwBasicDialog>
   </figure>
 </template>
 
