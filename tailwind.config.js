@@ -4,7 +4,7 @@ const m3 = require('tailwind-m3-colors')
 const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
-  darkMode: ['class', "[class~='theme--dark']"],
+  darkMode: 'selector',
   prefix: 'tw-',
   content: [
     `components/tw/**/*.vue`,
@@ -102,9 +102,6 @@ module.exports = {
       sans: ['Inter', ...defaultTheme.fontFamily.sans],
       heading: ['Figtree', ...defaultTheme.fontFamily.sans],
     },
-  },
-  corePlugins: {
-    preflight: false,
   },
   plugins: [
     m3('#2374ab', '#009a8d', '', {

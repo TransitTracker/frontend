@@ -16,7 +16,7 @@
     <div
       class="!tw-mt-0 tw-flex tw-h-16 tw-items-center tw-gap-x-4 md:tw-h-auto md:tw-gap-x-6"
     >
-      <MapVehicleAvatar />
+      <VehicleAvatar />
       <div class="tw-ml-2 tw-grow md:tw-ml-0">
         <h2
           class="tw-break-all tw-text-2xl tw-leading-8 xl:tw-text-4xl xl:tw-leading-[2.75rem]"

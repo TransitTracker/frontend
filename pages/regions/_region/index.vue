@@ -3,7 +3,7 @@
     class="tw-flex tw-min-h-screen tw-flex-col tw-bg-neutral-99 dark:tw-bg-neutral-10"
   >
     <div
-      class="tw-full tw-relative tw-flex tw-h-80 tw-flex-col tw-justify-between tw-bg-cover tw-bg-center tw-bg-no-repeat after:tw-absolute after:tw-inset-0 after:tw-h-full after:tw-w-full after:tw-bg-gradient-to-t after:tw-from-primary-20 after:tw-to-transparent"
+      class="tw-full tw-relative tw-flex tw-h-80 tw-flex-col tw-justify-between tw-bg-cover tw-bg-center tw-bg-no-repeat before:tw-absolute before:tw-inset-0 before:tw-h-full before:tw-w-full before:tw-bg-gradient-to-t before:tw-from-primary-20 before:tw-to-transparent"
       :style="{
         backgroundImage: `url(${backendHost}/storage/content/regions/${region.image})`,
       }"
@@ -77,10 +77,10 @@
       </ul>
       <div
         v-else
-        class="tw-relative -tw-mx-4 tw-mt-4 tw-overflow-hidden tw-bg-secondary-90 tw-p-4 tw-text-center tw-text-secondary-10 dark:tw-bg-secondary-30 dark:tw-text-secondary-90 md:tw-mx-0 md:tw-rounded-xl md:tw-pr-64 md:tw-text-left"
+        class="tw-relative -tw-mx-4 tw-mt-4 tw-overflow-hidden tw-bg-secondary-90 tw-p-4 tw-text-center tw-text-secondary-10 md:tw-mx-0 md:tw-rounded-xl md:tw-pr-64 md:tw-text-left dark:tw-bg-secondary-30 dark:tw-text-secondary-90"
       >
         <TwIcon
-          class="tw-absolute -tw-bottom-4 -tw-right-4 tw-hidden !tw-h-64 !tw-w-64 tw-text-secondary-10/50 dark:tw-text-secondary-90/50 md:tw-block"
+          class="tw-absolute -tw-bottom-4 -tw-right-4 tw-hidden !tw-h-64 !tw-w-64 tw-text-secondary-10/50 md:tw-block dark:tw-text-secondary-90/50"
           :path="mdiBusMultiple"
         />
         <p class="tw-max-w-prose tw-text-4xl tw-font-bold tw-leading-[2.75rem]">
@@ -116,12 +116,10 @@
       </div>
       -->
       <TwDetails
-        class="tw-bg-neutralVariant-90 tw-p-4 tw-leading-6 tw-tracking-wide tw-text-neutralVariant-30 dark:tw-bg-neutralVariant-30 dark:tw-text-neutral-80 md:tw-order-3 md:tw-col-span-full md:tw-min-w-[18rem] md:tw-basis-1/3 md:tw-rounded-xl"
+        class="tw-bg-neutralVariant-90 tw-p-4 tw-leading-6 tw-tracking-wide tw-text-neutralVariant-30 md:tw-order-3 md:tw-col-span-full md:tw-min-w-[18rem] md:tw-basis-1/3 md:tw-rounded-xl dark:tw-bg-neutralVariant-30 dark:tw-text-neutral-80"
       >
         <template #summary>
-          <h2
-            class="text-[2rem] tw-font-medium tw-leading-10 tw-tracking-normal"
-          >
+          <h2 class="tw-text-[1.375rem] tw-leading-7 tw-tracking-normal">
             {{ $t('creditsTitle') }}
           </h2>
         </template>
@@ -141,9 +139,9 @@
         </div>
       </TwDetails>
       <div
-        class="tw-p-4 tw-leading-6 tw-tracking-wide dark:tw-border-neutralVariant-60 md:tw-order-2 md:tw-min-w-[18rem] md:tw-basis-1/3 md:tw-rounded-xl md:tw-border md:tw-border-solid md:tw-border-neutralVariant-50"
+        class="tw-p-4 tw-leading-6 tw-tracking-wide md:tw-order-2 md:tw-min-w-[18rem] md:tw-basis-1/3 md:tw-rounded-xl md:tw-border md:tw-border-solid md:tw-border-neutralVariant-50 dark:tw-border-neutralVariant-60"
       >
-        <h2 class="text-[2rem] tw-font-medium tw-leading-10 tw-tracking-normal">
+        <h2 class="tw-text-[1.375rem] tw-leading-7 tw-tracking-normal">
           {{ $t('downloadTitle') }}
         </h2>
         <p class="tw-mt-4">
@@ -162,9 +160,9 @@
         </NuxtLink>
       </div>
       <div
-        class="tw-relative tw-bg-primary-90 tw-p-4 tw-leading-6 tw-tracking-wide tw-text-primary-10 dark:tw-bg-primary-30 dark:tw-text-primary-90 md:tw-order-1 md:tw-min-w-[18rem] md:tw-basis-1/3 md:tw-rounded-xl"
+        class="tw-relative tw-bg-primary-90 tw-p-4 tw-leading-6 tw-tracking-wide tw-text-primary-10 md:tw-order-1 md:tw-min-w-[18rem] md:tw-basis-1/3 md:tw-rounded-xl dark:tw-bg-primary-30 dark:tw-text-primary-90"
       >
-        <h2 class="text-[2rem] tw-font-medium tw-leading-10 tw-tracking-normal">
+        <h2 class="tw-text-[1.375rem] tw-leading-7 tw-tracking-normal">
           {{ $t('photoTitle') }}
         </h2>
         <p class="tw-mt-4">
@@ -180,7 +178,7 @@
         </TwTextButton>
         <TwIcon
           :path="mdiCameraOutline"
-          class="tw-absolute tw-bottom-4 tw-right-4 !tw-h-8 !tw-w-8 tw-text-primary-40 dark:tw-text-primary-80 lg:tw-h-10 lg:tw-w-10 xl:tw-h-12 xl:tw-w-12"
+          class="tw-absolute tw-bottom-4 tw-right-4 !tw-h-8 !tw-w-8 tw-text-primary-40 lg:tw-h-10 lg:tw-w-10 xl:tw-h-12 xl:tw-w-12 dark:tw-text-primary-80"
         />
       </div>
     </div>
@@ -324,9 +322,6 @@ export default {
     },
     availableAgencies() {
       return this.$store.state.agencies.data
-    },
-    darkMode() {
-      return this.$vuetify.theme.dark
     },
     region() {
       return (

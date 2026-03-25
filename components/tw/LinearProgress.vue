@@ -4,53 +4,43 @@
   />
 </template>
 
-<style lang="scss">
-.tt-progress {
-  &::-webkit-progress-bar {
-    background-color: transparent;
-  }
-
-  /* Determinate */
-  &::-webkit-progress-value {
-    background-color: currentColor;
-    transition: all 0.2s;
-  }
-
-  &::-moz-progress-bar {
-    background-color: currentColor;
-    transition: all 0.2s;
-  }
-
-  &::-ms-fill {
-    border: none;
-    background-color: currentColor;
-    transition: all 0.2s;
-  }
-
-  /* Indeterminate */
-  &:indeterminate {
-    background-size: 200% 100%;
-    background-image: linear-gradient(
-      to right,
-      transparent 50%,
-      currentColor 50%,
-      currentColor 60%,
-      transparent 60%,
-      transparent 71.5%,
-      currentColor 71.5%,
-      currentColor 84%,
-      transparent 84%
-    );
-    animation: tt-progress 2s infinite linear;
-  }
-
-  &:indeterminate::-moz-progress-bar {
-    background-color: transparent;
-  }
-
-  &:indeterminate::-ms-fill {
-    animation-name: none;
-  }
+<style>
+.tt-progress::-webkit-progress-bar {
+  background-color: transparent;
+}
+.tt-progress::-webkit-progress-value {
+  background-color: currentColor;
+  transition: all 0.2s;
+}
+.tt-progress::-moz-progress-bar {
+  background-color: currentColor;
+  transition: all 0.2s;
+}
+.tt-progress::-ms-fill {
+  border: none;
+  background-color: currentColor;
+  transition: all 0.2s;
+}
+.tt-progress:indeterminate {
+  background-size: 200% 100%;
+  background-image: linear-gradient(
+    to right,
+    transparent 50%,
+    currentColor 50%,
+    currentColor 60%,
+    transparent 60%,
+    transparent 71.5%,
+    currentColor 71.5%,
+    currentColor 84%,
+    transparent 84%
+  );
+  animation: tt-progress 2s infinite linear;
+}
+.tt-progress:indeterminate::-moz-progress-bar {
+  background-color: transparent;
+}
+.tt-progress:indeterminate::-ms-fill {
+  animation-name: none;
 }
 
 @keyframes tt-progress {

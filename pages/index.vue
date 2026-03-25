@@ -294,7 +294,7 @@
             tag="a"
             href="https://github.com/TransitTracker"
             target="_blank"
-            class="!tw-inline-flex"
+            class="tw-mt-4 !tw-inline-flex"
           >
             <TwIcon :path="mdiOpenInNew" />
             {{ $t('github') }}
@@ -448,7 +448,7 @@ export default {
       return this.$store.state.app.dataIsLoaded
     },
     darkMode() {
-      return this.$vuetify.theme.dark
+      return this.$store.state.app.darkMode
     },
     locale() {
       return this.$i18n.locale
@@ -586,21 +586,17 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.tt-landing {
-  &-map {
-    &-popup {
-      .mapboxgl-popup-content {
-        padding: 8px 32px 8px 12px;
-        box-shadow: none;
-        clip-path: polygon(0 0, 95% 0, 85% 100%, 0 100%);
-        position: relative;
-        border-radius: 8px;
-        // Make it visible only when it's in the popup, prevents the blue bar to appear at page load
-        .tw-invisible {
-          visibility: visible;
-        }
-      }
+<style>
+.tt-landing .tt-landing-map .tt-landing-map-popup {
+  .mapboxgl-popup-content {
+    padding: 8px 32px 8px 12px;
+    box-shadow: none;
+    clip-path: polygon(0 0, 95% 0, 85% 100%, 0 100%);
+    position: relative;
+    border-radius: 8px;
+    /* Make it visible only when it's in the popup, prevents the blue bar to appear at page load */
+    .tw-invisible {
+      visibility: visible;
     }
   }
 }

@@ -4,12 +4,13 @@
     class="tw-relative tw-overflow-hidden tw-rounded-lg tw-px-2 tw-py-1 tw-text-sm tw-leading-5 md:tw-p-2"
     :style="{ backgroundColor: `${agency.color}26` }"
   >
-    <v-progress-linear
+    <TwLoadingBar v-if="isLoading" class="!tw-absolute tw-inset-x-0 tw-top-0" />
+    <!-- <v-progress-linear
       v-if="isLoading"
       indeterminate
       :color="agency.color"
       class="!tw-absolute tw-inset-x-0 tw-top-0"
-    />
+    /> -->
     <b class="tw-hidden tw-font-medium md:tw-block">
       {{ agency.name }}
     </b>

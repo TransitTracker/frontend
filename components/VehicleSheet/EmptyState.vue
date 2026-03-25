@@ -19,10 +19,12 @@
         class="tw-fill-current"
       />
     </svg>
+    <!-- eslint-disable vue/no-v-html -->
     <h1
-      class="tw-font-medium tw-leading-6 md:tw-text-[1.75rem] md:tw-font-normal md:tw-leading-9"
+      class="tw-text-2xl tw-font-medium tw-leading-6 md:tw-text-[1.75rem] md:tw-font-normal md:tw-leading-9"
       v-html="$t('title')"
     ></h1>
+    <!-- eslint-enable vue/no-v-html -->
     <p class="tw-hidden tw-font-medium tw-leading-6 md:tw-inline">
       {{ $t('body') }}
     </p>

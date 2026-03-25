@@ -1,9 +1,8 @@
 <template>
   <div
     class="tt-app tw-relative tw-flex tw-font-sans tw-leading-normal"
-    :class="[settingsDarkMode && 'theme--dark tw-text-white']"
+    :class="[settingsDarkMode && 'tw-dark tw-text-white']"
   >
-    <!-- <v-app class="tt-app"> -->
     <div
       class="tw-relative tw-flex tw-min-h-screen tw-max-w-full tw-shrink tw-grow tw-basis-auto tw-flex-col"
     >
@@ -21,47 +20,8 @@
         </div>
       </main>
 
-      <!-- <v-main class="mb-16 mb-md-0 ml-md-20 tw-mt-16 md:tw-mt-0">
-        <TwAlert />
-        <TwRegionSwitcher v-if="regionSwitcherVisible" />
-        <SettingsDrawer />
-        <TwAlertDrawer />
-        <nuxt />
-      </v-main> -->
-
       <TwNavigationBar v-if="dataIsLoaded" />
-      <!-- <v-snackbar
-      v-model="updateAvailable"
-      :color="settingsDarkMode ? 'white' : null"
-      app
-      bottom
-      right
-      :timeout="-1"
-    >
-      <span :class="[settingsDarkMode && 'black--text']">
-        {{
-          $t(
-            `settings.pwa.${
-              updatePending ? 'updatePending' : 'updateAvailable'
-            }`
-          )
-        }}
-      </span>
-      <template #action>
-        <v-btn
-          v-if="!updatePending"
-          small
-          depressed
-          block
-          :color="settingsDarkMode ? null : 'primary'"
-          @click="installUpdate"
-        >
-          {{ $t('settings.pwa.installUpdate') }}
-        </v-btn>
-      </template>
-    </v-snackbar> -->
     </div>
-    <!-- </v-app> -->
   </div>
 </template>
 
@@ -140,12 +100,15 @@ export default {
       return this.$store.state.app.regionSwitcherVisible
     },
   },
+  watch: {
+    settingsDarkMode(oldVal, newVal) {
+      this.$store.commit('app/set', {
+        key: 'darkMode',
+        value: newVal,
+      })
+    },
+  },
   mounted() {
-    if (this.settingsDarkMode) {
-      // https://csabaszabo.dev/blog/dark-mode-for-website-with-nuxtjs-and-vuetify/
-      setTimeout(() => (this.$vuetify.theme.dark = true), 0)
-    }
-
     // Set language only if defined
     if (this.settingsLang) this.$i18n.setLocale(this.settingsLang)
 

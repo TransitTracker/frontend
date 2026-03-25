@@ -39,7 +39,7 @@ export default {
   }),
   computed: {
     darkMode() {
-      return this.$vuetify.theme.dark
+      return this.$store.state.app.darkMode
     },
     tag() {
       return this.$store.state.tags.data[this.tagId] ?? {}

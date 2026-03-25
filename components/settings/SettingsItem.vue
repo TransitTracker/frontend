@@ -45,12 +45,13 @@ export default {
       required: true,
     },
   },
+  computed: {
+    settingState() {
+      return this.$store.state.settings[this.setting]
+    },
+  },
   methods: {
     handleClick() {
-      if (this.setting === 'theme') {
-        this.$vuetify.theme.dark = this.isDarkMode
-      }
-
       if (this.setting === 'lang') {
         this.$i18n.setLocale(this.value)
       }
@@ -59,18 +60,6 @@ export default {
         setting: this.setting,
         value: this.value,
       })
-    },
-  },
-  computed: {
-    isDarkMode() {
-      if (this.value === 'system') {
-        return window.matchMedia('(prefers-color-scheme: dark)').matches
-      }
-      if (this.value === 'dark') return true
-      return false
-    },
-    settingState() {
-      return this.$store.state.settings[this.setting]
     },
   },
 }

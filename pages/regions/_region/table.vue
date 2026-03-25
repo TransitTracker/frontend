@@ -429,9 +429,6 @@ export default {
         })
       )
     },
-    darkMode() {
-      return this.$vuetify.theme.dark
-    },
     filterableColumns() {
       return this.columns.filter((column) => column.filterable)
     },
@@ -576,7 +573,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style>
 .tt-table .v-data-table-header:not(.tt-table-header) {
   display: none;
 }

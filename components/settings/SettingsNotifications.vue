@@ -1,5 +1,5 @@
 <template>
-  <div class="tw-relative" v-if="notificationsSupported">
+  <div v-if="notificationsSupported" class="tw-relative">
     <div
       v-if="!pushSubscriptionUuid"
       class="tw-flex tw-flex-col tw-items-center tw-gap-2 tw-text-center"
@@ -8,13 +8,13 @@
       <h2>{{ $t('heading') }}</h2>
       <p>{{ $t('description') }}</p>
       <div
-        class="tw-rounded-xl tw-bg-error-40 tw-p-4 tw-text-white dark:tw-bg-error-80 dark:tw-text-error-20"
         v-if="permissionState === 'denied'"
+        class="tw-rounded-xl tw-bg-error-40 tw-p-4 tw-text-white dark:tw-bg-error-80 dark:tw-text-error-20"
       >
         <b>{{ $t('permissionDenied') }}</b>
         <p class="!tw-mb-0">{{ $t('permissionDeniedHelp') }}</p>
       </div>
-      <TwFilledButton @click="subscribe" with-icon :disabled="isLoading">
+      <TwFilledButton with-icon :disabled="isLoading" @click="subscribe">
         <TwIcon
           :path="isLoading ? mdiLoading : mdiBellPlus"
           :class="[isLoading && 'tw-animate-spin']"
@@ -70,9 +70,9 @@
         :description="$t('newVehicleNotificationDesc')"
       >
         <TwDetails
-          class="tw-col-span-full tw-mt-2"
           v-for="region in regions"
           :key="region.slug"
+          class="tw-col-span-full tw-mt-2"
           :open="region.slug === currentRegion"
         >
           <template #summary>
@@ -127,15 +127,15 @@
               <p class="!tw-mb-0 tw-flex-grow">
                 {{ agency.name }}
                 <small
-                  class="tw-block tw-text-sm tw-text-neutralVariant-30 dark:tw-text-neutralVariant-80"
                   v-if="agenciesStats[agency.slug]"
+                  class="tw-block tw-text-sm tw-text-neutralVariant-30 dark:tw-text-neutralVariant-80"
                 >
                   {{ $tc('newVehiclesPerWeek', agenciesStats[agency.slug]) }}
                 </small>
               </p>
               <TwSwitch
-                :disabled="isLoading"
                 :id="agency.slug"
+                :disabled="isLoading"
                 :value="selectedAgencies.includes(agency.slug)"
                 @input="toggleAgency(agency)"
               />
@@ -193,6 +193,25 @@ export default {
     agenciesStats: [],
     permissionState: null,
   }),
+  computed: {
+    currentRegion() {
+      return this.$store.state.settings.currentRegion
+    },
+    pushSubscriptionUuid() {
+      return this.$store.state.settings.pushSubscriptionUuid
+    },
+    regions() {
+      return this.$store.state.regions.data
+    },
+    imageUrl() {
+      return `/img/screenshots/push-${this.$i18n.locale}-${
+        this.$store.state.app.darkMode ? 'dark' : 'light'
+      }.png`
+    },
+    notificationsSupported() {
+      return 'Notification' in window
+    },
+  },
   mounted() {
     if (!this.notificationsSupported) {
       // Do not load if notifications are unsupported
@@ -208,25 +227,6 @@ export default {
     this.$axios.get('/push/notifications/agencies').then(({ data }) => {
       this.agenciesStats = data
     })
-  },
-  computed: {
-    currentRegion() {
-      return this.$store.state.settings.currentRegion
-    },
-    pushSubscriptionUuid() {
-      return this.$store.state.settings.pushSubscriptionUuid
-    },
-    regions() {
-      return this.$store.state.regions.data
-    },
-    imageUrl() {
-      return `/img/screenshots/push-${this.$i18n.locale}-${
-        this.$vuetify.theme.dark ? 'dark' : 'light'
-      }.png`
-    },
-    notificationsSupported() {
-      return 'Notification' in window
-    },
   },
   methods: {
     checkPermissionState() {

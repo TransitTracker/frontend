@@ -27,7 +27,7 @@ export default {
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
-  css: ['@/assets/main.scss', '@/assets/css/tailwind.css'],
+  css: ['@/assets/css/tailwind.css'],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
@@ -44,8 +44,6 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
-    // https://go.nuxtjs.dev/vuetify
-    '@nuxtjs/vuetify',
     '@nuxt/postcss8',
   ],
 
@@ -79,16 +77,6 @@ export default {
       useCookie: false,
     },
     vueI18nLoader: true,
-  },
-
-  // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
-  vuetify: {
-    optionsPath: './vuetify.options.js',
-    defaultAssets: {
-      font: false,
-      icons: false,
-    },
-    customVariables: ['~/assets/variables.scss'],
   },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)

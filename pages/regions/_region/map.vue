@@ -88,7 +88,7 @@ export default {
       return this.$store.state.agencies.data
     },
     darkMode() {
-      return this.$vuetify.theme.dark
+      return this.$store.state.app.darkMode
     },
     features() {
       return this.$store.state.vehicles.features
@@ -373,18 +373,20 @@ export default {
       return `tt-layer-${agencySlug}`
     },
     selectVehicle(vehicle) {
+      const leftPadding = window.innerWidth >= 768 ? 168 : 0
+
       // Zoom only if map only is zoom < 12
       if (this.map.getZoom() < 12) {
         this.map.flyTo({
           center: vehicle.geometry.coordinates,
           zoom: 12,
           padding: {
-            left: this.$vuetify.breakpoint.mdAndUp ? 188 : 0,
+            left: leftPadding,
           },
         })
       } else {
         this.map.panTo(vehicle.geometry.coordinates, {
-          offset: [this.$vuetify.breakpoint.mdAndUp ? 188 : 0, 0],
+          offset: [leftPadding, 0],
         })
       }
 
@@ -460,19 +462,15 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style>
 /* TODO: remove height of alert if present */
 #tt-map {
   height: 100dvh;
   width: 100%;
 }
-
-.tt-map {
-  &-container {
-    position: relative;
-  }
+.tt-map-container {
+  position: relative;
 }
-
 @media (width < 48rem) {
   .mapboxgl-ctrl-bottom-left,
   .mapboxgl-ctrl-bottom-right {
@@ -487,8 +485,5 @@ export default {
     position: absolute;
     bottom: 1.5rem;
   }
-}
-
-@media (width < 48rem) {
 }
 </style>

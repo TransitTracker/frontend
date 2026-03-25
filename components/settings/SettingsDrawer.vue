@@ -128,7 +128,7 @@
         <div
           class="tw-absolute tw-inset-0 tw-h-full tw-w-full tw-rounded-t-xl tw-bg-primary-30 tw-bg-opacity-0 group-hover:tw-bg-opacity-8 group-focus:tw-bg-opacity-10 dark:tw-bg-primary-90 dark:tw-bg-opacity-0"
         />
-        <img src="/img/logo-white.svg" height="40px" />
+        <img src="/img/logo-white.svg" class="tw-h-10" />
         <h3 class="tw-font-medium">
           {{ $t('about') }}
           <span class="tw-font-heading">Transit&nbsp;Tracker</span>
@@ -211,9 +211,6 @@ export default {
   computed: {
     dataIsLoaded() {
       return this.$store.state.app.dataIsLoaded
-    },
-    darkMode() {
-      return this.$vuetify.theme.dark
     },
     pwa() {
       return this.$store.state.app

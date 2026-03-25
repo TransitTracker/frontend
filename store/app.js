@@ -12,6 +12,7 @@ export const state = () => ({
   filters: {},
   settingsView: false,
   alertsView: false,
+  darkMode: false,
 })
 
 export const mutations = {
