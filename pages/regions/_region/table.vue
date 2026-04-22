@@ -303,7 +303,7 @@
     >
       <TwIcon
         :path="mdiTableColumnPlusBefore"
-        class="tw-h-12 tw-w-12 tw-text-primary-10 dark:tw-text-primary-90 md:tw-h-32 md:tw-w-32"
+        class="tw-h-12 tw-w-12 tw-text-primary-10 md:tw-h-32 md:tw-w-32 dark:tw-text-primary-90"
       />
       <h1
         class="tw-font-medium tw-leading-8 md:tw-text-[1.75rem] md:tw-font-normal md:tw-leading-9"

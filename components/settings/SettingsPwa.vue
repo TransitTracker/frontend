@@ -1,7 +1,7 @@
 <template>
   <div
-    class="tw-rounded-xl tw-bg-neutral-90 tw-p-4 dark:tw-bg-neutral-22"
     v-if="canInstall"
+    class="tw-rounded-xl tw-bg-neutral-90 tw-p-4 dark:tw-bg-neutral-22"
   >
     <h3 class="tw-font-medium">{{ $t('title') }}</h3>
     <p class="!tw-mb-0 tw-text-sm">

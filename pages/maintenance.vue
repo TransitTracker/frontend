@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="tw-bg-error-40 tw-p-4 tw-text-white dark:tw-bg-error-80 dark:tw-text-error-20 md:tw-py-8"
+      class="tw-bg-error-40 tw-p-4 tw-text-white md:tw-py-8 dark:tw-bg-error-80 dark:tw-text-error-20"
     >
       <div class="tw-container tw-mx-auto tw-w-full tw-space-y-4">
         <TwIcon class="!tw-h-20 !tw-w-20" :path="mdiServerNetworkOff" />

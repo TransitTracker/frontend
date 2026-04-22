@@ -8,14 +8,14 @@
     leave-to-class="*:-tw-translate-x-full !tw-bg-opacity-0"
   >
     <div
-      class="tw-fixed tw-inset-0 tw-z-20 tw-h-screen tw-w-screen tw-bg-neutralVariant-20 tw-bg-opacity-32 tw-transition-colors tw-duration-300 tw-ease-standard-effects-slow"
       v-if="isActive"
+      class="tw-fixed tw-inset-0 tw-z-20 tw-h-screen tw-w-screen tw-bg-neutralVariant-20 tw-bg-opacity-32 tw-transition-colors tw-duration-300 tw-ease-standard-effects-slow"
     >
       <section
-        class="tw-fixed tw-inset-x-0 tw-inset-y-0 tw-z-20 tw-h-full tw-overflow-y-auto tw-bg-neutral-96 tw-transition-transform tw-duration-500 tw-ease-standard-spatial dark:tw-bg-neutral-10 md:tw-left-20 md:tw-w-1/2 md:tw-max-w-100 md:tw-rounded-r-2xl md:tw-shadow-lg"
+        class="tw-fixed tw-inset-x-0 tw-inset-y-0 tw-z-20 tw-h-full tw-overflow-y-auto tw-bg-neutral-96 tw-transition-transform tw-duration-500 tw-ease-standard-spatial md:tw-left-20 md:tw-w-1/2 md:tw-max-w-100 md:tw-rounded-r-2xl md:tw-shadow-lg dark:tw-bg-neutral-10"
       >
         <div
-          class="tw-fixed tw-z-30 tw-flex tw-w-full tw-items-center tw-gap-x-3 tw-bg-neutral-96 tw-p-4 dark:tw-bg-neutral-10 md:tw-max-w-100 md:tw-rounded-tr-2xl"
+          class="tw-fixed tw-z-30 tw-flex tw-w-full tw-items-center tw-gap-x-3 tw-bg-neutral-96 tw-p-4 md:tw-max-w-100 md:tw-rounded-tr-2xl dark:tw-bg-neutral-10"
         >
           <TwStandardIconButton v-if="showBackButton" @click="$emit('back')">
             <TwIcon :path="mdiArrowLeft" />
@@ -29,8 +29,8 @@
         </div>
         <div class="tw-min-h-full tw-px-4 tw-pb-4">
           <div
-            class="tw-flex tw-w-full tw-items-center tw-justify-center tw-pt-20"
             v-if="isLoading"
+            class="tw-flex tw-w-full tw-items-center tw-justify-center tw-pt-20"
           >
             <TwIcon
               :path="mdiLoading"
@@ -48,11 +48,6 @@
 import { mdiArrowLeft, mdiClose, mdiLoading } from '@mdi/js'
 
 export default {
-  data: () => ({
-    mdiArrowLeft,
-    mdiClose,
-    mdiLoading,
-  }),
   props: {
     showBackButton: {
       type: Boolean,
@@ -73,5 +68,10 @@ export default {
       default: false,
     },
   },
+  data: () => ({
+    mdiArrowLeft,
+    mdiClose,
+    mdiLoading,
+  }),
 }
 </script>

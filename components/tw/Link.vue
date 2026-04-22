@@ -1,6 +1,6 @@
 <template>
   <a
-    class="tw-flex tw-items-center tw-justify-between tw-gap-4 tw-rounded-lg tw-border tw-border-solid tw-border-neutralVariant-50 tw-px-2 tw-py-1 !tw-text-neutral-10 tw-no-underline dark:tw-border-neutralVariant-60 dark:!tw-text-neutral-90 xl:tw-px-4 xl:tw-py-2"
+    class="tw-flex tw-items-center tw-justify-between tw-gap-4 tw-rounded-lg tw-border tw-border-solid tw-border-neutralVariant-50 tw-px-2 tw-py-1 !tw-text-neutral-10 tw-no-underline xl:tw-px-4 xl:tw-py-2 dark:tw-border-neutralVariant-60 dark:!tw-text-neutral-90"
     :title="$t('openLink')"
     :href="generatedUrl"
     target="_blank"

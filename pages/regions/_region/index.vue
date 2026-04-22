@@ -1,5 +1,5 @@
 <template>
-  <div
+  <main
     class="tw-flex tw-min-h-screen tw-flex-col tw-bg-neutral-99 dark:tw-bg-neutral-10"
   >
     <div
@@ -37,6 +37,7 @@
             color="tonal"
             class="tw-hidden md:tw-flex"
             with-icon
+            :aria-label="$t('changeRegion')"
             @click="openRegionSwitcher()"
           >
             <TwIcon :path="mdiCity" />
@@ -197,6 +198,7 @@
         href="https://api.transittracker.ca"
         target="_blank"
         class="tw-text-primary-40 tw-no-underline hover:tw-text-primary-30 hover:tw-underline dark:tw-text-primary-80 dark:hover:tw-text-primary-90"
+        :aria-label="$t('forDevelopers') + ' (opens in a new tab)'"
       >
         {{ $t('forDevelopers') }} </a
       >&bull;
@@ -204,6 +206,7 @@
         href="https://api.transittracker.ca/vin"
         target="_blank"
         class="tw-text-primary-40 tw-no-underline hover:tw-text-primary-30 hover:tw-underline dark:tw-text-primary-80 dark:hover:tw-text-primary-90"
+        :aria-label="$t('exoVin') + ' (opens in a new tab)'"
       >
         {{ $t('exoVin') }} </a
       >&bull;
@@ -211,11 +214,12 @@
         href="https://github.com/TransitTracker"
         target="_blank"
         class="tw-text-primary-40 tw-no-underline hover:tw-text-primary-30 hover:tw-underline dark:tw-text-primary-80 dark:hover:tw-text-primary-90"
+        :aria-label="$t('github') + ' (opens in a new tab)'"
       >
         {{ $t('github') }}
       </a>
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
