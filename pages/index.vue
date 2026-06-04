@@ -1,10 +1,12 @@
 <template>
-  <div>
+  <div
+    class="tw-bg-neutral-99 tw-text-neutral-10 dark:tw-bg-neutral-10 dark:tw-text-neutral-90"
+  >
     <div
       class="tw-relative tw-flex tw-w-full tw-flex-col md:tw-h-[75vh] md:tw-flex-row"
     >
       <div
-        class="tw-relative tw-z-[2] tw-flex tw-shrink-0 tw-grow tw-flex-col tw-space-y-8 tw-overflow-hidden tw-bg-primary-90 tw-p-8 tw-text-primary-10 dark:tw-bg-primary-30 dark:tw-text-primary-90 md:tw-order-1 md:tw-mb-0 md:tw-w-[45%] md:tw-justify-center md:tw-pb-0 md:tw-pt-0"
+        class="tw-relative tw-z-[2] tw-flex tw-shrink-0 tw-grow tw-flex-col tw-space-y-8 tw-overflow-hidden tw-bg-primary-90 tw-p-8 tw-text-primary-10 md:tw-order-1 md:tw-mb-0 md:tw-w-[45%] md:tw-justify-center md:tw-pb-0 md:tw-pt-0 dark:tw-bg-primary-30 dark:tw-text-primary-90"
       >
         <!-- eslint-disable vue/no-v-html -->
         <h1
@@ -71,7 +73,7 @@
         </div>
       </div>
       <div
-        class="tw-pointer-events-none tw-absolute tw-inset-0 tw-z-[1] tw-hidden tw-bg-gradient-100 tw-from-primary-90 tw-from-50% tw-to-transparent tw-to-70% dark:tw-from-primary-30 md:tw-block"
+        class="tw-pointer-events-none tw-absolute tw-inset-0 tw-z-[1] tw-hidden tw-bg-gradient-100 tw-from-primary-90 tw-from-50% tw-to-transparent tw-to-70% md:tw-block dark:tw-from-primary-30"
       ></div>
       <div
         id="tt-landing-map"
@@ -141,9 +143,7 @@
         </div>
       </div>
     </div>
-    <section
-      class="tw-w-full tw-bg-neutral-99 tw-text-neutral-10 dark:tw-bg-neutral-10 dark:tw-text-neutral-90"
-    >
+    <section class="tw-w-full">
       <div class="tw-container tw-mx-auto tw-p-8">
         <h3 class="tw-font-heading tw-text-3xl tw-font-bold">
           {{ $t('headline') }}
@@ -201,9 +201,7 @@
         </div>
       </div>
     </section>
-    <section
-      class="tw-w-full tw-bg-neutral-99 tw-pt-8 tw-text-neutral-10 dark:tw-bg-neutral-10 dark:tw-text-neutral-90"
-    >
+    <section class="tw-w-full tw-pt-8">
       <div class="tw-container tw-mx-auto tw-p-8">
         <h3 class="tw-text-center tw-font-heading tw-text-3xl tw-font-bold">
           {{ $t('andMore') }}
@@ -265,9 +263,7 @@
         </div>
       </div>
     </section>
-    <section
-      class="tw-w-full tw-bg-neutral-99 tw-pt-8 tw-text-neutral-10 dark:tw-bg-neutral-10 dark:tw-text-neutral-90"
-    >
+    <section class="tw-w-full tw-pt-8">
       <div
         class="tw-container tw-mx-auto tw-flex tw-flex-col tw-items-center tw-gap-8 tw-p-8 md:tw-flex-row"
       >

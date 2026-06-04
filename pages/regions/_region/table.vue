@@ -42,18 +42,64 @@
     <v-data-table
       v-if="columns && columns.length >= 1"
       class="tt-table tw-border-x-0 tw-border-b-0 tw-border-t tw-border-solid tw-border-t-[#e0e0e0] dark:tw-border-t-[#fff]/12"
+      :dark="darkMode"
       :headers="columns"
       :items="vehicles"
-      :items-per-page="100"
-      :footer-props="{
-        itemsPerPageOptions: [25, 50, 100, 150, 200, -1],
-      }"
+      :items-per-page.sync="itemsPerPage"
+      :page.sync="currentPage"
       :mobile-breakpoint="1"
       :fixed-header="true"
       :sort-by="sortBy"
       :sort-desc="sortDesc"
       :group-by="tableGroupBy"
+      hide-default-footer
     >
+      <template #footer="{ props }">
+        <div
+          class="tw-flex tw-w-full tw-flex-wrap tw-items-center tw-justify-end"
+        >
+          <small class="tw-ml-4">
+            {{
+              $t('paginationPosition', {
+                start: props.pagination.pageStart + 1,
+                end:
+                  props.pagination.pageStop === -1
+                    ? props.pagination.itemsLength
+                    : props.pagination.pageStop,
+                total: props.pagination.itemsLength,
+              })
+            }}
+          </small>
+          <TwFilledIconButton
+            :disabled="props.options.page === 1"
+            @click="currentPage = props.options.page - 1"
+          >
+            <TwIcon :path="mdiChevronLeft" />
+          </TwFilledIconButton>
+          <TwFilledIconButton
+            :disabled="props.options.page >= props.pagination.pageCount"
+            @click="currentPage = props.options.page + 1"
+          >
+            <TwIcon :path="mdiChevronRight" />
+          </TwFilledIconButton>
+          <TwSelect
+            id="itemsPerPage"
+            class="md:tw-order-1"
+            name="itemsPerPage"
+            :label="$t('rowsPerPage')"
+            :value="props.options.itemsPerPage"
+            @input="setItemsPerPage($event)"
+          >
+            <option
+              v-for="rowPerPage in [25, 50, 100, 150, 200, -1]"
+              :key="rowPerPage"
+              :value="rowPerPage"
+            >
+              {{ rowPerPage === -1 ? $t('paginationAll') : rowPerPage }}
+            </option>
+          </TwSelect>
+        </div>
+      </template>
       <template #header="{ props }">
         <thead class="v-data-table-header tt-table-header">
           <tr>
@@ -106,7 +152,7 @@
                   />
                 </TwStandardIconButton>
                 <span
-                  class="tw-peer tw-grow"
+                  class="tw-peer tw-grow tw-text-left"
                   :class="[
                     sortBy === column.value &&
                       'tw-text-black/87 dark:tw-text-white',
@@ -303,7 +349,7 @@
     >
       <TwIcon
         :path="mdiTableColumnPlusBefore"
-        class="tw-h-12 tw-w-12 tw-text-primary-10 dark:tw-text-primary-90 md:tw-h-32 md:tw-w-32"
+        class="tw-h-12 tw-w-12 tw-text-primary-10 md:tw-h-32 md:tw-w-32 dark:tw-text-primary-90"
       />
       <h1
         class="tw-font-medium tw-leading-8 md:tw-text-[1.75rem] md:tw-font-normal md:tw-leading-9"
@@ -356,6 +402,8 @@ import {
   mdiTooltipEdit,
   mdiFormatListGroup,
   mdiMenu,
+  mdiChevronLeft,
+  mdiChevronRight,
 } from '@mdi/js'
 import { mixin as clickaway } from 'vue-clickaway'
 import { FIELDS_DEFINITIONS } from '~/utils/fields'
@@ -381,6 +429,8 @@ export default {
       mdiTooltipEdit,
       mdiFormatListGroup,
       mdiMenu,
+      mdiChevronLeft,
+      mdiChevronRight,
     }
   },
   data() {
@@ -392,6 +442,8 @@ export default {
       filterModal: null,
       sortBy: null,
       sortDesc: true,
+      itemsPerPage: 100,
+      currentPage: 1,
     }
   },
   head() {
@@ -428,6 +480,9 @@ export default {
           ...FIELDS_DEFINITIONS[column],
         })
       )
+    },
+    darkMode() {
+      return this.$store.state.app.darkMode
     },
     filterableColumns() {
       return this.columns.filter((column) => column.filterable)
@@ -495,9 +550,7 @@ export default {
     },
   },
   methods: {
-    closeDialog($event) {
-      console.log($event)
-    },
+    closeDialog($event) {},
     formatDate(value) {
       if (!value) return ''
 
@@ -551,6 +604,10 @@ export default {
           break
       }
     },
+    setItemsPerPage(itemPerPage) {
+      this.itemsPerPage = +itemPerPage
+      this.currentPage = 1
+    },
     toggleSort({ value, sortable }) {
       if (!sortable) {
         return false
@@ -599,7 +656,10 @@ export default {
       "externalLinks": "External Links",
       "viewMap": "View on the map",
       "relatedTrips": "Related Trips",
-      "close": "Close"
+      "close": "Close",
+      "rowsPerPage": "Rows per page:",
+      "paginationAll": "All",
+      "paginationPosition": "{start}-{end} of {total}"
     },
     "fr": {
       "openSettings": "Ouvrir les paramètres pour choisir les colonnes",
@@ -619,7 +679,10 @@ export default {
       "externalLinks": "Liens externes",
       "viewMap": "Voir sur la carte",
       "relatedTrips": "Voyages reliés",
-      "close": "Fermer"
+      "close": "Fermer",
+      "rowsPerPage": "Lignes par page :",
+      "paginationAll": "Tout",
+      "paginationPosition": "{start}-{end} sur {total}"
     }
   }
 </i18n>

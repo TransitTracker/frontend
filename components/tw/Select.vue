@@ -7,7 +7,7 @@
         :id="id"
         :value="value"
         :name="name"
-        class="tw-peer tw-absolute tw-inset-0 tw-pb-2 tw-pl-4 tw-pr-[52px] tw-pt-6 tw-text-neutral-10 dark:tw-text-neutral-90"
+        class="tw-peer tw-absolute tw-inset-0 tw-pb-2 tw-pl-4 tw-pr-[52px] tw-pt-6 tw-text-neutral-10 *:tw-text-neutral-10 dark:tw-text-neutral-90"
         @input="$emit('input', $event.target.value)"
       >
         <slot />
@@ -54,3 +54,9 @@ export default {
   }),
 }
 </script>
+
+<style>
+::picker(select) {
+  border: none;
+}
+</style>

@@ -6,7 +6,7 @@
     />
     <div class="tw-ml-3">
       <dt
-        class="tw-text-[0.6875rem] tw-font-medium tw-leading-4 tw-text-neutralVariant-30 dark:tw-text-neutralVariant-80 xl:tw-text-xs"
+        class="tw-text-[0.6875rem] tw-font-medium tw-leading-4 tw-text-neutralVariant-30 xl:tw-text-xs dark:tw-text-neutralVariant-80"
       >
         {{ $t(property.value) }}
       </dt>

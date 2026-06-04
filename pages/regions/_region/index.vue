@@ -9,27 +9,13 @@
       }"
     >
       <div
-        class="tw-h-[4.5rem] tw-bg-neutral-99/75 tw-text-neutral-10 tw-backdrop-blur-md dark:tw-bg-neutral-10/75 dark:tw-text-neutral-90"
+        class="tw-absolute tw-inset-0 tw-flex tw-h-full tw-w-full tw-items-end tw-bg-gradient-to-t tw-from-primary-90 tw-to-transparent dark:tw-from-primary-20"
       >
         <div
-          class="tw-container tw-mx-auto tw-flex tw-h-full tw-items-center tw-justify-between tw-px-4"
-        >
-          <p class="!tw-mb-0">
-            {{ $t('welcome') }} <b>Transit&nbsp;Tracker</b>
-          </p>
-          <small class="tw-mb-0">
-            {{ $t('version', { version }) }}
-          </small>
-        </div>
-      </div>
-      <div
-        class="tw-absolute tw-inset-0 tw-flex tw-h-full tw-w-full tw-items-end tw-bg-gradient-to-t tw-from-primary-20 tw-to-transparent"
-      >
-        <div
-          class="tw-container tw-mx-auto tw-flex tw-w-full tw-items-center tw-justify-between tw-px-4"
+          class="tw-container tw-mx-auto tw-flex tw-w-full tw-items-center tw-justify-between tw-px-4 tw-pb-2 md:tw-pb-0"
         >
           <h1
-            class="leading-[2.75rem] md:leading-[4rem] tw-font-heading tw-text-4xl tw-text-white md:tw-text-6xl"
+            class="leading-[2.75rem] md:leading-[4rem] tw-font-heading tw-text-4xl tw-text-primary-20 md:tw-text-6xl dark:tw-text-white"
           >
             {{ region.name }}
           </h1>
@@ -39,30 +25,44 @@
             with-icon
             @click="openRegionSwitcher()"
           >
-            <TwIcon :path="mdiCity" />
+            <TwIcon :path="mdiCitySwitch" />
             {{ $t('changeRegion') }}
           </TwFilledButton>
+          <TwFilledIconButton
+            color="tonal"
+            :title="$t('changeRegion')"
+            class="md:tw-hidden"
+            @click="openRegionSwitcher()"
+          >
+            <TwIcon :path="mdiCitySwitch" />
+          </TwFilledIconButton>
         </div>
       </div>
     </div>
     <div class="tw-container tw-mx-auto tw-p-4">
-      <div class="tw-flex tw-items-center tw-gap-x-2">
-        <h2 class="tw-text-[2rem] tw-font-medium tw-leading-10">
+      <div class="tw-flex tw-items-center tw-gap-x-4">
+        <h2
+          class="tw-flex-1 tw-justify-start tw-text-xl tw-font-medium md:tw-text-[2rem] md:tw-leading-10"
+        >
           {{ $tc('vehicleTotal', totalCount) }}
         </h2>
-        <div class="tw-grow"></div>
-        <small
-          class="tw-hidden tw-text-2xs tw-font-medium tw-leading-4 tw-tracking-wide md:tw-block"
+        <TwLoadingIndicator v-if="isOneAgencyLoading" class="tw-flex-none" />
+        <div
+          class="tw-flex tw-flex-1 tw-items-center tw-justify-end tw-gap-x-2"
         >
-          {{ $t('manageAgenciesTrick') }}
-        </small>
-        <TwOutlinedIconButton
-          class="tw-float-right tw-flex-shrink-0"
-          :title="$t('manageAgencies')"
-          @click="openSettings()"
-        >
-          <TwIcon :path="mdiTune" />
-        </TwOutlinedIconButton>
+          <small
+            class="tw-hidden tw-text-2xs tw-font-medium tw-leading-4 tw-tracking-wide md:tw-block"
+          >
+            {{ $t('manageAgenciesTrick') }}
+          </small>
+          <TwOutlinedIconButton
+            class="tw-float-right tw-flex-shrink-0"
+            :title="$t('manageAgencies')"
+            @click="openSettings()"
+          >
+            <TwIcon :path="mdiTune" />
+          </TwOutlinedIconButton>
+        </div>
       </div>
       <ul
         v-if="activeAgencies.length"
@@ -188,6 +188,7 @@
     >
       <b class="tw-font-medium tw-text-primary-20 dark:tw-text-primary-90">
         Transit&nbsp;Tracker
+        <span class="tw-text-black dark:tw-text-white">{{ version }}</span>
       </b>
       <span class="tw-hidden tw-grow md:tw-inline">
         &bull; {{ $t('brandSlogan') }}
@@ -220,13 +221,13 @@
 
 <script>
 import {
-  mdiCity,
   mdiTune,
   mdiBusMultiple,
   mdiPlus,
   mdiChevronDown,
   mdiDownload,
   mdiCameraOutline,
+  mdiCitySwitch,
 } from '@mdi/js'
 
 export default {
@@ -235,13 +236,13 @@ export default {
     return {
       regionSlug: params.region,
       creditsOpen: false,
-      mdiCity,
       mdiTune,
       mdiBusMultiple,
       mdiPlus,
       mdiChevronDown,
       mdiDownload,
       mdiCameraOutline,
+      mdiCitySwitch,
       backendHost: process.env.backendHost,
     }
   },
@@ -305,23 +306,28 @@ export default {
     activeAgencies() {
       const hiddenAgencies = this.$store.state.settings.hiddenAgencies
 
-      return Object.values(this.$store.state.agencies.data)
-        .filter(({ slug, regions }) => {
+      return Object.values(this.$store.state.agencies.data).filter(
+        ({ slug, regions, isArchived }) => {
           if (regions.includes('*')) {
             return true
           }
+
+          if (isArchived) return false
 
           // Show all agencies except those hidden or not in this region
           return (
             !hiddenAgencies.includes(slug) && regions.includes(this.regionSlug)
           )
-        })
-        .sort((x, y) => {
-          return x.isArchived - y.isArchived
-        })
+        }
+      )
     },
     availableAgencies() {
       return this.$store.state.agencies.data
+    },
+    isOneAgencyLoading() {
+      return this.activeAgencies.some(
+        ({ slug }) => !(slug in this.vehicleCounts)
+      )
     },
     region() {
       return (

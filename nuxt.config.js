@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { version } from './package.json'
+import VuetifyLoaderPlugin from 'vuetify-loader/lib/plugin'
 
 export default {
   // Target (https://go.nuxtjs.dev/config-target)
@@ -35,6 +36,7 @@ export default {
     '~/plugins/i18n.client.js',
     '~/plugins/settings.client.js',
     '~/plugins/socket.client.js',
+    '~/plugins/vuetify.client.js',
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -81,10 +83,20 @@ export default {
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
+    transpile: ['vuetify/lib'],
+    plugins: [new VuetifyLoaderPlugin()],
     postcss: {
       plugins: {
         tailwindcss: {},
         autoprefixer: {},
+      },
+    },
+    loaders: {
+      scss: {
+        sassOptions: { quietDeps: true },
+      },
+      sass: {
+        sassOptions: { quietDeps: true },
       },
     },
   },

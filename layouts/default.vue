@@ -132,6 +132,19 @@ export default {
       this.verifyNotificationSubscriptionStatus()
     }
 
+    // Check for dark mode
+    const darkModeSetting = this.$store.state.settings.theme
+    let isDarkMode = false
+    if (darkModeSetting === 'system') {
+      isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    }
+
+    if (darkModeSetting === 'dark') isDarkMode = true
+    this.$store.commit('app/set', {
+      key: 'darkMode',
+      value: isDarkMode,
+    })
+
     // Import links and tag data
     this.$store.dispatch('links/getAll')
     this.$store.dispatch('tags/getAll')

@@ -48,6 +48,8 @@ export default {
           return 'tw-text-primary-40 dark:tw-text-primary-80'
         case 'surface':
           return 'tw-bg-neutral-99 dark:tw-bg-neutral-10 tw-text-neutral-10 dark:tw-text-neutral-90'
+        case 'tonal':
+          return 'tw-bg-secondary-90 dark:tw-bg-secondary-30 tw-text-secondary-30 dark:tw-text-secondary-90'
 
         default:
           return 'tw-text-neutralVariant-30 dark:tw-text-neutralVariant-80'
@@ -67,6 +69,8 @@ export default {
           return 'tw-bg-primary-40 dark:tw-bg-primary-80'
         case 'surface':
           return 'tw-bg-neutral-10 dark:tw-bg-neutral-90'
+        case 'tonal':
+          return 'tw-bg-secondary-30 dark:tw-bg-secondary-90'
 
         default:
           return 'tw-bg-neutralVariant-30 dark:tw-bg-neutralVariant-80'

@@ -1,6 +1,6 @@
 <template>
   <footer
-    class="tw-absolute tw-top-[calc(100vh-14rem)] tw-mb-[4rem] tw-w-full tw-space-y-2 tw-overflow-y-auto tw-rounded-t-[1.75rem] tw-bg-neutral-99 tw-p-4 tw-pb-20 tw-text-neutral-10 dark:tw-bg-neutral-10 dark:tw-text-neutral-90 md:tw-left-2 md:tw-top-2 md:tw-max-h-[calc(100vh-41px-32px)] md:tw-w-96 md:tw-rounded-xl md:tw-pb-4 xl:tw-left-4 xl:tw-top-4 xl:tw-space-y-4"
+    class="tw-absolute tw-top-[calc(100vh-14rem)] tw-mb-[4rem] tw-w-full tw-space-y-2 tw-overflow-y-auto tw-rounded-t-[1.75rem] tw-bg-neutral-99 tw-p-4 tw-pb-20 tw-text-neutral-10 md:tw-left-2 md:tw-top-2 md:tw-max-h-[calc(100vh-41px-32px)] md:tw-w-96 md:tw-rounded-xl md:tw-pb-4 xl:tw-left-4 xl:tw-top-4 xl:tw-space-y-4 dark:tw-bg-neutral-10 dark:tw-text-neutral-90"
   >
     <div class="-tw-mt-4 md:tw-hidden">
       <div
@@ -65,32 +65,36 @@
     />
     <ul
       v-if="vehicle.properties.tags.length"
-      class="-tw-ml-6 tw-flex tw-items-center tw-gap-x-2"
+      class="tw-flex tw-items-center tw-gap-x-2"
     >
       <TwTag v-for="tag in vehicle.properties.tags" :key="tag" :tag-id="tag" />
     </ul>
 
     <div
       v-if="vehicle.properties.carriageDetails.length"
-      class="-tw-mx-4 tw-flex tw-flex-nowrap tw-gap-1 tw-overflow-x-auto"
-    >
-      <div
-        v-for="(carriage, index) in vehicle.properties.carriageDetails"
-        :key="carriage.id"
-        class="tw-w-24 tw-shrink-0 first:tw-ml-4 last:tw-mr-4"
-      >
-        <small class="tw-block tw-text-center tw-text-xs">
-          {{ carriage.label ?? carriage.id }}
-        </small>
+      class="-tw-mx-4 tw-h-px tw-border-t tw-bg-neutralVariant-80"
+    />
+    <TwDetails v-if="vehicle.properties.carriageDetails.length" small-icon>
+      <template #summary>
+        <h3 class="tw-text-neutral10 tw-text-sm tw-font-medium tw-leading-5">
+          {{ $t('carriageDetails') }}<br />
+          <small>
+            {{
+              $tc('carriageQuantity', vehicle.properties.carriageDetails.length)
+            }}
+          </small>
+        </h3>
+      </template>
+      <ol class="tw-mt-2 tw-space-y-4">
         <TwCarriage
-          class="tw-h-10 tw-w-24"
-          :title="carriage.label ?? carriage.id"
+          v-for="(carriage, index) in vehicle.properties.carriageDetails"
+          :key="carriage.id"
+          :carriage="carriage"
           :is-first="index === 0"
           :is-last="index === vehicle.properties.carriageDetails.length - 1"
-          :type="carriage.type"
         />
-      </div>
-    </div>
+      </ol>
+    </TwDetails>
 
     <div
       v-if="vehicle.properties.links.length"
@@ -189,7 +193,9 @@ export default {
       "vehicle": "Vehicle",
       "agencyInactive": "You have not activated this agency. No problem, here is the information on this vehicle!",
       "vehicleInactive": "This vehicle is not active at the moment, here is the last information recorded.",
-      "report": "An error with this vehicle?"
+      "report": "An error with this vehicle?",
+      "carriageDetails": "Train Composition",
+      "carriageQuantity": "None | One carriage | {count} carriages"
     },
     "fr": {
       "externalLinks": "Liens externes",
@@ -198,7 +204,9 @@ export default {
       "vehicle": "Véhicule",
       "agencyInactive": "Vous n'avez pas activé cette agence. Pas de problème, voici les informations sur ce véhicule!",
       "vehicleInactive": "Ce véhicule n'est pas actif en ce moment, voici les dernières informations enregistrés.",
-      "report": "Une erreur avec ce véhicule?"
+      "report": "Une erreur avec ce véhicule?",
+      "carriageDetails": "Composition du train",
+      "carriageQuantity": "None | Un wagon | {count} wagons"
     }
   }
 </i18n>
