@@ -16,14 +16,14 @@
         :key="region.slug"
         :to="localePath(`/regions/${region.slug}`)"
         tag="button"
-        class="tw-group tw-relative tw-flex tw-aspect-square tw-shrink-0 tw-flex-col tw-items-start tw-justify-end tw-rounded-[1.75rem] tw-bg-cover tw-bg-center tw-bg-no-repeat tw-p-4 tw-text-left tw-text-neutral-98 tw-no-underline tw-transition-[flex-shrink] tw-duration-300 tw-ease-standard-effects-slow focus:tw-outline focus:tw-outline-3 focus:tw-outline-offset-2 focus:tw-outline-secondary-40 disabled:tw-shrink disabled:tw-justify-between dark:focus:tw-outline-secondary-80 md:tw-aspect-auto md:tw-h-100 md:tw-w-60"
+        class="tw-group tw-relative tw-flex tw-aspect-square tw-shrink-0 tw-flex-col tw-items-start tw-justify-end tw-rounded-[1.75rem] tw-bg-cover tw-bg-center tw-bg-no-repeat tw-p-4 tw-text-left tw-text-neutral-98 tw-no-underline tw-transition-[flex-shrink] tw-duration-300 tw-ease-standard-effects-slow focus:tw-outline focus:tw-outline-3 focus:tw-outline-offset-2 focus:tw-outline-secondary-40 disabled:tw-shrink disabled:tw-justify-between md:tw-aspect-auto md:tw-h-100 md:tw-w-60 dark:focus:tw-outline-secondary-80"
         :style="{
           backgroundImage: `url(${backendHost}/storage/content/regions/${region.image})`,
         }"
         :disabled="region.slug === currentRegion"
       >
         <div
-          class="tw-absolute tw-inset-0 tw-h-full tw-w-full tw-rounded-[1.75rem] tw-bg-gradient-to-b tw-from-primary-40/75 tw-to-primary-40/75 tw-transition-colors tw-duration-150 tw-ease-standard-effects-fast group-hover:tw-bg-neutral-10/8 group-focus:tw-bg-neutral-10/10 group-disabled:tw-bg-neutral-98/38 dark:tw-from-primary-30/75 dark:tw-to-primary-30/75 md:tw-from-transparent md:tw-via-transparent md:tw-to-primary-40/90 dark:md:tw-to-primary-30/90"
+          class="tw-absolute tw-inset-0 tw-h-full tw-w-full tw-rounded-[1.75rem] tw-bg-gradient-to-b tw-from-primary-40/75 tw-to-primary-40/75 tw-transition-colors tw-duration-150 tw-ease-standard-effects-fast group-hover:tw-bg-neutral-10/8 group-focus:tw-bg-neutral-10/10 group-disabled:tw-bg-neutral-98/38 md:tw-from-transparent md:tw-via-transparent md:tw-to-primary-40/90 dark:tw-from-primary-30/75 dark:tw-to-primary-30/75 dark:md:tw-to-primary-30/90"
         ></div>
         <div
           v-if="region.slug === currentRegion"

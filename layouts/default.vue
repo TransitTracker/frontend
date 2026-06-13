@@ -9,6 +9,7 @@
       <TwTopAppBar />
       <TwNavigationRail />
       <main
+        role="main"
         class="tw-mb-16 tw-mt-16 tw-flex tw-max-w-full tw-shrink-0 tw-grow tw-basis-auto tw-p-0 md:tw-mb-0 md:tw-ml-20 md:tw-mt-0"
       >
         <div class="tw-relative tw-max-w-full tw-shrink tw-grow tw-basis-auto">

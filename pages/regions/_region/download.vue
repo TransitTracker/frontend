@@ -79,7 +79,7 @@
                   <li
                     v-for="agency in region.agencies"
                     :key="agency.slug"
-                    class="tw-relative tw-cursor-pointer tw-overflow-hidden tw-rounded-lg tw-py-1 tw-pl-2 tw-pr-10 tw-text-sm tw-font-medium tw-leading-5 tw-transition-colors hover:!tw-bg-neutral-10 hover:!tw-text-neutral-98 dark:hover:!tw-bg-neutral-90 dark:hover:!tw-text-neutral-6 md:tw-py-2"
+                    class="tw-relative tw-cursor-pointer tw-overflow-hidden tw-rounded-lg tw-py-1 tw-pl-2 tw-pr-10 tw-text-sm tw-font-medium tw-leading-5 tw-transition-colors hover:!tw-bg-neutral-10 hover:!tw-text-neutral-98 md:tw-py-2 dark:hover:!tw-bg-neutral-90 dark:hover:!tw-text-neutral-6"
                     :style="{
                       backgroundColor: `${agency.color}26`,
                     }"

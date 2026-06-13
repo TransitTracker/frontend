@@ -1,7 +1,7 @@
 <template>
   <div class="tw-flex tw-min-h-screen tw-w-full tw-flex-col md:tw-flex-row">
     <div
-      class="tw-flex tw-min-h-[30%] tw-grow tw-items-center tw-justify-center tw-bg-gradient-to-br tw-from-error-80 tw-to-error-60 dark:tw-from-error-10 dark:tw-to-error-30 md:tw-min-h-full md:tw-min-w-[30%]"
+      class="tw-flex tw-min-h-[30%] tw-grow tw-items-center tw-justify-center tw-bg-gradient-to-br tw-from-error-80 tw-to-error-60 md:tw-min-h-full md:tw-min-w-[30%] dark:tw-from-error-10 dark:tw-to-error-30"
     >
       <TwIcon
         class="!tw-h-10 !tw-w-10 tw-py-8 tw-text-white md:!tw-h-28 md:!tw-w-28"

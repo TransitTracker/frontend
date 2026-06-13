@@ -90,6 +90,7 @@
               style="width: 20px; height: 20px"
               class="tw-ml-1 tw-overflow-hidden"
               viewBox="0 0 24 24"
+              aria-hidden="true"
             >
               <path
                 fill="currentColor"
@@ -182,20 +183,29 @@
             class="tw-space-y-2 md:tw-w-1/3 md:tw-space-y-4"
             role="tablist"
             aria-orientation="vertical"
+            aria-label="Features"
           >
             <TwLandingScreenshotChoice
               :title="$t('onMap')"
               :is-tab-active="activeTab === 'map'"
               :description="$t('onMapDesc')"
               :icon="mdiMap"
+              tabindex="0"
+              role="tab"
+              :aria-selected="activeTab === 'map'"
               @click.native="activeTab = 'map'"
+              @keydown.native.enter.space.prevent="activeTab = 'map'"
             />
             <TwLandingScreenshotChoice
               :title="$t('onList')"
               :is-tab-active="activeTab === 'table'"
               :description="$t('onListDesc')"
               :icon="mdiTable"
+              tabindex="0"
+              role="tab"
+              :aria-selected="activeTab === 'table'"
               @click.native="activeTab = 'table'"
+              @keydown.native.enter.space.prevent="activeTab = 'table'"
             />
           </div>
         </div>
@@ -291,6 +301,7 @@
             href="https://github.com/TransitTracker"
             target="_blank"
             class="tw-mt-4 !tw-inline-flex"
+            :aria-label="$t('github') + ' (opens in a new tab)'"
           >
             <TwIcon :path="mdiOpenInNew" />
             {{ $t('github') }}
