@@ -23,7 +23,6 @@
     "mapbox-gl": "^2.15.0",
     "nuxt": "^2.18.1",
     "nuxt-i18n": "^6.28.1",
-    "tailwind-m3-colors": "^0.0.6-git",
     "uuid": "^9.0",
     "vue-clickaway": "^2.2.2",
     "vue-json-excel": "^0.3.0",
