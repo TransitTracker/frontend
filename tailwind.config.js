@@ -106,7 +106,7 @@ module.exports = {
           98: '#f9f9fc',
           99: '#fcfcff',
         },
-        neutralVariant: {
+        'neutral-variant': {
           4: '#090f14',
           6: '#0f1419',
           10: '#161c22',

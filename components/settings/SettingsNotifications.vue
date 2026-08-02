@@ -22,7 +22,7 @@
         {{ $t('subscribe') }}
       </TwFilledButton>
       <small
-        class="tw-max-w-60 tw-text-sm tw-text-neutralVariant-30 dark:tw-text-neutralVariant-80"
+        class="tw-max-w-60 tw-text-sm tw-text-neutral-variant-30 dark:tw-text-neutral-variant-80"
       >
         {{ $t('unsubscribeAtAnyMoment') }}
       </small>
@@ -53,7 +53,7 @@
           class="tw-col-span-full tw-flex tw-items-center tw-justify-between tw-gap-4"
         >
           <p
-            class="!tw-mb-0 tw-text-sm tw-text-neutralVariant-10 dark:tw-text-neutralVariant-90"
+            class="!tw-mb-0 tw-text-sm tw-text-neutral-variant-10 dark:tw-text-neutral-variant-90"
           >
             {{ $t('generalNewsDesc') }}
           </p>
@@ -92,7 +92,7 @@
               </p>
               <br />
               <small
-                class="tw-text-sm tw-text-neutralVariant-30 dark:tw-text-neutralVariant-80"
+                class="tw-text-sm tw-text-neutral-variant-30 dark:tw-text-neutral-variant-80"
               >
                 {{
                   $tc(
@@ -128,7 +128,7 @@
                 {{ agency.name }}
                 <small
                   v-if="agenciesStats[agency.slug]"
-                  class="tw-block tw-text-sm tw-text-neutralVariant-30 dark:tw-text-neutralVariant-80"
+                  class="tw-block tw-text-sm tw-text-neutral-variant-30 dark:tw-text-neutral-variant-80"
                 >
                   {{ $tc('newVehiclesPerWeek', agenciesStats[agency.slug]) }}
                 </small>

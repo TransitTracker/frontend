@@ -7,7 +7,7 @@
     @click="$emit('click')"
   >
     <a
-      class="tw-group tw-min-h-[3.5rem] !tw-text-neutralVariant-30 tw-no-underline tw-outline-none dark:!tw-text-neutralVariant-80"
+      class="tw-group tw-min-h-[3.5rem] !tw-text-neutral-variant-30 tw-no-underline tw-outline-none dark:!tw-text-neutral-variant-80"
       href="#"
       @click="navigate"
     >
@@ -16,7 +16,7 @@
         :class="[
           isActive
             ? 'tw-bg-secondary-90/100 tw-text-secondary-10 dark:tw-bg-secondary-30/100 dark:tw-text-secondary-90'
-            : 'tw-bg-neutralVariant-30 dark:tw-bg-neutralVariant-80',
+            : 'tw-bg-neutral-variant-30 dark:tw-bg-neutral-variant-80',
         ]"
       >
         <!--<Transition

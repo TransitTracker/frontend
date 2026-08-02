@@ -48,7 +48,7 @@ export default {
           return 'tw-text-error-10 dark:tw-text-error-90'
 
         default:
-          return 'tw-text-neutralVariant-30 dark:tw-text-neutralVariant-80'
+          return 'tw-text-neutral-variant-30 dark:tw-text-neutral-variant-80'
       }
     },
     stateLayerClasses() {
@@ -71,7 +71,7 @@ export default {
           return 'tw-bg-error-90 dark:tw-bg-error-30'
 
         default:
-          return 'tw-bg-neutralVariant-30 dark:tw-bg-neutralVariant-80'
+          return 'tw-bg-neutral-variant-30 dark:tw-bg-neutral-variant-80'
       }
     },
   },

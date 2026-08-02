@@ -32,7 +32,7 @@
           </p>
           <br />
           <small
-            class="tw-text-sm tw-text-neutralVariant-30 dark:tw-text-neutralVariant-80"
+            class="tw-text-sm tw-text-neutral-variant-30 dark:tw-text-neutral-variant-80"
           >
             {{
               $tc(

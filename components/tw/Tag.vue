@@ -1,7 +1,7 @@
 <template>
   <li
     v-if="!tag.label"
-    class="tw-inline-flex tw-h-8 tw-w-52 tw-animate-pulse tw-rounded tw-bg-neutralVariant-90 dark:tw-bg-neutral-30"
+    class="tw-inline-flex tw-h-8 tw-w-52 tw-animate-pulse tw-rounded tw-bg-neutral-variant-90 dark:tw-bg-neutral-30"
   ></li>
   <li
     v-else

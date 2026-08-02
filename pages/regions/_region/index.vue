@@ -116,7 +116,7 @@
       </div>
       -->
       <TwDetails
-        class="tw-bg-neutralVariant-90 tw-p-4 tw-leading-6 tw-tracking-wide tw-text-neutralVariant-30 md:tw-order-3 md:tw-col-span-full md:tw-min-w-[18rem] md:tw-basis-1/3 md:tw-rounded-xl dark:tw-bg-neutralVariant-30 dark:tw-text-neutral-80"
+        class="tw-bg-neutral-variant-90 tw-p-4 tw-leading-6 tw-tracking-wide tw-text-neutral-variant-30 md:tw-order-3 md:tw-col-span-full md:tw-min-w-[18rem] md:tw-basis-1/3 md:tw-rounded-xl dark:tw-bg-neutral-variant-30 dark:tw-text-neutral-80"
       >
         <template #summary>
           <h2 class="tw-text-[1.375rem] tw-leading-7 tw-tracking-normal">
@@ -139,7 +139,7 @@
         </div>
       </TwDetails>
       <div
-        class="tw-p-4 tw-leading-6 tw-tracking-wide md:tw-order-2 md:tw-min-w-[18rem] md:tw-basis-1/3 md:tw-rounded-xl md:tw-border md:tw-border-solid md:tw-border-neutralVariant-50 dark:tw-border-neutralVariant-60"
+        class="tw-p-4 tw-leading-6 tw-tracking-wide md:tw-order-2 md:tw-min-w-[18rem] md:tw-basis-1/3 md:tw-rounded-xl md:tw-border md:tw-border-solid md:tw-border-neutral-variant-50 dark:tw-border-neutral-variant-60"
       >
         <h2 class="tw-text-[1.375rem] tw-leading-7 tw-tracking-normal">
           {{ $t('downloadTitle') }}

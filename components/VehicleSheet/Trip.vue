@@ -7,14 +7,14 @@
     ]"
   >
     <div
-      class="tw-relative -tw-my-2 tw-border-y-0 tw-border-l tw-border-r-0 tw-border-solid tw-border-neutralVariant-50 dark:tw-border-neutralVariant-60"
+      class="tw-relative -tw-my-2 tw-border-y-0 tw-border-l tw-border-r-0 tw-border-solid tw-border-neutral-variant-50 dark:tw-border-neutral-variant-60"
     >
       <div
         class="tw-absolute tw-mt-4 tw-rounded-full"
         :class="[
           isCurrentTrip
             ? '-tw-left-2 tw-h-4 tw-w-4 tw-bg-primary-10 dark:tw-bg-primary-90'
-            : '-tw-left-1.5 tw-h-3 tw-w-3 tw-bg-neutralVariant-50 dark:tw-bg-neutralVariant-60',
+            : '-tw-left-1.5 tw-h-3 tw-w-3 tw-bg-neutral-variant-50 dark:tw-bg-neutral-variant-60',
         ]"
       ></div>
     </div>
@@ -36,7 +36,7 @@
         <small class="tw-ml-2 tw-text-sm">{{ trip.departure }}</small>
       </div>
       <div
-        class="tw-mt-1 tw-flex tw-items-center tw-justify-between tw-gap-x-2 tw-text-xs tw-font-medium tw-leading-4 tw-text-neutralVariant-30 dark:tw-text-neutralVariant-80"
+        class="tw-mt-1 tw-flex tw-items-center tw-justify-between tw-gap-x-2 tw-text-xs tw-font-medium tw-leading-4 tw-text-neutral-variant-30 dark:tw-text-neutral-variant-80"
       >
         <span>{{ $t('trip') }} {{ trip.id }}</span>
         <span v-if="trip.shortName">

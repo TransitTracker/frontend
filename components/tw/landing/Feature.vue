@@ -6,7 +6,7 @@
     />
     <h4 class="tw-font-medium">{{ title }}</h4>
     <p class="!tw-mt-0">{{ description }}</p>
-    <small class="tw-text-neutralVariant-30 dark:tw-text-neutralVariant-80">
+    <small class="tw-text-neutral-variant-30 dark:tw-text-neutral-variant-80">
       {{ note }}
     </small>
   </div>

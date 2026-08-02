@@ -8,7 +8,7 @@
     </div>
     <p
       v-if="description"
-      class="!tw-mb-0 tw-text-sm tw-text-neutralVariant-10 dark:tw-text-neutralVariant-90"
+      class="!tw-mb-0 tw-text-sm tw-text-neutral-variant-10 dark:tw-text-neutral-variant-90"
     >
       {{ description }}
     </p>

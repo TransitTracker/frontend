@@ -4,12 +4,12 @@
       class="tw-flex tw-items-center tw-justify-between tw-gap-x-2 tw-bg-neutral-99 tw-px-4 tw-py-2 dark:tw-bg-[#1e1e1e]"
     >
       <div
-        class="tw-flex tw-flex-wrap tw-gap-2 tw-text-sm tw-font-medium tw-leading-5 tw-text-neutralVariant-30 dark:tw-text-neutralVariant-80"
+        class="tw-flex tw-flex-wrap tw-gap-2 tw-text-sm tw-font-medium tw-leading-5 tw-text-neutral-variant-30 dark:tw-text-neutral-variant-80"
       >
         <div
           v-for="(value, column) in filters"
           :key="column"
-          class="pr-2 tw-flex tw-h-8 tw-items-center tw-gap-x-2 tw-rounded-lg tw-border tw-border-solid tw-border-neutralVariant-50 tw-pl-3 dark:tw-border-neutralVariant-60"
+          class="pr-2 tw-flex tw-h-8 tw-items-center tw-gap-x-2 tw-rounded-lg tw-border tw-border-solid tw-border-neutral-variant-50 tw-pl-3 dark:tw-border-neutral-variant-60"
         >
           <span v-if="!(column in filterOptions)">
             {{ $t(column) }}
@@ -182,7 +182,7 @@
                 <div
                   v-if="filterModal === column.value"
                   v-on-clickaway="resetFilterModal"
-                  class="tw-absolute tw-top-full tw-z-10 -tw-ml-4 tw-bg-neutralVariant-90 tw-p-2 dark:tw-bg-neutralVariant-30"
+                  class="tw-absolute tw-top-full tw-z-10 -tw-ml-4 tw-bg-neutral-variant-90 tw-p-2 dark:tw-bg-neutral-variant-30"
                 >
                   <TwSelect
                     v-if="column.value in filterOptions"

@@ -2,7 +2,7 @@
   <dialog
     ref="dialog"
     :data-state="state"
-    class="tw-mx-4 tw-my-auto tw-min-w-[calc(100vw-2rem)] tw-max-w-[35rem] tw-rounded-[1.75rem] tw-border-none tw-bg-neutral-99 tw-p-6 tw-text-neutralVariant-30 backdrop:tw-bg-black/75 data-[state=closing]:tw-animate-dialogClose data-[state=open]:tw-animate-dialogOpen data-[state=closing]:backdrop:tw-animate-scrimClose data-[state=open]:backdrop:tw-animate-scrimEnter md:tw-mx-auto md:tw-min-w-[17.5rem] dark:tw-bg-neutral-10 dark:tw-text-neutralVariant-80"
+    class="tw-mx-4 tw-my-auto tw-min-w-[calc(100vw-2rem)] tw-max-w-[35rem] tw-rounded-[1.75rem] tw-border-none tw-bg-neutral-99 tw-p-6 tw-text-neutral-variant-30 backdrop:tw-bg-black/75 data-[state=closing]:tw-animate-dialogClose data-[state=open]:tw-animate-dialogOpen data-[state=closing]:backdrop:tw-animate-scrimClose data-[state=open]:backdrop:tw-animate-scrimEnter md:tw-mx-auto md:tw-min-w-[17.5rem] dark:tw-bg-neutral-10 dark:tw-text-neutral-variant-80"
   >
     <form @submit.prevent="requestClose">
       <div

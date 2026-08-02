@@ -63,7 +63,7 @@
               </h2>
             </div>
             <div
-              class="tw-mt-4 tw-flex tw-flex-col tw-divide-y tw-divide-solid tw-divide-neutralVariant-80 *:tw-border-x-0 *:tw-py-2 dark:tw-divide-neutralVariant-30"
+              class="tw-mt-4 tw-flex tw-flex-col tw-divide-y tw-divide-solid tw-divide-neutral-variant-80 *:tw-border-x-0 *:tw-py-2 dark:tw-divide-neutral-variant-30"
             >
               <TwDetails
                 v-for="region in regions"

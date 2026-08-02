@@ -4,7 +4,7 @@
   >
     <div class="-tw-mt-4 md:tw-hidden">
       <div
-        class="tw-mx-auto tw-my-1.5 tw-h-1 tw-w-8 tw-rounded-full tw-bg-neutralVariant-30/40 dark:tw-bg-neutralVariant-80/40"
+        class="tw-mx-auto tw-my-1.5 tw-h-1 tw-w-8 tw-rounded-full tw-bg-neutral-variant-30/40 dark:tw-bg-neutral-variant-80/40"
       ></div>
     </div>
     <div
@@ -72,7 +72,7 @@
 
     <div
       v-if="vehicle.properties.carriageDetails.length"
-      class="-tw-mx-4 tw-h-px tw-border-t tw-bg-neutralVariant-80"
+      class="-tw-mx-4 tw-h-px tw-border-t tw-bg-neutral-variant-80"
     />
     <TwDetails v-if="vehicle.properties.carriageDetails.length" small-icon>
       <template #summary>
@@ -98,7 +98,7 @@
 
     <div
       v-if="vehicle.properties.links.length"
-      class="-tw-mx-4 tw-h-px tw-border-t tw-bg-neutralVariant-80"
+      class="-tw-mx-4 tw-h-px tw-border-t tw-bg-neutral-variant-80"
     />
     <TwDetails v-if="vehicle.properties.links.length" small-icon>
       <template #summary>
@@ -108,7 +108,7 @@
       </template>
       <VehicleSheetLinksList class="tw-mt-4" />
     </TwDetails>
-    <div class="-tw-mx-4 tw-h-px tw-border-t tw-bg-neutralVariant-80" />
+    <div class="-tw-mx-4 tw-h-px tw-border-t tw-bg-neutral-variant-80" />
     <h3 class="tw-text-neutral10 tw-text-sm tw-font-medium tw-leading-5">
       {{ $t('trip') }}
     </h3>
@@ -121,7 +121,7 @@
     <VehicleSheetPropertiesList :vehicle="vehicle" group="trip" />
     <div
       v-if="vehicle.properties.trip.blockId"
-      class="-tw-mx-4 tw-h-px tw-border-t tw-bg-neutralVariant-80"
+      class="-tw-mx-4 tw-h-px tw-border-t tw-bg-neutral-variant-80"
     />
     <TwDetails v-if="vehicle.properties.trip.blockId" small-icon>
       <template #summary>
@@ -140,7 +140,7 @@
         :vehicle="vehicle"
       />
     </TwDetails>
-    <div class="-tw-mx-4 tw-h-px tw-border-t tw-bg-neutralVariant-80" />
+    <div class="-tw-mx-4 tw-h-px tw-border-t tw-bg-neutral-variant-80" />
     <h3 class="tw-text-neutral10 tw-text-sm tw-font-medium tw-leading-5">
       {{ $t('vehicle') }}
     </h3>

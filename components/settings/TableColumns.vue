@@ -21,7 +21,7 @@
       <div
         v-for="column in visibleColumns"
         :key="column"
-        class="tableColumns tw-flex tw-h-8 tw-items-center tw-gap-x-2 tw-rounded-lg tw-bg-neutralVariant-90 tw-pl-2 tw-pr-4 tw-text-sm tw-text-neutralVariant-30 dark:tw-bg-neutralVariant-30 dark:tw-text-neutralVariant-80"
+        class="tableColumns tw-flex tw-h-8 tw-items-center tw-gap-x-2 tw-rounded-lg tw-bg-neutral-variant-90 tw-pl-2 tw-pr-4 tw-text-sm tw-text-neutral-variant-30 dark:tw-bg-neutral-variant-30 dark:tw-text-neutral-variant-80"
       >
         <TwIcon
           :path="mdiReorderHorizontal"
@@ -31,7 +31,7 @@
       </div>
       <div
         v-if="!visibleColumns.length"
-        class="tw-flex tw-items-center tw-justify-center tw-rounded-xl tw-border tw-border-dashed tw-border-neutralVariant-50 tw-px-4 tw-py-4 dark:tw-border-neutralVariant-60"
+        class="tw-flex tw-items-center tw-justify-center tw-rounded-xl tw-border tw-border-dashed tw-border-neutral-variant-50 tw-px-4 tw-py-4 dark:tw-border-neutral-variant-60"
       >
         {{ $t('dropHereVisible') }}
       </div>
@@ -64,7 +64,7 @@
       <div
         v-for="column in hiddenColumns"
         :key="column"
-        class="tableColumns tw-flex tw-h-8 tw-items-center tw-gap-x-2 tw-rounded-lg tw-bg-neutralVariant-90 tw-pl-2 tw-pr-4 tw-text-sm tw-text-neutralVariant-30 dark:tw-bg-neutralVariant-30 dark:tw-text-neutralVariant-80"
+        class="tableColumns tw-flex tw-h-8 tw-items-center tw-gap-x-2 tw-rounded-lg tw-bg-neutral-variant-90 tw-pl-2 tw-pr-4 tw-text-sm tw-text-neutral-variant-30 dark:tw-bg-neutral-variant-30 dark:tw-text-neutral-variant-80"
       >
         <TwIcon
           :path="mdiReorderHorizontal"
@@ -75,7 +75,7 @@
       <div
         v-if="!hiddenColumns.length"
         slot="header"
-        class="tw-flex tw-items-center tw-justify-center tw-rounded-xl tw-border tw-border-dashed tw-border-neutralVariant-50 tw-px-4 tw-py-4 dark:tw-border-neutralVariant-60"
+        class="tw-flex tw-items-center tw-justify-center tw-rounded-xl tw-border tw-border-dashed tw-border-neutral-variant-50 tw-px-4 tw-py-4 dark:tw-border-neutral-variant-60"
       >
         {{ $t('dropHereHidden') }}
       </div>

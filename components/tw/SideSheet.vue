@@ -8,7 +8,7 @@
     leave-to-class="*:-tw-translate-x-full !tw-bg-opacity-0"
   >
     <div
-      class="tw-fixed tw-inset-0 tw-z-20 tw-h-screen tw-w-screen tw-bg-neutralVariant-20 tw-bg-opacity-32 tw-transition-colors tw-duration-300 tw-ease-standard-effects-slow"
+      class="tw-fixed tw-inset-0 tw-z-20 tw-h-screen tw-w-screen tw-bg-neutral-variant-20 tw-bg-opacity-32 tw-transition-colors tw-duration-300 tw-ease-standard-effects-slow"
       v-if="isActive"
     >
       <section

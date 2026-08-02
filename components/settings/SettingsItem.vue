@@ -1,7 +1,7 @@
 <template>
   <button
     @click.prevent="handleClick"
-    class="tw-group tw-relative tw-rounded-lg tw-border tw-border-solid tw-border-neutralVariant-80 tw-py-3 tw-pl-2 tw-pr-4 tw-text-left tw-transition-colors dark:tw-border-neutralVariant-30"
+    class="tw-group tw-relative tw-rounded-lg tw-border tw-border-solid tw-border-neutral-variant-80 tw-py-3 tw-pl-2 tw-pr-4 tw-text-left tw-transition-colors dark:tw-border-neutral-variant-30"
     :class="[
       settingState === value &&
         'tw-border-secondary-90 tw-bg-secondary-90 tw-text-secondary-30 dark:tw-border-secondary-30 dark:tw-bg-secondary-30 dark:tw-text-secondary-90',
@@ -9,7 +9,7 @@
   >
     <div
       v-show="settingState !== value"
-      class="tw-absolute tw-inset-0 tw-h-full tw-w-full tw-rounded-lg tw-bg-neutralVariant-30 tw-bg-opacity-0 tw-transition-colors group-hover:tw-bg-opacity-8 group-focus:tw-bg-opacity-10 dark:tw-bg-neutralVariant-80 dark:tw-bg-opacity-0"
+      class="tw-absolute tw-inset-0 tw-h-full tw-w-full tw-rounded-lg tw-bg-neutral-variant-30 tw-bg-opacity-0 tw-transition-colors group-hover:tw-bg-opacity-8 group-focus:tw-bg-opacity-10 dark:tw-bg-neutral-variant-80 dark:tw-bg-opacity-0"
     ></div>
     <div class="tw-flex tw-items-center tw-gap-x-2">
       <TwIcon v-if="icon" :path="icon" class="tw-shrink-0" />

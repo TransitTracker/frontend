@@ -1,6 +1,6 @@
 <template>
   <a
-    class="tw-flex tw-items-center tw-justify-between tw-gap-4 tw-rounded-lg tw-border tw-border-solid tw-border-neutralVariant-50 tw-px-2 tw-py-1 !tw-text-neutral-10 tw-no-underline dark:tw-border-neutralVariant-60 dark:!tw-text-neutral-90 xl:tw-px-4 xl:tw-py-2"
+    class="tw-flex tw-items-center tw-justify-between tw-gap-4 tw-rounded-lg tw-border tw-border-solid tw-border-neutral-variant-50 tw-px-2 tw-py-1 !tw-text-neutral-10 tw-no-underline dark:tw-border-neutral-variant-60 dark:!tw-text-neutral-90 xl:tw-px-4 xl:tw-py-2"
     :title="$t('openLink')"
     :href="generatedUrl"
     target="_blank"
@@ -17,7 +17,7 @@
       </p>
       <div
         v-else
-        class="tw-h-4 tw-w-1/2 tw-rounded-sm tw-bg-neutralVariant-90 dark:tw-bg-neutralVariant-30"
+        class="tw-h-4 tw-w-1/2 tw-rounded-sm tw-bg-neutral-variant-90 dark:tw-bg-neutral-variant-30"
       ></div>
       <p
         v-if="link.title"
@@ -27,7 +27,7 @@
       </p>
       <div
         v-else
-        class="tw-h-4 tw-w-1/3 tw-rounded-sm tw-bg-neutralVariant-90 dark:tw-bg-neutralVariant-30"
+        class="tw-h-4 tw-w-1/3 tw-rounded-sm tw-bg-neutral-variant-90 dark:tw-bg-neutral-variant-30"
       ></div>
     </div>
     <TwIcon
@@ -37,7 +37,7 @@
     />
     <div
       v-else
-      class="tw-h-4 tw-w-4 tw-rounded-full tw-bg-neutralVariant-90 dark:tw-bg-neutralVariant-30"
+      class="tw-h-4 tw-w-4 tw-rounded-full tw-bg-neutral-variant-90 dark:tw-bg-neutral-variant-30"
     ></div>
   </a>
 </template>

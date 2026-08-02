@@ -77,7 +77,7 @@ export default {
         case 'background':
           return 'tw-bg-neutral-99 dark:tw-bg-neutral-10 tw-text-neutral-10 dark:tw-text-neutral-90'
         default:
-          return 'tw-bg-neutralVariant-90 tw-text-neutralVariant-30 dark:tw-bg-neutralVariant-30 dark:tw-text-neutralVariant-80'
+          return 'tw-bg-neutral-variant-90 tw-text-neutral-variant-30 dark:tw-bg-neutral-variant-30 dark:tw-text-neutral-variant-80'
       }
     },
   },

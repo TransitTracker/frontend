@@ -15,13 +15,13 @@
         v-if="carriageCategory === 'CabCar' && !isLast"
         id="BodyCabCarFirst"
         d="M8.84289 8.67835C9.50529 3.71029 13.7431 0 18.7552 0H270C275.523 0 280 4.47715 280 10V65C280 70.5228 275.523 75 270 75H11.4218C5.37395 75 0.71024 69.6732 1.50955 63.6784L8.84289 8.67835Z"
-        class="tw-fill-current tw-text-neutralVariant-70"
+        class="tw-fill-current tw-text-neutral-variant-70"
       />
       <path
         v-if="carriageCategory === 'CabCar' && isLast"
         id="BodyCabCarLast"
         d="M271.157 8.67835C270.495 3.71029 266.257 0 261.245 0H9.99999C4.47715 0 0 4.47715 0 10V65C0 70.5228 4.47715 75 10 75H268.578C274.626 75 279.29 69.6732 278.49 63.6784L271.157 8.67835Z"
-        class="tw-fill-current tw-text-neutralVariant-70"
+        class="tw-fill-current tw-text-neutral-variant-70"
       />
       <rect
         v-if="carriageCategory === 'Coach' || carriageCategory === undefined"
@@ -29,24 +29,24 @@
         width="280"
         height="75"
         rx="10"
-        class="tw-fill-current tw-text-neutralVariant-70"
+        class="tw-fill-current tw-text-neutral-variant-70"
       />
       <path
         v-if="carriageCategory === 'Locomotive' && isFirst"
         id="BodyLocomotiveFirst"
         d="M17.4856 6.28609C19.0042 2.4895 22.6813 0 26.7703 0H270C275.523 0 280 4.47715 280 10V65C280 70.5228 275.523 75 270 75H10C4.47715 75 0 70.5228 0 65V51.9258C0 50.6536 0.242752 49.3931 0.715233 48.2119L17.4856 6.28609Z"
-        class="tw-fill-current tw-text-neutralVariant-30"
+        class="tw-fill-current tw-text-neutral-variant-30"
       />
       <path
         v-if="carriageCategory === 'Locomotive' && isLast"
         id="BodyLocomotiveLast"
         d="M262.514 6.28609C260.996 2.4895 257.319 0 253.23 0H10C4.47716 0 0 4.47715 0 10V65C0 70.5228 4.47715 75 10 75H270C275.523 75 280 70.5228 280 65V51.9258C280 50.6536 279.757 49.3931 279.285 48.2119L262.514 6.28609Z"
-        class="tw-fill-current tw-text-neutralVariant-30"
+        class="tw-fill-current tw-text-neutral-variant-30"
       />
       <path
         id="Wheels"
         d="M20 70C25.5228 70 30 74.4772 30 80C30 85.5228 25.5228 90 20 90C14.4772 90 10 85.5228 10 80C10 74.4772 14.4772 70 20 70ZM42 70C47.5228 70 52 74.4772 52 80C52 85.5228 47.5228 90 42 90C36.4772 90 32 85.5228 32 80C32 74.4772 36.4772 70 42 70ZM238 70C243.523 70 248 74.4772 248 80C248 85.5228 243.523 90 238 90C232.477 90 228 85.5228 228 80C228 74.4772 232.477 70 238 70ZM260 70C265.523 70 270 74.4772 270 80C270 85.5228 265.523 90 260 90C254.477 90 250 85.5228 250 80C250 74.4772 254.477 70 260 70Z"
-        class="tw-fill-current tw-text-neutralVariant-70"
+        class="tw-fill-current tw-text-neutral-variant-70"
       />
       <path
         v-if="carriageCategory === 'Coach' || carriageCategory === 'CabCar'"
@@ -112,7 +112,7 @@
       </span>
       <br />
       <small
-        class="tw-text-[0.6875rem] tw-font-medium tw-leading-4 tw-text-neutralVariant-30 xl:tw-text-xs dark:tw-text-neutralVariant-80"
+        class="tw-text-[0.6875rem] tw-font-medium tw-leading-4 tw-text-neutral-variant-30 xl:tw-text-xs dark:tw-text-neutral-variant-80"
       >
         {{ carriageType.make }} {{ carriageType.model }}
       </small>

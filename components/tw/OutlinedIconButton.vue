@@ -28,7 +28,7 @@ export default {
           return 'tw-text-white dark:tw-text-primary-20 tw-border-primary-90 dark:tw-border-primary-30'
 
         default:
-          return 'tw-text-neutralVariant-30 dark:tw-text-neutralVariant-80 tw-border-neutralVariant-50 dark:tw-border-neutralVariant-60'
+          return 'tw-text-neutral-variant-30 dark:tw-text-neutral-variant-80 tw-border-neutral-variant-50 dark:tw-border-neutral-variant-60'
       }
     },
     stateLayerClasses() {
