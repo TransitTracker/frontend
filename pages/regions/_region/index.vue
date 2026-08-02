@@ -93,7 +93,7 @@
           with-icon
           class="tw-mx-auto tw-mt-4 md:tw-mx-0"
           color="secondary"
-          @click="addAll"
+          @click="makeAllVisible"
         >
           <TwIcon :path="mdiPlus" />
           {{ $t('addAllAgencies') }}
@@ -354,15 +354,11 @@ export default {
     },
   },
   methods: {
-    addAll() {
-      Object.keys(this.availableAgencies)
-        .filter((slug) => !this.activeAgencies.includes(slug))
-        .forEach((slug) => {
-          this.$store.dispatch(
-            'settings/toggleAgency',
-            this.availableAgencies[slug]
-          )
-        })
+    makeAllVisible() {
+      this.$store.dispatch(
+        'settings/makeAllAgenciesVisible',
+        this.region.agencies.map((agency) => agency.slug)
+      )
     },
     openSettings() {
       this.$store.commit('app/set', {
@@ -390,8 +386,8 @@ export default {
     "manageAgenciesTrick": "Add or remove agencies right here ⟶",
     "manageAgencies": "Add or remove currently visible agencies",
     "emptyTitle": "Welcome here!",
-    "emptyDescription": "It looks like you haven't added any agencies for this region yet. To get the full Transit Tracker experience, we recommend adding the {n} available agencies. Don't worry, you can change your available agencies at any time in the settings.",
-    "addAllAgencies": "Add all agencies",
+    "emptyDescription": "All agencies in this region are currently hidden. To get the most out of Transit Tracker, we recommend showing the {n} available agencies. You can easily hide them again anytime in your settings.",
+    "addAllAgencies": "Show All Agencies",
     "creditsTitle": "Credits and licenses",
     "creditsBody": "For each agency, all intellectual property rights relating to the data belong to them. Here are the respective licenses for agencies in this region:",
     "downloadTitle": "Download data",
@@ -413,8 +409,8 @@ export default {
     "manageAgenciesTrick": "Ajouter ou retirer des agences juste ici ⟶",
     "manageAgencies": "Ajouter ou retirer les agences présentement visible",
     "emptyTitle": "Bienvenue ici!",
-    "emptyDescription": "Il semble que vous n'avez pas encore ajouté d'agences pour cette région. Pour vivre l'expérience complète de Transit Tracker, nous vous recommandons d'ajouter les {n} agences disponibles. Pas de panique, vous pouvez changer vos agences disponibles en tout temps dans les paramètres.",
-    "addAllAgencies": "Ajouter toutes les agences",
+    "emptyDescription": "Toutes les agences de cette région sont actuellement masquées. Pour profiter pleinement de Transit Tracker, nous vous recommandons d'afficher les {n} agences disponibles. Vous pourrez facilement les masquer à tout moment dans vos paramètres.",
+    "addAllAgencies": "Afficher toutes les agences",
     "creditsTitle": "Crédits et licences",
     "creditsBody": "Pour chaque agence, tous les droits de propriété intellectuelle relatifs aux données leur appartiennent. Voici les licenses respectivent pour les agences de cette région :",
     "downloadTitle": "Télécharger des données",

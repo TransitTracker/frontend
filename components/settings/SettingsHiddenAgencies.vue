@@ -105,16 +105,7 @@ export default {
       this.$store.dispatch('settings/toggleAgency', agency)
     },
     makeAllVisible() {
-      this.hiddenAgencies.forEach((agencySlug) => {
-        const agency = this.$store.state.agencies.data[agencySlug]
-
-        // Case when agency doesn't exist anymore
-        if (!agency) {
-          return
-        }
-
-        this.$store.dispatch('settings/toggleAgency', agency)
-      })
+      this.$store.dispatch('settings/makeAllAgenciesVisible')
     },
   },
 }

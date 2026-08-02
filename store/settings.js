@@ -71,6 +71,27 @@ export const actions = {
 
     dispatch('regions/connectToAutoRefresh', region, { root: true })
   },
+  makeAllAgenciesVisible({ dispatch, rootState, state }, regionScope = null) {
+    state.hiddenAgencies.forEach((agencySlug) => {
+      const agency = rootState.agencies.data[agencySlug]
+
+      // Case when agency doesn't exist anymore
+      if (!agency) {
+        return
+      }
+
+      // Optional: add agencies only if part of a region
+      if (regionScope) {
+        // regionScope should be an array of agency slugs
+        const isInRegion = regionScope.includes(agencySlug)
+        if (!isInRegion) {
+          return
+        }
+      }
+
+      dispatch('toggleAgency', agency)
+    })
+  },
   toggleAgency({ commit, dispatch, rootState, state }, agency) {
     const setting = [...state.hiddenAgencies]
 
