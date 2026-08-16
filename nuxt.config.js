@@ -46,7 +46,6 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
-    '@nuxt/postcss8',
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
@@ -86,8 +85,10 @@ export default {
     transpile: ['vuetify/lib'],
     plugins: [new VuetifyLoaderPlugin()],
     postcss: {
-      plugins: {
-        "@tailwindcss/postcss": {},
+      postcssOptions: {
+        plugins: {
+          '@tailwindcss/postcss': {},
+        },
       },
     },
     loaders: {

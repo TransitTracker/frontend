@@ -13,7 +13,7 @@
       @input="$emit('input', $event.target.value)"
     />
     <div
-      class="tw:pointer-events-none tw:absolute tw:inset-0 peer-hover:tw-bg-opacity-10 dark:peer-hover:tw-bg-opacity-10"
+      class="tw:pointer-events-none tw:absolute tw:inset-0 tw:bg-transparent tw:transition-colors tw:duration-200 tw:peer-hover:bg-neutral-variant-30/8 tw:dark:peer-hover:bg-neutral-variant-80/8"
     ></div>
     <label
       for="input"

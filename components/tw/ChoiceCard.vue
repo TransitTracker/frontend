@@ -4,7 +4,7 @@
     class="tw:relative tw:min-w-[18rem] tw:basis-1/3 tw:rounded-xl tw:border tw:border-solid tw:border-neutral-variant-50 tw:p-4 tw:text-left tw:transition-colors tw:duration-200 tw:ease-emphasized-accelerate tw:hover:border-primary-90 tw:hover:bg-primary-90 tw:hover:text-primary-10 tw:dark:border-neutral-variant-60 tw:dark:hover:border-primary-30 tw:dark:hover:bg-primary-30 tw:dark:hover:text-primary-90 tw:md:aspect-square tw:md:max-w-16"
     @click="$emit('click')"
   >
-    <b class="text-[2rem] tw:font-medium tw:leading-10 tw:tracking-normal">
+    <b class="tw:text-[2rem] tw:font-medium tw:leading-10 tw:tracking-normal">
       {{ title }}
     </b>
     <br />

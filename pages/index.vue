@@ -17,7 +17,8 @@
         <h2
           class="tw:mt-2 tw:min-h-18 tw:font-heading tw:text-2xl tw:font-medium tw:md:text-3xl"
         >
-          {{ $t('intro') }} <br />
+          {{ $t('intro') }}
+          <br />
           <TwLandingCitiesAnimation :cities="cities" />
         </h2>
         <div class="tw:flex tw:items-start tw:gap-x-4">
@@ -62,7 +63,7 @@
               <TwChip
                 @click.native="
                   $router.push(
-                    localePath(`/regions/${feature.properties.slug}`)
+                    localePath(`/regions/${feature.properties.slug}`),
                   )
                 "
               >
@@ -73,7 +74,7 @@
         </div>
       </div>
       <div
-        class="tw:pointer-events-none tw:absolute tw:inset-0 tw:z-1 tw:hidden tw:bg-gradient-100 tw:from-primary-90 tw:from-50% tw:to-transparent tw:to-70% tw:md:block tw:dark:from-primary-30"
+        class="tw:pointer-events-none tw:absolute tw:inset-0 tw:z-1 tw:hidden tw:bg-linear-[100deg] tw:from-primary-90 tw:from-50% tw:to-transparent tw:to-70% tw:md:block tw:dark:from-primary-30"
       ></div>
       <div
         id="tt-landing-map"
@@ -149,7 +150,8 @@
           {{ $t('headline') }}
         </h3>
         <p class="tw:mb-0! tw:mt-1 tw:max-w-prose tw:text-lg">
-          {{ $t('descriptionPt1') }} <b>{{ $t('descriptionPt2Bold') }}</b>
+          {{ $t('descriptionPt1') }}
+          <b>{{ $t('descriptionPt2Bold') }}</b>
           {{ $t('descriptionPt3') }}
         </p>
         <div
@@ -201,7 +203,7 @@
         </div>
       </div>
     </section>
-    <section class="tw:w-full tw:pt-8">
+    <section class="tw:w-full tw:py-8">
       <div class="tw:container tw:mx-auto tw:p-8">
         <h3 class="tw:text-center tw:font-heading tw:text-3xl tw:font-bold">
           {{ $t('andMore') }}
@@ -209,7 +211,7 @@
         <p class="tw:mt-1 tw:text-center tw:text-lg">
           {{ $t('andMoreDesc') }}
         </p>
-        <div class="tw:mt-4 tw:grid tw:gap-4 tw:md:grid-cols-4">
+        <div class="tw:mt-4 tw:md:mt-8 tw:grid tw:gap-4 tw:md:grid-cols-4">
           <TwLandingFeature
             :icon="mdiBell"
             :title="$t('notifications')"
@@ -240,7 +242,7 @@
     <section
       class="tw:w-full tw:bg-primary-10 tw:text-center tw:text-primary-90"
     >
-      <div class="tw:container tw:mx-auto tw:p-8">
+      <div class="tw:container tw:mx-auto tw:px-8 tw:py-12">
         <h3 class="tw:font-heading tw:text-3xl tw:font-bold">
           {{ $t('goFurther') }}
         </h3>
@@ -263,7 +265,7 @@
         </div>
       </div>
     </section>
-    <section class="tw:w-full tw:pt-8">
+    <section class="tw:w-full tw:py-8">
       <div
         class="tw:container tw:mx-auto tw:flex tw:flex-col tw:items-center tw:gap-8 tw:p-8 tw:md:flex-row"
       >
@@ -307,7 +309,7 @@
       <span class="tw:hidden tw:grow tw:md:inline">
         &bull; {{ $t('brandSlogan') }}
       </span>
-      <span class="tw:block tw:md:hidden"> {{ $t('brandSlogan') }}</span>
+      <span class="tw:block tw:md:hidden">{{ $t('brandSlogan') }}</span>
       {{ $t('by') }}
       <a
         href="https://felixinx.me"
@@ -355,7 +357,7 @@ export default {
     return redirect(
       `${store.state.settings.lang === 'fr' ? '/fr' : ''}/regions/${
         store.state.settings.currentRegion
-      }${launch}`
+      }${launch}`,
     )
   },
   asyncData() {
@@ -591,7 +593,7 @@ export default {
     position: relative;
     border-radius: 8px;
     /* Make it visible only when it's in the popup, prevents the blue bar to appear at page load */
-    .tw-invisible {
+    .tw\:invisible {
       visibility: visible;
     }
   }

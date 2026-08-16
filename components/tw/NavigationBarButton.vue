@@ -12,26 +12,13 @@
       @click="navigate"
     >
       <div
-        class="tw:relative tw:flex tw:h-8 tw:w-16 tw:items-center tw:justify-center tw:rounded-2xl tw-bg-opacity-0 tw:transition-colors tw:duration-300 group-hover:tw-bg-opacity-8 group-focus:tw-bg-opacity-12 dark:tw-bg-opacity-0"
+        class="tw:relative tw:flex tw:h-8 tw:w-16 tw:items-center tw:justify-center tw:rounded-2xl tw:transition-colors tw:duration-300"
         :class="[
           isActive
             ? 'tw:bg-secondary-90 tw:text-secondary-10 tw:dark:bg-secondary-30 tw:dark:text-secondary-90'
-            : 'tw:bg-neutral-variant-30 tw:dark:bg-neutral-variant-80',
+            : 'tw:bg-transparent tw:text-neutral-variant-30 tw:group-hover:bg-neutral-variant-30/8 tw:group-focus:bg-neutral-variant-30/12 tw:dark:text-neutral-variant-80 tw:dark:group-hover:bg-neutral-variant-80/8 tw:dark:group-focus:bg-neutral-variant-80/12',
         ]"
       >
-        <!--<Transition
-          enter-from-class="tw:w-4 tw-bg-opacity-25"
-          enter-active-class="tw:duration-400 tw:ease-emphasized-accelerate"
-          enter-to-class="tw-bg-opacity-100"
-          leave-from-class="tw-bg-opacity-100"
-          leave-active-class="tw:duration-200 tw:ease-emphasized-decelerate"
-          leave-to-class="tw:w-4 tw-bg-opacity-25"
-        >
-          <div
-            v-show="isActive"
-            class="tw:absolute tw:flex tw:h-8 tw:w-full tw:items-center tw:justify-center tw:rounded-2xl tw:bg-secondary-90 tw:text-secondary-10 tw:transition-[width] tw:dark:bg-secondary-30 tw:dark:text-secondary-90"
-          />
-        </Transition>-->
         <TwIcon :path="isActive ? activeIcon ?? icon : icon" />
       </div>
       <p

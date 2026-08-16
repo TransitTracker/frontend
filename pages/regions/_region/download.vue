@@ -4,7 +4,7 @@
   >
     <div class="tw:container tw:mx-auto tw:p-4">
       <h1
-        class="leading-[2.75rem] md:leading-[4rem] tw:font-heading tw:text-4xl tw:md:text-6xl"
+        class="tw:font-heading tw:text-4xl tw:leading-[2.75rem] tw:md:text-6xl tw:md:leading-[4rem]"
       >
         {{ $t('title') }}
       </h1>

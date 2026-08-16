@@ -5,7 +5,7 @@
     @click="$emit('click')"
   >
     <div
-      class="tw:absolute tw:inset-0 tw:h-full tw:w-full tw:rounded-full tw-bg-opacity-0 tw:transition-colors tw:duration-200 group-hover:tw-bg-opacity-8 group-focus:tw-bg-opacity-12 dark:tw-bg-opacity-0"
+      class="tw:absolute tw:inset-0 tw:h-full tw:w-full tw:rounded-full tw:bg-transparent tw:transition-colors tw:duration-200"
       :class="[stateLayerClasses]"
     ></div>
     <slot />
@@ -34,10 +34,10 @@ export default {
     stateLayerClasses() {
       switch (this.color) {
         case 'onPrimary':
-          return 'tw:bg-white tw:dark:bg-primary-20'
+          return 'tw:group-hover:bg-white/8 tw:group-focus:bg-white/12 tw:dark:group-hover:bg-primary-20/8 tw:dark:group-focus:bg-primary-20/12'
 
         default:
-          return 'tw:bg-primary-40 tw:dark:bg-primary-80'
+          return 'tw:group-hover:bg-primary-40/8 tw:group-focus:bg-primary-40/12 tw:dark:group-hover:bg-primary-80/8 tw:dark:group-focus:bg-primary-80/12'
       }
     },
   },

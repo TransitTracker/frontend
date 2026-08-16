@@ -18,7 +18,7 @@
         Turn Off
       </button>
     </div>
-    <div class="gap-2 tw:flex tw:max-w-lg tw:items-center">
+    <div class="tw:flex tw:max-w-lg tw:items-center tw:gap-2">
       <TwFilledIconButton class="tw:shrink-0" color="primary">
         <TwIcon :path="mdiTooltipEdit" />
       </TwFilledIconButton>

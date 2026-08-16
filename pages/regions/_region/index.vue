@@ -3,7 +3,7 @@
     class="tw:flex tw:min-h-screen tw:flex-col tw:bg-neutral-99 tw:dark:bg-neutral-10"
   >
     <div
-      class="tw-full tw:relative tw:flex tw:h-80 tw:flex-col tw:justify-between tw:bg-cover tw:bg-center tw:bg-no-repeat tw:before:absolute tw:before:inset-0 tw:before:h-full tw:before:w-full tw:before:bg-linear-to-t tw:before:from-primary-20 tw:before:to-transparent"
+      class="tw:relative tw:flex tw:h-80 tw:w-full tw:flex-col tw:justify-between tw:bg-cover tw:bg-center tw:bg-no-repeat tw:before:absolute tw:before:inset-0 tw:before:h-full tw:before:w-full tw:before:bg-linear-to-t tw:before:from-primary-20 tw:before:to-transparent"
       :style="{
         backgroundImage: `url(${backendHost}/storage/content/regions/${region.image})`,
       }"
@@ -15,7 +15,7 @@
           class="tw:container tw:mx-auto tw:flex tw:w-full tw:items-center tw:justify-between tw:px-4 tw:pb-2 tw:md:pb-0"
         >
           <h1
-            class="leading-[2.75rem] md:leading-[4rem] tw:font-heading tw:text-4xl tw:text-primary-20 tw:md:text-6xl tw:dark:text-white"
+            class="tw:font-heading tw:text-4xl tw:leading-[2.75rem] tw:text-primary-20 tw:md:text-6xl tw:md:leading-[4rem] tw:dark:text-white"
           >
             {{ region.name }}
           </h1>
