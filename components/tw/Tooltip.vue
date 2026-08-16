@@ -2,7 +2,7 @@
   <div
     ref="tooltip"
     role="tooltip"
-    class="tw-hidden tw-rounded tw-bg-neutral-10 tw-px-1 tw-py-0.5 tw-text-center tw-text-sm tw-text-neutral-95 dark:tw-bg-neutral-90 dark:tw-text-neutral-20"
+    class="tw:hidden tw:rounded tw:bg-neutral-10 tw:px-1 tw:py-0.5 tw:text-center tw:text-sm tw:text-neutral-95 tw:dark:bg-neutral-90 tw:dark:text-neutral-20"
   >
     <slot></slot>
   </div>

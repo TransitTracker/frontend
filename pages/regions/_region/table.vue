@@ -1,15 +1,15 @@
 <template>
   <div>
     <div
-      class="tw-flex tw-items-center tw-justify-between tw-gap-x-2 tw-bg-neutral-99 tw-px-4 tw-py-2 dark:tw-bg-[#1e1e1e]"
+      class="tw:flex tw:items-center tw:justify-between tw:gap-x-2 tw:bg-neutral-99 tw:px-4 tw:py-2 tw:dark:bg-[#1e1e1e]"
     >
       <div
-        class="tw-flex tw-flex-wrap tw-gap-2 tw-text-sm tw-font-medium tw-leading-5 tw-text-neutral-variant-30 dark:tw-text-neutral-variant-80"
+        class="tw:flex tw:flex-wrap tw:gap-2 tw:text-sm tw:font-medium tw:leading-5 tw:text-neutral-variant-30 tw:dark:text-neutral-variant-80"
       >
         <div
           v-for="(value, column) in filters"
           :key="column"
-          class="pr-2 tw-flex tw-h-8 tw-items-center tw-gap-x-2 tw-rounded-lg tw-border tw-border-solid tw-border-neutral-variant-50 tw-pl-3 dark:tw-border-neutral-variant-60"
+          class="pr-2 tw:flex tw:h-8 tw:items-center tw:gap-x-2 tw:rounded-lg tw:border tw:border-solid tw:border-neutral-variant-50 tw:pl-3 tw:dark:border-neutral-variant-60"
         >
           <span v-if="!(column in filterOptions)">
             {{ $t(column) }}
@@ -21,18 +21,18 @@
           </span>
           <button
             :title="$t('removeFilter')"
-            class="tw-h-[1.125rem] tw-w-[1.125rem]"
+            class="tw:h-4.5 tw:w-4.5"
             @click="removeFilter(column)"
           >
             <TwIcon
               :path="mdiClose"
-              class="!tw-h-[1.125rem] !tw-w-[1.125rem]"
+              class="tw:h-4.5! tw:w-4.5!"
             />
           </button>
         </div>
       </div>
       <TwStandardIconButton
-        class="tw-cursor-pointer"
+        class="tw:cursor-pointer"
         :title="$t('openSettings')"
         @click="openSettings"
       >
@@ -41,7 +41,7 @@
     </div>
     <v-data-table
       v-if="columns && columns.length >= 1"
-      class="tt-table tw-border-x-0 tw-border-b-0 tw-border-t tw-border-solid tw-border-t-[#e0e0e0] dark:tw-border-t-[#fff]/12"
+      class="tt-table tw:border-x-0 tw:border-b-0 tw:border-t tw:border-solid tw:border-t-[#e0e0e0] tw:dark:border-t-white/12"
       :dark="darkMode"
       :headers="columns"
       :items="vehicles"
@@ -56,9 +56,9 @@
     >
       <template #footer="{ props }">
         <div
-          class="tw-flex tw-w-full tw-flex-wrap tw-items-center tw-justify-end"
+          class="tw:flex tw:w-full tw:flex-wrap tw:items-center tw:justify-end"
         >
-          <small class="tw-ml-4">
+          <small class="tw:ml-4">
             {{
               $t('paginationPosition', {
                 start: props.pagination.pageStart + 1,
@@ -84,7 +84,7 @@
           </TwFilledIconButton>
           <TwSelect
             id="itemsPerPage"
-            class="md:tw-order-1"
+            class="tw:md:order-1"
             name="itemsPerPage"
             :label="$t('rowsPerPage')"
             :value="props.options.itemsPerPage"
@@ -106,7 +106,7 @@
             <th
               v-for="column in props.headers"
               :key="column.value"
-              class="v-data-table__divider tw-relative"
+              class="v-data-table__divider tw:relative"
               role="columnheader"
               scope="col"
               :aria-sort="
@@ -136,45 +136,45 @@
                 minWidth: `${column.width}px`,
               }"
             >
-              <div class="tw-inline-flex tw-w-full tw-items-center tw-gap-x-1">
+              <div class="tw:inline-flex tw:w-full tw:items-center tw:gap-x-1">
                 <TwStandardIconButton
                   v-if="column.filterable"
-                  class="!tw-h-6 !tw-w-6"
+                  class="tw:h-6! tw:w-6!"
                   @click="filterModal = column.value"
                 >
                   <TwIcon
-                    class="!tw-h-5 !tw-w-5"
+                    class="tw:h-5! tw:w-5!"
                     :class="[
                       filters[column.value] &&
-                        'tw-text-primary-40 dark:tw-text-primary-80',
+                        'tw:text-primary-40 tw:dark:text-primary-80',
                     ]"
                     :path="filters[column.value] ? mdiFilter : mdiFilterOutline"
                   />
                 </TwStandardIconButton>
                 <span
-                  class="tw-peer tw-grow tw-text-left"
+                  class="tw:peer tw:grow tw:text-left"
                   :class="[
                     sortBy === column.value &&
-                      'tw-text-black/87 dark:tw-text-white',
+                      'tw:text-black/87 tw:dark:text-white',
                     column.sortable &&
-                      'hover:tw-text-black/87 tw-cursor-pointer dark:hover:tw-text-white',
+                      'tw:hover:text-black/87 tw:cursor-pointer tw:dark:hover:text-white',
                   ]"
                   @click="toggleSort(column)"
                   >{{ column.text }}</span
                 >
                 <TwStandardIconButton
                   v-if="column.sortable"
-                  class="peer-hover:tw-text-black/87 !tw-h-6 !tw-w-6 tw-opacity-0 tw-transition hover:tw-text-white hover:tw-opacity-100 focus:tw-opacity-100 peer-hover:tw-opacity-100 dark:peer-hover:tw-text-white"
+                  class="tw:peer-hover:text-black/87 tw:h-6! tw:w-6! tw:opacity-0 tw:transition tw:hover:text-white tw:hover:opacity-100 tw:focus:opacity-100 tw:peer-hover:opacity-100 tw:dark:peer-hover:text-white"
                   :class="[
                     sortBy === column.value &&
-                      'tw-text-primary-40 tw-opacity-100 dark:tw-text-primary-80',
+                      'tw:text-primary-40 tw:opacity-100 tw:dark:text-primary-80',
                   ]"
                   @click="toggleSort(column)"
                 >
                   <TwIcon
-                    class="!tw-h-5 !tw-w-5 tw-transition-transform"
+                    class="tw:h-5! tw:w-5! tw:transition-transform"
                     :class="[
-                      sortBy === column.value && sortDesc && 'tw-rotate-180',
+                      sortBy === column.value && sortDesc && 'tw:rotate-180',
                     ]"
                     :path="mdiArrowUp"
                   />
@@ -182,7 +182,7 @@
                 <div
                   v-if="filterModal === column.value"
                   v-on-clickaway="resetFilterModal"
-                  class="tw-absolute tw-top-full tw-z-10 -tw-ml-4 tw-bg-neutral-variant-90 tw-p-2 dark:tw-bg-neutral-variant-30"
+                  class="tw:absolute tw:top-full tw:z-10 tw:-ml-4 tw:bg-neutral-variant-90 tw:p-2 tw:dark:bg-neutral-variant-30"
                 >
                   <TwSelect
                     v-if="column.value in filterOptions"
@@ -227,7 +227,7 @@
       </template>
       <!-- eslint-disable-next-line -->
       <template v-slot:item.properties.tags="{ item }">
-        <div class="tw-flex tw-gap-2">
+        <div class="tw:flex tw:gap-2">
           <TwTag
             v-for="tagId in item.properties.tags"
             :key="tagId"
@@ -310,7 +310,7 @@
       </template>
       <!-- eslint-disable-next-line -->
       <template v-slot:item.properties.actions="{ item }">
-        <div class="tw-flex tw-items-center tw-gap-2">
+        <div class="tw:flex tw:items-center tw:gap-2">
           <TwStandardIconButton
             :title="$t('see', { see: $t('externalLinks') })"
             @click="setSelection('links', item)"
@@ -335,7 +335,7 @@
           <!--            tag="a"-->
           <!--            :href="`https://admin.transittracker.ca/vehicles/${item.id}/edit`"-->
           <!--            target="_blank"-->
-          <!--            class="tw-inline-flex"-->
+          <!--            class="tw:inline-flex"-->
           <!--            color="primary"-->
           <!--          >-->
           <!--            <TwIcon :path="mdiTooltipEdit" />-->
@@ -345,18 +345,18 @@
     </v-data-table>
     <div
       v-else
-      class="tw-flex tw-w-full tw-flex-col tw-items-center tw-justify-center tw-gap-4 tw-px-4 tw-py-8 tw-text-center"
+      class="tw:flex tw:w-full tw:flex-col tw:items-center tw:justify-center tw:gap-4 tw:px-4 tw:py-8 tw:text-center"
     >
       <TwIcon
         :path="mdiTableColumnPlusBefore"
-        class="tw-h-12 tw-w-12 tw-text-primary-10 md:tw-h-32 md:tw-w-32 dark:tw-text-primary-90"
+        class="tw:h-12 tw:w-12 tw:text-primary-10 tw:md:h-32 tw:md:w-32 tw:dark:text-primary-90"
       />
       <h1
-        class="tw-font-medium tw-leading-8 md:tw-text-[1.75rem] md:tw-font-normal md:tw-leading-9"
+        class="tw:font-medium tw:leading-8 tw:md:text-[1.75rem] tw:md:font-normal tw:md:leading-9"
       >
         {{ $t('noColumns') }}
       </h1>
-      <p class="tw-font-medium tw-leading-6">
+      <p class="tw:font-medium tw:leading-6">
         {{ $t('noColumnsInstructions') }}
       </p>
       <TwFilledButton with-icon @click="openSettings">
@@ -368,10 +368,10 @@
       <template #header> {{ $t('externalLinks') }} </template>
       <VehicleSheetLinksList />
       <template #footer>
-        <div class="tw-flex tw-items-center tw-justify-between">
+        <div class="tw:flex tw:items-center tw:justify-between">
           <VehicleSheetReportButton />
 
-          <TwTextButton class="tw-float-right" value="cancel">
+          <TwTextButton class="tw:float-right" value="cancel">
             {{ $t('close') }}
           </TwTextButton>
         </div>
@@ -379,7 +379,7 @@
     </TwBasicDialog>
     <TwBasicDialog v-model="blocksDialog" @input="closeDialog($event)">
       <template #header>{{ $t('relatedTrips') }}</template>
-      <VehicleSheetTripsList class="-tw-mx-2" />
+      <VehicleSheetTripsList class="tw:-mx-2" />
     </TwBasicDialog>
   </div>
 </template>

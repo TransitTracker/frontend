@@ -1,8 +1,233 @@
-@tailwind base;
+@import 'tailwindcss' prefix(tw);
 
-@tailwind components;
+@plugin '@tailwindcss/typography';
 
-@tailwind utilities;
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+@theme {
+  --font-*: initial;
+  --font-sans:
+    Inter, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-heading:
+    Figtree, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+  --animate-progress: progress 2s infinite linear;
+  --animate-dialogOpen: dialogOpen 250ms cubic-bezier(0.05, 0.7, 0.1, 1);
+  --animate-scrimEnter: scrimEnter 250ms cubic-bezier(0.05, 0.7, 0.1, 1);
+  --animate-dialogClose: dialogClose 200ms cubic-bezier(0.3, 0, 0.8, 0.15);
+  --animate-scrimClose: scrimClose 200ms cubic-bezier(0.3, 0, 0.8, 0.15);
+
+  --background-image-gradient-100: linear-gradient(
+    100deg,
+    var(--tw-gradient-stops)
+  );
+
+  --color-primary-4: #00101e;
+  --color-primary-6: #001526;
+  --color-primary-10: #001d32;
+  --color-primary-12: #002238;
+  --color-primary-17: #002c48;
+  --color-primary-20: #003353;
+  --color-primary-22: #00385a;
+  --color-primary-24: #003c60;
+  --color-primary-30: #004a75;
+  --color-primary-40: #00639a;
+  --color-primary-50: #1d7dba;
+  --color-primary-60: #4397d6;
+  --color-primary-70: #62b2f3;
+  --color-primary-80: #91ccff;
+  --color-primary-87: #bbdeff;
+  --color-primary-90: #cbe5ff;
+  --color-primary-92: #d6eaff;
+  --color-primary-94: #e1efff;
+  --color-primary-95: #e7f2ff;
+  --color-primary-96: #ebf4ff;
+  --color-primary-98: #f6f9ff;
+  --color-primary-99: #fbfcff;
+
+  --color-secondary-4: #00110e;
+  --color-secondary-6: #001714;
+  --color-secondary-10: #00201c;
+  --color-secondary-12: #002521;
+  --color-secondary-17: #00302b;
+  --color-secondary-20: #003731;
+  --color-secondary-22: #003c36;
+  --color-secondary-24: #00413a;
+  --color-secondary-30: #005048;
+  --color-secondary-40: #006a60;
+  --color-secondary-50: #008679;
+  --color-secondary-60: #1ba295;
+  --color-secondary-70: #44bdaf;
+  --color-secondary-80: #64d9ca;
+  --color-secondary-87: #7aedde;
+  --color-secondary-90: #82f6e6;
+  --color-secondary-92: #88fcec;
+  --color-secondary-94: #9dfff1;
+  --color-secondary-95: #b2fff4;
+  --color-secondary-96: #c2fff6;
+  --color-secondary-98: #e1fffa;
+  --color-secondary-99: #f0fffc;
+
+  --color-neutral-4: #0c0e10;
+  --color-neutral-6: #111316;
+  --color-neutral-10: #1a1c1e;
+  --color-neutral-12: #1e2022;
+  --color-neutral-17: #282a2d;
+  --color-neutral-20: #2f3032;
+  --color-neutral-22: #333537;
+  --color-neutral-24: #37393c;
+  --color-neutral-30: #45474a;
+  --color-neutral-40: #5d5e61;
+  --color-neutral-50: #76777a;
+  --color-neutral-60: #909194;
+  --color-neutral-70: #aaabae;
+  --color-neutral-80: #c6c6c9;
+  --color-neutral-87: #dadade;
+  --color-neutral-90: #e2e2e5;
+  --color-neutral-92: #e8e8eb;
+  --color-neutral-94: #ededf0;
+  --color-neutral-95: #f0f0f3;
+  --color-neutral-96: #f3f3f7;
+  --color-neutral-98: #f9f9fc;
+  --color-neutral-99: #fcfcff;
+
+  --color-neutral-variant-4: #090f14;
+  --color-neutral-variant-6: #0f1419;
+  --color-neutral-variant-10: #161c22;
+  --color-neutral-variant-12: #1b2026;
+  --color-neutral-variant-17: #252b31;
+  --color-neutral-variant-20: #2b3137;
+  --color-neutral-variant-22: #30353b;
+  --color-neutral-variant-24: #353a40;
+  --color-neutral-variant-30: #41474d;
+  --color-neutral-variant-40: #595f66;
+  --color-neutral-variant-50: #72777e;
+  --color-neutral-variant-60: #8c9198;
+  --color-neutral-variant-70: #a7acb3;
+  --color-neutral-variant-80: #c2c7ce;
+  --color-neutral-variant-87: #d5dae2;
+  --color-neutral-variant-90: #dee3eb;
+  --color-neutral-variant-92: #e3e8f0;
+  --color-neutral-variant-94: #e9eef6;
+  --color-neutral-variant-95: #ecf1f9;
+  --color-neutral-variant-96: #eff4fc;
+  --color-neutral-variant-98: #f6f9ff;
+  --color-neutral-variant-99: #fbfcff;
+
+  --color-error-4: #280001;
+  --color-error-6: #310001;
+  --color-error-10: #410001;
+  --color-error-12: #480001;
+  --color-error-17: #5d0002;
+  --color-error-20: #680003;
+  --color-error-22: #710004;
+  --color-error-24: #7a0004;
+  --color-error-30: #930006;
+  --color-error-40: #ba1b1b;
+  --color-error-50: #dd3730;
+  --color-error-60: #ff5449;
+  --color-error-70: #ff897a;
+  --color-error-80: #ffb4a9;
+  --color-error-87: #ffcfc8;
+  --color-error-90: #ffdad4;
+  --color-error-92: #ffe1dc;
+  --color-error-94: #ffe9e5;
+  --color-error-95: #ffede9;
+  --color-error-96: #fff0ed;
+  --color-error-98: #fff8f6;
+  --color-error-99: #fcfcfc;
+
+  --text-2xs: 0.6875rem;
+
+  --gradient-color-stop-positions-50: 50%;
+  --gradient-color-stop-positions-70: 70%;
+
+  --outline-width-3: 3px;
+
+  --transform-origin-left-right: 0% 50%;
+
+  --transition-delay-350: 350ms;
+  --transition-delay-750: 750ms;
+
+  --ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  --ease-emphasized-decelerate: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --ease-emphasized-accelerate: cubic-bezier(0.3, 0, 0.8, 0.15);
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-standard-decelerate: cubic-bezier(0, 0, 0, 1);
+  --ease-standard-accelerate: cubic-bezier(0.3, 0, 1, 1);
+  --ease-standard-spatial: cubic-bezier(0.27, 1.06, 0.18, 1);
+  --ease-standard-effects-fast: cubic-bezier(0.31, 0.94, 0.34, 1);
+  --ease-standard-effects: cubic-bezier(0.34, 0.8, 0.34, 1);
+  --ease-standard-effects-slow: cubic-bezier(0.34, 0.88, 0.34, 1);
+
+  @keyframes progress {
+    0% {
+      transform: translateX(0) scaleX(0);
+    }
+    40% {
+      transform: translateX(0) scaleX(0.4);
+    }
+    100% {
+      transform: translateX(100%) scaleX(0.5);
+    }
+  }
+  @keyframes dialogOpen {
+    0% {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes dialogClose {
+    0% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+  }
+  @keyframes scrimEnter {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes scrimClose {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
 
 /* Make sure to not display the little arrow */
 details > summary::marker,

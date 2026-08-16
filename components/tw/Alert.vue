@@ -1,15 +1,15 @@
 <template>
-  <figure v-if="alert" class="tw-w-full tw-py-2" :class="[alertClasses]">
+  <figure v-if="alert" class="tw:w-full tw:py-2" :class="[alertClasses]">
     <div
-      class="tw-container tw-mx-auto tw-flex tw-items-center tw-gap-4 tw-px-4"
+      class="tw:container tw:mx-auto tw:flex tw:items-center tw:gap-4 tw:px-4"
     >
-      <TwIcon :path="alert.icon" class="tw-shrink-0" />
-      <div class="tw-grow">
-        <figcaption class="tw-leading-6 tw-tracking-wide">
+      <TwIcon :path="alert.icon" class="tw:shrink-0" />
+      <div class="tw:grow">
+        <figcaption class="tw:leading-6 tw:tracking-wide">
           {{ alert.title }}
         </figcaption>
         <p
-          class="!tw-mb-0 tw-overflow-hidden tw-text-ellipsis tw-text-sm tw-leading-5 tw-tracking-wide"
+          class="tw:mb-0! tw:overflow-hidden tw:text-ellipsis tw:text-sm tw:leading-5 tw:tracking-wide"
         >
           {{ alert.subtitle }}
         </p>
@@ -21,7 +21,7 @@
         v-if="alert.canBeClosed"
         :title="$t('close')"
         :color="buttonColor"
-        class="tw-hidden md:tw-flex"
+        class="tw:hidden tw:md:flex"
         @click="markAsRead"
       >
         <TwIcon :path="mdiClose" />
@@ -36,11 +36,11 @@
       </template>
       <!-- eslint-disable vue/no-v-html -->
       <div
-        class="tw-prose tw-mt-2 dark:tw-prose-invert"
+        class="tw:prose tw:mt-2 tw:dark:prose-invert"
         v-html="alert.body"
       ></div>
       <!-- eslint-enable vue/no-v-html -->
-      <div v-if="alert.action === 'newAgencies'" class="tw-space-y-4 tw-pb-2">
+      <div v-if="alert.action === 'newAgencies'" class="tw:space-y-4 tw:pb-2">
         <TwAlertAgency
           v-for="slug in alert.actionParameters.agencies.split(',')"
           :key="slug"
@@ -49,7 +49,7 @@
       </div>
 
       <template #footer>
-        <div class="tw-flex tw-justify-between">
+        <div class="tw:flex tw:justify-between">
           <TwTextButton type="submit" @click="markAsRead">
             {{ $t('close') }}
           </TwTextButton>
@@ -78,14 +78,14 @@ export default {
     },
     alertClasses() {
       if (this.alert.color === 'error') {
-        return 'tw-bg-error-40 dark:tw-bg-error-80 tw-text-white dark:tw-text-error-20'
+        return 'tw:bg-error-40 tw:dark:bg-error-80 tw:text-white tw:dark:text-error-20'
       }
 
       if (this.alert.color === 'error-container') {
-        return 'tw-bg-error-90 dark:tw-bg-error-30 tw-text-error-10 dark:tw-text-error-90'
+        return 'tw:bg-error-90 tw:dark:bg-error-30 tw:text-error-10 tw:dark:text-error-90'
       }
 
-      return 'tw-bg-primary-30 dark:tw-bg-primary-80 tw-text-white dark:tw-text-primary-20 md:tw-bg-primary-40'
+      return 'tw:bg-primary-30 tw:dark:bg-primary-80 tw:text-white tw:dark:text-primary-20 tw:md:bg-primary-40'
     },
     buttonColor() {
       if (this.alert.color === 'error') {

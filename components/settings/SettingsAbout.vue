@@ -1,29 +1,29 @@
 <template>
   <div
-    class="tw-text-sm tw-text-neutral-variant-10 dark:tw-text-neutral-variant-90"
+    class="tw:text-sm tw:text-neutral-variant-10 tw:dark:text-neutral-variant-90"
   >
     <div
-      class="-tw-mx-4 tw-flex tw-min-h-[15.5rem] tw-flex-col tw-justify-around tw-bg-primary-40 tw-px-8 tw-py-4 tw-text-center tw-text-white dark:tw-bg-primary-80 dark:tw-text-primary-20"
+      class="tw:-mx-4 tw:flex tw:min-h-62 tw:flex-col tw:justify-around tw:bg-primary-40 tw:px-8 tw:py-4 tw:text-center tw:text-white tw:dark:bg-primary-80 tw:dark:text-primary-20"
     >
       <svg
         viewBox="0 0 295.01 403.72"
         xmlns="http://www.w3.org/2000/svg"
-        class="tw-h-20"
+        class="tw:h-20"
       >
         <path
-          class="tw-fill-current"
+          class="tw:fill-current"
           d="m147.51 1.875c-80.34 0-145.63 65.291-145.63 145.63 0 84.709 87.863 198.79 126.94 245.63 9.708 11.651 27.428 11.651 37.137 0 39.32-46.845 127.18-160.92 127.18-245.63 0-80.34-65.291-145.63-145.63-145.63zm0 70.631c34.895 0 63.158 3.9481 63.158 31.58v78.945c0 6.948-3.0785 13.185-7.8945 17.527v10.105c0 6.553-5.3678 11.842-11.842 11.842-6.553 0-11.842-5.3678-11.842-11.842v-3.9473h-63.158v3.9473a11.826 11.826 0 0 1-11.842 11.842 11.826 11.826 0 0 1-11.844-11.842v-10.105c-4.816-4.342-7.8945-10.579-7.8945-17.527v-78.945c0-27.632 28.263-31.58 63.158-31.58zm-47.367 31.58v39.473h94.734v-39.473h-94.734zm11.842 63.156a11.826 11.826 0 0 0-11.842 11.844 11.826 11.826 0 0 0 11.842 11.842c6.552 0 11.842-5.2888 11.842-11.842a11.826 11.826 0 0 0-11.842-11.844zm71.051 0c-6.552 0-11.842 5.2908-11.842 11.844a11.826 11.826 0 0 0 11.842 11.842 11.826 11.826 0 0 0 11.842-11.842 11.826 11.826 0 0 0-11.842-11.844z"
         />
       </svg>
-      <h1 class="tw-mt-4 tw-font-heading">{{ $t('appName') }}</h1>
-      <h3 class="tw-my-2">{{ $t('slogan') }}</h3>
-      <p class="!tw-mb-0">{{ $t('version') }} {{ version }}</p>
+      <h1 class="tw:mt-4 tw:font-heading">{{ $t('appName') }}</h1>
+      <h3 class="tw:my-2">{{ $t('slogan') }}</h3>
+      <p class="tw:mb-0!">{{ $t('version') }} {{ version }}</p>
     </div>
-    <div class="tw-prose dark:tw-prose-invert">
-      <h3 class="tw-mt-4 tw-text-lg tw-font-medium">
+    <div class="tw:prose tw:dark:prose-invert">
+      <h3 class="tw:mt-4 tw:text-lg tw:font-medium">
         {{ $t('technologies.title') }}
       </h3>
-      <p class="!tw-mb-0">{{ $t('technologies.desc') }}</p>
+      <p class="tw:mb-0!">{{ $t('technologies.desc') }}</p>
 
       <ul>
         <li>PHP</li>
@@ -34,10 +34,10 @@
         <li>Vuetify</li>
       </ul>
 
-      <h3 class="tw-mt-4 tw-text-lg tw-font-medium">
+      <h3 class="tw:mt-4 tw:text-lg tw:font-medium">
         {{ $t('howItWorks.title') }}
       </h3>
-      <p class="!tw-mb-1">{{ $t('howItWorks.intro') }}</p>
+      <p class="tw:mb-1!">{{ $t('howItWorks.intro') }}</p>
 
       <ol>
         <li>{{ $t('howItWorks.steps.1') }}</li>
@@ -46,24 +46,24 @@
         <li>{{ $t('howItWorks.steps.4') }}</li>
       </ol>
 
-      <p class="!tw-mb-1 tw-mt-2">{{ $t('considerations.intro') }}</p>
+      <p class="tw:mb-1! tw:mt-2">{{ $t('considerations.intro') }}</p>
       <ul>
         <li v-html="$t('considerations.agencies')"></li>
         <li v-html="$t('considerations.incorrectData')"></li>
         <li v-html="$t('considerations.community')"></li>
       </ul>
 
-      <h3 class="tw-mt-4 tw-text-lg tw-font-medium">
+      <h3 class="tw:mt-4 tw:text-lg tw:font-medium">
         {{ $t('privacy.title') }}
       </h3>
-      <p class="!tw-mb-0" v-html="$t('privacy.desc')"></p>
+      <p class="tw:mb-0!" v-html="$t('privacy.desc')"></p>
 
-      <h3 class="tw-mt-4 tw-text-lg tw-font-medium">
+      <h3 class="tw:mt-4 tw:text-lg tw:font-medium">
         {{ $t('developers.title') }}
       </h3>
-      <p class="!tw-mb-0">{{ $t('developers.desc') }}</p>
+      <p class="tw:mb-0!">{{ $t('developers.desc') }}</p>
 
-      <div class="tw-mt-2 tw-flex tw-flex-wrap tw-items-center tw-gap-2">
+      <div class="tw:mt-2 tw:flex tw:flex-wrap tw:items-center tw:gap-2">
         <TwFilledButton
           color="secondary"
           tag="a"
@@ -86,15 +86,15 @@
         </TwFilledButton>
       </div>
 
-      <h3 class="tw-mt-4 tw-text-lg tw-font-medium">
+      <h3 class="tw:mt-4 tw:text-lg tw:font-medium">
         {{ $t('author.title') }}
       </h3>
-      <p class="!tw-mb-0">
+      <p class="tw:mb-0!">
         <b>Félix Desjardins</b><br />
         {{ $t('author.desc') }}
       </p>
 
-      <div class="tw-mt-2 tw-flex tw-flex-wrap tw-items-center tw-gap-2">
+      <div class="tw:mt-2 tw:flex tw:flex-wrap tw:items-center tw:gap-2">
         <TwFilledButton
           color="secondary"
           tag="a"

@@ -5,12 +5,12 @@
     <VehicleSheetEmptyState v-else />
     <div
       ref="mapPopup"
-      class="-tw-mb-2 -tw-mt-1 tw-flex tw-items-center tw-text-base tw-text-black"
+      class="tw:-mb-2 tw:-mt-1 tw:flex tw:items-center tw:text-base tw:text-black"
     >
       <TwIcon
         v-if="selectedVehicle?.properties?.position?.bearing"
         :path="mdiNavigation"
-        class="tw-mr-1"
+        class="tw:mr-1"
         :style="{
           transform: `rotate(${selectedVehicle.properties.position.bearing}deg)`,
         }"

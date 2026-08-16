@@ -1,18 +1,18 @@
 <template>
   <div>
-    <div class="tw-flex tw-items-center tw-justify-between tw-gap-x-3">
-      <h3 class="tw-font-medium">{{ title }}</h3>
+    <div class="tw:flex tw:items-center tw:justify-between tw:gap-x-3">
+      <h3 class="tw:font-medium">{{ title }}</h3>
       <TwStandardIconButton v-if="newView" @click="navigateToView">
         <TwIcon :path="mdiArrowRight" />
       </TwStandardIconButton>
     </div>
     <p
       v-if="description"
-      class="!tw-mb-0 tw-text-sm tw-text-neutral-variant-10 dark:tw-text-neutral-variant-90"
+      class="tw:mb-0! tw:text-sm tw:text-neutral-variant-10 tw:dark:text-neutral-variant-90"
     >
       {{ description }}
     </p>
-    <div class="tw-mt-2 tw-grid tw-grid-cols-2 tw-gap-2">
+    <div class="tw:mt-2 tw:grid tw:grid-cols-2 tw:gap-2">
       <slot />
     </div>
   </div>

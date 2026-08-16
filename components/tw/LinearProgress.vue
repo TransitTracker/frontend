@@ -1,6 +1,6 @@
 <template>
   <progress
-    class="tt-progress tw-h-1 tw-w-full tw-appearance-none tw-border-none"
+    class="tt-progress tw:h-1 tw:w-full tw:appearance-none tw:border-none"
   />
 </template>
 

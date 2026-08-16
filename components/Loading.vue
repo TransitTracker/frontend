@@ -1,13 +1,13 @@
 <template>
   <div
     v-if="loading"
-    class="tw-fixed tw-inset-x-0 tw-top-0 tw-z-30 md:tw-left-20 md:tw-right-0"
+    class="tw:fixed tw:inset-x-0 tw:top-0 tw:z-30 tw:md:left-20 tw:md:right-0"
   >
     <div
-      class="tw-h-1 tw-w-full tw-overflow-hidden tw-bg-secondary-90 dark:tw-bg-secondary-30"
+      class="tw:h-1 tw:w-full tw:overflow-hidden tw:bg-secondary-90 tw:dark:bg-secondary-30"
     >
       <progress
-        class="tw-absolute tw-top-0 tw-h-full tw-w-full tw-origin-left-right tw-animate-progress tw-border-none tw-bg-primary-40 dark:tw-bg-primary-80"
+        class="tw:absolute tw:top-0 tw:h-full tw:w-full tw:origin-left-right tw:animate-progress tw:border-none tw:bg-primary-40 tw:dark:bg-primary-80"
       />
     </div>
   </div>

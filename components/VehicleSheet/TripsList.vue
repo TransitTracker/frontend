@@ -1,7 +1,7 @@
 <template>
   <ol
     v-if="relatedTrips.length"
-    class="tw-relative tw-mt-4 tw-list-none !tw-pl-0"
+    class="tw:relative tw:mt-4 tw:list-none tw:pl-0!"
   >
     <VehicleSheetTrip
       v-for="trip in relatedTrips"
@@ -10,7 +10,7 @@
       :is-current-trip="trip.id === vehicle.properties.trip.id"
     />
   </ol>
-  <ol v-else class="tw-relative tw-mt-4 tw-list-none !tw-pl-0">
+  <ol v-else class="tw:relative tw:mt-4 tw:list-none tw:pl-0!">
     <VehicleSheetTripSkeleton />
   </ol>
 </template>

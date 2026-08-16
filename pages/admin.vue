@@ -1,25 +1,25 @@
 <template>
-  <div class="tw-m-4 tw-space-y-8">
+  <div class="tw:m-4 tw:space-y-8">
     <div>
       <p v-if="adminMode">Admin mode is On</p>
       <p v-else>Admin mode is Off</p>
       <button
         :disabled="adminMode"
-        class="tw-bg-primary-40 tw-p-2 tw-text-white disabled:tw-cursor-not-allowed disabled:tw-bg-neutral-30"
+        class="tw:bg-primary-40 tw:p-2 tw:text-white tw:disabled:cursor-not-allowed tw:disabled:bg-neutral-30"
         @click="toggleAdmin(true)"
       >
         Turn On
       </button>
       <button
         :disabled="!adminMode"
-        class="tw-bg-primary-40 tw-p-2 tw-text-white disabled:tw-cursor-not-allowed disabled:tw-bg-neutral-30"
+        class="tw:bg-primary-40 tw:p-2 tw:text-white tw:disabled:cursor-not-allowed tw:disabled:bg-neutral-30"
         @click="toggleAdmin(false)"
       >
         Turn Off
       </button>
     </div>
-    <div class="gap-2 tw-flex tw-max-w-lg tw-items-center">
-      <TwFilledIconButton class="tw-shrink-0" color="primary">
+    <div class="gap-2 tw:flex tw:max-w-lg tw:items-center">
+      <TwFilledIconButton class="tw:shrink-0" color="primary">
         <TwIcon :path="mdiTooltipEdit" />
       </TwFilledIconButton>
       <p>
@@ -32,7 +32,7 @@
       <template #summary>
         <h2>For developpers only</h2>
       </template>
-      <button class="tw-bg-primary-40 tw-p-2 tw-text-white" @click="addEruda">
+      <button class="tw:bg-primary-40 tw:p-2 tw:text-white" @click="addEruda">
         Load Eruda
       </button>
     </TwDetails>

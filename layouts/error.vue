@@ -1,18 +1,18 @@
 <template>
-  <div class="tw-flex tw-min-h-screen tw-w-full tw-flex-col md:tw-flex-row">
+  <div class="tw:flex tw:min-h-screen tw:w-full tw:flex-col tw:md:flex-row">
     <div
-      class="tw-flex tw-min-h-[30%] tw-grow tw-items-center tw-justify-center tw-bg-gradient-to-br tw-from-error-80 tw-to-error-60 dark:tw-from-error-10 dark:tw-to-error-30 md:tw-min-h-full md:tw-min-w-[30%]"
+      class="tw:flex tw:min-h-[30%] tw:grow tw:items-center tw:justify-center tw:bg-linear-to-br tw:from-error-80 tw:to-error-60 tw:dark:from-error-10 tw:dark:to-error-30 tw:md:min-h-full tw:md:min-w-[30%]"
     >
       <TwIcon
-        class="!tw-h-10 !tw-w-10 tw-py-8 tw-text-white md:!tw-h-28 md:!tw-w-28"
+        class="tw:h-10! tw:w-10! tw:py-8 tw:text-white tw:md:h-28! tw:md:w-28!"
         :path="mdiBusAlert"
       />
     </div>
     <div
-      class="tw-flex tw-flex-col tw-px-8 tw-py-4 md:tw-min-h-full md:tw-justify-center"
+      class="tw:flex tw:flex-col tw:px-8 tw:py-4 tw:md:min-h-full tw:md:justify-center"
     >
-      <h1 class="!tw-pb-0 tw-font-heading">{{ $t('error') }}</h1>
-      <p class="tw-mt-2 !tw-pb-0">
+      <h1 class="tw:pb-0! tw:font-heading">{{ $t('error') }}</h1>
+      <p class="tw:mt-2 tw:pb-0!">
         <span v-if="statusCode === 404">{{ $t('notFound') }}</span>
         <span v-if="statusCode === 'no-response'">{{ $t('noResponse') }}</span>
         <span v-if="statusCode === 503">{{ $t('serverMaintenance') }}</span>
@@ -31,7 +31,7 @@
         :href="$t('ohDear')"
         tag="a"
         with-icon
-        class="tw-mt-2 tw-inline-flex"
+        class="tw:mt-2 tw:inline-flex"
       >
         <TwIcon :path="mdiOpenInNew" />
         {{ $t('statusPage') }}

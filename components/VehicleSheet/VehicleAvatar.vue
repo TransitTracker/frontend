@@ -1,6 +1,6 @@
 <template>
   <div
-    class="tw-relative tw-flex tw-h-9 tw-w-9 tw-items-center tw-justify-center tw-overflow-visible tw-rounded-full md:tw-h-12 md:tw-w-12"
+    class="tw:relative tw:flex tw:h-9 tw:w-9 tw:items-center tw:justify-center tw:overflow-visible tw:rounded-full tw:md:h-12 tw:md:w-12"
     :style="{
       backgroundColor: agency.color,
       color: agency.textColor,
@@ -10,7 +10,7 @@
       v-if="vehicle.properties.position.bearing"
       viewBox="0 0 64 64"
       fill="none"
-      class="tw-absolute tw-block tw-h-16 tw-w-16 md:tw-hidden"
+      class="tw:absolute tw:block tw:h-16 tw:w-16 tw:md:hidden"
       xmlns="http://www.w3.org/2000/svg"
       :style="{
         transform: `rotate(${vehicle.properties.position.bearing}deg)`,
@@ -27,7 +27,7 @@
       v-if="vehicle.properties.position.bearing"
       viewBox="0 0 85 85"
       fill="none"
-      class="tw-absolute tw-hidden tw-h-[5.25rem] tw-w-[5.25rem] md:tw-block"
+      class="tw:absolute tw:hidden tw:h-21 tw:w-21 tw:md:block"
       xmlns="http://www.w3.org/2000/svg"
       :style="{
         transform: `rotate(${vehicle.properties.position.bearing}deg)`,
@@ -42,7 +42,7 @@
     </svg>
     <TwIcon
       :path="icons[vehicle.properties.vehicle.type]"
-      class="tw-relative tw-h-6 tw-w-6 md:tw-h-7 md:tw-w-7"
+      class="tw:relative tw:h-6 tw:w-6 tw:md:h-7 tw:md:w-7"
     />
   </div>
 </template>

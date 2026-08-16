@@ -87,8 +87,7 @@ export default {
     plugins: [new VuetifyLoaderPlugin()],
     postcss: {
       plugins: {
-        tailwindcss: {},
-        autoprefixer: {},
+        "@tailwindcss/postcss": {},
       },
     },
     loaders: {

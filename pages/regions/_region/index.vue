@@ -1,27 +1,27 @@
 <template>
   <div
-    class="tw-flex tw-min-h-screen tw-flex-col tw-bg-neutral-99 dark:tw-bg-neutral-10"
+    class="tw:flex tw:min-h-screen tw:flex-col tw:bg-neutral-99 tw:dark:bg-neutral-10"
   >
     <div
-      class="tw-full tw-relative tw-flex tw-h-80 tw-flex-col tw-justify-between tw-bg-cover tw-bg-center tw-bg-no-repeat before:tw-absolute before:tw-inset-0 before:tw-h-full before:tw-w-full before:tw-bg-gradient-to-t before:tw-from-primary-20 before:tw-to-transparent"
+      class="tw-full tw:relative tw:flex tw:h-80 tw:flex-col tw:justify-between tw:bg-cover tw:bg-center tw:bg-no-repeat tw:before:absolute tw:before:inset-0 tw:before:h-full tw:before:w-full tw:before:bg-linear-to-t tw:before:from-primary-20 tw:before:to-transparent"
       :style="{
         backgroundImage: `url(${backendHost}/storage/content/regions/${region.image})`,
       }"
     >
       <div
-        class="tw-absolute tw-inset-0 tw-flex tw-h-full tw-w-full tw-items-end tw-bg-gradient-to-t tw-from-primary-90 tw-to-transparent dark:tw-from-primary-20"
+        class="tw:absolute tw:inset-0 tw:flex tw:h-full tw:w-full tw:items-end tw:bg-linear-to-t tw:from-primary-90 tw:to-transparent tw:dark:from-primary-20"
       >
         <div
-          class="tw-container tw-mx-auto tw-flex tw-w-full tw-items-center tw-justify-between tw-px-4 tw-pb-2 md:tw-pb-0"
+          class="tw:container tw:mx-auto tw:flex tw:w-full tw:items-center tw:justify-between tw:px-4 tw:pb-2 tw:md:pb-0"
         >
           <h1
-            class="leading-[2.75rem] md:leading-[4rem] tw-font-heading tw-text-4xl tw-text-primary-20 md:tw-text-6xl dark:tw-text-white"
+            class="leading-[2.75rem] md:leading-[4rem] tw:font-heading tw:text-4xl tw:text-primary-20 tw:md:text-6xl tw:dark:text-white"
           >
             {{ region.name }}
           </h1>
           <TwFilledButton
             color="tonal"
-            class="tw-hidden md:tw-flex"
+            class="tw:hidden tw:md:flex"
             with-icon
             @click="openRegionSwitcher()"
           >
@@ -31,7 +31,7 @@
           <TwFilledIconButton
             color="tonal"
             :title="$t('changeRegion')"
-            class="md:tw-hidden"
+            class="tw:md:hidden"
             @click="openRegionSwitcher()"
           >
             <TwIcon :path="mdiCitySwitch" />
@@ -39,24 +39,24 @@
         </div>
       </div>
     </div>
-    <div class="tw-container tw-mx-auto tw-p-4">
-      <div class="tw-flex tw-items-center tw-gap-x-4">
+    <div class="tw:container tw:mx-auto tw:p-4">
+      <div class="tw:flex tw:items-center tw:gap-x-4">
         <h2
-          class="tw-flex-1 tw-justify-start tw-text-xl tw-font-medium md:tw-text-[2rem] md:tw-leading-10"
+          class="tw:flex-1 tw:justify-start tw:text-xl tw:font-medium tw:md:text-[2rem] tw:md:leading-10"
         >
           {{ $tc('vehicleTotal', totalCount) }}
         </h2>
-        <TwLoadingIndicator v-if="isOneAgencyLoading" class="tw-flex-none" />
+        <TwLoadingIndicator v-if="isOneAgencyLoading" class="tw:flex-none" />
         <div
-          class="tw-flex tw-flex-1 tw-items-center tw-justify-end tw-gap-x-2"
+          class="tw:flex tw:flex-1 tw:items-center tw:justify-end tw:gap-x-2"
         >
           <small
-            class="tw-hidden tw-text-2xs tw-font-medium tw-leading-4 tw-tracking-wide md:tw-block"
+            class="tw:hidden tw:text-2xs tw:font-medium tw:leading-4 tw:tracking-wide tw:md:block"
           >
             {{ $t('manageAgenciesTrick') }}
           </small>
           <TwOutlinedIconButton
-            class="tw-float-right tw-flex-shrink-0"
+            class="tw:float-right tw:shrink-0"
             :title="$t('manageAgencies')"
             @click="openSettings()"
           >
@@ -66,7 +66,7 @@
       </div>
       <ul
         v-if="activeAgencies.length"
-        class="tw-mt-4 tw-grid tw-list-none tw-grid-cols-2 tw-gap-2 !tw-pl-0 md:tw-grid-cols-3 md:tw-gap-4 xl:tw-grid-cols-4"
+        class="tw:mt-4 tw:grid tw:list-none tw:grid-cols-2 tw:gap-2 tw:pl-0! tw:md:grid-cols-3 tw:md:gap-4 tw:xl:grid-cols-4"
       >
         <TwHomeAgencyBadge
           v-for="agency in activeAgencies"
@@ -77,21 +77,21 @@
       </ul>
       <div
         v-else
-        class="tw-relative -tw-mx-4 tw-mt-4 tw-overflow-hidden tw-bg-secondary-90 tw-p-4 tw-text-center tw-text-secondary-10 md:tw-mx-0 md:tw-rounded-xl md:tw-pr-64 md:tw-text-left dark:tw-bg-secondary-30 dark:tw-text-secondary-90"
+        class="tw:relative tw:-mx-4 tw:mt-4 tw:overflow-hidden tw:bg-secondary-90 tw:p-4 tw:text-center tw:text-secondary-10 tw:md:mx-0 tw:md:rounded-xl tw:md:pr-64 tw:md:text-left tw:dark:bg-secondary-30 tw:dark:text-secondary-90"
       >
         <TwIcon
-          class="tw-absolute -tw-bottom-4 -tw-right-4 tw-hidden !tw-h-64 !tw-w-64 tw-text-secondary-10/50 md:tw-block dark:tw-text-secondary-90/50"
+          class="tw:absolute tw:-bottom-4 tw:-right-4 tw:hidden tw:h-64! tw:w-64! tw:text-secondary-10/50 tw:md:block tw:dark:text-secondary-90/50"
           :path="mdiBusMultiple"
         />
-        <p class="tw-max-w-prose tw-text-4xl tw-font-bold tw-leading-[2.75rem]">
+        <p class="tw:max-w-prose tw:text-4xl tw:font-bold tw:leading-11">
           {{ $t('emptyTitle', { region: region.name }) }}
         </p>
-        <p class="tw-mt-4 tw-leading-6 tw-tracking-wide">
+        <p class="tw:mt-4 tw:leading-6 tw:tracking-wide">
           {{ $tc('emptyDescription', region.agencies.length) }}
         </p>
         <TwFilledButton
           with-icon
-          class="tw-mx-auto tw-mt-4 md:tw-mx-0"
+          class="tw:mx-auto tw:mt-4 tw:md:mx-0"
           color="secondary"
           @click="makeAllVisible"
         >
@@ -101,29 +101,29 @@
       </div>
     </div>
     <div
-      class="md:tw-container md:tw-mx-auto md:tw-mt-8 md:tw-grid md:tw-grid-cols-2 md:tw-flex-wrap md:tw-items-start md:tw-gap-4 md:tw-px-4 lg:tw-flex lg:tw-flex-nowrap lg:tw-justify-center"
+      class="tw:md:container tw:md:mx-auto tw:md:mt-8 tw:md:grid tw:md:grid-cols-2 tw:md:flex-wrap tw:md:items-start tw:md:gap-4 tw:md:px-4 tw:lg:flex tw:lg:flex-nowrap tw:lg:justify-center"
     >
       <!--
       <div
-        class="tw-bg-primary-90 tw-p-4 tw-text-primary-10 dark:tw-bg-primary-30 dark:tw-text-primary-90 md:tw-rounded-xl"
+        class="tw:bg-primary-90 tw:p-4 tw:text-primary-10 tw:dark:bg-primary-30 tw:dark:text-primary-90 tw:md:rounded-xl"
       >
-        <h2 class="text-[2rem] tw-font-medium tw-leading-10">
+        <h2 class="text-[2rem] tw:font-medium tw:leading-10">
           Vos véhicules favoris
         </h2>
-        <p class="tw-leading-6 tw-tracking-wide">
+        <p class="tw:leading-6 tw:tracking-wide">
           Suivez vos préférés juste ici.
         </p>
       </div>
       -->
       <TwDetails
-        class="tw-bg-neutral-variant-90 tw-p-4 tw-leading-6 tw-tracking-wide tw-text-neutral-variant-30 md:tw-order-3 md:tw-col-span-full md:tw-min-w-[18rem] md:tw-basis-1/3 md:tw-rounded-xl dark:tw-bg-neutral-variant-30 dark:tw-text-neutral-80"
+        class="tw:bg-neutral-variant-90 tw:p-4 tw:leading-6 tw:tracking-wide tw:text-neutral-variant-30 tw:md:order-3 tw:md:col-span-full tw:md:min-w-[18rem] tw:md:basis-1/3 tw:md:rounded-xl tw:dark:bg-neutral-variant-30 tw:dark:text-neutral-80"
       >
         <template #summary>
-          <h2 class="tw-text-[1.375rem] tw-leading-7 tw-tracking-normal">
+          <h2 class="tw:text-[1.375rem] tw:leading-7 tw:tracking-normal">
             {{ $t('creditsTitle') }}
           </h2>
         </template>
-        <div class="tw-prose dark:tw-prose-invert">
+        <div class="tw:prose tw:dark:prose-invert">
           <!-- eslint-disable vue/no-v-html -->
           <p class="mt-4" v-html="region.credits"></p>
           <!-- eslint-enable vue/no-v-html -->
@@ -139,37 +139,37 @@
         </div>
       </TwDetails>
       <div
-        class="tw-p-4 tw-leading-6 tw-tracking-wide md:tw-order-2 md:tw-min-w-[18rem] md:tw-basis-1/3 md:tw-rounded-xl md:tw-border md:tw-border-solid md:tw-border-neutral-variant-50 dark:tw-border-neutral-variant-60"
+        class="tw:p-4 tw:leading-6 tw:tracking-wide tw:md:order-2 tw:md:min-w-[18rem] tw:md:basis-1/3 tw:md:rounded-xl tw:md:border tw:md:border-solid tw:md:border-neutral-variant-50 tw:dark:border-neutral-variant-60"
       >
-        <h2 class="tw-text-[1.375rem] tw-leading-7 tw-tracking-normal">
+        <h2 class="tw:text-[1.375rem] tw:leading-7 tw:tracking-normal">
           {{ $t('downloadTitle') }}
         </h2>
-        <p class="tw-mt-4">
+        <p class="tw:mt-4">
           {{ $t('downloadBody') }}
         </p>
         <NuxtLink
           :to="localePath(`/regions/${regionSlug}/download`)"
           tag="div"
-          class="tw-mt-2"
+          class="tw:mt-2"
           exact
         >
-          <TwTextButton with-icon class="-tw-ml-4" tag="a" href="#">
+          <TwTextButton with-icon class="tw:-ml-4" tag="a" href="#">
             <TwIcon :path="mdiDownload" />
             {{ $t('openDownload') }}
           </TwTextButton>
         </NuxtLink>
       </div>
       <div
-        class="tw-relative tw-bg-primary-90 tw-p-4 tw-leading-6 tw-tracking-wide tw-text-primary-10 md:tw-order-1 md:tw-min-w-[18rem] md:tw-basis-1/3 md:tw-rounded-xl dark:tw-bg-primary-30 dark:tw-text-primary-90"
+        class="tw:relative tw:bg-primary-90 tw:p-4 tw:leading-6 tw:tracking-wide tw:text-primary-10 tw:md:order-1 tw:md:min-w-[18rem] tw:md:basis-1/3 tw:md:rounded-xl tw:dark:bg-primary-30 tw:dark:text-primary-90"
       >
-        <h2 class="tw-text-[1.375rem] tw-leading-7 tw-tracking-normal">
+        <h2 class="tw:text-[1.375rem] tw:leading-7 tw:tracking-normal">
           {{ $t('photoTitle') }}
         </h2>
-        <p class="tw-mt-4">
+        <p class="tw:mt-4">
           {{ $t('photoBody') }}
         </p>
         <TwTextButton
-          class="-tw-ml-3 tw-mt-2 tw-text-primary-10 dark:tw-text-primary-95"
+          class="tw:-ml-3 tw:mt-2 tw:text-primary-10 tw:dark:text-primary-95"
           href="https://docs.google.com/forms/d/e/1FAIpQLSecgmVPlQUGiAT4dXu4yv6i0UKtSpJfEFw_98lvoT-hqnVbSQ/viewform?usp=sf_link"
           tag="a"
           target="_blank"
@@ -178,40 +178,40 @@
         </TwTextButton>
         <TwIcon
           :path="mdiCameraOutline"
-          class="tw-absolute tw-bottom-4 tw-right-4 !tw-h-8 !tw-w-8 tw-text-primary-40 lg:tw-h-10 lg:tw-w-10 xl:tw-h-12 xl:tw-w-12 dark:tw-text-primary-80"
+          class="tw:absolute tw:bottom-4 tw:right-4 tw:h-8! tw:w-8! tw:text-primary-40 tw:lg:h-10 tw:lg:w-10 tw:xl:h-12 tw:xl:w-12 tw:dark:text-primary-80"
         />
       </div>
     </div>
-    <div class="tw-grow"></div>
+    <div class="tw:grow"></div>
     <div
-      class="tw-container tw-mx-auto tw-flex tw-flex-wrap tw-items-center tw-gap-x-1 tw-p-4 tw-leading-6 tw-tracking-wide"
+      class="tw:container tw:mx-auto tw:flex tw:flex-wrap tw:items-center tw:gap-x-1 tw:p-4 tw:leading-6 tw:tracking-wide"
     >
-      <b class="tw-font-medium tw-text-primary-20 dark:tw-text-primary-90">
+      <b class="tw:font-medium tw:text-primary-20 tw:dark:text-primary-90">
         Transit&nbsp;Tracker
-        <span class="tw-text-black dark:tw-text-white">{{ version }}</span>
+        <span class="tw:text-black tw:dark:text-white">{{ version }}</span>
       </b>
-      <span class="tw-hidden tw-grow md:tw-inline">
+      <span class="tw:hidden tw:grow tw:md:inline">
         &bull; {{ $t('brandSlogan') }}
       </span>
-      <span class="tw-block md:tw-hidden"> {{ $t('brandSlogan') }}</span>
+      <span class="tw:block tw:md:hidden"> {{ $t('brandSlogan') }}</span>
       <a
         href="https://api.transittracker.ca"
         target="_blank"
-        class="tw-text-primary-40 tw-no-underline hover:tw-text-primary-30 hover:tw-underline dark:tw-text-primary-80 dark:hover:tw-text-primary-90"
+        class="tw:text-primary-40 tw:no-underline tw:hover:text-primary-30 tw:hover:underline tw:dark:text-primary-80 tw:dark:hover:text-primary-90"
       >
         {{ $t('forDevelopers') }} </a
       >&bull;
       <a
         href="https://api.transittracker.ca/vin"
         target="_blank"
-        class="tw-text-primary-40 tw-no-underline hover:tw-text-primary-30 hover:tw-underline dark:tw-text-primary-80 dark:hover:tw-text-primary-90"
+        class="tw:text-primary-40 tw:no-underline tw:hover:text-primary-30 tw:hover:underline tw:dark:text-primary-80 tw:dark:hover:text-primary-90"
       >
         {{ $t('exoVin') }} </a
       >&bull;
       <a
         href="https://github.com/TransitTracker"
         target="_blank"
-        class="tw-text-primary-40 tw-no-underline hover:tw-text-primary-30 hover:tw-underline dark:tw-text-primary-80 dark:hover:tw-text-primary-90"
+        class="tw:text-primary-40 tw:no-underline tw:hover:text-primary-30 tw:hover:underline tw:dark:text-primary-80 tw:dark:hover:text-primary-90"
       >
         {{ $t('github') }}
       </a>

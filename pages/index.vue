@@ -1,26 +1,26 @@
 <template>
   <div
-    class="tw-bg-neutral-99 tw-text-neutral-10 dark:tw-bg-neutral-10 dark:tw-text-neutral-90"
+    class="tw:bg-neutral-99 tw:text-neutral-10 tw:dark:bg-neutral-10 tw:dark:text-neutral-90"
   >
     <div
-      class="tw-relative tw-flex tw-w-full tw-flex-col md:tw-h-[75vh] md:tw-flex-row"
+      class="tw:relative tw:flex tw:w-full tw:flex-col tw:md:h-[75vh] tw:md:flex-row"
     >
       <div
-        class="tw-relative tw-z-[2] tw-flex tw-shrink-0 tw-grow tw-flex-col tw-space-y-8 tw-overflow-hidden tw-bg-primary-90 tw-p-8 tw-text-primary-10 md:tw-order-1 md:tw-mb-0 md:tw-w-[45%] md:tw-justify-center md:tw-pb-0 md:tw-pt-0 dark:tw-bg-primary-30 dark:tw-text-primary-90"
+        class="tw:relative tw:z-2 tw:flex tw:shrink-0 tw:grow tw:flex-col tw:space-y-8 tw:overflow-hidden tw:bg-primary-90 tw:p-8 tw:text-primary-10 tw:md:order-1 tw:md:mb-0 tw:md:w-[45%] tw:md:justify-center tw:md:pb-0 tw:md:pt-0 tw:dark:bg-primary-30 tw:dark:text-primary-90"
       >
         <!-- eslint-disable vue/no-v-html -->
         <h1
-          class="tw-font-heading tw-text-4xl tw-font-bold tw-leading-[2.75rem] md:tw-text-5xl"
+          class="tw:font-heading tw:text-4xl tw:font-bold tw:leading-11 tw:md:text-5xl"
           v-html="$t('welcome')"
         ></h1>
         <!-- eslint-enable vue/no-v-html -->
         <h2
-          class="tw-mt-2 tw-min-h-[4.5rem] tw-font-heading tw-text-2xl tw-font-medium md:tw-text-3xl"
+          class="tw:mt-2 tw:min-h-18 tw:font-heading tw:text-2xl tw:font-medium tw:md:text-3xl"
         >
           {{ $t('intro') }} <br />
           <TwLandingCitiesAnimation :cities="cities" />
         </h2>
-        <div class="tw-flex tw-items-start tw-gap-x-4">
+        <div class="tw:flex tw:items-start tw:gap-x-4">
           <!--          TODO: Get stats from backend-->
           <TwLandingStatistic
             :label="$t('vehicles')"
@@ -35,29 +35,29 @@
           />
         </div>
         <div>
-          <p class="!tw-mb-1 tw-flex tw-items-end tw-gap-x-2 tw-leading-8">
+          <p class="tw:mb-1! tw:flex tw:items-end tw:gap-x-2 tw:leading-8">
             {{ $t('explore') }}
             <TwIcon :path="mdiArrowDownRight" />
           </p>
           <ul
             v-if="!regionsFeatures.features.length"
-            class="tw-flex tw-flex-wrap tw-gap-2 !tw-pl-0"
+            class="tw:flex tw:flex-wrap tw:gap-2 tw:pl-0!"
           >
-            <li class="tw-list-none">
-              <TwChip class="tw-w-20" />
+            <li class="tw:list-none">
+              <TwChip class="tw:w-20" />
             </li>
-            <li class="tw-list-none">
-              <TwChip class="tw-w-28" />
+            <li class="tw:list-none">
+              <TwChip class="tw:w-28" />
             </li>
-            <li class="tw-list-none">
-              <TwChip class="tw-w-16" />
+            <li class="tw:list-none">
+              <TwChip class="tw:w-16" />
             </li>
           </ul>
-          <ul v-else class="tw-flex tw-flex-wrap tw-gap-2 !tw-pl-0">
+          <ul v-else class="tw:flex tw:flex-wrap tw:gap-2 tw:pl-0!">
             <li
               v-for="feature in regionsFeatures.features"
               :key="feature.properties.slug"
-              class="tw-list-none"
+              class="tw:list-none"
             >
               <TwChip
                 @click.native="
@@ -73,51 +73,51 @@
         </div>
       </div>
       <div
-        class="tw-pointer-events-none tw-absolute tw-inset-0 tw-z-[1] tw-hidden tw-bg-gradient-100 tw-from-primary-90 tw-from-50% tw-to-transparent tw-to-70% md:tw-block dark:tw-from-primary-30"
+        class="tw:pointer-events-none tw:absolute tw:inset-0 tw:z-1 tw:hidden tw:bg-gradient-100 tw:from-primary-90 tw:from-50% tw:to-transparent tw:to-70% tw:md:block tw:dark:from-primary-30"
       ></div>
       <div
         id="tt-landing-map"
-        class="tw-z-0 tw-order-2 tw-h-[50vh] tw-grow md:tw-h-full md:tw-w-[55%]"
+        class="tw:z-0 tw:order-2 tw:h-[50vh] tw:grow tw:md:h-full tw:md:w-[55%]"
       >
-        <div ref="popup" class="tw-invisible tw-min-w-[12rem]">
+        <div ref="popup" class="tw:invisible tw:min-w-48">
           <NuxtLink
             :to="localePath(`/regions/${currentPopup.slug}`)"
-            class="tw-group tw-flex tw-items-center tw-font-heading tw-text-xl tw-font-medium tw-leading-7 tw-text-primary-40 tw-no-underline dark:tw-text-primary-80"
+            class="tw:group tw:flex tw:items-center tw:font-heading tw:text-xl tw:font-medium tw:leading-7 tw:text-primary-40 tw:no-underline tw:dark:text-primary-80"
           >
             {{ currentPopup.name }}
             <!--             tt-landing-map-popup__arrow -->
             <svg
               style="width: 20px; height: 20px"
-              class="tw-ml-1 tw-overflow-hidden"
+              class="tw:ml-1 tw:overflow-hidden"
               viewBox="0 0 24 24"
             >
               <path
                 fill="currentColor"
                 :d="mdiArrowRight"
-                class="-tw-translate-x-5 tw-transition-transform group-hover:tw-translate-x-0"
+                class="tw:-translate-x-5 tw:transition-transform tw:group-hover:translate-x-0"
               />
             </svg>
           </NuxtLink>
-          <b class="tw-text-sm tw-font-medium tw-leading-5">
+          <b class="tw:text-sm tw:font-medium tw:leading-5">
             {{ $tc('landing.agencies', currentPopup.agencies) }}
             <br />
             <!--            tt-landing-map-popup__dot -->
             <span
-              class="tw-relative tw-mr-1 tw-inline-flex tw-h-3 tw-w-3 tw-rounded-full"
+              class="tw:relative tw:mr-1 tw:inline-flex tw:h-3 tw:w-3 tw:rounded-full"
             >
               <span
-                class="tw-absolute tw-inline-flex tw-h-full tw-w-full tw-animate-ping tw-rounded-full tw-bg-secondary-50/75 dark:tw-bg-secondary-90/75"
+                class="tw:absolute tw:inline-flex tw:h-full tw:w-full tw:animate-ping tw:rounded-full tw:bg-secondary-50/75 tw:dark:bg-secondary-90/75"
               ></span>
               <span
-                class="tw-relative tw-inline-flex tw-h-3 tw-w-3 tw-rounded-full tw-bg-secondary-40 dark:tw-bg-secondary-80"
+                class="tw:relative tw:inline-flex tw:h-3 tw:w-3 tw:rounded-full tw:bg-secondary-40 tw:dark:bg-secondary-80"
               ></span>
             </span>
 
             {{ $tc('landing.vehicles', currentPopup.vehicles) }}
           </b>
-          <div class="tw-mt-1 tw-flex tw-gap-2">
+          <div class="tw:mt-1 tw:flex tw:gap-2">
             <TwStandardIconButton
-              class="tw-cursor-pointer tw-text-primary-10 dark:tw-text-primary-90"
+              class="tw:cursor-pointer tw:text-primary-10 tw:dark:text-primary-90"
               :title="$t('landing.openMap', { region: currentPopup.name })"
               @click="
                 $router.push(localePath(`/regions/${currentPopup.slug}/map`))
@@ -126,7 +126,7 @@
               <TwIcon :path="mdiMap" />
             </TwStandardIconButton>
             <TwStandardIconButton
-              class="tw-cursor-pointer tw-text-primary-10 dark:tw-text-primary-90"
+              class="tw:cursor-pointer tw:text-primary-10 tw:dark:text-primary-90"
               :title="$t('landing.openTable', { region: currentPopup.name })"
               @click="
                 $router.push(localePath(`/regions/${currentPopup.slug}/table`))
@@ -137,40 +137,40 @@
           </div>
           <!--          tt-landing-map-popup__border-->
           <div
-            class="tw-absolute tw-inset-0 tw-bg-primary-40 dark:tw-bg-primary-80"
+            class="tw:absolute tw:inset-0 tw:bg-primary-40 tw:dark:bg-primary-80"
             style="clip-path: polygon(91% 0, 95% 0, 85% 100%, 81% 100%)"
           ></div>
         </div>
       </div>
     </div>
-    <section class="tw-w-full">
-      <div class="tw-container tw-mx-auto tw-p-8">
-        <h3 class="tw-font-heading tw-text-3xl tw-font-bold">
+    <section class="tw:w-full">
+      <div class="tw:container tw:mx-auto tw:p-8">
+        <h3 class="tw:font-heading tw:text-3xl tw:font-bold">
           {{ $t('headline') }}
         </h3>
-        <p class="!tw-mb-0 tw-mt-1 tw-max-w-prose tw-text-lg">
+        <p class="tw:mb-0! tw:mt-1 tw:max-w-prose tw:text-lg">
           {{ $t('descriptionPt1') }} <b>{{ $t('descriptionPt2Bold') }}</b>
           {{ $t('descriptionPt3') }}
         </p>
         <div
-          class="tw-mt-8 tw-items-center tw-gap-x-8 tw-space-y-4 md:tw-flex md:tw-space-y-0"
+          class="tw:mt-8 tw:items-center tw:gap-x-8 tw:space-y-4 tw:md:flex tw:md:space-y-0"
         >
-          <div class="tw-group tw-relative tw-flex md:tw-w-2/3">
+          <div class="tw:group tw:relative tw:flex tw:md:w-2/3">
             <img
               :src="`/img/screenshots/${activeTab}-${locale}-${
                 darkMode ? 'dark' : 'light'
               }.png`"
               :alt="$t('imageAlt')"
-              class="tw-block tw-w-full tw-rounded-lg tw-shadow-xl"
+              class="tw:block tw:w-full tw:rounded-lg tw:shadow-xl"
             />
             <NuxtLink
               :to="localePath(`/regions/mtl/${activeTab}`)"
-              class="tw-absolute tw-inset-0 tw-h-full tw-w-full"
+              class="tw:absolute tw:inset-0 tw:h-full tw:w-full"
             >
               <TwFilledButton
                 color="tonal"
                 with-icon-right
-                class="!tw-absolute -tw-right-4 -tw-top-4"
+                class="tw:absolute! tw:-right-4 tw:-top-4"
                 @click="$router.push(localePath(`/regions/mtl/${activeTab}`))"
               >
                 {{ $t('exploreNow') }}
@@ -179,7 +179,7 @@
             </NuxtLink>
           </div>
           <div
-            class="tw-space-y-2 md:tw-w-1/3 md:tw-space-y-4"
+            class="tw:space-y-2 tw:md:w-1/3 tw:md:space-y-4"
             role="tablist"
             aria-orientation="vertical"
           >
@@ -201,15 +201,15 @@
         </div>
       </div>
     </section>
-    <section class="tw-w-full tw-pt-8">
-      <div class="tw-container tw-mx-auto tw-p-8">
-        <h3 class="tw-text-center tw-font-heading tw-text-3xl tw-font-bold">
+    <section class="tw:w-full tw:pt-8">
+      <div class="tw:container tw:mx-auto tw:p-8">
+        <h3 class="tw:text-center tw:font-heading tw:text-3xl tw:font-bold">
           {{ $t('andMore') }}
         </h3>
-        <p class="tw-mt-1 tw-text-center tw-text-lg">
+        <p class="tw:mt-1 tw:text-center tw:text-lg">
           {{ $t('andMoreDesc') }}
         </p>
-        <div class="tw-mt-4 tw-grid tw-gap-4 md:tw-grid-cols-4">
+        <div class="tw:mt-4 tw:grid tw:gap-4 tw:md:grid-cols-4">
           <TwLandingFeature
             :icon="mdiBell"
             :title="$t('notifications')"
@@ -238,17 +238,17 @@
       </div>
     </section>
     <section
-      class="tw-w-full tw-bg-primary-10 tw-text-center tw-text-primary-90"
+      class="tw:w-full tw:bg-primary-10 tw:text-center tw:text-primary-90"
     >
-      <div class="tw-container tw-mx-auto tw-p-8">
-        <h3 class="tw-font-heading tw-text-3xl tw-font-bold">
+      <div class="tw:container tw:mx-auto tw:p-8">
+        <h3 class="tw:font-heading tw:text-3xl tw:font-bold">
           {{ $t('goFurther') }}
         </h3>
-        <p class="tw-mx-auto !tw-mb-0 tw-mt-1 tw-max-w-prose tw-text-lg">
+        <p class="tw:mx-auto tw:mb-0! tw:mt-1 tw:max-w-prose tw:text-lg">
           {{ $t('goFurtherDesc') }}
         </p>
         <div
-          class="tw-mx-auto tw-mt-4 tw-grid tw-gap-4 md:tw-mt-8 md:tw-max-w-[75%] md:tw-grid-cols-2 md:tw-gap-8 lg:tw-gap-12"
+          class="tw:mx-auto tw:mt-4 tw:grid tw:gap-4 tw:md:mt-8 tw:md:max-w-[75%] tw:md:grid-cols-2 tw:md:gap-8 tw:lg:gap-12"
         >
           <TwLandingFurtherBlock
             :title="$t('vin')"
@@ -263,26 +263,26 @@
         </div>
       </div>
     </section>
-    <section class="tw-w-full tw-pt-8">
+    <section class="tw:w-full tw:pt-8">
       <div
-        class="tw-container tw-mx-auto tw-flex tw-flex-col tw-items-center tw-gap-8 tw-p-8 md:tw-flex-row"
+        class="tw:container tw:mx-auto tw:flex tw:flex-col tw:items-center tw:gap-8 tw:p-8 tw:md:flex-row"
       >
-        <div class="tw-flex tw-gap-x-2">
+        <div class="tw:flex tw:gap-x-2">
           <TwIcon
             :path="mdiHeart"
-            class="!tw-h-16 !tw-w-16 tw-rotate-12 tw-self-start tw-text-error-40"
+            class="tw:h-16! tw:w-16! tw:rotate-12 tw:self-start tw:text-error-40"
           />
-          <TwIcon :path="mdiPlus" class="!tw-h-10 !tw-w-10 tw-self-center" />
+          <TwIcon :path="mdiPlus" class="tw:h-10! tw:w-10! tw:self-center" />
           <TwIcon
             :path="mdiCodeTags"
-            class="!tw-h-16 !tw-w-16 -tw-rotate-6 tw-self-end tw-text-primary-40"
+            class="tw:h-16! tw:w-16! tw:-rotate-6 tw:self-end tw:text-primary-40"
           />
         </div>
         <div>
-          <h3 class="tw-font-heading tw-text-3xl tw-font-bold">
+          <h3 class="tw:font-heading tw:text-3xl tw:font-bold">
             {{ $t('openSource') }}
           </h3>
-          <p class="tw-mt-1 tw-text-lg">
+          <p class="tw:mt-1 tw:text-lg">
             {{ $t('openSourceDesc') }}
           </p>
           <TwFilledButton
@@ -290,7 +290,7 @@
             tag="a"
             href="https://github.com/TransitTracker"
             target="_blank"
-            class="tw-mt-4 !tw-inline-flex"
+            class="tw:mt-4 tw:inline-flex!"
           >
             <TwIcon :path="mdiOpenInNew" />
             {{ $t('github') }}
@@ -299,20 +299,20 @@
       </div>
     </section>
     <div
-      class="tw-container tw-relative tw-mx-auto tw-flex tw-flex-wrap tw-items-center tw-gap-x-1 tw-p-4 tw-leading-6 tw-tracking-wide"
+      class="tw:container tw:relative tw:mx-auto tw:flex tw:flex-wrap tw:items-center tw:gap-x-1 tw:p-4 tw:leading-6 tw:tracking-wide"
     >
-      <b class="tw-font-medium tw-text-primary-20 dark:tw-text-primary-90">
+      <b class="tw:font-medium tw:text-primary-20 tw:dark:text-primary-90">
         Transit&nbsp;Tracker
       </b>
-      <span class="tw-hidden tw-grow md:tw-inline">
+      <span class="tw:hidden tw:grow tw:md:inline">
         &bull; {{ $t('brandSlogan') }}
       </span>
-      <span class="tw-block md:tw-hidden"> {{ $t('brandSlogan') }}</span>
+      <span class="tw:block tw:md:hidden"> {{ $t('brandSlogan') }}</span>
       {{ $t('by') }}
       <a
         href="https://felixinx.me"
         target="_blank"
-        class="tw-group tw-text-primary-40 tw-no-underline hover:tw-text-primary-30 hover:tw-underline dark:tw-text-primary-80 dark:hover:tw-text-primary-90"
+        class="tw:group tw:text-primary-40 tw:no-underline tw:hover:text-primary-30 tw:hover:underline tw:dark:text-primary-80 tw:dark:hover:text-primary-90"
       >
         @FelixINX - Félix Desjardins
       </a>

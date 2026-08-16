@@ -1,42 +1,42 @@
 <template>
   <div>
     <div
-      class="tw-flex tw-flex-col tw-gap-2 tw-rounded-xl tw-bg-secondary-90 tw-p-4 tw-text-sm tw-text-secondary-30 dark:tw-bg-secondary-30 dark:tw-text-secondary-90"
+      class="tw:flex tw:flex-col tw:gap-2 tw:rounded-xl tw:bg-secondary-90 tw:p-4 tw:text-sm tw:text-secondary-30 tw:dark:bg-secondary-30 tw:dark:text-secondary-90"
     >
-      <div class="tw-flex tw-items-center tw-gap-2">
+      <div class="tw:flex tw:items-center tw:gap-2">
         <TwIcon :path="mdiInformationOutline" />
         <b>{{ $t('emptyColumnsTitle') }}</b>
       </div>
       {{ $t('emptyColumns') }}
     </div>
-    <h3 class="tw-mt-4 tw-text-xs tw-font-medium tw-leading-4">
+    <h3 class="tw:mt-4 tw:text-xs tw:font-medium tw:leading-4">
       {{ $t('visible') }}
     </h3>
     <draggable
       v-model="visibleColumns"
       group="tableColumns"
       draggable=".tableColumns"
-      class="tw-mt-2 tw-space-y-2"
+      class="tw:mt-2 tw:space-y-2"
     >
       <div
         v-for="column in visibleColumns"
         :key="column"
-        class="tableColumns tw-flex tw-h-8 tw-items-center tw-gap-x-2 tw-rounded-lg tw-bg-neutral-variant-90 tw-pl-2 tw-pr-4 tw-text-sm tw-text-neutral-variant-30 dark:tw-bg-neutral-variant-30 dark:tw-text-neutral-variant-80"
+        class="tableColumns tw:flex tw:h-8 tw:items-center tw:gap-x-2 tw:rounded-lg tw:bg-neutral-variant-90 tw:pl-2 tw:pr-4 tw:text-sm tw:text-neutral-variant-30 tw:dark:bg-neutral-variant-30 tw:dark:text-neutral-variant-80"
       >
         <TwIcon
           :path="mdiReorderHorizontal"
-          class="!tw-h-[1.125rem] !tw-w-[1.125rem]"
+          class="tw:h-4.5! tw:w-4.5!"
         />
         <span>{{ getLabel(column) }}</span>
       </div>
       <div
         v-if="!visibleColumns.length"
-        class="tw-flex tw-items-center tw-justify-center tw-rounded-xl tw-border tw-border-dashed tw-border-neutral-variant-50 tw-px-4 tw-py-4 dark:tw-border-neutral-variant-60"
+        class="tw:flex tw:items-center tw:justify-center tw:rounded-xl tw:border tw:border-dashed tw:border-neutral-variant-50 tw:px-4 tw:py-4 tw:dark:border-neutral-variant-60"
       >
         {{ $t('dropHereVisible') }}
       </div>
     </draggable>
-    <div class="tw-mt-2 tw-flex tw-flex-wrap tw-gap-2">
+    <div class="tw:mt-2 tw:flex tw:flex-wrap tw:gap-2">
       <TwChip
         :icon="mdiTableColumnPlusAfter"
         v-if="visibleColumns.length !== availableColumns.length"
@@ -52,30 +52,30 @@
         {{ $t('resetToDefault') }}
       </TwChip>
     </div>
-    <h3 class="tw-mt-4 tw-text-xs tw-font-medium tw-leading-4">
+    <h3 class="tw:mt-4 tw:text-xs tw:font-medium tw:leading-4">
       {{ $t('hidden') }}
     </h3>
     <draggable
       v-model="hiddenColumns"
       group="tableColumns"
-      class="tw-mt-2 tw-space-y-2"
+      class="tw:mt-2 tw:space-y-2"
       draggable=".tableColumns"
     >
       <div
         v-for="column in hiddenColumns"
         :key="column"
-        class="tableColumns tw-flex tw-h-8 tw-items-center tw-gap-x-2 tw-rounded-lg tw-bg-neutral-variant-90 tw-pl-2 tw-pr-4 tw-text-sm tw-text-neutral-variant-30 dark:tw-bg-neutral-variant-30 dark:tw-text-neutral-variant-80"
+        class="tableColumns tw:flex tw:h-8 tw:items-center tw:gap-x-2 tw:rounded-lg tw:bg-neutral-variant-90 tw:pl-2 tw:pr-4 tw:text-sm tw:text-neutral-variant-30 tw:dark:bg-neutral-variant-30 tw:dark:text-neutral-variant-80"
       >
         <TwIcon
           :path="mdiReorderHorizontal"
-          class="!tw-h-[1.125rem] !tw-w-[1.125rem]"
+          class="tw:h-4.5! tw:w-4.5!"
         />
         <span>{{ getLabel(column) }}</span>
       </div>
       <div
         v-if="!hiddenColumns.length"
         slot="header"
-        class="tw-flex tw-items-center tw-justify-center tw-rounded-xl tw-border tw-border-dashed tw-border-neutral-variant-50 tw-px-4 tw-py-4 dark:tw-border-neutral-variant-60"
+        class="tw:flex tw:items-center tw:justify-center tw:rounded-xl tw:border tw:border-dashed tw:border-neutral-variant-50 tw:px-4 tw:py-4 tw:dark:border-neutral-variant-60"
       >
         {{ $t('dropHereHidden') }}
       </div>

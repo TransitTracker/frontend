@@ -1,12 +1,12 @@
 <template>
-  <div class="tw-space-y-2">
-    <tw-icon
+  <div class="tw:space-y-2">
+    <TwIcon
       :path="icon"
-      class="!tw-h-8 !tw-w-8 tw-text-secondary-40 dark:tw-text-secondary-80"
+      class="tw:h-8! tw:w-8! tw:text-secondary-40 tw:dark:text-secondary-80"
     />
-    <h4 class="tw-font-medium">{{ title }}</h4>
-    <p class="!tw-mt-0">{{ description }}</p>
-    <small class="tw-text-neutral-variant-30 dark:tw-text-neutral-variant-80">
+    <h4 class="tw:font-medium">{{ title }}</h4>
+    <p class="tw:mt-0!">{{ description }}</p>
+    <small class="tw:text-neutral-variant-30 tw:dark:text-neutral-variant-80">
       {{ note }}
     </small>
   </div>

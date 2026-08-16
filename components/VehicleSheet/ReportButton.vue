@@ -1,5 +1,5 @@
 <template>
-  <TwTextButton with-icon tag="a" :href="url" class="-tw-ml-3" target="_blank">
+  <TwTextButton with-icon tag="a" :href="url" class="tw:-ml-3" target="_blank">
     <TwIcon :path="mdiCommentAlertOutline" />
     {{ $t('report') }}
   </TwTextButton>

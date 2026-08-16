@@ -1,25 +1,25 @@
 <template>
   <footer
-    class="tw-absolute tw-top-[calc(100vh-14rem)] tw-mb-[4rem] tw-w-full tw-space-y-2 tw-overflow-y-auto tw-rounded-t-[1.75rem] tw-bg-neutral-99 tw-p-4 tw-pb-20 tw-text-neutral-10 md:tw-left-2 md:tw-top-2 md:tw-max-h-[calc(100vh-41px-32px)] md:tw-w-96 md:tw-rounded-xl md:tw-pb-4 xl:tw-left-4 xl:tw-top-4 xl:tw-space-y-4 dark:tw-bg-neutral-10 dark:tw-text-neutral-90"
+    class="tw:absolute tw:top-[calc(100vh-14rem)] tw:mb-16 tw:w-full tw:space-y-2 tw:overflow-y-auto tw:rounded-t-[1.75rem] tw:bg-neutral-99 tw:p-4 tw:pb-20 tw:text-neutral-10 tw:md:left-2 tw:md:top-2 tw:md:max-h-[calc(100vh-41px-32px)] tw:md:w-96 tw:md:rounded-xl tw:md:pb-4 tw:xl:left-4 tw:xl:top-4 tw:xl:space-y-4 tw:dark:bg-neutral-10 tw:dark:text-neutral-90"
   >
-    <div class="-tw-mt-4 md:tw-hidden">
+    <div class="tw:-mt-4 tw:md:hidden">
       <div
-        class="tw-mx-auto tw-my-1.5 tw-h-1 tw-w-8 tw-rounded-full tw-bg-neutral-variant-30/40 dark:tw-bg-neutral-variant-80/40"
+        class="tw:mx-auto tw:my-1.5 tw:h-1 tw:w-8 tw:rounded-full tw:bg-neutral-variant-30/40 tw:dark:bg-neutral-variant-80/40"
       ></div>
     </div>
     <div
       v-if="warning"
-      class="!-tw-mx-4 !-tw-mt-4 !tw-mb-2 tw-bg-error-90 tw-px-4 tw-pb-2 tw-pt-4 tw-font-medium tw-text-error-10 dark:tw-bg-error-30 dark:tw-text-error-90"
+      class="tw:-mx-4! tw:-mt-4! tw:mb-2! tw:bg-error-90 tw:px-4 tw:pb-2 tw:pt-4 tw:font-medium tw:text-error-10 tw:dark:bg-error-30 tw:dark:text-error-90"
     >
       {{ $t(warning) }}
     </div>
     <div
-      class="!tw-mt-0 tw-flex tw-h-16 tw-items-center tw-gap-x-4 md:tw-h-auto md:tw-gap-x-6"
+      class="tw:mt-0! tw:flex tw:h-16 tw:items-center tw:gap-x-4 tw:md:h-auto tw:md:gap-x-6"
     >
       <VehicleAvatar />
-      <div class="tw-ml-2 tw-grow md:tw-ml-0">
+      <div class="tw:ml-2 tw:grow tw:md:ml-0">
         <h2
-          class="tw-break-all tw-text-2xl tw-leading-8 xl:tw-text-4xl xl:tw-leading-[2.75rem]"
+          class="tw:break-all tw:text-2xl tw:leading-8 tw:xl:text-4xl tw:xl:leading-11"
         >
           {{
             vehicle.properties.vehicle.label ?? vehicle.properties.vehicle.id
@@ -29,18 +29,18 @@
             tag="a"
             :href="`https://admin.transittracker.ca/vehicles/${vehicle.id}/edit`"
             target="_blank"
-            class="tw-inline-flex"
+            class="tw:inline-flex"
           >
             <TwIcon :path="mdiTooltipEdit" />
           </TwFilledIconButton>
         </h2>
         <h3
-          class="tw-text-xs tw-font-medium tw-leading-4 xl:tw-text-base xl:tw-font-normal xl:tw-leading-6"
+          class="tw:text-xs tw:font-medium tw:leading-4 tw:xl:text-base tw:xl:font-normal tw:xl:leading-6"
         >
-          <span class="md:tw-hidden">{{ agency.shortName }}</span>
-          <span class="tw-hidden md:tw-inline">{{ agency.name }}<br /></span>
+          <span class="tw:md:hidden">{{ agency.shortName }}</span>
+          <span class="tw:hidden tw:md:inline">{{ agency.name }}<br /></span>
           <span v-if="vehicle.properties.lastSeenAt">
-            <span class="md:tw-hidden">&bull;</span>
+            <span class="tw:md:hidden">&bull;</span>
             <TwTimeAgo :timestamp="vehicle.properties.lastSeenAt" />
           </span>
         </h3>
@@ -53,7 +53,7 @@
           color: vehicle.properties.route.textColor ?? agency.textColor,
           backgroundColor: vehicle.properties.route.color ?? agency.color,
         }"
-        class="tw-rounded-lg tw-px-2 tw-py-1 tw-font-bold md:tw-hidden"
+        class="tw:rounded-lg tw:px-2 tw:py-1 tw:font-bold tw:md:hidden"
       >
         {{ vehicle.properties.route.shortName ?? vehicle.properties.route.id }}
       </div>
@@ -61,22 +61,22 @@
     <VehicleSheetRouteIndicator
       :vehicle="vehicle"
       :agency="agency"
-      class="tw-hidden md:tw-flex"
+      class="tw:hidden tw:md:flex"
     />
     <ul
       v-if="vehicle.properties.tags.length"
-      class="tw-flex tw-items-center tw-gap-x-2"
+      class="tw:flex tw:items-center tw:gap-x-2"
     >
       <TwTag v-for="tag in vehicle.properties.tags" :key="tag" :tag-id="tag" />
     </ul>
 
     <div
       v-if="vehicle.properties.carriageDetails.length"
-      class="-tw-mx-4 tw-h-px tw-border-t tw-bg-neutral-variant-80"
+      class="tw:-mx-4 tw:h-px tw:border-t tw:bg-neutral-variant-80"
     />
     <TwDetails v-if="vehicle.properties.carriageDetails.length" small-icon>
       <template #summary>
-        <h3 class="tw-text-neutral10 tw-text-sm tw-font-medium tw-leading-5">
+        <h3 class="tw:text-neutral-10 tw:text-sm tw:font-medium tw:leading-5">
           {{ $t('carriageDetails') }}<br />
           <small>
             {{
@@ -85,7 +85,7 @@
           </small>
         </h3>
       </template>
-      <ol class="tw-mt-2 tw-space-y-4">
+      <ol class="tw:mt-2 tw:space-y-4">
         <TwCarriage
           v-for="(carriage, index) in vehicle.properties.carriageDetails"
           :key="carriage.id"
@@ -98,34 +98,34 @@
 
     <div
       v-if="vehicle.properties.links.length"
-      class="-tw-mx-4 tw-h-px tw-border-t tw-bg-neutral-variant-80"
+      class="tw:-mx-4 tw:h-px tw:border-t tw:bg-neutral-variant-80"
     />
     <TwDetails v-if="vehicle.properties.links.length" small-icon>
       <template #summary>
-        <h3 class="tw-text-neutral10 tw-text-sm tw-font-medium tw-leading-5">
+        <h3 class="tw:text-neutral-10 tw:text-sm tw:font-medium tw:leading-5">
           {{ $t('externalLinks') }}
         </h3>
       </template>
-      <VehicleSheetLinksList class="tw-mt-4" />
+      <VehicleSheetLinksList class="tw:mt-4" />
     </TwDetails>
-    <div class="-tw-mx-4 tw-h-px tw-border-t tw-bg-neutral-variant-80" />
-    <h3 class="tw-text-neutral10 tw-text-sm tw-font-medium tw-leading-5">
+    <div class="tw:-mx-4 tw:h-px tw:border-t tw:bg-neutral-variant-80" />
+    <h3 class="tw:text-neutral-10 tw:text-sm tw:font-medium tw:leading-5">
       {{ $t('trip') }}
     </h3>
     <VehicleSheetRouteIndicator
       v-if="vehicle.properties.route.shortName"
       :vehicle="vehicle"
       :agency="agency"
-      class="md:tw-hidden"
+      class="tw:md:hidden"
     />
     <VehicleSheetPropertiesList :vehicle="vehicle" group="trip" />
     <div
       v-if="vehicle.properties.trip.blockId"
-      class="-tw-mx-4 tw-h-px tw-border-t tw-bg-neutral-variant-80"
+      class="tw:-mx-4 tw:h-px tw:border-t tw:bg-neutral-variant-80"
     />
     <TwDetails v-if="vehicle.properties.trip.blockId" small-icon>
       <template #summary>
-        <h3 class="tw-text-neutral10 tw-text-sm tw-font-medium tw-leading-5">
+        <h3 class="tw:text-neutral-10 tw:text-sm tw:font-medium tw:leading-5">
           {{ $t('relatedTrips') }}
         </h3>
       </template>
@@ -140,8 +140,8 @@
         :vehicle="vehicle"
       />
     </TwDetails>
-    <div class="-tw-mx-4 tw-h-px tw-border-t tw-bg-neutral-variant-80" />
-    <h3 class="tw-text-neutral10 tw-text-sm tw-font-medium tw-leading-5">
+    <div class="tw:-mx-4 tw:h-px tw:border-t tw:bg-neutral-variant-80" />
+    <h3 class="tw:text-neutral-10 tw:text-sm tw:font-medium tw:leading-5">
       {{ $t('vehicle') }}
     </h3>
     <VehicleSheetPropertiesList :vehicle="vehicle" group="vehicle" />

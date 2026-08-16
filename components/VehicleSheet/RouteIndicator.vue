@@ -5,16 +5,16 @@
       color: textColor,
       backgroundColor: color,
     }"
-    class="tw-flex tw-rounded-lg tw-px-2 tw-py-1 tw-text-sm xl:tw-text-base"
+    class="tw:flex tw:rounded-lg tw:px-2 tw:py-1 tw:text-sm tw:xl:text-base"
   >
-    <b class="tw-mr-1">{{ vehicle.properties.route.shortName }}</b>
-    <span class="tw-font-medium">
+    <b class="tw:mr-1">{{ vehicle.properties.route.shortName }}</b>
+    <span class="tw:font-medium">
       <b>{{ vehicle.properties.route.longName }}</b>
       <div
         v-if="vehicle.properties.trip.headsign"
-        class="tw-flex tw-items-center"
+        class="tw:flex tw:items-center"
       >
-        <TwIcon :path="mdiArrowRight" class="tw-h-5 tw-w-5 tw-gap-x-1" />
+        <TwIcon :path="mdiArrowRight" class="tw:h-5 tw:w-5 tw:gap-x-1" />
         {{ vehicle.properties.trip.headsign }}
       </div>
     </span>
@@ -26,7 +26,7 @@
       color: color,
       backgroundColor: textColor,
     }"
-    class="tw-rounded-lg tw-px-2 tw-py-1 tw-font-bold"
+    class="tw:rounded-lg tw:px-2 tw:py-1 tw:font-bold"
   >
     Route
     {{ vehicle.properties.route.id }}

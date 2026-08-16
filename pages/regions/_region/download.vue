@@ -1,15 +1,15 @@
 <template>
   <div
-    class="tw-flex tw-min-h-screen tw-flex-col tw-bg-neutral-99 dark:tw-bg-neutral-10"
+    class="tw:flex tw:min-h-screen tw:flex-col tw:bg-neutral-99 tw:dark:bg-neutral-10"
   >
-    <div class="tw-container tw-mx-auto tw-p-4">
+    <div class="tw:container tw:mx-auto tw:p-4">
       <h1
-        class="leading-[2.75rem] md:leading-[4rem] tw-font-heading tw-text-4xl md:tw-text-6xl"
+        class="leading-[2.75rem] md:leading-[4rem] tw:font-heading tw:text-4xl tw:md:text-6xl"
       >
         {{ $t('title') }}
       </h1>
-      <div class="tw-prose dark:tw-prose-invert">
-        <p class="!tw-mb-2 tw-mt-4">
+      <div class="tw:prose tw:dark:prose-invert">
+        <p class="tw:mb-2! tw:mt-4">
           {{ $t('description') }}
         </p>
         <b>{{ $t('notice') }}</b>
@@ -22,21 +22,21 @@
           </li>
         </ul>
       </div>
-      <div class="tw-mt-8 tw-min-h-96 md:tw-min-h-[unset]">
+      <div class="tw:mt-8 tw:min-h-96 tw:md:min-h-[unset]">
         <Transition
-          enter-active-class="tw-transition tw-duration-300 tw-ease-standard-effects-slow tw-absolute"
-          enter-from-class="tw-translate-x-full tw-opacity-0"
-          enter-to-class="tw-translate-x-0 tw-opacity-1"
-          leave-active-class="tw-transition tw-duration-300 tw-ease-standard-effects-slow tw-absolute"
-          leave-from-class="tw-translate-x-0 tw-opacity-1"
-          leave-to-class="-tw-translate-x-full tw-opacity-0"
+          enter-active-class="tw:transition tw:duration-300 tw:ease-standard-effects-slow tw:absolute"
+          enter-from-class="tw:translate-x-full tw:opacity-0"
+          enter-to-class="tw:translate-x-0 tw:opacity-1"
+          leave-active-class="tw:transition tw:duration-300 tw:ease-standard-effects-slow tw:absolute"
+          leave-from-class="tw:translate-x-0 tw:opacity-1"
+          leave-to-class="tw:-translate-x-full tw:opacity-0"
           mode="out-in"
         >
           <section v-if="step === 0" key="step0">
-            <h2 class="tw-text-[2rem] tw-font-medium tw-leading-10">
+            <h2 class="tw:text-[2rem] tw:font-medium tw:leading-10">
               {{ $t('step0Title') }}
             </h2>
-            <div class="tw-mt-4 tw-flex tw-flex-wrap tw-gap-4">
+            <div class="tw:mt-4 tw:flex tw:flex-wrap tw:gap-4">
               <TwChoiceCard
                 :title="$t('allAgencies')"
                 :icon="mdiBusMultiple"
@@ -54,16 +54,16 @@
             </div>
           </section>
           <section v-else-if="step === 1" key="step1">
-            <div class="tw-mt-8 tw-flex tw-items-center tw-gap-2">
+            <div class="tw:mt-8 tw:flex tw:items-center tw:gap-2">
               <TwFilledIconButton @click="step = 0">
                 <TwIcon :path="mdiArrowLeft" />
               </TwFilledIconButton>
-              <h2 class="tw-text-[2rem] tw-font-medium tw-leading-10">
+              <h2 class="tw:text-[2rem] tw:font-medium tw:leading-10">
                 {{ $t('selectAgency') }}
               </h2>
             </div>
             <div
-              class="tw-mt-4 tw-flex tw-flex-col tw-divide-y tw-divide-solid tw-divide-neutral-variant-80 *:tw-border-x-0 *:tw-py-2 dark:tw-divide-neutral-variant-30"
+              class="tw:mt-4 tw:flex tw:flex-col tw:divide-y tw:divide-solid tw:divide-neutral-variant-80 tw:*:border-x-0 tw:*:py-2 tw:dark:divide-neutral-variant-30"
             >
               <TwDetails
                 v-for="region in regions"
@@ -74,27 +74,27 @@
                   <h3>{{ region.name }}</h3>
                 </template>
                 <ul
-                  class="tw-mt-2 tw-grid tw-grid-cols-2 tw-gap-4 !tw-pl-0 md:tw-grid-cols-3 xl:tw-grid-cols-4"
+                  class="tw:mt-2 tw:grid tw:grid-cols-2 tw:gap-4 tw:pl-0! tw:md:grid-cols-3 tw:xl:grid-cols-4"
                 >
                   <li
                     v-for="agency in region.agencies"
                     :key="agency.slug"
-                    class="tw-relative tw-cursor-pointer tw-overflow-hidden tw-rounded-lg tw-py-1 tw-pl-2 tw-pr-10 tw-text-sm tw-font-medium tw-leading-5 tw-transition-colors hover:!tw-bg-neutral-10 hover:!tw-text-neutral-98 dark:hover:!tw-bg-neutral-90 dark:hover:!tw-text-neutral-6 md:tw-py-2"
+                    class="tw:relative tw:cursor-pointer tw:overflow-hidden tw:rounded-lg tw:py-1 tw:pl-2 tw:pr-10 tw:text-sm tw:font-medium tw:leading-5 tw:transition-colors tw:hover:bg-neutral-10! tw:hover:text-neutral-98! tw:dark:hover:bg-neutral-90! tw:dark:hover:text-neutral-6! tw:md:py-2"
                     :style="{
                       backgroundColor: `${agency.color}26`,
                     }"
                     @click="selectAgency(agency)"
                   >
-                    <b class="tw-hidden md:tw-block">{{ agency.name }}</b>
-                    <b class="md:tw-hidden">{{ agency.shortName }}</b>
+                    <b class="tw:hidden tw:md:block">{{ agency.name }}</b>
+                    <b class="tw:md:hidden">{{ agency.shortName }}</b>
                     <p
                       v-if="agency.isArchived"
-                      class="!tw-mb-0 tw-font-normal tw-italic"
+                      class="tw:mb-0! tw:font-normal tw:italic"
                     >
                       {{ $t('archived') }}
                     </p>
                     <div
-                      class="tw-absolute tw-inset-y-0 -tw-right-4 tw-h-full tw-w-10 tw-skew-x-[18deg]"
+                      class="tw:absolute tw:inset-y-0 tw:-right-4 tw:h-full tw:w-10 tw:skew-x-18"
                       :style="{ backgroundColor: agency.color }"
                     ></div>
                   </li>
@@ -103,17 +103,17 @@
             </div>
           </section>
           <section v-else-if="step === 2" key="step2">
-            <div class="tw-flex tw-items-center tw-gap-2">
+            <div class="tw:flex tw:items-center tw:gap-2">
               <TwFilledIconButton
                 @click="step = selectedAgency.slug === 'all' ? 0 : 1"
               >
                 <TwIcon :path="mdiArrowLeft" />
               </TwFilledIconButton>
-              <h2 class="tw-text-[2rem] tw-font-medium tw-leading-10">
+              <h2 class="tw:text-[2rem] tw:font-medium tw:leading-10">
                 {{ $t('selectPeriod') }}
               </h2>
             </div>
-            <div class="tw-mt-4 tw-flex tw-flex-wrap tw-gap-4">
+            <div class="tw:mt-4 tw:flex tw:flex-wrap tw:gap-4">
               <TwChoiceCard
                 :title="$t('currentlyActive')"
                 :icon="mdiMotionPlayOutline"
@@ -131,7 +131,7 @@
             </div>
           </section>
           <section v-else-if="step === 3" key="step3">
-            <h2 class="tw-text-[2rem] tw-font-medium tw-leading-10">
+            <h2 class="tw:text-[2rem] tw:font-medium tw:leading-10">
               {{ $t('preparingData') }}
             </h2>
             <p>
@@ -147,12 +147,12 @@
           <section
             v-else-if="step === 4"
             key="step4"
-            class="tw-flex tw-flex-col tw-items-center tw-gap-8"
+            class="tw:flex tw:flex-col tw:items-center tw:gap-8"
           >
-            <h2 class="tw-text-[2rem] tw-font-medium tw-leading-10">
+            <h2 class="tw:text-[2rem] tw:font-medium tw:leading-10">
               {{ $t('downloadComplete') }}
             </h2>
-            <TwIcon :path="mdiCheckCircle" class="!tw-h-20 !tw-w-20" />
+            <TwIcon :path="mdiCheckCircle" class="tw:h-20! tw:w-20!" />
             <TwFilledButton @click="startNewDownload">
               {{ $t('startNewDownload') }}
             </TwFilledButton>
@@ -160,18 +160,18 @@
         </Transition>
       </div>
     </div>
-    <div class="tw-grow"></div>
-    <div class="tw-container tw-mx-auto md:tw-px-4">
+    <div class="tw:grow"></div>
+    <div class="tw:container tw:mx-auto tw:md:px-4">
       <div
-        class="tw-min-h-32 tw-rounded-t-xl tw-bg-neutral-90 tw-p-4 dark:tw-bg-neutral-20"
+        class="tw:min-h-32 tw:rounded-t-xl tw:bg-neutral-90 tw:p-4 tw:dark:bg-neutral-20"
       >
-        <h2 class="tw-text-[1.375rem] tw-font-normal tw-leading-7">
+        <h2 class="tw:text-[1.375rem] tw:font-normal tw:leading-7">
           {{ $t('selection') }}
         </h2>
-        <div class="md:tw-grid md:tw-grid-cols-2">
-          <div v-if="selectedAgency.slug" class="tw-mt-4">
+        <div class="tw:md:grid tw:md:grid-cols-2">
+          <div v-if="selectedAgency.slug" class="tw:mt-4">
             <b
-              class="tw-block tw-text-xs tw-font-medium tw-leading-4 tw-tracking-normal"
+              class="tw:block tw:text-xs tw:font-medium tw:leading-4 tw:tracking-normal"
             >
               {{ $t('agency') }}
             </b>
@@ -181,9 +181,9 @@
                 : selectedAgency.name
             }}
           </div>
-          <div v-if="period" class="tw-mt-4">
+          <div v-if="period" class="tw:mt-4">
             <b
-              class="tw-block tw-text-xs tw-font-medium tw-leading-4 tw-tracking-normal"
+              class="tw:block tw:text-xs tw:font-medium tw:leading-4 tw:tracking-normal"
             >
               {{ $t('period') }}
             </b>

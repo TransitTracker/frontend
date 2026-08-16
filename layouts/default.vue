@@ -1,17 +1,17 @@
 <template>
   <div
-    class="tt-app tw-relative tw-flex tw-font-sans tw-leading-normal"
-    :class="[settingsDarkMode && 'tw-dark tw-text-white']"
+    class="tt-app tw:relative tw:flex tw:font-sans tw:leading-normal tw:dark:text-white"
+    :data-theme="[settingsDarkMode && 'dark']"
   >
     <div
-      class="tw-relative tw-flex tw-min-h-screen tw-max-w-full tw-shrink tw-grow tw-basis-auto tw-flex-col"
+      class="tw:relative tw:flex tw:min-h-screen tw:max-w-full tw:shrink tw:grow tw:basis-auto tw:flex-col"
     >
       <TwTopAppBar />
       <TwNavigationRail />
       <main
-        class="tw-mb-16 tw-mt-16 tw-flex tw-max-w-full tw-shrink-0 tw-grow tw-basis-auto tw-p-0 md:tw-mb-0 md:tw-ml-20 md:tw-mt-0"
+        class="tw:mb-16 tw:mt-16 tw:flex tw:max-w-full tw:shrink-0 tw:grow tw:basis-auto tw:p-0 tw:md:mb-0 tw:md:ml-20 tw:md:mt-0"
       >
-        <div class="tw-relative tw-max-w-full tw-shrink tw-grow tw-basis-auto">
+        <div class="tw:relative tw:max-w-full tw:shrink tw:grow tw:basis-auto">
           <TwAlert />
           <TwRegionSwitcher />
           <SettingsDrawer />

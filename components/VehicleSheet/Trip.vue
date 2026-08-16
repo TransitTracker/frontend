@@ -1,27 +1,27 @@
 <template>
   <li
-    class="-tw-mx-4 tw-flex tw-gap-4 tw-px-4 tw-py-2"
+    class="tw:-mx-4 tw:flex tw:gap-4 tw:px-4 tw:py-2"
     :class="[
       isCurrentTrip &&
-        ' tw-bg-primary-90 tw-text-primary-10 dark:tw-bg-primary-30 dark:tw-text-primary-90',
+        ' tw:bg-primary-90 tw:text-primary-10 tw:dark:bg-primary-30 tw:dark:text-primary-90',
     ]"
   >
     <div
-      class="tw-relative -tw-my-2 tw-border-y-0 tw-border-l tw-border-r-0 tw-border-solid tw-border-neutral-variant-50 dark:tw-border-neutral-variant-60"
+      class="tw:relative tw:-my-2 tw:border-y-0 tw:border-l tw:border-r-0 tw:border-solid tw:border-neutral-variant-50 tw:dark:border-neutral-variant-60"
     >
       <div
-        class="tw-absolute tw-mt-4 tw-rounded-full"
+        class="tw:absolute tw:mt-4 tw:rounded-full"
         :class="[
           isCurrentTrip
-            ? '-tw-left-2 tw-h-4 tw-w-4 tw-bg-primary-10 dark:tw-bg-primary-90'
-            : '-tw-left-1.5 tw-h-3 tw-w-3 tw-bg-neutral-variant-50 dark:tw-bg-neutral-variant-60',
+            ? 'tw:-left-2 tw:h-4 tw:w-4 tw:bg-primary-10 tw:dark:bg-primary-90'
+            : 'tw:-left-1.5 tw:h-3 tw:w-3 tw:bg-neutral-variant-50 tw:dark:bg-neutral-variant-60',
         ]"
       ></div>
     </div>
-    <div class="tw-w-full">
-      <div class="tw-flex tw-items-center">
+    <div class="tw:w-full">
+      <div class="tw:flex tw:items-center">
         <span
-          class="tw-rounded-lg tw-px-2 tw-py-1 tw-font-bold"
+          class="tw:rounded-lg tw:px-2 tw:py-1 tw:font-bold"
           :style="{
             backgroundColor: trip.routeColor,
             color: trip.routeTextColor,
@@ -29,14 +29,14 @@
         >
           {{ trip.routeShortName }}
         </span>
-        <TwIcon :path="mdiArrowRight" class="tw-ml-2" />
-        <span class="tw-ml-1 tw-grow">
+        <TwIcon :path="mdiArrowRight" class="tw:ml-2" />
+        <span class="tw:ml-1 tw:grow">
           {{ trip.headsign }}
         </span>
-        <small class="tw-ml-2 tw-text-sm">{{ trip.departure }}</small>
+        <small class="tw:ml-2 tw:text-sm">{{ trip.departure }}</small>
       </div>
       <div
-        class="tw-mt-1 tw-flex tw-items-center tw-justify-between tw-gap-x-2 tw-text-xs tw-font-medium tw-leading-4 tw-text-neutral-variant-30 dark:tw-text-neutral-variant-80"
+        class="tw:mt-1 tw:flex tw:items-center tw:justify-between tw:gap-x-2 tw:text-xs tw:font-medium tw:leading-4 tw:text-neutral-variant-30 tw:dark:text-neutral-variant-80"
       >
         <span>{{ $t('trip') }} {{ trip.id }}</span>
         <span v-if="trip.shortName">

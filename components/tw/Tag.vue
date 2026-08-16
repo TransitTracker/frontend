@@ -1,12 +1,12 @@
 <template>
   <li
     v-if="!tag.label"
-    class="tw-inline-flex tw-h-8 tw-w-52 tw-animate-pulse tw-rounded tw-bg-neutral-variant-90 dark:tw-bg-neutral-30"
+    class="tw:inline-flex tw:h-8 tw:w-52 tw:animate-pulse tw:rounded tw:bg-neutral-variant-90 tw:dark:bg-neutral-30"
   ></li>
   <li
     v-else
     ref="tag"
-    class="tw-group tw-relative tw-inline-flex tw-items-center tw-gap-1 tw-whitespace-nowrap tw-rounded tw-px-2 tw-py-1 tw-text-sm md:tw-text-base"
+    class="tw:group tw:relative tw:inline-flex tw:items-center tw:gap-1 tw:whitespace-nowrap tw:rounded tw:px-2 tw:py-1 tw:text-sm tw:md:text-base"
     :title="tag.description ?? false"
     :style="{
       backgroundColor: darkMode ? tag.dark_color : tag.color,

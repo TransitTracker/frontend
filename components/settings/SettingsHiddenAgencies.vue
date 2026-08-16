@@ -1,16 +1,16 @@
 <template>
   <div>
-    <p class="tw-mb-2 tw-text-sm">{{ $t('completeDesc') }}</p>
+    <p class="tw:mb-2 tw:text-sm">{{ $t('completeDesc') }}</p>
     <TwChip
       :icon="mdiEyeCheck"
       v-if="hiddenAgencies.length"
       @click.native="makeAllVisible"
-      class="tw-mb-2"
+      class="tw:mb-2"
     >
       {{ $t('makeAllAgenciesVisible') }}
     </TwChip>
     <TwDetails
-      class="tw-mt-2"
+      class="tw:mt-2"
       v-for="region in regions"
       :key="region.slug"
       :open="region.slug === currentRegion"
@@ -18,7 +18,7 @@
       <template #summary>
         <div>
           <p
-            class="tw-relative !tw-mb-0 tw-inline tw-text-neutral-10 dark:tw-text-neutral-90"
+            class="tw:relative tw:mb-0! tw:inline tw:text-neutral-10 tw:dark:text-neutral-90"
           >
             {{ region.name }}
             <span
@@ -27,12 +27,12 @@
                   hiddenAgencies.includes(slug)
                 ).length
               "
-              class="tw-absolute tw-right-0 tw-top-0 tw-h-1.5 tw-w-1.5 tw-rounded-full tw-bg-error-40 dark:tw-bg-error-80"
+              class="tw:absolute tw:right-0 tw:top-0 tw:h-1.5 tw:w-1.5 tw:rounded-full tw:bg-error-40 tw:dark:bg-error-80"
             />
           </p>
           <br />
           <small
-            class="tw-text-sm tw-text-neutral-variant-30 dark:tw-text-neutral-variant-80"
+            class="tw:text-sm tw:text-neutral-variant-30 tw:dark:text-neutral-variant-80"
           >
             {{
               $tc(
@@ -49,19 +49,19 @@
         </div>
       </template>
       <ul
-        class="tw-list-none tw-py-2 !tw-pl-0 *:tw-flex *:tw-items-center *:tw-gap-4 *:tw-py-2"
+        class="tw:list-none tw:py-2 tw:pl-0! tw:*:flex tw:*:items-center tw:*:gap-4 tw:*:py-2"
       >
         <li v-for="agency in region.agencies" :key="agency.slug">
           <div
             :style="{ backgroundColor: agency.color, color: agency.textColor }"
-            class="tw-flex tw-h-6 tw-w-6 tw-flex-shrink-0 tw-items-center tw-justify-center tw-rounded-full"
+            class="tw:flex tw:h-6 tw:w-6 tw:shrink-0 tw:items-center tw:justify-center tw:rounded-full"
           >
             <TwIcon
               :path="icons[agency.defaultVehicleType]"
-              class="!tw-h-4 !tw-w-4"
+              class="tw:h-4! tw:w-4!"
             />
           </div>
-          <p class="!tw-mb-0 tw-flex-grow">{{ agency.name }}</p>
+          <p class="tw:mb-0! tw:grow">{{ agency.name }}</p>
           <TwSwitch
             :id="agency.slug"
             :value="!hiddenAgencies.includes(agency.slug)"
