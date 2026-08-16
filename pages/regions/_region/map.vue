@@ -1,5 +1,5 @@
 <template>
-  <div class="tt-map-container">
+  <div class="tt-map-container tw:bg-neutral-99 tw:dark:bg-neutral-10">
     <div id="tt-map"></div>
     <VehicleSheet v-if="selectedVehicle.id" :vehicle="selectedVehicle" />
     <VehicleSheetEmptyState v-else />
@@ -179,7 +179,7 @@ export default {
       this.$store.commit('vehicles/setSelection', vehicleData)
       this.$store.dispatch(
         'agencies/setSelectionById',
-        vehicleData.properties.agencyId
+        vehicleData.properties.agencyId,
       )
 
       if (!vehicleData.properties.isActive) {
@@ -284,11 +284,11 @@ export default {
           },
           trackUserLocation: true,
         }),
-        'bottom-right'
+        'bottom-right',
       )
       this.map.addControl(
         new mapboxgl.NavigationControl({ showCompass: false }),
-        'bottom-right'
+        'bottom-right',
       )
 
       this.map.on('styledata', () => {
@@ -354,7 +354,7 @@ export default {
 
         Object.keys(this.features).forEach((agencySlug) => {
           const agency = Object.values(this.agencies).find(
-            ({ slug }) => slug === agencySlug
+            ({ slug }) => slug === agencySlug,
           )
           if (agency) {
             this.addAgencyLayers(this.features[agencySlug], agency)
@@ -396,7 +396,7 @@ export default {
         this.map
           .getSource('tt-shape-source')
           .setData(
-            `${process.env.backendHost}/v2/agencies/${this.selectedAgency.slug}/shapes/${vehicle.properties.trip.shapeId}`
+            `${process.env.backendHost}/v2/agencies/${this.selectedAgency.slug}/shapes/${vehicle.properties.trip.shapeId}`,
           )
 
         const routeColor = vehicle.properties.route.color.toLowerCase()
@@ -406,19 +406,19 @@ export default {
           'line-color',
           routeColor === '#ffffff'
             ? this.selectedAgency.color
-            : routeColor ?? '#000000'
+            : (routeColor ?? '#000000'),
         )
         this.map.setPaintProperty(
           'tt-shape-stops',
           'circle-color',
           routeColor === '#ffffff'
             ? this.selectedAgency.color
-            : routeColor ?? '#000000'
+            : (routeColor ?? '#000000'),
         )
         this.map.setPaintProperty(
           'tt-shape-stops',
           'circle-stroke-color',
-          vehicle.properties.route.textColor.toLowerCase()
+          vehicle.properties.route.textColor.toLowerCase(),
         )
       } else {
         this.map.getSource('tt-shape-source').setData(defaultGeojsonShapeData)
@@ -485,5 +485,16 @@ export default {
     position: absolute;
     bottom: 1.5rem;
   }
+}
+
+/* For these styles that would otherwise be overriden by TailwindCSS */
+.mapboxgl-popup-tip {
+  border: 10px solid transparent !important;
+  border-bottom: none !important;
+  border-top-color: #fff !important;
+}
+
+.mapboxgl-popup-content {
+  padding: 8px 10px !important;
 }
 </style>

@@ -38,7 +38,10 @@
           class="tw:text-xs tw:font-medium tw:leading-4 tw:xl:text-base tw:xl:font-normal tw:xl:leading-6"
         >
           <span class="tw:md:hidden">{{ agency.shortName }}</span>
-          <span class="tw:hidden tw:md:inline">{{ agency.name }}<br /></span>
+          <span class="tw:hidden tw:md:inline">
+            {{ agency.name }}
+            <br />
+          </span>
           <span v-if="vehicle.properties.lastSeenAt">
             <span class="tw:md:hidden">&bull;</span>
             <TwTimeAgo :timestamp="vehicle.properties.lastSeenAt" />
@@ -76,8 +79,11 @@
     />
     <TwDetails v-if="vehicle.properties.carriageDetails.length" small-icon>
       <template #summary>
-        <h3 class="tw:text-neutral-10 tw:text-sm tw:font-medium tw:leading-5">
-          {{ $t('carriageDetails') }}<br />
+        <h3
+          class="tw:text-neutral-10 tw:dark:text-neutral-90 tw:text-sm tw:font-medium tw:leading-5"
+        >
+          {{ $t('carriageDetails') }}
+          <br />
           <small>
             {{
               $tc('carriageQuantity', vehicle.properties.carriageDetails.length)
@@ -102,14 +108,18 @@
     />
     <TwDetails v-if="vehicle.properties.links.length" small-icon>
       <template #summary>
-        <h3 class="tw:text-neutral-10 tw:text-sm tw:font-medium tw:leading-5">
+        <h3
+          class="tw:text-neutral-10 tw:dark:text-neutral-90 tw:text-sm tw:font-medium tw:leading-5"
+        >
           {{ $t('externalLinks') }}
         </h3>
       </template>
       <VehicleSheetLinksList class="tw:mt-4" />
     </TwDetails>
     <div class="tw:-mx-4 tw:h-px tw:border-t tw:bg-neutral-variant-80" />
-    <h3 class="tw:text-neutral-10 tw:text-sm tw:font-medium tw:leading-5">
+    <h3
+      class="tw:text-neutral-10 tw:dark:text-neutral-90 tw:text-sm tw:font-medium tw:leading-5"
+    >
       {{ $t('trip') }}
     </h3>
     <VehicleSheetRouteIndicator
@@ -125,7 +135,9 @@
     />
     <TwDetails v-if="vehicle.properties.trip.blockId" small-icon>
       <template #summary>
-        <h3 class="tw:text-neutral-10 tw:text-sm tw:font-medium tw:leading-5">
+        <h3
+          class="tw:text-neutral-10 tw:dark:text-neutral-90 tw:text-sm tw:font-medium tw:leading-5"
+        >
           {{ $t('relatedTrips') }}
         </h3>
       </template>
@@ -141,7 +153,9 @@
       />
     </TwDetails>
     <div class="tw:-mx-4 tw:h-px tw:border-t tw:bg-neutral-variant-80" />
-    <h3 class="tw:text-neutral-10 tw:text-sm tw:font-medium tw:leading-5">
+    <h3
+      class="tw:text-neutral-10 tw:dark:text-neutral-90 tw:text-sm tw:font-medium tw:leading-5"
+    >
       {{ $t('vehicle') }}
     </h3>
     <VehicleSheetPropertiesList :vehicle="vehicle" group="vehicle" />
