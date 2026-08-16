@@ -25,7 +25,11 @@
       </h1>
     </NuxtLink>
     <div class="tw:grow"></div>
-    <TwStandardIconButton color="onNavbar" @click="openAlerts()">
+    <TwStandardIconButton
+      v-if="dataIsLoaded"
+      color="onNavbar"
+      @click="openAlerts()"
+    >
       <TwIcon :path="mdiBell" />
     </TwStandardIconButton>
     <TwStandardIconButton

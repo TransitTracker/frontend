@@ -6,8 +6,15 @@
       class="tw:relative tw:flex tw:w-full tw:flex-col tw:md:h-[75vh] tw:md:flex-row"
     >
       <div
-        class="tw:relative tw:z-2 tw:flex tw:shrink-0 tw:grow tw:flex-col tw:space-y-8 tw:overflow-hidden tw:bg-primary-90 tw:p-8 tw:text-primary-10 tw:md:order-1 tw:md:mb-0 tw:md:w-[45%] tw:md:justify-center tw:md:pb-0 tw:md:pt-0 tw:dark:bg-primary-30 tw:dark:text-primary-90"
+        class="tw:relative tw:z-2 tw:flex tw:shrink-0 tw:grow tw:flex-col tw:space-y-8 tw:overflow-hidden tw:bg-primary-90 tw:p-8 tw:text-primary-10 tw:md:order-1 tw:md:mb-0 tw:md:w-[45%] tw:md:justify-center tw:dark:bg-primary-30 tw:dark:text-primary-90"
       >
+        <TwChip
+          :icon="mdiTranslateVariant"
+          class="tw:hidden! tw:md:inline-flex! tw:absolute! tw:top-8 tw:left-8"
+          @click.native="switchLocale"
+        >
+          {{ locale === 'en' ? 'FR' : 'EN' }}
+        </TwChip>
         <!-- eslint-disable vue/no-v-html -->
         <h1
           class="tw:font-heading tw:text-4xl tw:font-bold tw:leading-11 tw:md:text-5xl"
@@ -34,43 +41,6 @@
             :label="$t('vehiclesSince')"
             :number="totalVehicles"
           />
-        </div>
-        <div>
-          <p class="tw:mb-1! tw:flex tw:items-end tw:gap-x-2 tw:leading-8">
-            {{ $t('explore') }}
-            <TwIcon :path="mdiArrowDownRight" />
-          </p>
-          <ul
-            v-if="!regionsFeatures.features.length"
-            class="tw:flex tw:flex-wrap tw:gap-2 tw:pl-0!"
-          >
-            <li class="tw:list-none">
-              <TwChip class="tw:w-20" />
-            </li>
-            <li class="tw:list-none">
-              <TwChip class="tw:w-28" />
-            </li>
-            <li class="tw:list-none">
-              <TwChip class="tw:w-16" />
-            </li>
-          </ul>
-          <ul v-else class="tw:flex tw:flex-wrap tw:gap-2 tw:pl-0!">
-            <li
-              v-for="feature in regionsFeatures.features"
-              :key="feature.properties.slug"
-              class="tw:list-none"
-            >
-              <TwChip
-                @click.native="
-                  $router.push(
-                    localePath(`/regions/${feature.properties.slug}`),
-                  )
-                "
-              >
-                {{ feature.properties.name }}
-              </TwChip>
-            </li>
-          </ul>
         </div>
       </div>
       <div
@@ -144,6 +114,19 @@
         </div>
       </div>
     </div>
+    <section class="tw:w-full">
+      <div class="tw:container tw:mx-auto tw:p-8">
+        <h3 class="tw:font-heading tw:text-3xl tw:font-bold">
+          {{ $t('explore') }}
+        </h3>
+        <TwRegionGrid
+          :regions="regionsFeatures.features"
+          :loading="
+            !regionsFeatures.features || !regionsFeatures.features.length
+          "
+        />
+      </div>
+    </section>
     <section class="tw:w-full">
       <div class="tw:container tw:mx-auto tw:p-8">
         <h3 class="tw:font-heading tw:text-3xl tw:font-bold">
@@ -339,6 +322,7 @@ import {
   mdiPlus,
   mdiCodeTags,
   mdiArrowTopRight,
+  mdiTranslateVariant,
 } from '@mdi/js'
 
 export default {
@@ -362,6 +346,7 @@ export default {
   },
   asyncData() {
     return {
+      backendHost: process.env.backendHost,
       mapAccessToken: process.env.mapboxAccessToken,
       mapStyle: {
         dark: 'mapbox://styles/felixinx/ckv0dpig31p0516omjnkhbg4m?optimize=true',
@@ -381,6 +366,7 @@ export default {
       mdiPlus,
       mdiCodeTags,
       mdiArrowTopRight,
+      mdiTranslateVariant,
     }
   },
   data: () => ({
@@ -580,33 +566,33 @@ export default {
 
       this.map.getSource('regions-source').setData(this.regionsFeatures)
     },
+    switchLocale() {
+      this.$i18n.setLocale(this.locale === 'en' ? 'fr' : 'en')
+    },
   },
 }
 </script>
 
 <style>
-.tt-landing .tt-landing-map .tt-landing-map-popup {
-  .mapboxgl-popup-content {
-    padding: 8px 32px 8px 12px;
-    box-shadow: none;
-    clip-path: polygon(0 0, 95% 0, 85% 100%, 0 100%);
-    position: relative;
-    border-radius: 8px;
-    /* Make it visible only when it's in the popup, prevents the blue bar to appear at page load */
-    .tw\:invisible {
-      visibility: visible;
-    }
-  }
+.tt-landing-map-popup .mapboxgl-popup-content {
+  padding: 8px 32px 8px 12px !important;
+  box-shadow: none;
+  clip-path: polygon(0 0, 95% 0, 85% 100%, 0 100%);
+  position: relative;
+  border-radius: 8px;
 }
 
-.theme--dark .tt-landing-map-popup {
-  .mapboxgl-popup-tip {
-    border-top-color: #121212;
-  }
+/* Make it visible only when it's in the popup class, prevents the blue bar to appear at page load */
+.tt-landing-map-popup .mapboxgl-popup-content [class*='invisible'] {
+  visibility: visible !important;
+}
 
-  .mapboxgl-popup-content {
-    background: #121212;
-  }
+div[data-theme='dark'] .tt-landing-map-popup .mapboxgl-popup-tip {
+  border-top-color: #121212;
+}
+
+div[data-theme='dark'] .tt-landing-map-popup .mapboxgl-popup-content {
+  background: #121212;
 }
 </style>
 
