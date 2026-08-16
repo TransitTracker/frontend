@@ -55,6 +55,7 @@
     "sass": "1.32.13",
     "sass-loader": "10.x",
     "tailwindcss": "^4.3.3",
+    "tailwindcss-scoped-preflight": "^4.0.6",
     "vue-jest": "^3.0.4",
     "vuetify-loader": "1.x"
   },

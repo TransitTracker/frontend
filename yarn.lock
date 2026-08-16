@@ -11377,6 +11377,11 @@ table@^6.0.9:
     string-width "^4.2.3"
     strip-ansi "^6.0.1"
 
+tailwindcss-scoped-preflight@^4.0.6:
+  version "4.0.6"
+  resolved "https://registry.yarnpkg.com/tailwindcss-scoped-preflight/-/tailwindcss-scoped-preflight-4.0.6.tgz#e53384b47510be1c368668417afebb5471d78d89"
+  integrity sha512-pG2HSG+S6DAF8+W07KOC/Qf+jnE9YgWytdUWifIpZ7g6uUUpOenhAuck9DwxKLTY2do/3htTHqBgHDVIe8mMqQ==
+
 tailwindcss@4.3.3, tailwindcss@^4.3.3:
   version "4.3.3"
   resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-4.3.3.tgz#c006861611c213c1877893ab5b23daa16be2bb55"

@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="tw:bg-neutral-99 tw:dark:bg-[#1e1e1e] tw:h-full">
     <div
-      class="tw:flex tw:items-center tw:justify-between tw:gap-x-2 tw:bg-neutral-99 tw:px-4 tw:py-2 tw:dark:bg-[#1e1e1e]"
+      class="tw:flex tw:items-center tw:justify-between tw:gap-x-2 tw:px-4 tw:py-2"
     >
       <div
         class="tw:flex tw:flex-wrap tw:gap-2 tw:text-sm tw:font-medium tw:leading-5 tw:text-neutral-variant-30 tw:dark:text-neutral-variant-80"
@@ -9,7 +9,7 @@
         <div
           v-for="(value, column) in filters"
           :key="column"
-          class="pr-2 tw:flex tw:h-8 tw:items-center tw:gap-x-2 tw:rounded-lg tw:border tw:border-solid tw:border-neutral-variant-50 tw:pl-3 tw:dark:border-neutral-variant-60"
+          class="tw:flex tw:h-8 tw:items-center tw:gap-x-2 tw:rounded-lg tw:border tw:border-solid tw:border-neutral-variant-50 tw:pl-3 tw:dark:border-neutral-variant-60 pr-2"
         >
           <span v-if="!(column in filterOptions)">
             {{ $t(column) }}
@@ -24,10 +24,7 @@
             class="tw:h-4.5 tw:w-4.5"
             @click="removeFilter(column)"
           >
-            <TwIcon
-              :path="mdiClose"
-              class="tw:h-4.5! tw:w-4.5!"
-            />
+            <TwIcon :path="mdiClose" class="tw:h-4.5! tw:w-4.5!" />
           </button>
         </div>
       </div>
@@ -41,7 +38,7 @@
     </div>
     <v-data-table
       v-if="columns && columns.length >= 1"
-      class="tt-table tw:border-x-0 tw:border-b-0 tw:border-t tw:border-solid tw:border-t-[#e0e0e0] tw:dark:border-t-white/12"
+      class="tt-table tw:border-x-0 tw:border-b-0 tw:border-t tw:border-solid tw:border-t-[#e0e0e0] tw:dark:border-t-white/12 no-twp tw:no-twp"
       :dark="darkMode"
       :headers="columns"
       :items="vehicles"
@@ -56,9 +53,27 @@
     >
       <template #footer="{ props }">
         <div
-          class="tw:flex tw:w-full tw:flex-wrap tw:items-center tw:justify-end"
+          class="tw:flex tw:w-full tw:gap-4 tw:flex-wrap tw:items-center tw:justify-end tw:px-4"
         >
-          <small class="tw:ml-4">
+          <small class="tw:mr-2">
+            {{ $t('rowsPerPage') }}
+          </small>
+          <TwSelect
+            id="itemsPerPage"
+            name="itemsPerPage"
+            :value="props.options.itemsPerPage"
+            @input="setItemsPerPage($event)"
+          >
+            <option
+              v-for="rowPerPage in [25, 50, 100, 150, 200, -1]"
+              :key="rowPerPage"
+              :value="rowPerPage"
+            >
+              {{ rowPerPage === -1 ? $t('paginationAll') : rowPerPage }}
+            </option>
+          </TwSelect>
+          <span class="tw:grow tw:mx-2"></span>
+          <small class="tw:mr-2">
             {{
               $t('paginationPosition', {
                 start: props.pagination.pageStart + 1,
@@ -82,22 +97,6 @@
           >
             <TwIcon :path="mdiChevronRight" />
           </TwFilledIconButton>
-          <TwSelect
-            id="itemsPerPage"
-            class="tw:md:order-1"
-            name="itemsPerPage"
-            :label="$t('rowsPerPage')"
-            :value="props.options.itemsPerPage"
-            @input="setItemsPerPage($event)"
-          >
-            <option
-              v-for="rowPerPage in [25, 50, 100, 150, 200, -1]"
-              :key="rowPerPage"
-              :value="rowPerPage"
-            >
-              {{ rowPerPage === -1 ? $t('paginationAll') : rowPerPage }}
-            </option>
-          </TwSelect>
         </div>
       </template>
       <template #header="{ props }">
@@ -113,8 +112,8 @@
                 sortBy !== column.value
                   ? 'none'
                   : sortDesc
-                  ? 'descending'
-                  : 'ascending'
+                    ? 'descending'
+                    : 'ascending'
               "
               :aria-label="
                 $t('columnAria', {
@@ -122,10 +121,10 @@
                   sort: !column.sortable
                     ? $t('sortDisabled')
                     : sortBy !== column.value
-                    ? $t('sortActivate')
-                    : !sortDesc
-                    ? $t('sortDesc')
-                    : $t('sortRemove'),
+                      ? $t('sortActivate')
+                      : !sortDesc
+                        ? $t('sortDesc')
+                        : $t('sortRemove'),
                   filter: filters[column.value]
                     ? $t('filterActivated', { value: filters[column.value] })
                     : '',
@@ -160,8 +159,9 @@
                       'tw:hover:text-black/87 tw:cursor-pointer tw:dark:hover:text-white',
                   ]"
                   @click="toggleSort(column)"
-                  >{{ column.text }}</span
                 >
+                  {{ column.text }}
+                </span>
                 <TwStandardIconButton
                   v-if="column.sortable"
                   class="tw:peer-hover:text-black/87 tw:h-6! tw:w-6! tw:opacity-0 tw:transition tw:hover:text-white tw:hover:opacity-100 tw:focus:opacity-100 tw:peer-hover:opacity-100 tw:dark:peer-hover:text-white"
@@ -282,7 +282,7 @@
         {{
           item.properties.trip.scheduleRelationship !== null
             ? $t(
-                `enums.scheduleRelationship.label.${item.properties.trip.scheduleRelationship}`
+                `enums.scheduleRelationship.label.${item.properties.trip.scheduleRelationship}`,
               )
             : ''
         }}
@@ -293,7 +293,7 @@
         {{
           item.properties.congestionLevel !== null
             ? $t(
-                `enums.congestionLevel.label.${item.properties.congestionLevel}`
+                `enums.congestionLevel.label.${item.properties.congestionLevel}`,
               )
             : ''
         }}
@@ -303,7 +303,7 @@
         {{
           item.properties.occupancyStatus !== null
             ? $t(
-                `enums.occupancyStatus.label.${item.properties.occupancyStatus}`
+                `enums.occupancyStatus.label.${item.properties.occupancyStatus}`,
               )
             : ''
         }}
@@ -365,7 +365,7 @@
       </TwFilledButton>
     </div>
     <TwBasicDialog v-model="linksDialog" @input="closeDialog($event)">
-      <template #header> {{ $t('externalLinks') }} </template>
+      <template #header>{{ $t('externalLinks') }}</template>
       <VehicleSheetLinksList />
       <template #footer>
         <div class="tw:flex tw:items-center tw:justify-between">
@@ -467,7 +467,7 @@ export default {
         Object.values(this.$store.state.agencies.data).map((item) => [
           item.id,
           item,
-        ])
+        ]),
       )
     },
     columns() {
@@ -478,7 +478,7 @@ export default {
           filterable: true,
           sortable: true,
           ...FIELDS_DEFINITIONS[column],
-        })
+        }),
       )
     },
     darkMode() {
@@ -497,7 +497,7 @@ export default {
       return {
         'properties.vehicle.type': this.$t('enums.vehicleType.label'),
         'properties.trip.scheduleRelationship': this.$t(
-          'enums.scheduleRelationship.label'
+          'enums.scheduleRelationship.label',
         ),
         'properties.currentStatus': this.$t('enums.currentStatus.label'),
         'properties.congestionLevel': this.$t('enums.congestionLevel.label'),
@@ -596,7 +596,7 @@ export default {
 
         case 'map':
           this.$router.push(
-            this.localePath(`/regions/${this.$route.params.region}/map`)
+            this.localePath(`/regions/${this.$route.params.region}/map`),
           )
           break
 
