@@ -1,0 +1,3 @@
+## 2024-10-25 - Extracted Invariant String Processing from Computed Filter Loop
+**Learning:** In Nuxt/Vue 2 components dealing with high-frequency updates (like realtime vehicle positions mapped in `vehicles` computed property of `table.vue`), filtering logic that iterates over thousands of items can become a significant bottleneck if string manipulations (`split`, `toUpperCase`) and static boolean evaluations (`includes('agency')`) are performed inside the loop for every item against every filter.
+**Action:** Always pre-compute active filters, their string partitions, and uppercase variants *outside* the main filtering loop. Transform `O(N * M)` string allocations into `O(N)` boolean evaluations to keep the main thread responsive during frequent state commits.

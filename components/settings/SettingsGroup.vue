@@ -22,9 +22,6 @@
 import { mdiArrowRight } from '@mdi/js'
 
 export default {
-  data: () => ({
-    mdiArrowRight,
-  }),
   props: {
     title: {
       type: String,
@@ -41,6 +38,9 @@ export default {
       default: null,
     },
   },
+  data: () => ({
+    mdiArrowRight,
+  }),
   methods: {
     navigateToView() {
       this.$store.commit('app/set', {
