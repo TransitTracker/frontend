@@ -456,42 +456,51 @@ export default {
       return this.$store.state.settings.tableGroupBy
     },
     vehicles() {
+      // Pre-compute active filters to avoid redundant calculations inside the filter loop
+      const activeFilters = Object.entries(this.filters)
+        .filter(([, searchTerm]) => searchTerm)
+        .map(([key, searchTerm]) => ({
+          key,
+          isAgency: key.includes('agency'),
+          isRouteShortName: key === 'properties.route.shortName',
+          keyParts: key.split('.'),
+          upperSearchTerm: searchTerm.toString().toUpperCase(),
+        }))
+
       // Get all vehicles
       const vehicles = Object.values(this.$store.state.vehicles.features)
         .flatMap(({ features }) => features)
         .filter((item) => {
-          return Object.entries(this.filters).every(([key, searchTerm]) => {
-            // Ignore empty searchTerm
-            if (!searchTerm) return true
+          return activeFilters.every(
+            ({ isAgency, isRouteShortName, keyParts, upperSearchTerm }) => {
+              // Exception for agencies column
+              if (isAgency) {
+                return (
+                  `${this.agencies[item.properties.agencyId].name} ${
+                    this.agencies[item.properties.agencyId].shortName
+                  }` ?? ''
+                )
+                  .toUpperCase()
+                  .includes(upperSearchTerm)
+              }
 
-            // Exception for agencies column
-            if (key.includes('agency')) {
-              return (
-                `${this.agencies[item.properties.agencyId].name} ${
-                  this.agencies[item.properties.agencyId].shortName
-                }` ?? ''
-              )
+              // Exception for route short name since it's used with route long name
+              if (isRouteShortName) {
+                return (
+                  `${item.properties.route.shortName} ${item.properties.route.longName}` ??
+                  ''
+                )
+                  .toUpperCase()
+                  .includes(upperSearchTerm)
+              }
+
+              return keyParts
+                .reduce((acc, part) => acc?.[part] ?? '', item)
+                .toString()
                 .toUpperCase()
-                .includes(searchTerm.toString().toUpperCase())
+                .includes(upperSearchTerm)
             }
-
-            // Exception for route short name since it's used with route long name
-            if (key === 'properties.route.shortName') {
-              return (
-                `${item.properties.route.shortName} ${item.properties.route.longName}` ??
-                ''
-              )
-                .toUpperCase()
-                .includes(searchTerm.toString().toUpperCase())
-            }
-
-            return key
-              .split('.')
-              .reduce((acc, part) => acc?.[part] ?? '', item)
-              .toString()
-              .toUpperCase()
-              .includes(searchTerm.toString().toUpperCase())
-          })
+          )
         })
 
       return vehicles
