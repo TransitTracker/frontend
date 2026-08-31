@@ -59,7 +59,7 @@ export default {
       this.$refs.letters.innerHTML = city.replace(
         // eslint-disable-next-line
         /([^\x00-\x80]|[^ ]|\w)/g,
-        "<span class='tt-cities-letters'>$&</span>"
+        "<span class='tt-cities-letters'>$&</span>",
       )
       anime
         .timeline()

@@ -127,7 +127,10 @@
         />
       </div>
     </section>
-    <section class="tw:w-full">
+    <section
+      class="tw:w-full"
+      style="content-visibility: auto; contain-intrinsic-size: 0 500px"
+    >
       <div class="tw:container tw:mx-auto tw:p-8">
         <h3 class="tw:font-heading tw:text-3xl tw:font-bold">
           {{ $t('headline') }}
@@ -141,13 +144,20 @@
           class="tw:mt-8 tw:items-center tw:gap-x-8 tw:space-y-4 tw:md:flex tw:md:space-y-0"
         >
           <div class="tw:group tw:relative tw:flex tw:md:w-2/3">
-            <img
-              :src="`/img/screenshots/${activeTab}-${locale}-${
-                darkMode ? 'dark' : 'light'
-              }.png`"
-              :alt="$t('imageAlt')"
-              class="tw:block tw:w-full tw:rounded-lg tw:shadow-xl"
-            />
+            <transition name="screenshot-fade" mode="out-in">
+              <img
+                :key="`${activeTab}-${locale}-${darkMode ? 'dark' : 'light'}`"
+                :src="`/img/screenshots/${activeTab}-${locale}-${
+                  darkMode ? 'dark' : 'light'
+                }.webp`"
+                :alt="$t('imageAlt')"
+                loading="lazy"
+                decoding="async"
+                width="1200"
+                height="750"
+                class="tw:block tw:aspect-4/3 tw:w-full tw:rounded-lg tw:shadow-xl"
+              />
+            </transition>
             <NuxtLink
               :to="localePath(`/regions/mtl/${activeTab}`)"
               class="tw:absolute tw:inset-0 tw:h-full tw:w-full"
@@ -155,7 +165,7 @@
               <TwFilledButton
                 color="tonal"
                 with-icon-right
-                class="tw:absolute! tw:-right-4 tw:-top-4"
+                class="tw:absolute! tw:-right-4 tw:-top-4 tw:transition-transform tw:duration-200 tw:hover:scale-105 tw:shadow-md"
                 @click="$router.push(localePath(`/regions/mtl/${activeTab}`))"
               >
                 {{ $t('exploreNow') }}
@@ -186,7 +196,10 @@
         </div>
       </div>
     </section>
-    <section class="tw:w-full tw:py-8">
+    <section
+      class="tw:w-full tw:py-8"
+      style="content-visibility: auto; contain-intrinsic-size: 0 500px"
+    >
       <div class="tw:container tw:mx-auto tw:p-8">
         <h3 class="tw:text-center tw:font-heading tw:text-3xl tw:font-bold">
           {{ $t('andMore') }}
@@ -224,6 +237,7 @@
     </section>
     <section
       class="tw:w-full tw:bg-primary-10 tw:text-center tw:text-primary-90"
+      style="content-visibility: auto; contain-intrinsic-size: 0 500px"
     >
       <div class="tw:container tw:mx-auto tw:px-8 tw:py-12">
         <h3 class="tw:font-heading tw:text-3xl tw:font-bold">
@@ -248,19 +262,25 @@
         </div>
       </div>
     </section>
-    <section class="tw:w-full tw:py-8">
+    <section
+      class="tw:w-full tw:py-8"
+      style="content-visibility: auto; contain-intrinsic-size: 0 500px"
+    >
       <div
         class="tw:container tw:mx-auto tw:flex tw:flex-col tw:items-center tw:gap-8 tw:p-8 tw:md:flex-row"
       >
         <div class="tw:flex tw:gap-x-2">
           <TwIcon
             :path="mdiHeart"
-            class="tw:h-16! tw:w-16! tw:rotate-12 tw:self-start tw:text-error-40"
+            class="tw:h-16! tw:w-16! tw:rotate-12 tw:self-start tw:text-error-40 tw:transition-transform tw:duration-300 tw:hover:scale-125 tw:hover:rotate-0"
           />
-          <TwIcon :path="mdiPlus" class="tw:h-10! tw:w-10! tw:self-center" />
+          <TwIcon
+            :path="mdiPlus"
+            class="tw:h-10! tw:w-10! tw:self-center tw:transition-transform tw:duration-300 tw:hover:rotate-90"
+          />
           <TwIcon
             :path="mdiCodeTags"
-            class="tw:h-16! tw:w-16! tw:-rotate-6 tw:self-end tw:text-primary-40"
+            class="tw:h-16! tw:w-16! tw:-rotate-6 tw:self-end tw:text-primary-40 tw:transition-transform tw:duration-300 tw:hover:scale-125 tw:hover:rotate-0"
           />
         </div>
         <div>
@@ -306,12 +326,8 @@
 </template>
 
 <script>
-import mapboxgl from 'mapbox-gl'
-import 'mapbox-gl/dist/mapbox-gl.css'
 import {
   mdiArrowRight,
-  mdiArrowDown,
-  mdiArrowDownRight,
   mdiMap,
   mdiTable,
   mdiBell,
@@ -354,8 +370,6 @@ export default {
           'mapbox://styles/felixinx/cklvgeorj2t4417rtcbtk8lki?optimize=true',
       },
       mdiArrowRight,
-      mdiArrowDown,
-      mdiArrowDownRight,
       mdiTable,
       mdiMap,
       mdiBell,
@@ -388,6 +402,10 @@ export default {
   head() {
     return {
       titleTemplate: `Transit Tracker - ${this.$t('landing.seoTitle')}`,
+      link: [
+        { rel: 'preconnect', href: 'https://api.mapbox.com' },
+        { rel: 'preconnect', href: 'https://events.mapbox.com' },
+      ],
       meta: [
         {
           hid: 'description',
@@ -441,20 +459,27 @@ export default {
   mounted() {
     this.getData()
   },
+  beforeDestroy() {
+    if (this.map) {
+      this.map.remove()
+      this.map = null
+    }
+  },
   methods: {
     async getData() {
-      const regionsResponse = await this.$axios.get('/landing')
+      const [regionsResponse, vehiclesResponse] = await Promise.all([
+        this.$axios.get('/landing', { cacheId: 'landing' }),
+        this.$axios.get('/landing/vehicles', { cacheId: 'landing.vehicles' }),
+      ])
 
       regionsResponse.data.features.forEach((region) => {
         this.totalAgencies += region.properties.agencies
         this.totalActiveVehicles += region.properties.vehicles
       })
 
-      this.regionsFeatures = regionsResponse.data
+      this.regionsFeatures = Object.freeze(regionsResponse.data)
       this.totalVehicles = regionsResponse.data.stats.totalVehiclesRecorded
-
-      const vehiclesResponse = await this.$axios.get('/landing/vehicles')
-      this.vehiclesFeatures = vehiclesResponse.data
+      this.vehiclesFeatures = Object.freeze(vehiclesResponse.data)
 
       // Prepare data to start city animation
       this.cities = []
@@ -465,15 +490,23 @@ export default {
 
       this.createMap()
     },
-    createMap() {
+    async createMap() {
       const calculateLeftPadding = () => {
-        if (window.width > 768) {
+        if (window.innerWidth > 768) {
           return 0
         }
         return (
           (document.getElementById('tt-landing-map')?.offsetWidth ?? 200) / 4
         )
       }
+
+      const [mapboxgl] = await Promise.all([
+        import('mapbox-gl').then((m) => m.default),
+        import('mapbox-gl/dist/mapbox-gl.css'),
+      ])
+
+      if (this._isDestroyed) return
+
       mapboxgl.accessToken = this.mapAccessToken
       this.map = new mapboxgl.Map({
         container: 'tt-landing-map',
@@ -490,15 +523,16 @@ export default {
         },
         maxPitch: 0,
         pitchWithRotate: false,
-        scollZoom: false,
+        scrollZoom: false,
         dragRotate: false,
         doubleClickZoom: false,
         touchZoomRotate: false,
-        touchPich: false,
+        touchPitch: false,
         logoPosition: 'top-right',
       })
 
       this.map.on('load', () => {
+        if (!this.map || this._isDestroyed) return
         this.map.addSource('regions-source', {
           type: 'geojson',
           data: this.regionsFeatures,
@@ -508,10 +542,12 @@ export default {
           data: this.vehiclesFeatures,
         })
 
-        this.loadMapLayers()
+        this.loadMapLayers(mapboxgl)
       })
     },
-    loadMapLayers() {
+    loadMapLayers(mapboxgl) {
+      if (!this.map || this._isDestroyed) return
+
       this.map.addLayer({
         id: 'vehicles-layer',
         type: 'circle',
@@ -557,10 +593,10 @@ export default {
       })
 
       this.map.on('mouseenter', 'regions-layer', (e) => {
-        this.map.getCanvas().style.cursor = 'pointer'
+        if (this.map) this.map.getCanvas().style.cursor = 'pointer'
       })
       this.map.on('mouseleave', 'regions-layer', (e) => {
-        this.map.getCanvas().style.cursor = ''
+        if (this.map) this.map.getCanvas().style.cursor = ''
       })
       this.map.moveLayer('regions-layer')
 
@@ -574,6 +610,34 @@ export default {
 </script>
 
 <style>
+.screenshot-fade-enter-active,
+.screenshot-fade-leave-active {
+  transition:
+    opacity 280ms cubic-bezier(0.2, 0, 0, 1),
+    transform 280ms cubic-bezier(0.2, 0, 0, 1);
+}
+
+.screenshot-fade-enter {
+  opacity: 0;
+  transform: scale(0.98);
+}
+
+.screenshot-fade-leave-to {
+  opacity: 0;
+  transform: scale(1.01);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .screenshot-fade-enter-active,
+  .screenshot-fade-leave-active {
+    transition: opacity 150ms ease;
+  }
+  .screenshot-fade-enter,
+  .screenshot-fade-leave-to {
+    transform: none;
+  }
+}
+
 .tt-landing-map-popup .mapboxgl-popup-content {
   padding: 8px 32px 8px 12px !important;
   box-shadow: none;

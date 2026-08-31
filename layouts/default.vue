@@ -49,7 +49,21 @@ export default {
     workbox: null,
   }),
   head() {
-    return this.$nuxtI18nHead({ addSeoAttributes: true })
+    return {
+      ...this.$nuxtI18nHead({ addSeoAttributes: true }),
+      meta: [
+        {
+          name: 'theme-color',
+          content: '#00639a',
+          media: '(prefers-color-scheme: light)',
+        },
+        {
+          name: 'theme-color',
+          content: '#1a1c1e',
+          media: '(prefers-color-scheme: dark)',
+        },
+      ],
+    }
   },
   computed: {
     hasAlert() {

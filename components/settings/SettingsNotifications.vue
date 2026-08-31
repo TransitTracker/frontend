@@ -84,7 +84,7 @@
                 <span
                   v-if="
                     region.agencies.filter(({ slug }) =>
-                      selectedAgencies.includes(slug)
+                      selectedAgencies.includes(slug),
                     ).length
                   "
                   class="tw:absolute tw:right-0 tw:top-0 tw:h-1.5 tw:w-1.5 tw:rounded-full tw:bg-primary-40 tw:dark:bg-primary-80"
@@ -98,11 +98,11 @@
                   $tc(
                     'selectedAgenciesCount',
                     region.agencies.filter(({ slug }) =>
-                      selectedAgencies.includes(slug)
+                      selectedAgencies.includes(slug),
                     ).length,
                     {
                       total: region.agencies.length,
-                    }
+                    },
                   )
                 }}
               </small>
@@ -206,7 +206,7 @@ export default {
     imageUrl() {
       return `/img/screenshots/push-${this.$i18n.locale}-${
         this.$store.state.app.darkMode ? 'dark' : 'light'
-      }.png`
+      }.webp`
     },
     notificationsSupported() {
       return 'Notification' in window

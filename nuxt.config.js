@@ -20,6 +20,8 @@ export default {
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel: 'preconnect', href: 'https://fonts.bunny.net' },
+      { rel: 'preconnect', href: 'https://api.mapbox.com' },
+      { rel: 'preconnect', href: 'https://events.mapbox.com' },
       {
         rel: 'stylesheet',
         href: 'https://fonts.bunny.net/css?family=figtree:700|inter:400,500,600&display=swap',
@@ -115,7 +117,7 @@ export default {
             `/regions/${slug}/map`,
             `/fr/regions/${slug}/map`,
             `/regions/${slug}/table`,
-            `/fr/regions/${slug}/table`
+            `/fr/regions/${slug}/table`,
           )
         })
 
@@ -148,14 +150,24 @@ export default {
 
   pwa: {
     icon: {
-      source: '/static/icon-beta.png',
+      source: '/static/icon.png',
+      purpose: ['any', 'maskable'],
     },
     manifest: {
       name: 'Transit Tracker',
-      short_name: 'Transit T.',
-      description: 'An Overview of Public Transit for Several Canadian Cities',
+      short_name: 'Transit Tracker',
+      description:
+        'An overview of public transit for Canadian cities | Suivi du transport en commun pour plusieurs villes canadiennes',
+      start_url: '/?source=pwa',
+      scope: '/',
       display: 'standalone',
-      background_color: '#2374ab',
+      display_override: ['window-controls-overlay', 'standalone', 'minimal-ui'],
+      background_color: '#0a4a72',
+      theme_color: '#9acbfa',
+      lang: 'en-CA',
+      dir: 'ltr',
+      orientation: 'natural',
+      categories: ['navigation', 'productivity', 'utilities'],
     },
     meta: {
       appleStatusBarStyle: 'black-translucent',
