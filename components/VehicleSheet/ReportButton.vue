@@ -26,7 +26,9 @@ export default {
     },
     url() {
       const url = new URL(
-        this.$i18n.locale === 'fr' ? process.env.reportFr : process.env.reportEn
+        this.$i18n.locale === 'fr'
+          ? process.env.reportFr
+          : process.env.reportEn,
       )
 
       url.searchParams.append('agency', this.cVehicle.properties?.agencyId)

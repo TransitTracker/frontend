@@ -1,9 +1,9 @@
 <template>
   <aside
-    class="tw:absolute tw:top-[calc(100vh-14rem)] tw:flex tw:min-h-24 tw:w-full tw:items-center tw:gap-4 tw:overflow-y-auto tw:rounded-t-[1.75rem] tw:bg-neutral-99 tw:p-4 tw:text-left tw:text-neutral-10 tw:dark:bg-neutral-10 tw:dark:text-neutral-90 tw:md:left-2 tw:md:top-2 tw:md:max-h-max tw:md:min-h-48 tw:md:w-96 tw:md:flex-col tw:md:rounded-xl tw:md:text-center tw:xl:left-4 tw:xl:top-4"
+    class="tw:fixed tw:bottom-16 tw:inset-x-0 tw:z-20 tw:flex tw:items-center tw:gap-3 tw:rounded-t-[1.75rem] tw:bg-neutral-99 tw:p-3.5 tw:text-left tw:text-neutral-10 tw:shadow-lg tw:dark:bg-neutral-10 tw:dark:text-neutral-90 tw:md:absolute tw:md:bottom-auto tw:md:left-2 tw:md:top-2 tw:md:max-h-max tw:md:min-h-48 tw:md:w-96 tw:md:flex-col tw:md:gap-4 tw:md:rounded-xl tw:md:p-4 tw:md:text-center tw:xl:left-4 tw:xl:top-4"
   >
     <svg
-      class="tw:h-12 tw:w-12 tw:md:h-32 tw:md:w-32"
+      class="tw:h-8 tw:w-8 tw:shrink-0 tw:md:h-32 tw:md:w-32"
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -21,7 +21,7 @@
     </svg>
     <!-- eslint-disable vue/no-v-html -->
     <h1
-      class="tw:text-2xl tw:font-medium tw:leading-6 tw:md:text-[1.75rem] tw:md:font-normal tw:md:leading-9"
+      class="tw:text-sm tw:font-medium tw:leading-snug tw:md:text-[1.75rem] tw:md:font-normal tw:md:leading-9"
       v-html="$t('title')"
     ></h1>
     <!-- eslint-enable vue/no-v-html -->

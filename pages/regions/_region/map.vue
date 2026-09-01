@@ -374,6 +374,7 @@ export default {
     },
     selectVehicle(vehicle) {
       const leftPadding = window.innerWidth >= 768 ? 168 : 0
+      const bottomPadding = window.innerWidth < 768 ? 160 : 0
 
       // Zoom only if map only is zoom < 12
       if (this.map.getZoom() < 12) {
@@ -382,11 +383,12 @@ export default {
           zoom: 12,
           padding: {
             left: leftPadding,
+            bottom: bottomPadding,
           },
         })
       } else {
         this.map.panTo(vehicle.geometry.coordinates, {
-          offset: [leftPadding, 0],
+          offset: [leftPadding, -bottomPadding / 2],
         })
       }
 
@@ -470,14 +472,20 @@ export default {
 }
 .tt-map-container {
   position: relative;
+  height: 100dvh;
+  width: 100%;
 }
 @media (width < 48rem) {
   .mapboxgl-ctrl-bottom-left,
   .mapboxgl-ctrl-bottom-right {
-    margin-bottom: 2rem;
+    margin-bottom: 5.5rem;
+  }
+  .tt-map-container {
+    height: calc(100dvh - 8rem);
+    overflow: hidden;
   }
   #tt-map {
-    height: calc(100vh - 64px - 64px - 96px + 28px);
+    height: 100%;
   }
 }
 @media (width >= 48rem) {

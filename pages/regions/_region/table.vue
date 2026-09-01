@@ -379,7 +379,7 @@
     </TwBasicDialog>
     <TwBasicDialog v-model="blocksDialog" @input="closeDialog($event)">
       <template #header>{{ $t('relatedTrips') }}</template>
-      <VehicleSheetTripsList class="tw:-mx-2" />
+      <VehicleSheetTripsList :is-open="blocksDialog" class="tw:-mx-2" />
     </TwBasicDialog>
   </div>
 </template>

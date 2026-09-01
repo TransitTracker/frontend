@@ -1,6 +1,6 @@
 <template>
   <footer
-    class="tw:absolute tw:top-[calc(100vh-14rem)] tw:mb-16 tw:w-full tw:space-y-2 tw:overflow-y-auto tw:rounded-t-[1.75rem] tw:bg-neutral-99 tw:p-4 tw:pb-20 tw:text-neutral-10 tw:md:left-2 tw:md:top-2 tw:md:max-h-[calc(100vh-41px-32px)] tw:md:w-96 tw:md:rounded-xl tw:md:pb-4 tw:xl:left-4 tw:xl:top-4 tw:xl:space-y-4 tw:dark:bg-neutral-10 tw:dark:text-neutral-90"
+    class="tw:fixed tw:bottom-16 tw:inset-x-0 tw:z-20 tw:max-h-[60dvh] tw:space-y-2 tw:overflow-y-auto tw:rounded-t-[1.75rem] tw:bg-neutral-99 tw:p-4 tw:pb-6 tw:text-neutral-10 tw:shadow-2xl tw:dark:bg-neutral-10 tw:dark:text-neutral-90 tw:md:absolute tw:md:bottom-auto tw:md:inset-x-auto tw:md:left-2 tw:md:top-2 tw:md:max-h-[calc(100vh-41px-32px)] tw:md:w-96 tw:md:rounded-xl tw:md:pb-4 tw:md:shadow-none tw:xl:left-4 tw:xl:top-4 tw:xl:space-y-4"
   >
     <div class="tw:-mt-4 tw:md:hidden">
       <div
@@ -73,14 +73,64 @@
       <TwTag v-for="tag in vehicle.properties.tags" :key="tag" :tag-id="tag" />
     </ul>
 
-    <div
-      v-if="vehicle.properties.carriageDetails.length"
-      class="tw:-mx-4 tw:h-px tw:border-t tw:bg-neutral-variant-80"
+    <hr
+      class="tw:-mx-4 tw:border-0 tw:border-t tw:border-neutral-variant-50/20 tw:dark:border-neutral-variant-60/20"
     />
-    <TwDetails v-if="vehicle.properties.carriageDetails.length" small-icon>
+    <h3
+      class="tw:text-sm tw:font-medium tw:leading-5 tw:text-neutral-10 tw:dark:text-neutral-90"
+    >
+      {{ $t('trip') }}
+    </h3>
+    <VehicleSheetRouteIndicator
+      v-if="vehicle.properties.route.shortName"
+      :vehicle="vehicle"
+      :agency="agency"
+      class="tw:md:hidden"
+    />
+    <VehicleSheetPropertiesList :vehicle="vehicle" group="trip" />
+
+    <hr
+      v-if="vehicle.properties.trip.blockId"
+      class="tw:-mx-4 tw:border-0 tw:border-t tw:border-neutral-variant-50/20 tw:dark:border-neutral-variant-60/20"
+    />
+    <TwDetails
+      v-if="vehicle.properties.trip.blockId"
+      :icon="mdiTimelineTextOutline"
+      small-icon
+      @toggle="isTripsOpen = $event"
+    >
       <template #summary>
         <h3
-          class="tw:text-neutral-10 tw:dark:text-neutral-90 tw:text-sm tw:font-medium tw:leading-5"
+          class="tw:text-sm tw:font-medium tw:leading-5 tw:text-neutral-10 tw:dark:text-neutral-90"
+        >
+          {{ $t('relatedTrips') }}
+        </h3>
+      </template>
+      <VehicleSheetTripsList :is-open="isTripsOpen" />
+    </TwDetails>
+
+    <hr
+      class="tw:-mx-4 tw:border-0 tw:border-t tw:border-neutral-variant-50/20 tw:dark:border-neutral-variant-60/20"
+    />
+    <h3
+      class="tw:text-sm tw:font-medium tw:leading-5 tw:text-neutral-10 tw:dark:text-neutral-90"
+    >
+      {{ $t('vehicle') }}
+    </h3>
+    <VehicleSheetPropertiesList :vehicle="vehicle" group="vehicle" />
+
+    <hr
+      v-if="vehicle.properties.carriageDetails.length"
+      class="tw:-mx-4 tw:border-0 tw:border-t tw:border-neutral-variant-50/20 tw:dark:border-neutral-variant-60/20"
+    />
+    <TwDetails
+      v-if="vehicle.properties.carriageDetails.length"
+      :icon="mdiTrainCar"
+      small-icon
+    >
+      <template #summary>
+        <h3
+          class="tw:text-sm tw:font-medium tw:leading-5 tw:text-neutral-10 tw:dark:text-neutral-90"
         >
           {{ $t('carriageDetails') }}
           <br />
@@ -102,63 +152,25 @@
       </ol>
     </TwDetails>
 
-    <div
+    <hr
       v-if="vehicle.properties.links.length"
-      class="tw:-mx-4 tw:h-px tw:border-t tw:bg-neutral-variant-80"
+      class="tw:-mx-4 tw:border-0 tw:border-t tw:border-neutral-variant-50/20 tw:dark:border-neutral-variant-60/20"
     />
-    <TwDetails v-if="vehicle.properties.links.length" small-icon>
+    <TwDetails
+      v-if="vehicle.properties.links.length"
+      :icon="mdiLinkVariant"
+      small-icon
+    >
       <template #summary>
         <h3
-          class="tw:text-neutral-10 tw:dark:text-neutral-90 tw:text-sm tw:font-medium tw:leading-5"
+          class="tw:text-sm tw:font-medium tw:leading-5 tw:text-neutral-10 tw:dark:text-neutral-90"
         >
           {{ $t('externalLinks') }}
         </h3>
       </template>
       <VehicleSheetLinksList class="tw:mt-4" />
     </TwDetails>
-    <div class="tw:-mx-4 tw:h-px tw:border-t tw:bg-neutral-variant-80" />
-    <h3
-      class="tw:text-neutral-10 tw:dark:text-neutral-90 tw:text-sm tw:font-medium tw:leading-5"
-    >
-      {{ $t('trip') }}
-    </h3>
-    <VehicleSheetRouteIndicator
-      v-if="vehicle.properties.route.shortName"
-      :vehicle="vehicle"
-      :agency="agency"
-      class="tw:md:hidden"
-    />
-    <VehicleSheetPropertiesList :vehicle="vehicle" group="trip" />
-    <div
-      v-if="vehicle.properties.trip.blockId"
-      class="tw:-mx-4 tw:h-px tw:border-t tw:bg-neutral-variant-80"
-    />
-    <TwDetails v-if="vehicle.properties.trip.blockId" small-icon>
-      <template #summary>
-        <h3
-          class="tw:text-neutral-10 tw:dark:text-neutral-90 tw:text-sm tw:font-medium tw:leading-5"
-        >
-          {{ $t('relatedTrips') }}
-        </h3>
-      </template>
-      <!--      TODO: Load trips only if details is open -->
-      <VehicleSheetTripsList />
-      <VehicleSheetProperty
-        :property="{
-          key: 'trip.blockId',
-          value: 'properties.trip.blockId',
-          icon: mdiIdentifier,
-        }"
-        :vehicle="vehicle"
-      />
-    </TwDetails>
-    <div class="tw:-mx-4 tw:h-px tw:border-t tw:bg-neutral-variant-80" />
-    <h3
-      class="tw:text-neutral-10 tw:dark:text-neutral-90 tw:text-sm tw:font-medium tw:leading-5"
-    >
-      {{ $t('vehicle') }}
-    </h3>
-    <VehicleSheetPropertiesList :vehicle="vehicle" group="vehicle" />
+
     <VehicleSheetReportButton :vehicle="vehicle" />
   </footer>
 </template>
@@ -167,8 +179,10 @@
 import {
   mdiArrowRight,
   mdiChevronDown,
-  mdiIdentifier,
+  mdiLinkVariant,
+  mdiTimelineTextOutline,
   mdiTooltipEdit,
+  mdiTrainCar,
 } from '@mdi/js'
 
 export default {
@@ -179,10 +193,13 @@ export default {
     },
   },
   data: () => ({
+    isTripsOpen: false,
     mdiArrowRight,
     mdiChevronDown,
-    mdiIdentifier,
+    mdiLinkVariant,
+    mdiTimelineTextOutline,
     mdiTooltipEdit,
+    mdiTrainCar,
   }),
   computed: {
     adminMode() {
