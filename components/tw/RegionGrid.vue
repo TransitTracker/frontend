@@ -75,17 +75,7 @@ export default {
   },
   computed: {
     normalizedRegions() {
-      let list = []
-
-      if (Array.isArray(this.regions)) {
-        list = this.regions
-      } else if (this.regions && typeof this.regions === 'object') {
-        list = Object.values(this.regions)
-      } else {
-        return []
-      }
-
-      return list.map((item) => {
+      return this.regions.map((item) => {
         const raw = item?.properties || item || {}
         let count = 0
 

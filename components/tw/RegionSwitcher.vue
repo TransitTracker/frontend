@@ -12,6 +12,7 @@
       :regions="regions"
       :current-region="currentRegion"
       size="lg"
+      @click.native="closeDialog()"
     />
   </TwBasicDialog>
 </template>
@@ -30,11 +31,19 @@ export default {
         return this.$store.state.app.regionSwitcherVisible
       },
       set(val) {
-        val && this.closeDialog()
+        if (!val) {
+          this.closeDialog()
+        }
       },
     },
     regions() {
-      return this.$store.state.regions.data
+      const data = this.$store.state.regions.data || {}
+      return Array.isArray(data) ? data : Object.values(data)
+    },
+  },
+  watch: {
+    $route() {
+      this.closeDialog()
     },
   },
   methods: {
