@@ -1,190 +1,38 @@
 <template>
-  <footer
-    class="tw:fixed tw:bottom-16 tw:inset-x-0 tw:z-20 tw:max-h-[60dvh] tw:space-y-2 tw:overflow-y-auto tw:rounded-t-[1.75rem] tw:bg-neutral-99 tw:p-4 tw:pb-6 tw:text-neutral-10 tw:shadow-2xl tw:dark:bg-neutral-10 tw:dark:text-neutral-90 tw:md:absolute tw:md:bottom-auto tw:md:inset-x-auto tw:md:left-2 tw:md:top-2 tw:md:max-h-[calc(100vh-41px-32px)] tw:md:w-96 tw:md:rounded-xl tw:md:pb-4 tw:md:shadow-none tw:xl:left-4 tw:xl:top-4 tw:xl:space-y-4"
-  >
-    <div class="tw:-mt-4 tw:md:hidden">
+  <div class="tw:contents">
+    <!-- Desktop sheet: floating on the left side of the screen -->
+    <aside
+      class="tw:absolute tw:left-2 tw:top-2 tw:z-10 tw:hidden tw:max-h-[calc(100vh-41px-32px)] tw:w-96 tw:space-y-2 tw:overflow-y-auto tw:rounded-xl tw:bg-neutral-99 tw:p-4 tw:pb-4 tw:text-neutral-10 tw:shadow-none tw:dark:bg-neutral-10 tw:dark:text-neutral-90 tw:md:block tw:xl:left-4 tw:xl:top-4 tw:xl:space-y-4"
+    >
+      <VehicleSheetHeader :vehicle="vehicle" />
+      <VehicleSheetContent :vehicle="vehicle" />
+    </aside>
+
+    <!-- Mobile sheet: bottom sheet -->
+    <bottom-sheet
+      tabindex="0"
+      class="vehicle-sheet-bottom tw:text-neutral-10 tw:dark:text-neutral-90 tw:md:hidden"
+    >
+      <div slot="snap" style="--snap: 75%"></div>
+      <div slot="snap" style="--snap: 40%"></div>
       <div
-        class="tw:mx-auto tw:my-1.5 tw:h-1 tw:w-8 tw:rounded-full tw:bg-neutral-variant-30/40 tw:dark:bg-neutral-variant-80/40"
+        slot="snap"
+        style="--snap: calc(var(--tw-spacing) * 22)"
+        class="initial"
       ></div>
-    </div>
-    <div
-      v-if="warning"
-      class="tw:-mx-4! tw:-mt-4! tw:mb-2! tw:bg-error-90 tw:px-4 tw:pb-2 tw:pt-4 tw:font-medium tw:text-error-10 tw:dark:bg-error-30 tw:dark:text-error-90"
-    >
-      {{ $t(warning) }}
-    </div>
-    <div
-      class="tw:mt-0! tw:flex tw:h-16 tw:items-center tw:gap-x-4 tw:md:h-auto tw:md:gap-x-6"
-    >
-      <VehicleAvatar />
-      <div class="tw:ml-2 tw:grow tw:md:ml-0">
-        <h2
-          class="tw:break-all tw:text-2xl tw:leading-8 tw:xl:text-4xl tw:xl:leading-11"
-        >
-          {{
-            vehicle.properties.vehicle.label ?? vehicle.properties.vehicle.id
-          }}
-          <TwFilledIconButton
-            v-if="adminMode"
-            tag="a"
-            :href="`https://admin.transittracker.ca/vehicles/${vehicle.id}/edit`"
-            target="_blank"
-            class="tw:inline-flex"
-          >
-            <TwIcon :path="mdiTooltipEdit" />
-          </TwFilledIconButton>
-        </h2>
-        <h3
-          class="tw:text-xs tw:font-medium tw:leading-4 tw:xl:text-base tw:xl:font-normal tw:xl:leading-6"
-        >
-          <span class="tw:md:hidden">{{ agency.shortName }}</span>
-          <span class="tw:hidden tw:md:inline">
-            {{ agency.name }}
-            <br />
-          </span>
-          <span v-if="vehicle.properties.lastSeenAt">
-            <span class="tw:md:hidden">&bull;</span>
-            <TwTimeAgo :timestamp="vehicle.properties.lastSeenAt" />
-          </span>
-        </h3>
+
+      <div slot="header" class="tw:relative tw:z-10 tw:px-4 tw:pb-2">
+        <VehicleSheetHeader :vehicle="vehicle" />
       </div>
-      <div
-        :style="{
-          border: vehicle.properties.route.shortName
-            ? 'none'
-            : `1px solid ${agency.color}`,
-          color: vehicle.properties.route.textColor ?? agency.textColor,
-          backgroundColor: vehicle.properties.route.color ?? agency.color,
-        }"
-        class="tw:rounded-lg tw:px-2 tw:py-1 tw:font-bold tw:md:hidden"
-      >
-        {{ vehicle.properties.route.shortName ?? vehicle.properties.route.id }}
+
+      <div class="vehicle-sheet-content tw:space-y-2 tw:px-4 tw:pb-6">
+        <VehicleSheetContent :vehicle="vehicle" />
       </div>
-    </div>
-    <VehicleSheetRouteIndicator
-      :vehicle="vehicle"
-      :agency="agency"
-      class="tw:hidden tw:md:flex"
-    />
-    <ul
-      v-if="vehicle.properties.tags.length"
-      class="tw:flex tw:items-center tw:gap-x-2"
-    >
-      <TwTag v-for="tag in vehicle.properties.tags" :key="tag" :tag-id="tag" />
-    </ul>
-
-    <hr
-      class="tw:-mx-4 tw:border-0 tw:border-t tw:border-neutral-variant-50/20 tw:dark:border-neutral-variant-60/20"
-    />
-    <h3
-      class="tw:text-sm tw:font-medium tw:leading-5 tw:text-neutral-10 tw:dark:text-neutral-90"
-    >
-      {{ $t('trip') }}
-    </h3>
-    <VehicleSheetRouteIndicator
-      v-if="vehicle.properties.route.shortName"
-      :vehicle="vehicle"
-      :agency="agency"
-      class="tw:md:hidden"
-    />
-    <VehicleSheetPropertiesList :vehicle="vehicle" group="trip" />
-
-    <hr
-      v-if="vehicle.properties.trip.blockId"
-      class="tw:-mx-4 tw:border-0 tw:border-t tw:border-neutral-variant-50/20 tw:dark:border-neutral-variant-60/20"
-    />
-    <TwDetails
-      v-if="vehicle.properties.trip.blockId"
-      :icon="mdiTimelineTextOutline"
-      small-icon
-      @toggle="isTripsOpen = $event"
-    >
-      <template #summary>
-        <h3
-          class="tw:text-sm tw:font-medium tw:leading-5 tw:text-neutral-10 tw:dark:text-neutral-90"
-        >
-          {{ $t('relatedTrips') }}
-        </h3>
-      </template>
-      <VehicleSheetTripsList :is-open="isTripsOpen" />
-    </TwDetails>
-
-    <hr
-      class="tw:-mx-4 tw:border-0 tw:border-t tw:border-neutral-variant-50/20 tw:dark:border-neutral-variant-60/20"
-    />
-    <h3
-      class="tw:text-sm tw:font-medium tw:leading-5 tw:text-neutral-10 tw:dark:text-neutral-90"
-    >
-      {{ $t('vehicle') }}
-    </h3>
-    <VehicleSheetPropertiesList :vehicle="vehicle" group="vehicle" />
-
-    <hr
-      v-if="vehicle.properties.carriageDetails.length"
-      class="tw:-mx-4 tw:border-0 tw:border-t tw:border-neutral-variant-50/20 tw:dark:border-neutral-variant-60/20"
-    />
-    <TwDetails
-      v-if="vehicle.properties.carriageDetails.length"
-      :icon="mdiTrainCar"
-      small-icon
-    >
-      <template #summary>
-        <h3
-          class="tw:text-sm tw:font-medium tw:leading-5 tw:text-neutral-10 tw:dark:text-neutral-90"
-        >
-          {{ $t('carriageDetails') }}
-          <br />
-          <small>
-            {{
-              $tc('carriageQuantity', vehicle.properties.carriageDetails.length)
-            }}
-          </small>
-        </h3>
-      </template>
-      <ol class="tw:mt-2 tw:space-y-4">
-        <TwCarriage
-          v-for="(carriage, index) in vehicle.properties.carriageDetails"
-          :key="carriage.id"
-          :carriage="carriage"
-          :is-first="index === 0"
-          :is-last="index === vehicle.properties.carriageDetails.length - 1"
-        />
-      </ol>
-    </TwDetails>
-
-    <hr
-      v-if="vehicle.properties.links.length"
-      class="tw:-mx-4 tw:border-0 tw:border-t tw:border-neutral-variant-50/20 tw:dark:border-neutral-variant-60/20"
-    />
-    <TwDetails
-      v-if="vehicle.properties.links.length"
-      :icon="mdiLinkVariant"
-      small-icon
-    >
-      <template #summary>
-        <h3
-          class="tw:text-sm tw:font-medium tw:leading-5 tw:text-neutral-10 tw:dark:text-neutral-90"
-        >
-          {{ $t('externalLinks') }}
-        </h3>
-      </template>
-      <VehicleSheetLinksList class="tw:mt-4" />
-    </TwDetails>
-
-    <VehicleSheetReportButton :vehicle="vehicle" />
-  </footer>
+    </bottom-sheet>
+  </div>
 </template>
 
 <script>
-import {
-  mdiArrowRight,
-  mdiChevronDown,
-  mdiLinkVariant,
-  mdiTimelineTextOutline,
-  mdiTooltipEdit,
-  mdiTrainCar,
-} from '@mdi/js'
-
 export default {
   props: {
     vehicle: {
@@ -192,52 +40,55 @@ export default {
       required: true,
     },
   },
-  data: () => ({
-    isTripsOpen: false,
-    mdiArrowRight,
-    mdiChevronDown,
-    mdiLinkVariant,
-    mdiTimelineTextOutline,
-    mdiTooltipEdit,
-    mdiTrainCar,
-  }),
-  computed: {
-    adminMode() {
-      return this.$store.state.settings.adminMode
-    },
-    agency() {
-      return this.$store.state.agencies.selection ?? {}
-    },
-    warning() {
-      return this.$store.state.vehicles.warning
-    },
+  mounted() {
+    if (
+      typeof customElements !== 'undefined' &&
+      !customElements.get('bottom-sheet')
+    ) {
+      import('pure-web-bottom-sheet').then(({ registerSheetElements }) => {
+        registerSheetElements()
+      })
+    }
   },
 }
 </script>
 
-<i18n>
-  {
-    "en": {
-      "externalLinks": "External Links",
-      "trip": "Trip",
-      "relatedTrips": "Related Trips",
-      "vehicle": "Vehicle",
-      "agencyInactive": "You have not activated this agency. No problem, here is the information on this vehicle!",
-      "vehicleInactive": "This vehicle is not active at the moment, here is the last information recorded.",
-      "report": "An error with this vehicle?",
-      "carriageDetails": "Train Composition",
-      "carriageQuantity": "None | One carriage | {count} carriages"
-    },
-    "fr": {
-      "externalLinks": "Liens externes",
-      "trip": "Voyage",
-      "relatedTrips": "Voyages reliés",
-      "vehicle": "Véhicule",
-      "agencyInactive": "Vous n'avez pas activé cette agence. Pas de problème, voici les informations sur ce véhicule!",
-      "vehicleInactive": "Ce véhicule n'est pas actif en ce moment, voici les dernières informations enregistrés.",
-      "report": "Une erreur avec ce véhicule?",
-      "carriageDetails": "Composition du train",
-      "carriageQuantity": "None | Un wagon | {count} wagons"
-    }
-  }
-</i18n>
+<style scoped>
+bottom-sheet.vehicle-sheet-bottom {
+  --sheet-background: var(--tw-color-neutral-96);
+  --sheet-border-radius: 1.75rem;
+  --sheet-max-height: calc(100dvh - calc(var(--tw-spacing) * 32));
+  bottom: calc(var(--tw-spacing) * 16);
+  z-index: 20;
+}
+
+:where([data-theme='dark'], [data-theme='dark'] *)
+  bottom-sheet.vehicle-sheet-bottom {
+  --sheet-background: var(--tw-color-neutral-10);
+}
+
+bottom-sheet.vehicle-sheet-bottom::part(sheet) {
+  box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+}
+
+bottom-sheet.vehicle-sheet-bottom::part(header) {
+  z-index: 10;
+}
+
+bottom-sheet.vehicle-sheet-bottom::part(handle) {
+  background-color: var(--tw-color-neutral-variant-30);
+  width: calc(var(--tw-spacing) * 8);
+  height: calc(var(--tw-spacing) * 1);
+  border-radius: 9999px;
+  margin: 0.375rem auto;
+}
+
+:where([data-theme='dark'], [data-theme='dark'] *)
+  bottom-sheet.vehicle-sheet-bottom::part(handle) {
+  background-color: rgb(198 198 201 / 0.4);
+}
+
+bottom-sheet.vehicle-sheet-bottom::part(content) {
+  padding: 0;
+}
+</style>

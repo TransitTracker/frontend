@@ -38,7 +38,7 @@
     </div>
     <v-data-table
       v-if="columns && columns.length >= 1"
-      class="tt-table tw:border-x-0 tw:border-b-0 tw:border-t tw:border-solid tw:border-t-[#e0e0e0] tw:dark:border-t-white/12 no-twp tw:no-twp"
+      class="tt-table tw:border-x-0 tw:border-b-0 tw:border-t tw:border-solid tw:border-t-[#e0e0e0] tw:dark:border-t-white/12 no-twp"
       :dark="darkMode"
       :headers="columns"
       :items="vehicles"

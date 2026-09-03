@@ -10104,6 +10104,11 @@ pure-rand@^6.0.0:
   resolved "https://registry.yarnpkg.com/pure-rand/-/pure-rand-6.1.0.tgz#d173cf23258231976ccbdb05247c9787957604f2"
   integrity sha512-bVWawvoZoBYpp6yIoQtQXHZjmz35RSVHnUOTefl8Vcjr8snTPY1wnpSPMWekcFwbxI6gtmT7rSYPFvz71ldiOA==
 
+pure-web-bottom-sheet@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/pure-web-bottom-sheet/-/pure-web-bottom-sheet-1.0.0.tgz#0ee8dcb10cf44ff462ead181151e9485c764f675"
+  integrity sha512-dBvi059J5UWlumfP04qUNsF4EPWg8/wsv7SQ2B5gc8DUqqUrI5pMudNZFQ7T8nSnY0C7Az7/TZjpp2+PsEpilw==
+
 pusher-js@^7.0.3:
   version "7.6.0"
   resolved "https://registry.yarnpkg.com/pusher-js/-/pusher-js-7.6.0.tgz#8e4535856371be0f475a42b3eec1f8b5614672de"

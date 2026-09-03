@@ -1,5 +1,9 @@
 <template>
-  <div v-if="content" class="tw:flex tw:h-12 tw:items-center tw:xl:h-14">
+  <div
+    v-if="content"
+    class="tw:flex tw:h-12 tw:items-center tw:xl:h-14"
+    :class="[property.help && 'tw:-mr-1.5 tw:md:-mr-2']"
+  >
     <TwIcon
       :path="property.icon"
       class="tw:text-primary-40 tw:dark:text-primary-80"
@@ -17,7 +21,7 @@
     <div class="tw:grow"></div>
     <TwStandardIconButton
       v-if="property.help"
-      class="tw:h-8 tw:w-8 tw:md:h-10 tw:md:w-10"
+      class="tw:h-8! tw:w-8! tw:md:h-10 tw:md:w-10"
       @click="openHelp"
     >
       <TwIcon :path="mdiHelp" class="tw:h-5! tw:w-5!" />

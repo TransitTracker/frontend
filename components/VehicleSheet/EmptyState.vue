@@ -1,6 +1,6 @@
 <template>
   <aside
-    class="tw:fixed tw:bottom-16 tw:inset-x-0 tw:z-20 tw:flex tw:items-center tw:gap-3 tw:rounded-t-[1.75rem] tw:bg-neutral-99 tw:p-3.5 tw:text-left tw:text-neutral-10 tw:shadow-lg tw:dark:bg-neutral-10 tw:dark:text-neutral-90 tw:md:absolute tw:md:bottom-auto tw:md:left-2 tw:md:top-2 tw:md:max-h-max tw:md:min-h-48 tw:md:w-96 tw:md:flex-col tw:md:gap-4 tw:md:rounded-xl tw:md:p-4 tw:md:text-center tw:xl:left-4 tw:xl:top-4"
+    class="tw:fixed tw:bottom-16 tw:inset-x-0 tw:z-20 tw:flex tw:h-22 tw:items-center tw:gap-3 tw:rounded-t-[1.75rem] tw:bg-neutral-96 tw:px-4 tw:text-left tw:text-neutral-10 tw:shadow-2xl tw:dark:bg-neutral-10 tw:dark:text-neutral-90 tw:md:absolute tw:md:bottom-auto tw:md:left-2 tw:md:top-2 tw:md:h-auto tw:md:max-h-max tw:md:min-h-48 tw:md:w-96 tw:md:flex-col tw:md:gap-4 tw:md:rounded-xl tw:md:bg-neutral-99 tw:md:p-4 tw:md:text-center tw:md:shadow-none tw:xl:left-4 tw:xl:top-4"
   >
     <svg
       class="tw:h-8 tw:w-8 tw:shrink-0 tw:md:h-32 tw:md:w-32"

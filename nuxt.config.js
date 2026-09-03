@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { version } from './package.json'
 import VuetifyLoaderPlugin from 'vuetify-loader/lib/plugin'
+import { version } from './package.json'
 
 export default {
   // Target (https://go.nuxtjs.dev/config-target)
@@ -35,6 +35,7 @@ export default {
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
     '~/plugins/axios.client.js',
+    '~/plugins/bottomSheet.client.js',
     '~/plugins/i18n.client.js',
     '~/plugins/settings.client.js',
     '~/plugins/socket.client.js',
@@ -84,7 +85,7 @@ export default {
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
-    transpile: ['vuetify/lib'],
+    transpile: ['vuetify/lib', 'pure-web-bottom-sheet'],
     plugins: [new VuetifyLoaderPlugin()],
     postcss: {
       postcssOptions: {

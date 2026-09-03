@@ -1,6 +1,6 @@
 <template>
   <div class="tt-map-container tw:bg-neutral-99 tw:dark:bg-neutral-10">
-    <div id="tt-map"></div>
+    <div id="tt-map" class="no-twp"></div>
     <VehicleSheet v-if="selectedVehicle.id" :vehicle="selectedVehicle" />
     <VehicleSheetEmptyState v-else />
     <div
@@ -64,7 +64,7 @@ export default {
     }
   },
   data: () => ({
-    map: {},
+    map: null,
     mapReady: false,
     mapStyleReady: false,
     baseSources: [],
@@ -478,7 +478,7 @@ export default {
 @media (width < 48rem) {
   .mapboxgl-ctrl-bottom-left,
   .mapboxgl-ctrl-bottom-right {
-    margin-bottom: 5.5rem;
+    margin-bottom: calc(var(--tw-spacing) * 22) !important;
   }
   .tt-map-container {
     height: calc(100dvh - 8rem);
