@@ -9,7 +9,8 @@
       <TwTopAppBar />
       <TwNavigationRail />
       <main
-        class="tw:mb-16 tw:mt-16 tw:flex tw:max-w-full tw:shrink-0 tw:grow tw:basis-auto tw:p-0 tw:md:mb-0 tw:md:ml-20 tw:md:mt-0"
+        class="tw:mt-16 tw:flex tw:max-w-full tw:shrink-0 tw:grow tw:basis-auto tw:p-0 tw:md:ml-20 tw:md:mt-0"
+        :class="[dataIsLoaded && 'tw:mb-16 tw:md:mb-0']"
       >
         <div class="tw:relative tw:max-w-full tw:shrink tw:grow tw:basis-auto">
           <TwAlert />
