@@ -17,7 +17,7 @@
         </TwChip>
         <!-- eslint-disable vue/no-v-html -->
         <h1
-          class="tw:font-heading tw:text-4xl tw:font-bold tw:leading-11 tw:md:text-5xl"
+          class="tw:font-heading tw:text-4xl tw:font-bold tw:lg:text-5xl tw:xl:text-6xl tw:2xl:text-7xl"
           v-html="$t('welcome')"
         ></h1>
         <!-- eslint-enable vue/no-v-html -->
