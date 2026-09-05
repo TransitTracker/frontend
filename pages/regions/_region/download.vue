@@ -22,14 +22,16 @@
           </li>
         </ul>
       </div>
-      <div class="tw:mt-8 tw:min-h-96 tw:md:min-h-[unset]">
+      <div class="tw:mt-8 tw:min-h-96 tw:overflow-x-hidden tw:md:min-h-[unset]">
         <Transition
-          enter-active-class="tw:transition tw:duration-300 tw:ease-standard-effects-slow tw:absolute"
-          enter-from-class="tw:translate-x-full tw:opacity-0"
+          :enter-class="transitionEnterClass"
+          :enter-from-class="transitionEnterClass"
           enter-to-class="tw:translate-x-0 tw:opacity-1"
-          leave-active-class="tw:transition tw:duration-300 tw:ease-standard-effects-slow tw:absolute"
+          enter-active-class="tw:transition tw:duration-300 tw:ease-standard-effects-slow"
+          leave-class="tw:translate-x-0 tw:opacity-1"
           leave-from-class="tw:translate-x-0 tw:opacity-1"
-          leave-to-class="tw:-translate-x-full tw:opacity-0"
+          leave-active-class="tw:transition tw:duration-300 tw:ease-standard-effects-slow"
+          :leave-to-class="transitionLeaveToClass"
           mode="out-in"
         >
           <section v-if="step === 0" key="step0">
@@ -54,7 +56,7 @@
             </div>
           </section>
           <section v-else-if="step === 1" key="step1">
-            <div class="tw:mt-8 tw:flex tw:items-center tw:gap-2">
+            <div class="tw:flex tw:items-center tw:gap-2">
               <TwFilledIconButton @click="step = 0">
                 <TwIcon :path="mdiArrowLeft" />
               </TwFilledIconButton>
@@ -147,7 +149,7 @@
           <section
             v-else-if="step === 4"
             key="step4"
-            class="tw:flex tw:flex-col tw:items-center tw:gap-8"
+            class="tw:flex tw:w-full tw:flex-col tw:items-center tw:gap-8"
           >
             <h2 class="tw:text-[2rem] tw:font-medium tw:leading-10">
               {{ $t('downloadComplete') }}
@@ -213,6 +215,7 @@ export default {
   name: 'Download',
   middleware: 'loadData',
   data: () => ({
+    direction: 'forward',
     selectedAgency: { slug: null },
     step: 0,
     period: null,
@@ -253,6 +256,21 @@ export default {
         String(now.getHours()).padStart(2, '0') +
         String(now.getMinutes()).padStart(2, '0')
       return `tt-export-${this.selectedAgency.slug}-${this.period}-${dateTime}.csv`
+    },
+    transitionEnterClass() {
+      return this.direction === 'forward'
+        ? 'tw:translate-x-full tw:opacity-0'
+        : 'tw:-translate-x-full tw:opacity-0'
+    },
+    transitionLeaveToClass() {
+      return this.direction === 'forward'
+        ? 'tw:-translate-x-full tw:opacity-0'
+        : 'tw:translate-x-full tw:opacity-0'
+    },
+  },
+  watch: {
+    step(newStep, oldStep) {
+      this.direction = newStep > oldStep ? 'forward' : 'backward'
     },
   },
   methods: {
@@ -311,10 +329,10 @@ export default {
       const isPlainObj = (o) =>
         Boolean(
           o &&
-            o.constructor &&
-            o.constructor.prototype &&
-            // eslint-disable-next-line no-prototype-builtins
-            o.constructor.prototype.hasOwnProperty('isPrototypeOf')
+          o.constructor &&
+          o.constructor.prototype &&
+          // eslint-disable-next-line no-prototype-builtins
+          o.constructor.prototype.hasOwnProperty('isPrototypeOf'),
         )
 
       const flattenObj = (obj, keys = []) => {
@@ -344,7 +362,7 @@ export default {
             acc,
             isPlainObj(value)
               ? flattenObj(value, newKeys)
-              : { [newKeys.join('.')]: value }
+              : { [newKeys.join('.')]: value },
           )
         }, {})
       }
