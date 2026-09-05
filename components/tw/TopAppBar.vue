@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="tw:fixed tw:inset-x-0 tw:top-0 tw:z-20 tw:flex tw:h-16 tw:w-full tw:items-center tw:gap-x-4 tw:bg-primary-40 tw:px-4 tw:dark:bg-neutral-10 tw:md:hidden"
+    class="tw:fixed tw:inset-x-0 tw:top-0 tw:z-20 tw:flex tw:h-16 tw:w-full tw:items-center tw:gap-x-4 tw:bg-primary-40 tw:px-4 tw:dark:bg-primary-4 tw:md:hidden"
   >
     <NuxtLink
       class="tw:group tw:relative tw:-mx-2 tw:-my-2 tw:flex tw:items-center tw:gap-4 tw:px-2 tw:py-2 tw:text-white! tw:no-underline tw:focus:outline-hidden tw:dark:text-neutral-90! tw:md:-mr-4 tw:md:pr-4"
