@@ -16,7 +16,7 @@ self.addEventListener('push', (event) => {
       body: data.body,
       icon: data.icon,
       actions: data.actions,
-    })
+    }),
   )
 })
 

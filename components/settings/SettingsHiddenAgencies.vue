@@ -24,7 +24,7 @@
             <span
               v-if="
                 region.agencies.filter(({ slug }) =>
-                  hiddenAgencies.includes(slug)
+                  hiddenAgencies.includes(slug),
                 ).length
               "
               class="tw:absolute tw:right-0 tw:top-0 tw:h-1.5 tw:w-1.5 tw:rounded-full tw:bg-error-40 tw:dark:bg-error-80"
@@ -38,11 +38,11 @@
               $tc(
                 'hiddenAgenciesCount',
                 region.agencies.filter(({ slug }) =>
-                  hiddenAgencies.includes(slug)
+                  hiddenAgencies.includes(slug),
                 ).length,
                 {
                   total: region.agencies.length,
-                }
+                },
               )
             }}
           </small>

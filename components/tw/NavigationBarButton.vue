@@ -19,7 +19,7 @@
             : 'tw:bg-transparent tw:text-neutral-variant-30 tw:group-hover:bg-neutral-variant-30/8 tw:group-focus:bg-neutral-variant-30/12 tw:dark:text-neutral-variant-80 tw:dark:group-hover:bg-neutral-variant-80/8 tw:dark:group-focus:bg-neutral-variant-80/12',
         ]"
       >
-        <TwIcon :path="isActive ? activeIcon ?? icon : icon" />
+        <TwIcon :path="isActive ? (activeIcon ?? icon) : icon" />
       </div>
       <p
         class="tw:mb-0! tw:pt-1 tw:text-center tw:text-xs"

@@ -40,8 +40,8 @@
         >
           <div>
             <p class="tw:mb-0!">{{ alert.title }}</p>
-            <small>{{ alert.subtitle }}</small
-            ><br />
+            <small>{{ alert.subtitle }}</small>
+            <br />
             <small>{{ alert.thirdLine }}</small>
           </div>
           <TwStandardIconButton
@@ -113,27 +113,27 @@ export default {
         } else if (absDiff < SECONDS_IN.hour) {
           return this.rtf.format(
             Math.round(diffSeconds / SECONDS_IN.minute),
-            'minutes'
+            'minutes',
           )
         } else if (absDiff < SECONDS_IN.day) {
           return this.rtf.format(
             Math.round(diffSeconds / SECONDS_IN.hour),
-            'hours'
+            'hours',
           )
         } else if (absDiff < SECONDS_IN.month) {
           return this.rtf.format(
             Math.round(diffSeconds / SECONDS_IN.day),
-            'days'
+            'days',
           )
         } else if (absDiff < SECONDS_IN.year) {
           return this.rtf.format(
             Math.round(diffSeconds / SECONDS_IN.month),
-            'months'
+            'months',
           )
         } else {
           return this.rtf.format(
             Math.round(diffSeconds / SECONDS_IN.year),
-            'years'
+            'years',
           )
         }
       }
@@ -149,9 +149,9 @@ export default {
             thirdLineSegments.unshift(
               alert.regions
                 ?.map(
-                  (slug) => this.$store.state.regions.data?.[slug]?.name || ''
+                  (slug) => this.$store.state.regions.data?.[slug]?.name || '',
                 )
-                .join(', ')
+                .join(', '),
             )
           }
 
@@ -198,7 +198,7 @@ export default {
         ...alert,
         date: dtf.format(alert.createdAt * 1000),
         categoryLabel: this.$t(
-          `categories.${alertCategory[alert.category].key}`
+          `categories.${alertCategory[alert.category].key}`,
         ),
       }
     },

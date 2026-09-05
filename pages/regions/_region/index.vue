@@ -130,7 +130,8 @@
           <p>{{ $t('creditsBody') }}</p>
           <ul>
             <li v-for="agency in activeAgencies" :key="agency.slug">
-              {{ agency.name }}<br />
+              {{ agency.name }}
+              <br />
               <a target="_blank" :href="agency.license.url">
                 {{ agency.license.title }}
               </a>
@@ -193,21 +194,23 @@
       <span class="tw:hidden tw:grow tw:md:inline">
         &bull; {{ $t('brandSlogan') }}
       </span>
-      <span class="tw:block tw:md:hidden"> {{ $t('brandSlogan') }}</span>
+      <span class="tw:block tw:md:hidden">{{ $t('brandSlogan') }}</span>
       <a
         href="https://api.transittracker.ca"
         target="_blank"
         class="tw:text-primary-40 tw:no-underline tw:hover:text-primary-30 tw:hover:underline tw:dark:text-primary-80 tw:dark:hover:text-primary-90"
       >
-        {{ $t('forDevelopers') }} </a
-      >&bull;
+        {{ $t('forDevelopers') }}
+      </a>
+      &bull;
       <a
         href="https://api.transittracker.ca/vin"
         target="_blank"
         class="tw:text-primary-40 tw:no-underline tw:hover:text-primary-30 tw:hover:underline tw:dark:text-primary-80 tw:dark:hover:text-primary-90"
       >
-        {{ $t('exoVin') }} </a
-      >&bull;
+        {{ $t('exoVin') }}
+      </a>
+      &bull;
       <a
         href="https://github.com/TransitTracker"
         target="_blank"
@@ -318,7 +321,7 @@ export default {
           return (
             !hiddenAgencies.includes(slug) && regions.includes(this.regionSlug)
           )
-        }
+        },
       )
     },
     availableAgencies() {
@@ -326,7 +329,7 @@ export default {
     },
     isOneAgencyLoading() {
       return this.activeAgencies.some(
-        ({ slug }) => !(slug in this.vehicleCounts)
+        ({ slug }) => !(slug in this.vehicleCounts),
       )
     },
     region() {
@@ -357,7 +360,7 @@ export default {
     makeAllVisible() {
       this.$store.dispatch(
         'settings/makeAllAgenciesVisible',
-        this.region.agencies.map((agency) => agency.slug)
+        this.region.agencies.map((agency) => agency.slug),
       )
     },
     openSettings() {

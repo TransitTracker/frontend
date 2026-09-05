@@ -11,7 +11,7 @@
     @click="$emit('click')"
   >
     <div
-      class="tw:absolute tw:inset-0 tw:h-full tw:w-full tw:rounded-full tw:bg-transparent tw:transition-colors "
+      class="tw:absolute tw:inset-0 tw:h-full tw:w-full tw:rounded-full tw:bg-transparent tw:transition-colors"
       :class="[stateLayerClasses]"
     ></div>
     <slot />

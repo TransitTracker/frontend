@@ -90,7 +90,8 @@
         {{ $t('author.title') }}
       </h3>
       <p class="tw:mb-0!">
-        <b>Félix Desjardins</b><br />
+        <b>Félix Desjardins</b>
+        <br />
         {{ $t('author.desc') }}
       </p>
 

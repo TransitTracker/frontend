@@ -14,8 +14,8 @@
       <div class="tw:h-12"></div>
       <SettingsPwa />
       <SettingsGroup :title="$t('language')">
-        <SettingsItem value="en" setting="lang"> English </SettingsItem>
-        <SettingsItem value="fr" setting="lang"> Français </SettingsItem>
+        <SettingsItem value="en" setting="lang">English</SettingsItem>
+        <SettingsItem value="fr" setting="lang">Français</SettingsItem>
       </SettingsGroup>
       <SettingsGroup
         v-if="dataIsLoaded"

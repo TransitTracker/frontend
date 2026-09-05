@@ -23,10 +23,7 @@
         :key="column"
         class="tableColumns tw:flex tw:h-8 tw:items-center tw:gap-x-2 tw:rounded-lg tw:bg-neutral-variant-90 tw:pl-2 tw:pr-4 tw:text-sm tw:text-neutral-variant-30 tw:dark:bg-neutral-variant-30 tw:dark:text-neutral-variant-80"
       >
-        <TwIcon
-          :path="mdiReorderHorizontal"
-          class="tw:h-4.5! tw:w-4.5!"
-        />
+        <TwIcon :path="mdiReorderHorizontal" class="tw:h-4.5! tw:w-4.5!" />
         <span>{{ getLabel(column) }}</span>
       </div>
       <div
@@ -66,10 +63,7 @@
         :key="column"
         class="tableColumns tw:flex tw:h-8 tw:items-center tw:gap-x-2 tw:rounded-lg tw:bg-neutral-variant-90 tw:pl-2 tw:pr-4 tw:text-sm tw:text-neutral-variant-30 tw:dark:bg-neutral-variant-30 tw:dark:text-neutral-variant-80"
       >
-        <TwIcon
-          :path="mdiReorderHorizontal"
-          class="tw:h-4.5! tw:w-4.5!"
-        />
+        <TwIcon :path="mdiReorderHorizontal" class="tw:h-4.5! tw:w-4.5!" />
         <span>{{ getLabel(column) }}</span>
       </div>
       <div
@@ -127,7 +121,7 @@ export default {
         this.$store.commit('settings/set', {
           setting: 'selectedTableColumns',
           value: this.availableColumns.filter(
-            (column) => !value.includes(column)
+            (column) => !value.includes(column),
           ),
         })
       },
@@ -137,7 +131,7 @@ export default {
         return false
 
       return this.visibleColumns.every(
-        (value, index) => value === DEFAULT_TABLE_COLUMNS[index]
+        (value, index) => value === DEFAULT_TABLE_COLUMNS[index],
       )
     },
   },

@@ -26,7 +26,7 @@ export const mutations = {
     // Delete the field from it's current position
     state.selectedTableColumns.splice(
       state.selectedTableColumns.indexOf(columnField),
-      1
+      1,
     )
 
     // Move to it's new position
@@ -36,7 +36,7 @@ export const mutations = {
     if (remove) {
       state.selectedTableColumns.splice(
         state.selectedTableColumns.indexOf(columnField),
-        1
+        1,
       )
     } else {
       state.selectedTableColumns.push(columnField)
@@ -61,7 +61,7 @@ export const actions = {
     const activeAgencies = rootState.regions.data[region.slug].agencies.filter(
       (agency) => {
         return !state.hiddenAgencies.includes(agency.slug)
-      }
+      },
     )
 
     // For each selected agency, load vehicles
@@ -130,12 +130,12 @@ export const getters = {
   },
   visibleTableColumns(state) {
     return state.selectedTableColumns.filter((column) =>
-      availableColumns.includes(column)
+      availableColumns.includes(column),
     )
   },
   hiddenTableColumns(state) {
     return availableColumns.filter(
-      (column) => !state.selectedTableColumns.includes(column)
+      (column) => !state.selectedTableColumns.includes(column),
     )
   },
 }
