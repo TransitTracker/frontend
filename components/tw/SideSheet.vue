@@ -12,10 +12,10 @@
       v-if="isActive"
     >
       <section
-        class="tw:fixed tw:inset-x-0 tw:inset-y-0 tw:z-20 tw:h-full tw:overflow-y-auto tw:bg-neutral-96 tw:transition-transform tw:duration-500 tw:ease-standard-spatial tw:dark:bg-neutral-10 tw:md:left-20 tw:md:w-1/2 tw:md:max-w-100 tw:md:rounded-r-2xl tw:md:shadow-lg"
+        class="tw:fixed tw:inset-x-0 tw:inset-y-0 tw:z-20 tw:h-full tw:flex tw:flex-col tw:overflow-hidden tw:bg-neutral-96 tw:transition-transform tw:duration-500 tw:ease-standard-spatial tw:dark:bg-neutral-10 tw:md:left-20 tw:md:w-1/2 tw:md:max-w-100 tw:md:rounded-r-2xl tw:md:shadow-lg"
       >
         <div
-          class="tw:fixed tw:z-30 tw:flex tw:w-full tw:items-center tw:gap-x-3 tw:bg-neutral-96 tw:p-4 tw:dark:bg-neutral-10 tw:md:max-w-100 tw:md:rounded-tr-2xl"
+          class="tw:shrink-0 tw:flex tw:w-full tw:items-center tw:gap-x-3 tw:bg-neutral-96 tw:p-4 tw:dark:bg-neutral-10 tw:md:max-w-100 tw:md:rounded-tr-2xl"
         >
           <TwStandardIconButton v-if="showBackButton" @click="$emit('back')">
             <TwIcon :path="mdiArrowLeft" />
@@ -27,7 +27,9 @@
             <TwIcon :path="mdiClose" />
           </TwStandardIconButton>
         </div>
-        <div class="tw:min-h-full tw:px-4 tw:pb-4">
+        <div
+          class="tw:flex-1 tw:min-h-0 tw:overflow-y-auto tw:px-4 tw:pb-4 tw:scrollbar-thumb-neutral-variant-80 tw:dark:scrollbar-thumb-neutral-variant-30 tw:scrollbar-gutter-both"
+        >
           <div
             class="tw:flex tw:w-full tw:items-center tw:justify-center tw:pt-20"
             v-if="isLoading"

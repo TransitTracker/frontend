@@ -8,7 +8,6 @@
     @close="alertsView = false"
   >
     <div v-if="alertsView === 'index'" ref="index">
-      <div class="tw:h-20"></div>
       <p class="tw:mb-2 tw:text-sm">{{ $t('description') }}</p>
 
       <div class="tw:flex tw:flex-wrap tw:items-center tw:gap-2">
@@ -55,7 +54,6 @@
       </ul>
     </div>
     <article v-if="viewIsShow && selectedAlert" ref="show">
-      <div class="tw:h-18"></div>
       <img
         v-if="selectedAlert.image"
         :src="`${backendHost}/storage/content/alerts/${selectedAlert.image}`"
