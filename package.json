@@ -19,7 +19,6 @@
     "@tailwindcss/postcss": "^4.3.3",
     "animejs": "^3.2.1",
     "core-js": "^3.25.5",
-    "gtfs-realtime-bindings": "^0.0.6",
     "json-to-csv-export": "^3.1.0",
     "mapbox-gl": "^2.15.0",
     "nuxt": "^2.18.1",
