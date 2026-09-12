@@ -48,7 +48,7 @@
       ></div>
       <div
         id="tt-landing-map"
-        class="tw:z-0 tw:order-2 tw:h-[50vh] tw:grow tw:md:h-full tw:md:w-[55%]"
+        class="tw:z-0 tw:order-2 tw:h-80 tw:grow tw:md:h-full tw:md:w-[55%]"
       >
         <div ref="popup" class="tw:invisible tw:min-w-48">
           <NuxtLink
@@ -492,12 +492,11 @@ export default {
     },
     async createMap() {
       const calculateLeftPadding = () => {
-        if (window.innerWidth > 768) {
+        if (window.innerWidth < 768) {
           return 0
         }
-        return (
-          (document.getElementById('tt-landing-map')?.offsetWidth ?? 200) / 4
-        )
+        const mapWidth = document.getElementById('tt-landing-map')?.offsetWidth
+        return (mapWidth ?? window.innerWidth * 0.55) * 0.3
       }
 
       const [mapboxgl] = await Promise.all([
@@ -579,7 +578,7 @@ export default {
         closeButton: true,
         closeOnMove: true,
         anchor: 'bottom',
-        className: 'tt-landing-map-popup cursor-click rounded-lg shadow-lg',
+        className: 'tt-landing-map-popup',
       })
 
       popup.setDOMContent(this.$refs.popup)
