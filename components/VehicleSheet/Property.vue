@@ -46,8 +46,9 @@ export default {
       type: Object,
     },
     vehicle: {
-      required: true,
+      required: false,
       type: Object,
+      default: () => ({}),
     },
   },
   data: () => ({
@@ -56,22 +57,26 @@ export default {
   }),
   computed: {
     content() {
+      if (!this.vehicle || !this.property?.value) {
+        return null
+      }
+
       const data = this.property.value
         .split('.')
-        .reduce((o, i) => o[i], this.vehicle)
+        .reduce((o, i) => (o ? o[i] : undefined), this.vehicle)
+
+      if (data === undefined || data === null) {
+        return null
+      }
 
       if (this.property.condition === 'refDifferent') {
-        return this.vehicle.properties.vehicle.id ===
-          this.vehicle.properties.vehicle.label
-          ? null
-          : data
+        const vehicleInfo = this.vehicle.properties?.vehicle
+        return vehicleInfo && vehicleInfo.id === vehicleInfo.label ? null : data
       }
 
       if (this.property.condition === 'shortNameDifferent') {
-        return this.vehicle.properties.route.id ===
-          this.vehicle.properties.route.shortName
-          ? null
-          : data
+        const route = this.vehicle.properties?.route
+        return route && route.id === route.shortName ? null : data
       }
 
       return data
