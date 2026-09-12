@@ -116,7 +116,7 @@ export default {
     },
   },
   watch: {
-    settingsDarkMode(oldVal, newVal) {
+    settingsDarkMode(newVal) {
       this.$store.commit('app/set', {
         key: 'darkMode',
         value: newVal,

@@ -9,7 +9,7 @@
     <div
       v-if="view === 'index'"
       ref="index"
-      class="tw:-mb-4 tw:flex tw:flex-col tw:gap-6"
+      class="tw:flex tw:flex-col tw:gap-6 tw:min-h-full"
     >
       <SettingsPwa />
       <SettingsGroup :title="$t('language')">

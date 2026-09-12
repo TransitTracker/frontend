@@ -28,7 +28,8 @@
           </TwStandardIconButton>
         </div>
         <div
-          class="tw:flex-1 tw:min-h-0 tw:overflow-y-auto tw:px-4 tw:pb-4 tw:scrollbar-thumb-neutral-variant-80 tw:dark:scrollbar-thumb-neutral-variant-30 tw:scrollbar-gutter-both"
+          class="tw:flex-1 tw:min-h-0 tw:overflow-y-auto tw:px-4 tw:scrollbar-thumb-neutral-variant-80 tw:dark:scrollbar-thumb-neutral-variant-30"
+          :class="[scrollbarStableGutter && 'tw:scrollbar-gutter-stable']"
         >
           <div
             class="tw:flex tw:w-full tw:items-center tw:justify-center tw:pt-20"
@@ -50,11 +51,6 @@
 import { mdiArrowLeft, mdiClose, mdiLoading } from '@mdi/js'
 
 export default {
-  data: () => ({
-    mdiArrowLeft,
-    mdiClose,
-    mdiLoading,
-  }),
   props: {
     showBackButton: {
       type: Boolean,
@@ -74,6 +70,16 @@ export default {
       required: false,
       default: false,
     },
+    scrollbarStableGutter: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
   },
+  data: () => ({
+    mdiArrowLeft,
+    mdiClose,
+    mdiLoading,
+  }),
 }
 </script>

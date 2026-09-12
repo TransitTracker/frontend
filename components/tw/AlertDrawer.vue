@@ -4,6 +4,7 @@
     :title="$t('alerts')"
     :is-active="alertsView !== false"
     :is-loading="isLoading"
+    :scrollbar-stable-gutter="false"
     @back="alertsView = 'index'"
     @close="alertsView = false"
   >
@@ -23,7 +24,7 @@
         </TwChip>
       </div>
 
-      <ul class="tw:mt-4 tw:list-none tw:pl-0!">
+      <ul class="tw:mt-4 tw:list-none tw:pl-0! tw:pb-4">
         <li
           v-for="alert in alerts"
           :key="alert.id"
@@ -53,12 +54,15 @@
         </li>
       </ul>
     </div>
-    <article v-if="viewIsShow && selectedAlert" ref="show">
-      <img
-        v-if="selectedAlert.image"
-        :src="`${backendHost}/storage/content/alerts/${selectedAlert.image}`"
-        class="tw:-mx-4 tw:-mt-2 tw:max-h-64 tw:w-[calc(100%+2rem)] tw:object-cover"
-      />
+    <article v-if="viewIsShow && selectedAlert" ref="show" class="tw:pb-4">
+      <div v-if="selectedAlert.image" class="tw:-mx-4">
+        <img
+          :src="`${backendHost}/storage/content/alerts/${selectedAlert.image}`"
+          class="tw:w-full tw:h-auto"
+          :alt="selectedAlert.title"
+          loading="lazy"
+        />
+      </div>
       <h2
         class="tw:mt-6 tw:font-heading tw:text-2xl tw:leading-8 tw:text-neutral-10 tw:dark:text-neutral-90"
       >

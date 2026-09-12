@@ -68,7 +68,17 @@
           <span class="tw:hidden tw:2xl:inline">xl</span>
         </span>
       </TwNavigationBarButton>
-      <TwStandardIconButton v-if="dataIsLoaded" @click="openAlerts()">
+      <TwStandardIconButton
+        v-if="dataIsLoaded"
+        class="tw:relative"
+        @click="openAlerts()"
+      >
+        <span
+          v-if="unreadAlertsCount"
+          class="tw:absolute tw:top-1 tw:left-6 tw:px-1 tw:bg-error-40 tw:dark:bg-error-80 tw:dark:text-error-20 tw:text-white tw:h-4 tw:min-w-4 tw:rounded-full tw:text-2xs tw:font-medium"
+        >
+          {{ unreadAlertsCount }}
+        </span>
         <TwIcon :path="mdiBell" />
       </TwStandardIconButton>
       <TwStandardIconButton v-if="dataIsLoaded" @click="openRegionSwitcher()">
@@ -122,6 +132,13 @@ export default {
     },
     adminMode() {
       return this.$store.state.settings.adminMode
+    },
+    unreadAlertsCount() {
+      const count = this.$store.getters['alerts/unreadAlertsCount']
+      if (count >= 10) {
+        return '9+'
+      }
+      return count
     },
   },
   methods: {

@@ -20,6 +20,11 @@ export const getters = {
 
     return result[0]
   },
+  unreadAlertsCount: (state, getters, rootState) => {
+    return Object.values(state.allAlerts).filter(({ id, status }) => {
+      return !rootState.settings.readAlerts.includes(id) && status !== 3
+    }).length
+  },
 }
 
 export const mutations = {
@@ -52,7 +57,7 @@ export const actions = {
 
   // Load all alerts, including archive (not specific to one region)
   async loadAll({ commit, dispatch }, url = '/alerts') {
-    const response = await this.$axios.get(url)
+    const response = await this.$axios.get(url, { cacheId: 'alerts-all' })
 
     commit('insertAll', response.data.data)
 

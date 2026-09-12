@@ -1,6 +1,6 @@
 <template>
   <div
-    class="tw:text-sm tw:text-neutral-variant-10 tw:dark:text-neutral-variant-90"
+    class="tw:text-sm tw:text-neutral-variant-10 tw:dark:text-neutral-variant-90 tw:pb-4"
   >
     <div
       class="tw:-mx-4 tw:flex tw:min-h-62 tw:flex-col tw:justify-around tw:bg-primary-40 tw:px-8 tw:py-4 tw:text-center tw:text-white tw:dark:bg-primary-80 tw:dark:text-primary-20"
