@@ -4,13 +4,13 @@
     :aria-busy="loading"
     :aria-label="loading ? $t('loading') : undefined"
     :class="
-      size === 'lg'
-        ? 'tw:md:overflow-x-auto tw:scrollbar-thin tw:scrollbar-thumb-neutral-10 tw:dark:scrollbar-thumb-neutral-90'
-        : 'tw:md:flex-wrap'
+      size === 'md'
+        ? 'tw:md:flex-wrap'
+        : 'tw:md:overflow-x-auto tw:scrollbar-thin tw:scrollbar-thumb-neutral-10 tw:dark:scrollbar-thumb-neutral-90'
     "
   >
     <!-- Skeleton Loading State -->
-    <template v-if="loading || !normalizedRegions.length">
+    <template v-if="loading || !regionsToShow.length">
       <div
         v-for="skeleton in 6"
         :key="skeleton"
@@ -18,7 +18,9 @@
         :class="
           size === 'lg'
             ? 'tw:md:aspect-auto tw:md:h-100 tw:md:w-60'
-            : 'tw:md:aspect-auto tw:md:h-80 tw:md:w-56'
+            : size === 'md'
+              ? 'tw:md:aspect-auto tw:md:h-80 tw:md:w-56'
+              : 'tw:size-56'
         "
       >
         <div
@@ -38,7 +40,7 @@
     <!-- Loaded Cards -->
     <template v-else>
       <TwRegionCard
-        v-for="region in normalizedRegions"
+        v-for="region in regionsToShow"
         :key="region.slug"
         :name="region.name"
         :slug="region.slug"
@@ -67,6 +69,11 @@ export default {
       type: String,
       default: '',
     },
+    hideCurrentRegion: {
+      type: Boolean,
+      require: false,
+      default: false,
+    },
     size: {
       type: String,
       default: 'md',
@@ -74,8 +81,8 @@ export default {
     },
   },
   computed: {
-    normalizedRegions() {
-      return this.regions.map((item) => {
+    regionsToShow() {
+      const normalizedRegions = this.regions.map((item) => {
         const raw = item?.properties || item || {}
         let count = 0
 
@@ -91,6 +98,14 @@ export default {
           image: raw.image || '',
           agencyCount: count,
         }
+      })
+
+      if (!this.hideCurrentRegion) {
+        return normalizedRegions
+      }
+
+      return normalizedRegions.filter(({ slug }) => {
+        return slug !== this.currentRegion
       })
     },
   },

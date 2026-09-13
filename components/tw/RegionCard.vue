@@ -7,7 +7,9 @@
     :class="[
       size === 'lg'
         ? 'tw:md:aspect-auto tw:md:h-100 tw:md:w-60'
-        : 'tw:md:aspect-auto tw:md:h-80 tw:md:w-56',
+        : size === 'md'
+          ? 'tw:md:aspect-auto tw:md:h-80 tw:md:w-56'
+          : 'tw:md:size-56',
     ]"
     @click.native="handleClick"
   >
