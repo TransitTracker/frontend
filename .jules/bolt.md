@@ -1,0 +1,3 @@
+## 2024-05-19 - [Optimize reactive filtering on large arrays]
+**Learning:** In Vue components rendering large data tables (like `vehicles()` in `pages/regions/_region/table.vue`), doing expensive string operations (`split('.')`, `toUpperCase()`) inside `Array.prototype.every` loop that runs for every item in a large collection is a major performance bottleneck.
+**Action:** When filtering large arrays based on complex user inputs, always pre-process the reactive inputs (like `this.filters`) into an optimized state (e.g., active string splits and uppercased terms) *before* the main iteration loop.

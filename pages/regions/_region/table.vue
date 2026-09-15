@@ -456,23 +456,35 @@ export default {
       return this.$store.state.settings.tableGroupBy
     },
     vehicles() {
+      const agenciesMap = this.agencies
+
+      // Pre-process filters
+      const activeFilters = Object.entries(this.filters)
+        .filter(([_, searchTerm]) => searchTerm)
+        .map(([key, searchTerm]) => ({
+          key,
+          parts: key.split('.'),
+          term: searchTerm.toString().toUpperCase(),
+        }))
+
+      if (activeFilters.length === 0) {
+        return Object.values(this.$store.state.vehicles.features).flatMap(
+          ({ features }) => features
+        )
+      }
+
       // Get all vehicles
       const vehicles = Object.values(this.$store.state.vehicles.features)
         .flatMap(({ features }) => features)
         .filter((item) => {
-          return Object.entries(this.filters).every(([key, searchTerm]) => {
-            // Ignore empty searchTerm
-            if (!searchTerm) return true
-
+          return activeFilters.every(({ key, parts, term }) => {
             // Exception for agencies column
             if (key.includes('agency')) {
-              return (
-                `${this.agencies[item.properties.agencyId].name} ${
-                  this.agencies[item.properties.agencyId].shortName
-                }` ?? ''
-              )
+              const agency = agenciesMap[item.properties.agencyId]
+              if (!agency) return false
+              return (`${agency.name} ${agency.shortName}` ?? '')
                 .toUpperCase()
-                .includes(searchTerm.toString().toUpperCase())
+                .includes(term)
             }
 
             // Exception for route short name since it's used with route long name
@@ -482,15 +494,14 @@ export default {
                 ''
               )
                 .toUpperCase()
-                .includes(searchTerm.toString().toUpperCase())
+                .includes(term)
             }
 
-            return key
-              .split('.')
+            return parts
               .reduce((acc, part) => acc?.[part] ?? '', item)
               .toString()
               .toUpperCase()
-              .includes(searchTerm.toString().toUpperCase())
+              .includes(term)
           })
         })
 
