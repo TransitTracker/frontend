@@ -7,7 +7,7 @@
     <div
       class="tw-absolute tw-inset-0 tw-h-full tw-w-full tw-rounded-lg tw-bg-neutralVariant-30 tw-bg-opacity-0 tw-transition-colors group-hover:tw-bg-opacity-8 group-focus:tw-bg-opacity-10 dark:tw-bg-neutralVariant-80 dark:tw-bg-opacity-0"
     ></div>
-    <TwIcon :path="icon" v-if="icon" class="!tw-h-4.5 !tw-w-4.5" />
+    <TwIcon v-if="icon" :path="icon" class="!tw-h-4.5 !tw-w-4.5" />
     <span
       class="tw-text-sm tw-font-medium tw-text-neutralVariant-30 dark:tw-text-neutralVariant-80"
     >
