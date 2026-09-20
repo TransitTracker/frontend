@@ -16,6 +16,7 @@ export const state = () => ({
   selectedTableColumns: DEFAULT_TABLE_COLUMNS,
   tableGroupBy: 'properties.agencyId',
   debugMode: false,
+  tableItemsPerPage: 100,
 })
 
 export const mutations = {

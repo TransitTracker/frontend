@@ -9,7 +9,7 @@
         <div
           v-for="(value, column) in filters"
           :key="column"
-          class="tw:flex tw:h-8 tw:items-center tw:gap-x-2 tw:rounded-lg tw:border tw:border-solid tw:border-neutral-variant-50 tw:pl-3 tw:dark:border-neutral-variant-60 pr-2"
+          class="tw:flex tw:h-8 tw:items-center tw:gap-x-2 tw:rounded-lg tw:border tw:border-solid tw:border-neutral-variant-50 tw:pl-3 tw:dark:border-neutral-variant-60 tw:pr-2"
         >
           <span v-if="!(column in filterOptions)">
             {{ $t(column) }}
@@ -53,50 +53,61 @@
     >
       <template #footer="{ props }">
         <div
-          class="tw:flex tw:w-full tw:gap-4 tw:flex-wrap tw:items-center tw:justify-end tw:px-4"
+          class="tw:flex tw:gap-4 tw:items-center tw:justify-between tw:px-4 tw:py-2 tw:bg-neutral-96 tw:dark:bg-neutral-10"
         >
-          <small class="tw:mr-2">
-            {{ $t('rowsPerPage') }}
-          </small>
-          <TwSelect
-            id="itemsPerPage"
-            name="itemsPerPage"
-            :value="props.options.itemsPerPage"
-            @input="setItemsPerPage($event)"
-          >
-            <option
-              v-for="rowPerPage in [25, 50, 100, 150, 200, -1]"
-              :key="rowPerPage"
-              :value="rowPerPage"
+          <div class="tw:flex tw:gap-2 tw:items-center tw:flex-wrap">
+            <small>
+              {{ $t('rowsPerPage') }}
+            </small>
+            <TwSelect
+              id="itemsPerPage"
+              name="itemsPerPage"
+              :value="props.options.itemsPerPage"
+              @input="setItemsPerPage($event)"
             >
-              {{ rowPerPage === -1 ? $t('paginationAll') : rowPerPage }}
-            </option>
-          </TwSelect>
-          <span class="tw:grow tw:mx-2"></span>
-          <small class="tw:mr-2">
-            {{
-              $t('paginationPosition', {
-                start: props.pagination.pageStart + 1,
-                end:
-                  props.pagination.pageStop === -1
-                    ? props.pagination.itemsLength
-                    : props.pagination.pageStop,
-                total: props.pagination.itemsLength,
-              })
-            }}
-          </small>
-          <TwFilledIconButton
-            :disabled="props.options.page === 1"
-            @click="currentPage = props.options.page - 1"
+              <option
+                v-for="rowPerPage in [25, 50, 100, 150, 200, -1]"
+                :key="rowPerPage"
+                :value="rowPerPage"
+              >
+                {{ rowPerPage === -1 ? $t('paginationAll') : rowPerPage }}
+              </option>
+            </TwSelect>
+          </div>
+          <div
+            class="tw:flex tw:gap-2 tw:items-center tw:flex-wrap tw:justify-end"
           >
-            <TwIcon :path="mdiChevronLeft" />
-          </TwFilledIconButton>
-          <TwFilledIconButton
-            :disabled="props.options.page >= props.pagination.pageCount"
-            @click="currentPage = props.options.page + 1"
-          >
-            <TwIcon :path="mdiChevronRight" />
-          </TwFilledIconButton>
+            <small>
+              {{
+                $t('paginationPosition', {
+                  start: props.pagination.pageStart + 1,
+                  end:
+                    props.pagination.pageStop === -1
+                      ? props.pagination.itemsLength
+                      : props.pagination.pageStop,
+                  total: props.pagination.itemsLength,
+                })
+              }}
+            </small>
+            <span class="tw:flex tw:gap-2">
+              <TwFilledIconButton
+                color="tonal"
+                :disabled="props.options.page === 1"
+                :title="$t('previousPage')"
+                @click="currentPage = props.options.page - 1"
+              >
+                <TwIcon :path="mdiChevronLeft" />
+              </TwFilledIconButton>
+              <TwFilledIconButton
+                color="tonal"
+                :disabled="props.options.page >= props.pagination.pageCount"
+                :title="$t('nextPage')"
+                @click="currentPage = props.options.page + 1"
+              >
+                <TwIcon :path="mdiChevronRight" />
+              </TwFilledIconButton>
+            </span>
+          </div>
         </div>
       </template>
       <template #header="{ props }">
@@ -135,23 +146,11 @@
                 minWidth: `${column.width}px`,
               }"
             >
-              <div class="tw:inline-flex tw:w-full tw:items-center tw:gap-x-1">
-                <TwStandardIconButton
-                  v-if="column.filterable"
-                  class="tw:h-6! tw:w-6!"
-                  @click="filterModal = column.value"
-                >
-                  <TwIcon
-                    class="tw:h-5! tw:w-5!"
-                    :class="[
-                      filters[column.value] &&
-                        'tw:text-primary-40 tw:dark:text-primary-80',
-                    ]"
-                    :path="filters[column.value] ? mdiFilter : mdiFilterOutline"
-                  />
-                </TwStandardIconButton>
+              <div
+                class="tw:inline-flex tw:w-full tw:items-center tw:gap-x-1 tw:group/table"
+              >
                 <span
-                  class="tw:peer tw:grow tw:text-left"
+                  class="tw:grow tw:text-left"
                   :class="[
                     sortBy === column.value &&
                       'tw:text-black/87 tw:dark:text-white',
@@ -163,11 +162,25 @@
                   {{ column.text }}
                 </span>
                 <TwStandardIconButton
+                  v-if="column.filterable"
+                  class="tw:h-6! tw:w-6! tw:group-hover/table:opacity-100 tw:opacity-0 tw:transition-opacity tw:focus:opacity-100"
+                  :class="[
+                    filters[column.value] &&
+                      'tw:opacity-100! tw:text-primary-40 tw:dark:text-primary-80',
+                  ]"
+                  @click="filterModal = column.value"
+                >
+                  <TwIcon
+                    class="tw:h-5! tw:w-5!"
+                    :path="filters[column.value] ? mdiFilter : mdiFilterOutline"
+                  />
+                </TwStandardIconButton>
+                <TwStandardIconButton
                   v-if="column.sortable"
-                  class="tw:peer-hover:text-black/87 tw:h-6! tw:w-6! tw:opacity-0 tw:transition tw:hover:text-white tw:hover:opacity-100 tw:focus:opacity-100 tw:peer-hover:opacity-100 tw:dark:peer-hover:text-white"
+                  class="tw:h-6! tw:w-6! tw:opacity-0 tw:transition-opacity tw:group-hover/table:opacity-100 tw:focus:opacity-100"
                   :class="[
                     sortBy === column.value &&
-                      'tw:text-primary-40 tw:opacity-100 tw:dark:text-primary-80',
+                      'tw:text-primary-40 tw:opacity-100! tw:dark:text-primary-80',
                   ]"
                   @click="toggleSort(column)"
                 >
@@ -442,7 +455,6 @@ export default {
       filterModal: null,
       sortBy: null,
       sortDesc: true,
-      itemsPerPage: 100,
       currentPage: 1,
     }
   },
@@ -506,6 +518,9 @@ export default {
     },
     tableGroupBy() {
       return this.$store.state.settings.tableGroupBy
+    },
+    itemsPerPage() {
+      return this.$store.state.settings.tableItemsPerPage ?? 100
     },
     vehicles() {
       // Get all vehicles
@@ -604,8 +619,11 @@ export default {
           break
       }
     },
-    setItemsPerPage(itemPerPage) {
-      this.itemsPerPage = +itemPerPage
+    setItemsPerPage(itemsPerPage) {
+      this.$store.commit('settings/set', {
+        setting: 'tableItemsPerPage',
+        value: +itemsPerPage,
+      })
       this.currentPage = 1
     },
     toggleSort({ value, sortable }) {
@@ -659,7 +677,9 @@ export default {
       "close": "Close",
       "rowsPerPage": "Rows per page:",
       "paginationAll": "All",
-      "paginationPosition": "{start}-{end} of {total}"
+      "paginationPosition": "{start}-{end} of {total}",
+      "previousPage": "Previous page",
+      "nextPage": "Next page"
     },
     "fr": {
       "openSettings": "Ouvrir les paramètres pour choisir les colonnes",
@@ -682,7 +702,9 @@ export default {
       "close": "Fermer",
       "rowsPerPage": "Lignes par page :",
       "paginationAll": "Tout",
-      "paginationPosition": "{start}-{end} sur {total}"
+      "paginationPosition": "{start}-{end} sur {total}",
+      "previousPage": "Page précédente",
+      "nextPage": "Page suivante"
     }
   }
 </i18n>

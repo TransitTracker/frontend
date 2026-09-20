@@ -25,7 +25,7 @@
       >
         <slot name="header"></slot>
       </h2>
-      <p class="tw:mt-4 tw:text-sm tw:leading-5"><slot /></p>
+      <p class="tw:mt-4 tw:mb-6 tw:text-sm tw:leading-5"><slot /></p>
       <slot name="footer">
         <TwTextButton class="tw:float-right" type="submit">
           {{ $t('close') }}

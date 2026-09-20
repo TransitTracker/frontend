@@ -1,7 +1,7 @@
 <template>
   <component
     :is="tag"
-    class="tw:group tw:relative tw:flex tw:h-10 tw:w-10 tw:items-center tw:justify-center tw:rounded-full tw:focus:outline-hidden"
+    class="tw:group tw:relative tw:flex tw:h-10 tw:w-10 tw:items-center tw:justify-center tw:rounded-full tw:focus:outline-hidden tw:disabled:bg-neutral-10/10 tw:disabled:dark:bg-neutral-90/10 tw:disabled:text-neutral-10/38 tw:disabled:dark:text-neutral-90/38"
     :class="[buttonClasses]"
     :disabled="disabled"
     @click="$emit('click')"
@@ -35,10 +35,6 @@ export default {
   },
   computed: {
     buttonClasses() {
-      if (this.disabled) {
-        return 'tw:opacity-[0.62]'
-      }
-
       switch (this.color) {
         case 'onPrimary':
           return 'tw:text-white tw:dark:text-primary-20'

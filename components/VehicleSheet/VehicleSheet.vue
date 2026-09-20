@@ -11,7 +11,7 @@
     <!-- Mobile sheet: bottom sheet -->
     <bottom-sheet
       tabindex="0"
-      class="vehicle-sheet-bottom tw:text-neutral-10 tw:dark:text-neutral-90 tw:z-10 tw:md:hidden"
+      class="vehicle-sheet-bottom tw:text-neutral-10 tw:dark:text-neutral-90 tw:z-10 tw:md:hidden tw:block"
     >
       <div slot="snap" style="--snap: 50%"></div>
       <div
@@ -67,6 +67,10 @@ bottom-sheet.vehicle-sheet-bottom {
 
 bottom-sheet.vehicle-sheet-bottom::part(sheet) {
   box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+}
+
+bottom-sheet.vehicle-sheet-bottom::part(header) {
+  z-index: 10;
 }
 
 bottom-sheet.vehicle-sheet-bottom::part(handle) {
