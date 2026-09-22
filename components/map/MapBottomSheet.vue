@@ -352,7 +352,8 @@ export default {
     },
     getLinks(vehicle) {
       if (Object.keys(this.links).length) {
-        Object.keys(this.links).forEach((key) => this.$delete(this.links, key))
+        // Optimize: clear object directly instead of O(N) $delete calls
+        this.links = {}
       }
       if (!vehicle || !vehicle.links) return
 
