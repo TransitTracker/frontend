@@ -4,7 +4,7 @@
     :data-theme="[settingsDarkMode && 'dark']"
   >
     <div
-      class="tw:relative tw:flex tw:min-h-screen tw:max-w-full tw:shrink tw:grow tw:basis-auto tw:flex-col"
+      class="tw:relative tw:flex tw:min-h-dvh tw:max-w-full tw:shrink tw:grow tw:basis-auto tw:flex-col"
     >
       <TwTopAppBar />
       <TwNavigationRail />
