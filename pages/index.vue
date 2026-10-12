@@ -52,7 +52,7 @@
       >
         <div ref="popup" class="tw:invisible tw:min-w-48">
           <NuxtLink
-            :to="localePath(`/regions/${currentPopup.slug}`)"
+            :to="localePath(`/regions/${currentPopup.slug}/map`)"
             class="tw:group tw:flex tw:items-center tw:font-heading tw:text-xl tw:font-medium tw:leading-7 tw:text-primary-40 tw:no-underline tw:dark:text-primary-80"
           >
             {{ currentPopup.name }}

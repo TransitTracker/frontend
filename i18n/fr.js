@@ -1,6 +1,6 @@
 export default {
   app: {
-    tabHome: 'Accueil',
+    tabInfo: 'Info',
     tabMap: 'Carte',
     tabTable: 'Liste',
     tabDownload: 'Données',

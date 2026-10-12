@@ -106,13 +106,13 @@
         <SettingsItem :icon="mdiCloseCircleOutline" value="no" setting="launch">
           {{ $t('noRedirect') }}
         </SettingsItem>
-        <SettingsItem :icon="mdiViewGrid" value="/" setting="launch">
-          {{ $t('app.tabHome') }}
+        <SettingsItem :icon="mdiInformationOutline" value="/" setting="launch">
+          {{ $t('app.tabInfo') }}
         </SettingsItem>
-        <SettingsItem :icon="mdiMap" value="/map" setting="launch">
+        <SettingsItem :icon="mdiMapOutline" value="/map" setting="launch">
           {{ $t('app.tabMap') }}
         </SettingsItem>
-        <SettingsItem :icon="mdiTable" value="/table" setting="launch">
+        <SettingsItem :icon="msTableOutline" value="/table" setting="launch">
           {{ $t('app.tabTable') }}
         </SettingsItem>
       </SettingsGroup>
@@ -155,16 +155,15 @@ import {
   mdiCloseCircleOutline,
   mdiFerry,
   mdiMagnify,
-  mdiMap,
+  mdiMapOutline,
   mdiMinus,
   mdiMonitor,
   mdiPlus,
   mdiSync,
   mdiSyncOff,
-  mdiTable,
   mdiTrain,
   mdiTram,
-  mdiViewGrid,
+  mdiInformationOutline,
   mdiViewList,
   mdiWeatherNight,
   mdiWhiteBalanceSunny,
@@ -182,14 +181,15 @@ export default {
     mdiClose,
     mdiCloseCircleOutline,
     mdiMagnify,
-    mdiMap,
+    mdiMapOutline,
     mdiMinus,
     mdiMonitor,
     mdiPlus,
     mdiSync,
     mdiSyncOff,
-    mdiTable,
-    mdiViewGrid,
+    msTableOutline:
+      'M19 19v-3H5v3h14Zm0-5v-4H5v4h14Zm0-6V5H5v3h14ZM5 21q-.825 0-1.413-.587Q3 19.825 3 19V5q0-.825.587-1.413Q4.175 3 5 3h14q.825 0 1.413.587Q21 4.175 21 5v14q0 .825-.587 1.413Q19.825 21 19 21Z',
+    mdiInformationOutline,
     mdiViewList,
     mdiWeatherNight,
     mdiWhiteBalanceSunny,

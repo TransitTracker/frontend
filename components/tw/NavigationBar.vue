@@ -7,10 +7,10 @@
     >
       <TwNavigationBarButton
         :to="localePath(`/regions/${region}/`)"
-        :icon="mdiHomeOutline"
-        :active-icon="mdiHome"
+        :icon="mdiInformationOutline"
+        :active-icon="mdiInformation"
       >
-        {{ $t('app.tabHome') }}
+        {{ $t('app.tabInfo') }}
       </TwNavigationBarButton>
       <TwNavigationBarButton
         :to="localePath(`/regions/${region}/map`)"
@@ -35,7 +35,7 @@
       </TwNavigationBarButton>
       <TwNavigationBarButton
         v-if="adminMode"
-        :to="localePath('/debug')"
+        :to="localePath('/admin')"
         :icon="mdiTools"
       >
         Admin
@@ -46,8 +46,8 @@
 
 <script>
 import {
-  mdiHomeOutline,
-  mdiHome,
+  mdiInformationOutline,
+  mdiInformation,
   mdiMap,
   mdiMapOutline,
   mdiDownload,
@@ -56,8 +56,8 @@ import {
 } from '@mdi/js'
 export default {
   data: () => ({
-    mdiHomeOutline,
-    mdiHome,
+    mdiInformationOutline,
+    mdiInformation,
     mdiMap,
     mdiMapOutline,
     msTable:

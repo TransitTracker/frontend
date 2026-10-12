@@ -1,6 +1,6 @@
 <template>
   <NuxtLink
-    :to="localePath(`/regions/${slug}`)"
+    :to="localePath(`/regions/${slug}/map`)"
     tag="button"
     :disabled="isCurrent"
     class="tw:group tw:relative tw:flex tw:aspect-square tw:w-full tw:shrink-0 tw:flex-col tw:items-start tw:justify-end tw:overflow-hidden tw:rounded-[1.75rem] tw:p-4 tw:text-left tw:text-neutral-98 tw:no-underline tw:transition-[flex-shrink] tw:duration-300 tw:ease-standard-effects-slow tw:focus:outline-3 tw:focus:outline-offset-2 tw:focus:outline-secondary-40 tw:disabled:justify-between tw:disabled:md:w-36 tw:dark:focus:outline-secondary-80"
