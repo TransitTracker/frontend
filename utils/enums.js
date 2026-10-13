@@ -1,3 +1,12 @@
+import {
+  mdiTram,
+  mdiSubway,
+  mdiTrain,
+  mdiBus,
+  mdiFerry,
+  mdiTramSide,
+} from '@mdi/js'
+
 export const alertCategory = {
   0: {
     key: 'Update',
@@ -41,5 +50,32 @@ export const carriageCategory = {
   },
   2: {
     key: 'CabCar',
+  },
+}
+
+export const vehicleTypes = {
+  0: {
+    key: 'Tram',
+    icon: mdiTram,
+  },
+  1: {
+    key: 'Subway',
+    icon: mdiSubway,
+  },
+  2: {
+    key: 'Train',
+    icon: mdiTrain,
+  },
+  3: {
+    key: 'Bus',
+    icon: mdiBus,
+  },
+  4: {
+    key: 'Ferry',
+    icon: mdiFerry,
+  },
+  5: {
+    key: 'Streetcar',
+    icon: mdiTramSide,
   },
 }

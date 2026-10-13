@@ -1,13 +1,14 @@
 <template>
   <div
-    class="tw:mt-4 tw:grid tw:grid-cols-2 tw:gap-2 tw:py-2 tw:md:-mr-6 tw:md:flex tw:md:pr-6"
+    class="tw:grid tw:grid-cols-2 tw:gap-2 tw:py-2 tw:md:-mr-6 tw:md:flex tw:md:pr-6"
     :aria-busy="loading"
     :aria-label="loading ? $t('loading') : undefined"
-    :class="
+    :class="[
       size === 'md'
         ? 'tw:md:flex-wrap'
-        : 'tw:md:overflow-x-auto tw:scrollbar-thin tw:scrollbar-thumb-neutral-10 tw:dark:scrollbar-thumb-neutral-90'
-    "
+        : 'tw:md:overflow-x-auto tw:scrollbar-thin tw:scrollbar-thumb-neutral-10 tw:dark:scrollbar-thumb-neutral-90',
+      size === 'sm' ? 'tw:mt-2' : 'tw:mt-4',
+    ]"
   >
     <!-- Skeleton Loading State -->
     <template v-if="loading || !regionsToShow.length">
@@ -48,6 +49,7 @@
         :agency-count="region.agencyCount"
         :is-current="region.slug === currentRegion"
         :size="size"
+        :destination-page="destinationPage"
       />
     </template>
   </div>
@@ -77,7 +79,12 @@ export default {
     size: {
       type: String,
       default: 'md',
-      validator: (val) => ['md', 'lg'].includes(val),
+      validator: (val) => ['sm', 'md', 'lg'].includes(val),
+    },
+    destinationPage: {
+      type: String,
+      default: '/map',
+      validator: (val) => ['/', '/map', '/table', '/download'].includes(val),
     },
   },
   computed: {

@@ -16,7 +16,7 @@
           class="tw:container tw:mx-auto tw:flex tw:w-full tw:flex-wrap tw:items-end tw:justify-between tw:gap-4 tw:px-4 tw:pb-0"
         >
           <h1
-            class="tw:font-heading tw:text-4xl tw:leading-[2.75rem] tw:text-primary-20 tw:md:text-6xl tw:md:leading-[4rem] tw:dark:text-white"
+            class="tw:font-heading tw:text-4xl tw:leading-11 tw:text-primary-20 tw:md:text-6xl tw:md:leading-16 tw:dark:text-white"
           >
             {{ region.name }}
           </h1>
@@ -41,7 +41,7 @@
     <div class="tw:container tw:mx-auto tw:p-4">
       <!-- Active Vehicles Count and Latest Aggregate Update -->
       <div
-        class="tw:flex tw:flex-wrap tw:items-baseline tw:justify-between tw:gap-2"
+        class="tw:flex tw:flex-wrap tw:items-center tw:justify-between tw:gap-2"
       >
         <div>
           <h2
@@ -56,7 +56,7 @@
             {{ lastUpdatedText }}
           </p>
         </div>
-        <TwLoadingIndicator v-if="isOneAgencyLoading" class="tw:shrink-0" />
+        <TwLoadingIndicator v-if="!isOneAgencyLoading" class="tw:shrink-0" />
       </div>
 
       <!-- Three Main Action Cards (Main Feature of the Page) -->
@@ -94,6 +94,13 @@
       >
         <template #summary>
           <div class="tw:flex tw:flex-wrap tw:items-center tw:gap-2">
+            <TwOutlinedIconButton
+              class="tw:h-8! tw:w-8! tw:p-1"
+              :title="$t('manageAgencies')"
+              @click.native="openSettings()"
+            >
+              <TwIcon :path="mdiTune" class="tw:h-4! tw:w-4!" />
+            </TwOutlinedIconButton>
             <span
               class="tw:text-base tw:font-medium tw:text-neutral-10 tw:dark:text-neutral-90"
             >
@@ -111,22 +118,17 @@
               }}
               {{ $tc('missingAgencies', missingAgenciesCount) }}
             </span>
-            <TwOutlinedIconButton
-              class="tw:h-8! tw:w-8! tw:p-1"
-              :title="$t('manageAgencies')"
-              @click.native="openSettings()"
-            >
-              <TwIcon :path="mdiTune" class="tw:h-4! tw:w-4!" />
-            </TwOutlinedIconButton>
           </div>
         </template>
 
-        <div class="tw:pt-4">
-          <p
-            class="tw:mb-3 tw:text-xs tw:text-neutral-variant-30 tw:dark:text-neutral-variant-80"
+        <div class="tw:pt-4 tw:space-y-4">
+          <TwChip
+            v-if="missingAgenciesCount"
+            :icon="mdiEyeCheck"
+            @click.native="makeAllVisible"
           >
-            {{ $t('creditsBody') }}
-          </p>
+            {{ $t('addAllAgencies') }}
+          </TwChip>
 
           <!-- Merged Agency Badges and Licenses -->
           <ul
@@ -139,6 +141,11 @@
               :timestamp="times[agency.slug] || 0"
             />
           </ul>
+          <p
+            class="tw:text-xs tw:text-neutral-variant-30 tw:dark:text-neutral-variant-80"
+          >
+            {{ $t('creditsBody') }}
+          </p>
         </div>
       </TwDetails>
 
@@ -182,38 +189,48 @@
           :regions="regions"
           :current-region="regionSlug"
           hide-current-region
+          destination-page="/"
           size="sm"
         />
       </section>
 
-      <!-- Photo Contribution (Subtle and less prominent) -->
-      <div
-        class="tw:mt-6 tw:flex tw:flex-col tw:gap-2 tw:rounded-xl tw:border tw:border-neutral-variant-50/30 tw:bg-neutral-variant-90/20 tw:p-3 tw:text-xs tw:text-neutral-variant-30 tw:sm:flex-row tw:sm:items-center tw:sm:justify-between tw:dark:bg-neutral-variant-30/15 tw:dark:text-neutral-variant-80"
-      >
-        <div class="tw:flex tw:items-center tw:gap-2.5">
-          <TwIcon
-            :path="mdiCameraOutline"
-            class="tw:h-4! tw:w-4! tw:shrink-0 tw:text-neutral-variant-30 tw:dark:text-neutral-variant-80"
-          />
-          <span>
-            <b
-              class="tw:font-medium tw:text-neutral-10 tw:dark:text-neutral-90"
-            >
-              {{ $t('photoTitle') }}
-            </b>
-            &mdash;
-            {{ $t('photoBodyShort') }}
-          </span>
-        </div>
-        <a
-          href="https://docs.google.com/forms/d/e/1FAIpQLSecgmVPlQUGiAT4dXu4yv6i0UKtSpJfEFw_98lvoT-hqnVbSQ/viewform?usp=sf_link"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="tw:shrink-0 tw:font-medium tw:text-primary-40 tw:hover:underline tw:dark:text-primary-80"
+      <section class="tw:mt-8">
+        <h2 class="tw:font-heading tw:text-xl tw:font-medium tw:md:text-2xl">
+          {{ $t('moreTitle') }}
+        </h2>
+        <p
+          class="tw:text-sm tw:text-neutral-variant-30 tw:dark:text-neutral-variant-80"
         >
-          {{ $t('photoLink') }} &rarr;
-        </a>
-      </div>
+          {{ $t('moreSubtitle') }}
+        </p>
+
+        <div
+          class="tw:mt-2 tw:grid tw:grid-cols-2 tw:gap-2 tw:py-2 tw:md:-mr-6 tw:md:flex tw:md:overflow-x-auto tw:md:pr-6 tw:scrollbar-thin tw:scrollbar-thumb-neutral-10 tw:dark:scrollbar-thumb-neutral-90"
+        >
+          <TwResourceCard
+            v-if="regionSlug === 'mtl'"
+            href="https://vin.transittracker.ca"
+            :title="$t('exoVinTitle')"
+            :description="$t('exoVinDesc')"
+            :icon="mdiBusWrench"
+            size="sm"
+          />
+          <TwResourceCard
+            href="https://docs.google.com/forms/d/e/1FAIpQLSecgmVPlQUGiAT4dXu4yv6i0UKtSpJfEFw_98lvoT-hqnVbSQ/viewform?usp=sf_link"
+            :title="$t('submitPicturesTitle')"
+            :description="$t('submitPicturesDesc')"
+            :icon="mdiCameraOutline"
+            size="sm"
+          />
+          <TwResourceCard
+            href="https://api.transittracker.ca"
+            :title="$t('apiDocsTitle')"
+            :description="$t('apiDocsDesc')"
+            :icon="mdiCodeJson"
+            size="sm"
+          />
+        </div>
+      </section>
     </div>
 
     <!-- Footer -->
@@ -238,7 +255,7 @@
       </a>
       &bull;
       <a
-        href="https://api.transittracker.ca/vin"
+        href="https://vin.transittracker.ca/"
         target="_blank"
         class="tw:text-primary-40 tw:no-underline tw:hover:text-primary-30 tw:hover:underline tw:dark:text-primary-80 tw:dark:hover:text-primary-90"
       >
@@ -265,6 +282,9 @@ import {
   mdiTune,
   mdiPlus,
   mdiBusMultiple,
+  mdiEyeCheck,
+  mdiBusWrench,
+  mdiCodeJson,
 } from '@mdi/js'
 
 export default {
@@ -280,6 +300,9 @@ export default {
       mdiTune,
       mdiPlus,
       mdiBusMultiple,
+      mdiEyeCheck,
+      mdiBusWrench,
+      mdiCodeJson,
     }
   },
   data: () => ({
@@ -481,15 +504,20 @@ export default {
     "visibleAgencies": "{visible} of {total} agencies visible | The agency is visible | All {total} agencies are visible",
     "missingAgencies": " | ({n} missing)",
     "manageAgencies": "Manage visible agencies",
-    "creditsBody": "For each agency, all intellectual property rights relating to the data belong to them. Respective data licenses:",
+    "creditsBody": "For each agency, all intellectual property rights relating to the data belong to them. Consult their respective licenses for further information.",
     "emptyTitle": "Welcome here!",
     "emptyDescription": "All agencies in this region are currently hidden. To get the most out of Transit Tracker, we recommend showing the {n} available agencies. You can easily hide them again anytime in your settings.",
     "addAllAgencies": "Show All Agencies",
     "changeRegionTitle": "Explore other regions",
     "changeRegionSubtitle": "Discover transit networks across Canadian cities and regions.",
-    "photoTitle": "Photos are welcome!",
-    "photoBodyShort": "Submit a photo representing transit in your area to be featured here.",
-    "photoLink": "Submit a photo",
+    "moreTitle": "Get off the beaten path",
+    "moreSubtitle": "Discover tools and community contributions related to Transit Tracker.",
+    "exoVinTitle": "exo VIN Project",
+    "exoVinDesc": "Track and cross-reference VIN accross the exo network.",
+    "submitPicturesTitle": "Submit pictures",
+    "submitPicturesDesc": "Share transit photos to showcase your region!",
+    "apiDocsTitle": "API Documentation",
+    "apiDocsDesc": "Access real-time transit data through our open developer APIs.",
     "brandSlogan": "Making real time transit data accessible",
     "forDevelopers": "For Developers",
     "exoVin": "exo VIN Project",
@@ -512,15 +540,20 @@ export default {
     "visibleAgencies": "{visible} sur {total} agences visibles | L'agence est visible | Toutes les {visible} agences sont visibles",
     "missingAgencies": " | ({n} manquante) | ({n} manquantes)",
     "manageAgencies": "Gérer les agences visibles",
-    "creditsBody": "Pour chaque agence, tous les droits de propriété intellectuelle relatifs aux données leur appartiennent. Licences respectives des données :",
+    "creditsBody": "Pour chaque agence, tous les droits de propriété intellectuelle relatifs aux données leur appartiennent. Consultez les licences respectives pour plus d'informations.",
     "emptyTitle": "Bienvenue ici !",
     "emptyDescription": "Toutes les agences de cette région sont actuellement masquées. Pour profiter pleinement de Transit Tracker, nous vous recommandons d'afficher les {n} agences disponibles. Vous pourrez facilement les masquer à tout moment dans vos paramètres.",
     "addAllAgencies": "Afficher toutes les agences",
     "changeRegionTitle": "Explorer d'autres régions",
     "changeRegionSubtitle": "Découvrez les réseaux de transport en commun dans d'autres villes et régions canadiennes.",
-    "photoTitle": "Les photos sont les bienvenues !",
-    "photoBodyShort": "Proposez une photo de transport en commun dans votre région pour l'afficher ici.",
-    "photoLink": "Proposer une photo",
+    "moreTitle": "Sortez des sentiers battues",
+    "moreSubtitle": "Découvrez les outils et les contributions de la communauté.",
+    "exoVinTitle": "Projet exo VIN",
+    "exoVinDesc": "Suivez et croisez les VIN à travers le réseau exo.",
+    "submitPicturesTitle": "Proposer des photos",
+    "submitPicturesDesc": "Partagez vos photos de transport pour illustrer votre région!",
+    "apiDocsTitle": "Documentation API",
+    "apiDocsDesc": "Accédez aux données de transport en temps réel via notre API ouverte.",
     "brandSlogan": "Rendre accessibles les données de transport en temps réel",
     "forDevelopers": "Site pour les développeurs",
     "exoVin": "Projet exo VIN",
