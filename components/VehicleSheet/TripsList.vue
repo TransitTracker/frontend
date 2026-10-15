@@ -209,6 +209,8 @@ export default {
       if (oldVehicle?.id !== newVehicle?.id) {
         this.showEarlier = false
         this.showLater = false
+        this.relatedTrips = []
+        this.isTripsLoaded = false
         if (!this.lazy || this.isOpen) {
           this.loadTrips(newVehicle)
         }
@@ -240,17 +242,20 @@ export default {
 
       this.isLoading = true
       this.relatedTrips = []
+      const requestedId = vehicle.id
 
       try {
         const { data } = await this.$axios.get(
           `/agencies/${this.agency.slug}/trips/${vehicle.properties.trip.id}/blocks`,
         )
+        // If the vehicle has changed since this request, do nothing
+        if (this.vehicle?.id !== requestedId) return
         this.relatedTrips = data.data
-        this.isTripsLoaded = vehicle.id
+        this.isTripsLoaded = requestedId
       } catch (error) {
-        this.relatedTrips = []
+        if (this.vehicle?.id === requestedId) this.relatedTrips = []
       } finally {
-        this.isLoading = false
+        if (this.vehicle?.id === requestedId) this.isLoading = false
       }
     },
   },

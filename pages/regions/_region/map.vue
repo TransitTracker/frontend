@@ -401,7 +401,9 @@ export default {
             `${process.env.backendHost}/v2/agencies/${this.selectedAgency.slug}/shapes/${vehicle.properties.trip.shapeId}`,
           )
 
-        const routeColor = vehicle.properties.route.color.toLowerCase()
+        const routeColor = (
+          vehicle.properties.route.color ?? '#000000'
+        ).toLowerCase()
 
         this.map.setPaintProperty(
           'tt-shape-line',

@@ -20,10 +20,10 @@
           >
             {{ region.name }}
           </h1>
-          <!-- Photo credits instead of change region button -->
+          <!-- Photo credits -->
           <div
             v-if="region.credits"
-            class="tw:mb-2 tw:flex tw:max-w-md tw:items-center tw:gap-1.5 tw:rounded-full tw:bg-black/40 tw:px-3 tw:py-1 tw:text-xs tw:text-white tw:backdrop-blur-xs tw:dark:bg-black/50 [&_a]:tw:font-medium [&_a]:tw:text-white [&_a]:tw:underline"
+            class="tw:mb-2 tw:flex tw:max-w-md tw:items-center tw:gap-1.5 tw:rounded-full tw:bg-black/40 tw:px-3 tw:py-1 tw:text-xs tw:text-white tw:backdrop-blur-xs tw:dark:bg-black/50 tw:[&_a]:font-medium tw:[&_a]:text-white tw:[&_a]:underline"
             :title="$t('photoCreditsTitle')"
           >
             <TwIcon
@@ -56,7 +56,7 @@
             {{ lastUpdatedText }}
           </p>
         </div>
-        <TwLoadingIndicator v-if="!isOneAgencyLoading" class="tw:shrink-0" />
+        <TwLoadingIndicator v-if="isOneAgencyLoading" class="tw:shrink-0" />
       </div>
 
       <!-- Three Main Action Cards (Main Feature of the Page) -->
@@ -93,9 +93,9 @@
         class="tw:rounded-xl tw:border tw:border-neutral-variant-50/20 tw:bg-neutral-variant-90/40 tw:p-4 tw:dark:bg-neutral-variant-30/40"
       >
         <template #summary>
-          <div class="tw:flex tw:flex-wrap tw:items-center tw:gap-2">
+          <div class="tw:flex tw:items-center tw:gap-4">
             <TwOutlinedIconButton
-              class="tw:h-8! tw:w-8! tw:p-1"
+              class="tw:h-8! tw:w-8! tw:p-1 tw:shrink-0"
               :title="$t('manageAgencies')"
               @click.native="openSettings()"
             >
@@ -502,7 +502,7 @@ export default {
     "exploreNow": "Open",
     "openDownload": "Download",
     "visibleAgencies": "{visible} of {total} agencies visible | The agency is visible | All {total} agencies are visible",
-    "missingAgencies": " | ({n} missing)",
+    "missingAgencies": " | ({n} missing) | ({n} missing)",
     "manageAgencies": "Manage visible agencies",
     "creditsBody": "For each agency, all intellectual property rights relating to the data belong to them. Consult their respective licenses for further information.",
     "emptyTitle": "Welcome here!",
@@ -513,10 +513,10 @@ export default {
     "moreTitle": "Get off the beaten path",
     "moreSubtitle": "Discover tools and community contributions related to Transit Tracker.",
     "exoVinTitle": "exo VIN Project",
-    "exoVinDesc": "Track and cross-reference VIN accross the exo network.",
+    "exoVinDesc": "Track and cross-reference VIN across the exo network.",
     "submitPicturesTitle": "Submit pictures",
     "submitPicturesDesc": "Share transit photos to showcase your region!",
-    "apiDocsTitle": "API Documentation",
+    "apiDocsTitle": "API JSON",
     "apiDocsDesc": "Access real-time transit data through our open developer APIs.",
     "brandSlogan": "Making real time transit data accessible",
     "forDevelopers": "For Developers",
@@ -546,13 +546,13 @@ export default {
     "addAllAgencies": "Afficher toutes les agences",
     "changeRegionTitle": "Explorer d'autres régions",
     "changeRegionSubtitle": "Découvrez les réseaux de transport en commun dans d'autres villes et régions canadiennes.",
-    "moreTitle": "Sortez des sentiers battues",
+    "moreTitle": "Sortez des sentiers battus",
     "moreSubtitle": "Découvrez les outils et les contributions de la communauté.",
     "exoVinTitle": "Projet exo VIN",
     "exoVinDesc": "Suivez et croisez les VIN à travers le réseau exo.",
     "submitPicturesTitle": "Proposer des photos",
     "submitPicturesDesc": "Partagez vos photos de transport pour illustrer votre région!",
-    "apiDocsTitle": "Documentation API",
+    "apiDocsTitle": "API JSON",
     "apiDocsDesc": "Accédez aux données de transport en temps réel via notre API ouverte.",
     "brandSlogan": "Rendre accessibles les données de transport en temps réel",
     "forDevelopers": "Site pour les développeurs",

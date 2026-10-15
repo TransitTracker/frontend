@@ -47,6 +47,7 @@
         class="tw:pointer-events-none tw:absolute tw:inset-0 tw:z-1 tw:hidden tw:bg-linear-[100deg] tw:from-primary-90 tw:from-50% tw:to-transparent tw:to-70% tw:md:block tw:dark:from-primary-30"
       ></div>
       <div
+        v-if="!mapLoadError"
         id="tt-landing-map"
         class="tw:z-0 tw:order-2 tw:h-80 tw:grow tw:md:h-full tw:md:w-[55%]"
       >
@@ -113,6 +114,10 @@
           ></div>
         </div>
       </div>
+      <div
+        v-else
+        class="tw:z-0 tw:order-2 tw:h-80 tw:grow tw:md:h-full tw:md:w-[55%] tw:bg-primary-90 tw:dark:bg-primary-30"
+      />
     </div>
     <section class="tw:w-full">
       <div class="tw:container tw:mx-auto tw:p-8">
@@ -398,6 +403,7 @@ export default {
     cities: [],
     currentPopup: {},
     activeTab: 'map',
+    mapLoadError: false,
   }),
   head() {
     return {
@@ -488,7 +494,11 @@ export default {
       })
       this.cities.push(this.$t('introCities'))
 
-      this.createMap()
+      try {
+        await this.createMap()
+      } catch (error) {
+        this.mapLoadError = true
+      }
     },
     async createMap() {
       const calculateLeftPadding = () => {

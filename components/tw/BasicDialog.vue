@@ -53,6 +53,7 @@ export default {
   data: () => ({
     mdiClose,
     state: 'closed',
+    closeTimer: null,
   }),
   watch: {
     value(val) {
@@ -66,6 +67,7 @@ export default {
   beforeDestroy() {
     this.$refs.dialog.removeEventListener('cancel', this.onNativeClose)
     this.$refs.dialog.removeEventListener('close', this.onNativeClose)
+    clearTimeout(this.closeTimer)
   },
   methods: {
     onNativeClose(e) {
@@ -85,7 +87,7 @@ export default {
       if (!this.$refs.dialog.open) return
       this.state = 'closing'
 
-      setTimeout(() => {
+      this.closeTimer = setTimeout(() => {
         this.$refs.dialog.close()
         this.state = 'closed'
       }, 200)

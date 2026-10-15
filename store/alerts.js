@@ -57,7 +57,9 @@ export const actions = {
 
   // Load all alerts, including archive (not specific to one region)
   async loadAll({ commit, dispatch }, url = '/alerts') {
-    const response = await this.$axios.get(url, { cacheId: 'alerts-all' })
+    const response = await this.$axios.get(url, {
+      cacheId: `alerts-all.${url}`,
+    })
 
     commit('insertAll', response.data.data)
 
