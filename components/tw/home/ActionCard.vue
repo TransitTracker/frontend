@@ -5,7 +5,7 @@
     :href="href"
     :target="href ? '_blank' : undefined"
     :rel="href ? 'noopener noreferrer' : undefined"
-    class="tw:group tw:relative tw:flex tw:flex-col tw:justify-between tw:overflow-hidden tw:rounded-2xl tw:p-6 tw:no-underline tw:shadow-xs tw:cursor-pointer"
+    class="tw:group tw:relative tw:flex tw:flex-col tw:justify-between tw:overflow-hidden tw:rounded-2xl tw:p-6 tw:no-underline tw:shadow-xs tw:cursor-pointer tw:transition-all tw:duration-200 tw:hover:shadow-md tw:focus:outline-3 tw:focus:outline-offset-2 tw:focus:outline-secondary-40 tw:dark:focus:outline-secondary-80 tw:focus-visible:outline-3 tw:focus-visible:outline-offset-2 tw:focus-visible:outline-secondary-40 tw:dark:focus-visible:outline-secondary-80"
     :class="[colorClasses]"
     @click="$emit('click', $event)"
   >

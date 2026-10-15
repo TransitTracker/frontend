@@ -23,7 +23,7 @@
           <!-- Photo credits -->
           <div
             v-if="region.credits"
-            class="tw:mb-2 tw:flex tw:max-w-md tw:items-center tw:gap-1.5 tw:rounded-full tw:bg-black/40 tw:px-3 tw:py-1 tw:text-xs tw:text-white tw:backdrop-blur-xs tw:dark:bg-black/50 tw:[&_a]:font-medium tw:[&_a]:text-white tw:[&_a]:underline"
+            class="tw:mb-2 tw:flex tw:max-w-md tw:items-center tw:gap-1.5 tw:rounded-full tw:bg-black/40 tw:px-3 tw:py-1 tw:text-xs tw:text-white tw:backdrop-blur-xs tw:dark:bg-black/50 tw:[&_a]:font-medium tw:[&_a]:text-white tw:[&_a]:underline tw:[&_a]:focus-visible:outline-2 tw:[&_a]:focus-visible:outline-offset-2 tw:[&_a]:focus-visible:outline-white"
             :title="$t('photoCreditsTitle')"
           >
             <TwIcon
@@ -56,7 +56,12 @@
             {{ lastUpdatedText }}
           </p>
         </div>
-        <TwLoadingIndicator v-if="isOneAgencyLoading" class="tw:shrink-0" />
+        <TwLoadingIndicator
+          v-if="isOneAgencyLoading"
+          class="tw:shrink-0"
+          role="status"
+          aria-live="polite"
+        />
       </div>
 
       <!-- Three Main Action Cards (Main Feature of the Page) -->
@@ -97,6 +102,7 @@
             <TwOutlinedIconButton
               class="tw:h-8! tw:w-8! tw:p-1 tw:shrink-0"
               :title="$t('manageAgencies')"
+              :aria-label="$t('manageAgencies')"
               @click.native="openSettings()"
             >
               <TwIcon :path="mdiTune" class="tw:h-4! tw:w-4!" />
@@ -249,7 +255,8 @@
       <a
         href="https://api.transittracker.ca"
         target="_blank"
-        class="tw:text-primary-40 tw:no-underline tw:hover:text-primary-30 tw:hover:underline tw:dark:text-primary-80 tw:dark:hover:text-primary-90"
+        rel="noopener noreferrer"
+        class="tw:rounded-sm tw:text-primary-40 tw:no-underline tw:hover:text-primary-30 tw:hover:underline tw:focus-visible:outline-2 tw:focus-visible:outline-offset-2 tw:focus-visible:outline-primary-40 tw:dark:text-primary-80 tw:dark:hover:text-primary-90 tw:dark:focus-visible:outline-primary-80"
       >
         {{ $t('forDevelopers') }}
       </a>
@@ -257,7 +264,8 @@
       <a
         href="https://vin.transittracker.ca/"
         target="_blank"
-        class="tw:text-primary-40 tw:no-underline tw:hover:text-primary-30 tw:hover:underline tw:dark:text-primary-80 tw:dark:hover:text-primary-90"
+        rel="noopener noreferrer"
+        class="tw:rounded-sm tw:text-primary-40 tw:no-underline tw:hover:text-primary-30 tw:hover:underline tw:focus-visible:outline-2 tw:focus-visible:outline-offset-2 tw:focus-visible:outline-primary-40 tw:dark:text-primary-80 tw:dark:hover:text-primary-90 tw:dark:focus-visible:outline-primary-80"
       >
         {{ $t('exoVin') }}
       </a>
@@ -265,7 +273,8 @@
       <a
         href="https://github.com/TransitTracker"
         target="_blank"
-        class="tw:text-primary-40 tw:no-underline tw:hover:text-primary-30 tw:hover:underline tw:dark:text-primary-80 tw:dark:hover:text-primary-90"
+        rel="noopener noreferrer"
+        class="tw:rounded-sm tw:text-primary-40 tw:no-underline tw:hover:text-primary-30 tw:hover:underline tw:focus-visible:outline-2 tw:focus-visible:outline-offset-2 tw:focus-visible:outline-primary-40 tw:dark:text-primary-80 tw:dark:hover:text-primary-90 tw:dark:focus-visible:outline-primary-80"
       >
         {{ $t('github') }}
       </a>
@@ -530,7 +539,7 @@ export default {
     "dataUpdatedRange": "Données mises à jour il y a {min}-{max} min",
     "photoCreditsTitle": "Crédits photo",
     "viewMap": "Carte",
-    "viewMapDesc": "Explorez tous les véhicules actifs sur une carte interactive en temps réel",
+    "viewMapDesc": "Explorez tous les véhicules actifs sur une carte interactive",
     "viewList": "Liste",
     "viewListDesc": "Consultez, filtrez et affichez les détails de tous les véhicules actifs",
     "openDownloads": "Données",

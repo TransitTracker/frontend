@@ -43,7 +43,7 @@
         :href="agency.license.url"
         target="_blank"
         rel="noopener noreferrer"
-        class="tw:inline-flex tw:max-w-full tw:items-center tw:gap-1 tw:text-xs tw:text-primary-40 tw:hover:underline tw:dark:text-primary-80"
+        class="tw:inline-flex tw:max-w-full tw:items-center tw:gap-1 tw:text-xs tw:text-primary-40 tw:hover:underline tw:focus-visible:outline-2 tw:focus-visible:outline-offset-1 tw:focus-visible:outline-primary-40 tw:dark:text-primary-80 tw:dark:focus-visible:outline-primary-80"
       >
         <span class="tw:truncate">{{ agency.license.title }}</span>
         <TwIcon :path="mdiOpenInNew" class="tw:size-4! tw:shrink-0" />
