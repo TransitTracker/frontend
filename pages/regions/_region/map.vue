@@ -1,6 +1,36 @@
 <template>
   <div class="tt-map-container tw:bg-neutral-99 tw:dark:bg-neutral-10">
     <div id="tt-map" class="no-twp"></div>
+    <div
+      class="tw:pointer-events-none tw:absolute tw:top-4 tw:left-1/2 tw:z-10 tw:-translate-x-1/2"
+    >
+      <transition
+        enter-active-class="tw:transition tw:duration-300 tw:ease-out"
+        enter-class="tw:opacity-0 tw:-translate-y-3"
+        enter-to-class="tw:opacity-100 tw:translate-y-0"
+        leave-active-class="tw:transition tw:duration-200 tw:ease-in"
+        leave-class="tw:opacity-100 tw:translate-y-0"
+        leave-to-class="tw:opacity-0 tw:-translate-y-3"
+      >
+        <div v-if="nextRegion" class="tw:pointer-events-auto">
+          <NuxtLink
+            :to="localePath(`/regions/${nextRegion.slug}/map`)"
+            class="tw:no-underline"
+          >
+            <TwFilledButton
+              tag="div"
+              with-icon
+              class="tw:shadow-lg tw:whitespace-nowrap"
+            >
+              <TwIcon :path="mdiCity" class="tw:h-5 tw:w-5" />
+              <span>
+                {{ $t('switchToRegion', { region: nextRegion.name }) }}
+              </span>
+            </TwFilledButton>
+          </NuxtLink>
+        </div>
+      </transition>
+    </div>
     <VehicleSheet v-if="selectedVehicle.id" :vehicle="selectedVehicle" />
     <VehicleSheetEmptyState v-else />
     <div
@@ -27,7 +57,7 @@
 
 <script>
 // eslint-disable-next-line
-import { mdiNavigation } from '@mdi/js'
+import { mdiCity, mdiNavigation } from '@mdi/js'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 
@@ -59,6 +89,7 @@ export default {
         light: process.env.mabboxStyleLight,
       },
       mapAccessToken: process.env.mapboxAccessToken,
+      mdiCity,
       mdiNavigation,
       vehicleRequestUrl,
     }
@@ -70,6 +101,7 @@ export default {
     baseSources: [],
     baseLayers: [],
     popup: null,
+    nextRegion: null,
   }),
   head() {
     return {
@@ -102,9 +134,62 @@ export default {
     currentRegion() {
       return this.$store.state.regions.data[this.regionSlug] || {}
     },
+    regionsBoxes() {
+      const data = this.$store.state.regions.data || {}
+      const regions = Array.isArray(data) ? data : Object.values(data)
+      const features = []
+
+      regions.forEach((region) => {
+        if (!region.mapBox) return
+        try {
+          const b = mapboxgl.LngLatBounds.convert(region.mapBox)
+          features.push({
+            type: 'Feature',
+            properties: {
+              slug: region.slug,
+              name: region.name,
+            },
+            geometry: {
+              type: 'Polygon',
+              coordinates: [
+                [
+                  b.getSouthWest().toArray(),
+                  b.getSouthEast().toArray(),
+                  b.getNorthEast().toArray(),
+                  b.getNorthWest().toArray(),
+                  b.getSouthWest().toArray(),
+                ],
+              ],
+            },
+          })
+        } catch (e) {
+          // ignore invalid bounds
+        }
+      })
+
+      return {
+        type: 'FeatureCollection',
+        features,
+      }
+    },
   },
   watch: {
+    '$store.state.regions.data': {
+      deep: true,
+      handler() {
+        if (
+          this.map &&
+          this.mapReady &&
+          this.map.getSource('tt-regions-boxes')
+        ) {
+          this.map.getSource('tt-regions-boxes').setData(this.regionsBoxes)
+        }
+        this.checkNextRegion()
+      },
+    },
     agencies(value) {
+      if (!this.map || !this.mapReady) return
+
       Object.keys(value).forEach((agencySlug) => {
         // Create the source if it dosen't exist
         if (!this.map.getSource(this.getMapSourceId(agencySlug))) {
@@ -120,6 +205,8 @@ export default {
     features: {
       deep: true,
       handler(value) {
+        if (!this.map || !this.mapReady) return
+
         Object.keys(value).forEach((agencySlug) => {
           const features = value[agencySlug]
 
@@ -146,8 +233,11 @@ export default {
     },
   },
   beforeDestroy() {
+    this.mapReady = false
     // Remove the map when destroying component
     if (!this.map) return
+    this.map.off('move', this.checkNextRegion)
+    this.map.off('moveend', this.checkNextRegion)
     this.map.remove()
     this.map = null
   },
@@ -291,6 +381,9 @@ export default {
         'bottom-right',
       )
 
+      this.map.on('move', this.checkNextRegion)
+      this.map.on('moveend', this.checkNextRegion)
+
       this.map.on('styledata', () => {
         this.mapStyleReady = true
 
@@ -352,6 +445,22 @@ export default {
           },
         })
 
+        // Add regions boxes source and layer
+        this.map.addSource('tt-regions-boxes', {
+          type: 'geojson',
+          data: this.regionsBoxes,
+          maxzoom: 24,
+        })
+        this.map.addLayer({
+          id: 'tt-regions-boxes',
+          type: 'fill',
+          source: 'tt-regions-boxes',
+          paint: {
+            'fill-color': '#000000',
+            'fill-opacity': 0.2,
+          },
+        })
+
         Object.keys(this.features).forEach((agencySlug) => {
           const agency = Object.values(this.agencies).find(
             ({ slug }) => slug === agencySlug,
@@ -364,6 +473,8 @@ export default {
         if (this.selectedVehicle.id) {
           this.selectVehicle(this.selectedVehicle)
         }
+
+        this.checkNextRegion()
       })
     },
     getMapSourceId(agencySlug) {
@@ -462,9 +573,52 @@ export default {
 
       this.map.setStyle(to)
     },
+    checkNextRegion() {
+      if (
+        !this.map ||
+        !this.mapReady ||
+        !this.map.getLayer('tt-regions-boxes')
+      ) {
+        return
+      }
+
+      const center = this.map.project(this.map.getCenter())
+      const features = this.map.queryRenderedFeatures(center, {
+        layers: ['tt-regions-boxes'],
+      })
+
+      const inCurrent = features.some(
+        (f) => f.properties.slug === this.regionSlug,
+      )
+      const nextFeature = features.find(
+        (f) => f.properties.slug !== this.regionSlug,
+      )
+
+      if (nextFeature && !inCurrent) {
+        this.nextRegion = this.$store.state.regions.data[
+          nextFeature.properties.slug
+        ] || {
+          slug: nextFeature.properties.slug,
+          name: nextFeature.properties.name,
+        }
+      } else {
+        this.nextRegion = null
+      }
+    },
   },
 }
 </script>
+
+<i18n>
+{
+  "en": {
+    "switchToRegion": "Switch to {region}"
+  },
+  "fr": {
+    "switchToRegion": "Basculer vers {region}"
+  }
+}
+</i18n>
 
 <style>
 /* TODO: remove height of alert if present */
