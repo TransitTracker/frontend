@@ -7,11 +7,12 @@ export const state = () => ({
   installPrompt: null,
   installOutcome: null,
   updateAvailable: false,
-  openRegionSwitcher: false,
+  regionSwitcherVisible: false,
   updatePending: false,
   filters: {},
   settingsView: false,
   alertsView: false,
+  darkMode: false,
 })
 
 export const mutations = {
@@ -51,14 +52,14 @@ export const actions = {
     await commit(
       'settings/set',
       { setting: 'currentRegion', value: regionSlug },
-      { root: true }
+      { root: true },
     )
 
     // Make an array of all visible agencies
     const visibleAgencies = rootState.regions.data[regionSlug].agencies.filter(
       (agency) => {
         return !rootState.settings.hiddenAgencies.includes(agency.slug)
-      }
+      },
     )
 
     // For each selected agency, load vehicles
@@ -75,7 +76,7 @@ export const actions = {
     dispatch(
       'regions/connectToAutoRefresh',
       { slug: regionSlug },
-      { root: true }
+      { root: true },
     )
 
     return true

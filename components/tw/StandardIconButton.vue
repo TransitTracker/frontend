@@ -1,12 +1,12 @@
 <template>
   <button
-    class="tw-group tw-relative tw-flex tw-h-10 tw-w-10 tw-items-center tw-justify-center focus:tw-outline-none"
+    class="tw:group tw:relative tw:flex tw:h-10 tw:w-10 tw:items-center tw:justify-center tw:focus:outline-hidden"
     :class="[buttonClasses]"
     :disabled="disabled"
     @click="$emit('click')"
   >
     <div
-      class="tw-absolute tw-inset-0 tw-h-full tw-w-full tw-rounded-full tw-bg-opacity-0 tw-transition-colors tw-duration-200 group-hover:tw-bg-opacity-8 group-focus:tw-bg-opacity-12 dark:tw-bg-opacity-0"
+      class="tw:absolute tw:inset-0 tw:h-full tw:w-full tw:rounded-full tw:bg-transparent tw:transition-colors tw:duration-200"
       :class="[stateLayerClasses]"
     ></div>
     <slot />
@@ -30,25 +30,25 @@ export default {
   computed: {
     buttonClasses() {
       if (this.disabled) {
-        return 'tw-opacity-[0.62]'
+        return 'tw:opacity-[0.62]'
       }
 
       switch (this.color) {
         case 'onPrimary':
-          return 'tw-text-white dark:tw-text-primary-20'
+          return 'tw:text-white tw:dark:text-primary-20'
         case 'onNavbar':
-          return 'tw-text-white dark:tw-text-neutral-90'
+          return 'tw:text-white tw:dark:text-neutral-90'
         case 'primary':
-          return 'tw-text-primary-40 dark:tw-text-primary-80'
+          return 'tw:text-primary-40 tw:dark:text-primary-80'
         case 'surface':
-          return 'tw-text-neutral-10 dark:tw-text-neutral-90'
+          return 'tw:text-neutral-10 tw:dark:text-neutral-90'
         case 'onError':
-          return 'tw-text-white dark:tw-text-error-20'
+          return 'tw:text-white tw:dark:text-error-20'
         case 'onErrorContainer':
-          return 'tw-text-error-10 dark:tw-text-error-90'
+          return 'tw:text-error-10 tw:dark:text-error-90'
 
         default:
-          return 'tw-text-neutralVariant-30 dark:tw-text-neutralVariant-80'
+          return 'tw:text-neutral-variant-30 tw:dark:text-neutral-variant-80'
       }
     },
     stateLayerClasses() {
@@ -58,20 +58,20 @@ export default {
 
       switch (this.color) {
         case 'onPrimary':
-          return 'tw-bg-white dark:tw-bg-primary-20'
+          return 'tw:group-hover:bg-white/8 tw:group-focus:bg-white/12 tw:dark:group-hover:bg-primary-20/8 tw:dark:group-focus:bg-primary-20/12'
         case 'onNavbar':
-          return 'tw-bg-white dark:tw-bg-neutral-90'
+          return 'tw:group-hover:bg-white/8 tw:group-focus:bg-white/12 tw:dark:group-hover:bg-neutral-90/8 tw:dark:group-focus:bg-neutral-90/12'
         case 'primary':
-          return 'tw-bg-primary-40 dark:tw-bg-primary-80'
+          return 'tw:group-hover:bg-primary-40/8 tw:group-focus:bg-primary-40/12 tw:dark:group-hover:bg-primary-80/8 tw:dark:group-focus:bg-primary-80/12'
         case 'surface':
-          return 'tw-bg-neutral-99 dark:tw-bg-neutral-10'
+          return 'tw:group-hover:bg-neutral-99/8 tw:group-focus:bg-neutral-99/12 tw:dark:group-hover:bg-neutral-10/8 tw:dark:group-focus:bg-neutral-10/12'
         case 'onError':
-          return 'tw-bg-error-40 dark:tw-bg-error-80'
+          return 'tw:group-hover:bg-error-40/8 tw:group-focus:bg-error-40/12 tw:dark:group-hover:bg-error-80/8 tw:dark:group-focus:bg-error-80/12'
         case 'onErrorContainer':
-          return 'tw-bg-error-90 dark:tw-bg-error-30'
+          return 'tw:group-hover:bg-error-90/8 tw:group-focus:bg-error-90/12 tw:dark:group-hover:bg-error-30/8 tw:dark:group-focus:bg-error-30/12'
 
         default:
-          return 'tw-bg-neutralVariant-30 dark:tw-bg-neutralVariant-80'
+          return 'tw:group-hover:bg-neutral-variant-30/8 tw:group-focus:bg-neutral-variant-30/12 tw:dark:group-hover:bg-neutral-variant-80/8 tw:dark:group-focus:bg-neutral-variant-80/12'
       }
     },
   },

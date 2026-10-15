@@ -18,7 +18,7 @@ export default async ({ error, route, store, params }) => {
   // User has loaded app but is changing region
   store.dispatch(
     'settings/changeRegion',
-    store.state.regions.data[params.region]
+    store.state.regions.data[params.region],
   )
   store.commit('settings/set', {
     setting: 'currentRegion',

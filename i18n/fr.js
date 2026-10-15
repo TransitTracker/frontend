@@ -1,9 +1,6 @@
-import fr from 'vuetify/lib/locale/fr'
-
 export default {
-  $vuetify: fr,
   app: {
-    tabHome: 'Accueil',
+    tabInfo: 'Info',
     tabMap: 'Carte',
     tabTable: 'Liste',
     tabDownload: 'Données',
@@ -174,13 +171,6 @@ export default {
     by: 'Par Félix Desjardins - @felixinx',
     contact: 'Un problème, un commentaire ou une suggestion?',
     contactBtn: 'Contactez-moi',
-  },
-  maintenance: {
-    title: 'Maintenance',
-    description:
-      'Le serveur est présentement en mode de maintenance. Veuillez réessayer dans quelques minutes.',
-    statusPage: "Voir l'état de l'application",
-    statusPageUrl: 'https://statut.transittracker.ca',
   },
   notifications: {
     title: 'Notifications',

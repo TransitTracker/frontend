@@ -2,7 +2,7 @@
   <time
     :datetime="dateTime"
     :class="{
-      'tw-rounded-full tw-bg-error-40 tw-px-1 tw-py-0.5 tw-text-white dark:tw-bg-error-80 dark:tw-text-error-20':
+      'tw:rounded-full tw:bg-error-40 tw:px-1 tw:py-0.5 tw:text-white tw:dark:bg-error-80 tw:dark:text-error-20':
         isLate,
     }"
   >

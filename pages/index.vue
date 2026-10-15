@@ -1,24 +1,34 @@
 <template>
-  <div>
+  <div
+    class="tw:bg-neutral-99 tw:text-neutral-10 tw:dark:bg-neutral-10 tw:dark:text-neutral-90"
+  >
     <div
-      class="tw-relative tw-flex tw-w-full tw-flex-col md:tw-h-[75vh] md:tw-flex-row"
+      class="tw:relative tw:flex tw:w-full tw:flex-col tw:md:h-[75vh] tw:md:flex-row"
     >
       <div
-        class="tw-relative tw-z-[2] tw-flex tw-shrink-0 tw-grow tw-flex-col tw-space-y-8 tw-overflow-hidden tw-bg-primary-90 tw-p-8 tw-text-primary-10 dark:tw-bg-primary-30 dark:tw-text-primary-90 md:tw-order-1 md:tw-mb-0 md:tw-w-[45%] md:tw-justify-center md:tw-pb-0 md:tw-pt-0"
+        class="tw:relative tw:z-2 tw:flex tw:shrink-0 tw:grow tw:flex-col tw:space-y-8 tw:overflow-hidden tw:bg-primary-90 tw:p-8 tw:text-primary-10 tw:md:order-1 tw:md:mb-0 tw:md:w-[45%] tw:md:justify-center tw:dark:bg-primary-30 tw:dark:text-primary-90"
       >
+        <TwChip
+          :icon="mdiTranslateVariant"
+          class="tw:hidden! tw:md:inline-flex! tw:absolute! tw:top-8 tw:left-8"
+          @click.native="switchLocale"
+        >
+          {{ locale === 'en' ? 'FR' : 'EN' }}
+        </TwChip>
         <!-- eslint-disable vue/no-v-html -->
         <h1
-          class="tw-font-heading tw-text-4xl tw-font-bold tw-leading-[2.75rem] md:tw-text-5xl"
+          class="tw:font-heading tw:text-4xl tw:font-bold tw:lg:text-5xl tw:xl:text-6xl tw:2xl:text-7xl"
           v-html="$t('welcome')"
         ></h1>
         <!-- eslint-enable vue/no-v-html -->
         <h2
-          class="tw-mt-2 tw-min-h-[4.5rem] tw-font-heading tw-text-2xl tw-font-medium md:tw-text-3xl"
+          class="tw:mt-2 tw:min-h-18 tw:font-heading tw:text-2xl tw:font-medium tw:md:text-3xl"
         >
-          {{ $t('intro') }} <br />
+          {{ $t('intro') }}
+          <br />
           <TwLandingCitiesAnimation :cities="cities" />
         </h2>
-        <div class="tw-flex tw-items-start tw-gap-x-4">
+        <div class="tw:flex tw:items-start tw:gap-x-4">
           <!--          TODO: Get stats from backend-->
           <TwLandingStatistic
             :label="$t('vehicles')"
@@ -32,90 +42,54 @@
             :number="totalVehicles"
           />
         </div>
-        <div>
-          <p class="!tw-mb-1 tw-flex tw-items-end tw-gap-x-2 tw-leading-8">
-            {{ $t('explore') }}
-            <TwIcon :path="mdiArrowDownRight" />
-          </p>
-          <ul
-            v-if="!regionsFeatures.features.length"
-            class="tw-flex tw-flex-wrap tw-gap-2 !tw-pl-0"
-          >
-            <li class="tw-list-none">
-              <TwChip class="tw-w-20" />
-            </li>
-            <li class="tw-list-none">
-              <TwChip class="tw-w-28" />
-            </li>
-            <li class="tw-list-none">
-              <TwChip class="tw-w-16" />
-            </li>
-          </ul>
-          <ul v-else class="tw-flex tw-flex-wrap tw-gap-2 !tw-pl-0">
-            <li
-              v-for="feature in regionsFeatures.features"
-              :key="feature.properties.slug"
-              class="tw-list-none"
-            >
-              <TwChip
-                @click.native="
-                  $router.push(
-                    localePath(`/regions/${feature.properties.slug}`)
-                  )
-                "
-              >
-                {{ feature.properties.name }}
-              </TwChip>
-            </li>
-          </ul>
-        </div>
       </div>
       <div
-        class="tw-pointer-events-none tw-absolute tw-inset-0 tw-z-[1] tw-hidden tw-bg-gradient-100 tw-from-primary-90 tw-from-50% tw-to-transparent tw-to-70% dark:tw-from-primary-30 md:tw-block"
+        class="tw:pointer-events-none tw:absolute tw:inset-0 tw:z-1 tw:hidden tw:bg-linear-[100deg] tw:from-primary-90 tw:from-50% tw:to-transparent tw:to-70% tw:md:block tw:dark:from-primary-30"
       ></div>
       <div
+        v-if="!mapLoadError"
         id="tt-landing-map"
-        class="tw-z-0 tw-order-2 tw-h-[50vh] tw-grow md:tw-h-full md:tw-w-[55%]"
+        class="tw:z-0 tw:order-2 tw:h-80 tw:grow tw:md:h-full tw:md:w-[55%]"
       >
-        <div ref="popup" class="tw-invisible tw-min-w-[12rem]">
+        <div ref="popup" class="tw:invisible tw:min-w-48">
           <NuxtLink
-            :to="localePath(`/regions/${currentPopup.slug}`)"
-            class="tw-group tw-flex tw-items-center tw-font-heading tw-text-xl tw-font-medium tw-leading-7 tw-no-underline"
+            :to="localePath(`/regions/${currentPopup.slug}/map`)"
+            class="tw:group tw:flex tw:items-center tw:font-heading tw:text-xl tw:font-medium tw:leading-7 tw:text-primary-40 tw:no-underline tw:dark:text-primary-80"
           >
             {{ currentPopup.name }}
             <!--             tt-landing-map-popup__arrow -->
             <svg
               style="width: 20px; height: 20px"
-              class="tw-ml-1 tw-overflow-hidden"
+              class="tw:ml-1 tw:overflow-hidden"
               viewBox="0 0 24 24"
             >
               <path
                 fill="currentColor"
                 :d="mdiArrowRight"
-                class="-tw-translate-x-5 tw-transition-transform group-hover:tw-translate-x-0"
+                class="tw:-translate-x-5 tw:transition-transform tw:group-hover:translate-x-0"
               />
             </svg>
           </NuxtLink>
-          <b class="tw-text-sm tw-font-medium tw-leading-5">
+          <b class="tw:text-sm tw:font-medium tw:leading-5">
             {{ $tc('landing.agencies', currentPopup.agencies) }}
             <br />
             <!--            tt-landing-map-popup__dot -->
             <span
-              class="tw-relative tw-mr-1 tw-inline-flex tw-h-3 tw-w-3 tw-rounded-full"
+              class="tw:relative tw:mr-1 tw:inline-flex tw:h-3 tw:w-3 tw:rounded-full"
             >
               <span
-                class="tw-absolute tw-inline-flex tw-h-full tw-w-full tw-animate-ping tw-rounded-full tw-bg-secondary-50/75 dark:tw-bg-secondary-90/75"
+                class="tw:absolute tw:inline-flex tw:h-full tw:w-full tw:animate-ping tw:rounded-full tw:bg-secondary-50/75 tw:dark:bg-secondary-90/75"
               ></span>
               <span
-                class="tw-relative tw-inline-flex tw-h-3 tw-w-3 tw-rounded-full tw-bg-secondary-40 dark:tw-bg-secondary-80"
+                class="tw:relative tw:inline-flex tw:h-3 tw:w-3 tw:rounded-full tw:bg-secondary-40 tw:dark:bg-secondary-80"
               ></span>
             </span>
 
             {{ $tc('landing.vehicles', currentPopup.vehicles) }}
           </b>
-          <div class="tw-mt-1 tw-flex tw-gap-2">
+          <div class="tw:mt-1 tw:flex tw:gap-2">
             <TwStandardIconButton
-              class="tw-cursor-pointer tw-text-primary-10 dark:tw-text-primary-90"
+              class="tw:cursor-pointer tw:text-primary-10 tw:dark:text-primary-90"
               :title="$t('landing.openMap', { region: currentPopup.name })"
               @click="
                 $router.push(localePath(`/regions/${currentPopup.slug}/map`))
@@ -124,7 +98,7 @@
               <TwIcon :path="mdiMap" />
             </TwStandardIconButton>
             <TwStandardIconButton
-              class="tw-cursor-pointer tw-text-primary-10 dark:tw-text-primary-90"
+              class="tw:cursor-pointer tw:text-primary-10 tw:dark:text-primary-90"
               :title="$t('landing.openTable', { region: currentPopup.name })"
               @click="
                 $router.push(localePath(`/regions/${currentPopup.slug}/table`))
@@ -135,42 +109,68 @@
           </div>
           <!--          tt-landing-map-popup__border-->
           <div
-            class="tw-absolute tw-inset-0 tw-bg-primary-40 dark:tw-bg-primary-80"
+            class="tw:absolute tw:inset-0 tw:bg-primary-40 tw:dark:bg-primary-80"
             style="clip-path: polygon(91% 0, 95% 0, 85% 100%, 81% 100%)"
           ></div>
         </div>
       </div>
+      <div
+        v-else
+        class="tw:z-0 tw:order-2 tw:h-80 tw:grow tw:md:h-full tw:md:w-[55%] tw:bg-primary-90 tw:dark:bg-primary-30"
+      />
     </div>
+    <section class="tw:w-full">
+      <div class="tw:container tw:mx-auto tw:p-8">
+        <h3 class="tw:font-heading tw:text-3xl tw:font-bold">
+          {{ $t('explore') }}
+        </h3>
+        <TwRegionGrid
+          :regions="regionsFeatures.features"
+          :loading="
+            !regionsFeatures.features || !regionsFeatures.features.length
+          "
+        />
+      </div>
+    </section>
     <section
-      class="tw-w-full tw-bg-neutral-99 tw-text-neutral-10 dark:tw-bg-neutral-10 dark:tw-text-neutral-90"
+      class="tw:w-full"
+      style="content-visibility: auto; contain-intrinsic-size: 0 500px"
     >
-      <div class="tw-container tw-mx-auto tw-p-8">
-        <h3 class="tw-font-heading tw-text-3xl tw-font-bold">
+      <div class="tw:container tw:mx-auto tw:p-8">
+        <h3 class="tw:font-heading tw:text-3xl tw:font-bold">
           {{ $t('headline') }}
         </h3>
-        <p class="!tw-mb-0 tw-mt-1 tw-max-w-prose tw-text-lg">
-          {{ $t('descriptionPt1') }} <b>{{ $t('descriptionPt2Bold') }}</b>
+        <p class="tw:mb-0! tw:mt-1 tw:max-w-prose tw:text-lg">
+          {{ $t('descriptionPt1') }}
+          <b>{{ $t('descriptionPt2Bold') }}</b>
           {{ $t('descriptionPt3') }}
         </p>
         <div
-          class="tw-mt-8 tw-items-center tw-gap-x-8 tw-space-y-4 md:tw-flex md:tw-space-y-0"
+          class="tw:mt-8 tw:items-center tw:gap-x-8 tw:space-y-4 tw:md:flex tw:md:space-y-0"
         >
-          <div class="tw-group tw-relative tw-flex md:tw-w-2/3">
-            <img
-              :src="`/img/screenshots/${activeTab}-${locale}-${
-                darkMode ? 'dark' : 'light'
-              }.png`"
-              :alt="$t('imageAlt')"
-              class="tw-block tw-w-full tw-rounded-lg tw-shadow-xl"
-            />
+          <div class="tw:group tw:relative tw:flex tw:md:w-2/3">
+            <transition name="screenshot-fade" mode="out-in">
+              <img
+                :key="`${activeTab}-${locale}-${darkMode ? 'dark' : 'light'}`"
+                :src="`/img/screenshots/${activeTab}-${locale}-${
+                  darkMode ? 'dark' : 'light'
+                }.webp`"
+                :alt="$t('imageAlt')"
+                loading="lazy"
+                decoding="async"
+                width="1200"
+                height="750"
+                class="tw:block tw:aspect-4/3 tw:w-full tw:rounded-lg tw:shadow-xl"
+              />
+            </transition>
             <NuxtLink
               :to="localePath(`/regions/mtl/${activeTab}`)"
-              class="tw-absolute tw-inset-0 tw-h-full tw-w-full"
+              class="tw:absolute tw:inset-0 tw:h-full tw:w-full"
             >
               <TwFilledButton
                 color="tonal"
                 with-icon-right
-                class="!tw-absolute -tw-right-4 -tw-top-4"
+                class="tw:absolute! tw:-right-4 tw:-top-4 tw:transition-transform tw:duration-200 tw:hover:scale-105 tw:shadow-md"
                 @click="$router.push(localePath(`/regions/mtl/${activeTab}`))"
               >
                 {{ $t('exploreNow') }}
@@ -179,7 +179,7 @@
             </NuxtLink>
           </div>
           <div
-            class="tw-space-y-2 md:tw-w-1/3 md:tw-space-y-4"
+            class="tw:space-y-2 tw:md:w-1/3 tw:md:space-y-4"
             role="tablist"
             aria-orientation="vertical"
           >
@@ -202,16 +202,17 @@
       </div>
     </section>
     <section
-      class="tw-w-full tw-bg-neutral-99 tw-pt-8 tw-text-neutral-10 dark:tw-bg-neutral-10 dark:tw-text-neutral-90"
+      class="tw:w-full tw:py-8"
+      style="content-visibility: auto; contain-intrinsic-size: 0 500px"
     >
-      <div class="tw-container tw-mx-auto tw-p-8">
-        <h3 class="tw-text-center tw-font-heading tw-text-3xl tw-font-bold">
+      <div class="tw:container tw:mx-auto tw:p-8">
+        <h3 class="tw:text-center tw:font-heading tw:text-3xl tw:font-bold">
           {{ $t('andMore') }}
         </h3>
-        <p class="tw-mt-1 tw-text-center tw-text-lg">
+        <p class="tw:mt-1 tw:text-center tw:text-lg">
           {{ $t('andMoreDesc') }}
         </p>
-        <div class="tw-mt-4 tw-grid tw-gap-4 md:tw-grid-cols-4">
+        <div class="tw:mt-4 tw:md:mt-8 tw:grid tw:gap-4 tw:md:grid-cols-4">
           <TwLandingFeature
             :icon="mdiBell"
             :title="$t('notifications')"
@@ -240,17 +241,18 @@
       </div>
     </section>
     <section
-      class="tw-w-full tw-bg-primary-10 tw-text-center tw-text-primary-90"
+      class="tw:w-full tw:bg-primary-10 tw:text-center tw:text-primary-90"
+      style="content-visibility: auto; contain-intrinsic-size: 0 500px"
     >
-      <div class="tw-container tw-mx-auto tw-p-8">
-        <h3 class="tw-font-heading tw-text-3xl tw-font-bold">
+      <div class="tw:container tw:mx-auto tw:px-8 tw:py-12">
+        <h3 class="tw:font-heading tw:text-3xl tw:font-bold">
           {{ $t('goFurther') }}
         </h3>
-        <p class="tw-mx-auto !tw-mb-0 tw-mt-1 tw-max-w-prose tw-text-lg">
+        <p class="tw:mx-auto tw:mb-0! tw:mt-1 tw:max-w-prose tw:text-lg">
           {{ $t('goFurtherDesc') }}
         </p>
         <div
-          class="tw-mx-auto tw-mt-4 tw-grid tw-gap-4 md:tw-mt-8 md:tw-max-w-[75%] md:tw-grid-cols-2 md:tw-gap-8 lg:tw-gap-12"
+          class="tw:mx-auto tw:mt-4 tw:grid tw:gap-4 tw:md:mt-8 tw:md:max-w-[75%] tw:md:grid-cols-2 tw:md:gap-8 tw:lg:gap-12"
         >
           <TwLandingFurtherBlock
             :title="$t('vin')"
@@ -266,27 +268,31 @@
       </div>
     </section>
     <section
-      class="tw-w-full tw-bg-neutral-99 tw-pt-8 tw-text-neutral-10 dark:tw-bg-neutral-10 dark:tw-text-neutral-90"
+      class="tw:w-full tw:py-8"
+      style="content-visibility: auto; contain-intrinsic-size: 0 500px"
     >
       <div
-        class="tw-container tw-mx-auto tw-flex tw-flex-col tw-items-center tw-gap-8 tw-p-8 md:tw-flex-row"
+        class="tw:container tw:mx-auto tw:flex tw:flex-col tw:items-center tw:gap-8 tw:p-8 tw:md:flex-row"
       >
-        <div class="tw-flex tw-gap-x-2">
+        <div class="tw:flex tw:gap-x-2">
           <TwIcon
             :path="mdiHeart"
-            class="!tw-h-16 !tw-w-16 tw-rotate-12 tw-self-start tw-text-error-40"
+            class="tw:h-16! tw:w-16! tw:rotate-12 tw:self-start tw:text-error-40 tw:transition-transform tw:duration-300 tw:hover:scale-125 tw:hover:rotate-0"
           />
-          <TwIcon :path="mdiPlus" class="!tw-h-10 !tw-w-10 tw-self-center" />
+          <TwIcon
+            :path="mdiPlus"
+            class="tw:h-10! tw:w-10! tw:self-center tw:transition-transform tw:duration-300 tw:hover:rotate-90"
+          />
           <TwIcon
             :path="mdiCodeTags"
-            class="!tw-h-16 !tw-w-16 -tw-rotate-6 tw-self-end tw-text-primary-40"
+            class="tw:h-16! tw:w-16! tw:-rotate-6 tw:self-end tw:text-primary-40 tw:transition-transform tw:duration-300 tw:hover:scale-125 tw:hover:rotate-0"
           />
         </div>
         <div>
-          <h3 class="tw-font-heading tw-text-3xl tw-font-bold">
+          <h3 class="tw:font-heading tw:text-3xl tw:font-bold">
             {{ $t('openSource') }}
           </h3>
-          <p class="tw-mt-1 tw-text-lg">
+          <p class="tw:mt-1 tw:text-lg">
             {{ $t('openSourceDesc') }}
           </p>
           <TwFilledButton
@@ -294,7 +300,7 @@
             tag="a"
             href="https://github.com/TransitTracker"
             target="_blank"
-            class="!tw-inline-flex"
+            class="tw:mt-4 tw:inline-flex!"
           >
             <TwIcon :path="mdiOpenInNew" />
             {{ $t('github') }}
@@ -303,20 +309,20 @@
       </div>
     </section>
     <div
-      class="tw-container tw-relative tw-mx-auto tw-flex tw-flex-wrap tw-items-center tw-gap-x-1 tw-p-4 tw-leading-6 tw-tracking-wide"
+      class="tw:container tw:relative tw:mx-auto tw:flex tw:flex-wrap tw:items-center tw:gap-x-1 tw:p-4 tw:leading-6 tw:tracking-wide"
     >
-      <b class="tw-font-medium tw-text-primary-20 dark:tw-text-primary-90">
+      <b class="tw:font-medium tw:text-primary-20 tw:dark:text-primary-90">
         Transit&nbsp;Tracker
       </b>
-      <span class="tw-hidden tw-grow md:tw-inline">
+      <span class="tw:hidden tw:grow tw:md:inline">
         &bull; {{ $t('brandSlogan') }}
       </span>
-      <span class="tw-block md:tw-hidden"> {{ $t('brandSlogan') }}</span>
+      <span class="tw:block tw:md:hidden">{{ $t('brandSlogan') }}</span>
       {{ $t('by') }}
       <a
         href="https://felixinx.me"
         target="_blank"
-        class="tw-group tw-text-primary-40 tw-no-underline hover:tw-text-primary-30 hover:tw-underline dark:tw-text-primary-80 dark:hover:tw-text-primary-90"
+        class="tw:group tw:text-primary-40 tw:no-underline tw:hover:text-primary-30 tw:hover:underline tw:dark:text-primary-80 tw:dark:hover:text-primary-90"
       >
         @FelixINX - Félix Desjardins
       </a>
@@ -325,12 +331,8 @@
 </template>
 
 <script>
-import mapboxgl from 'mapbox-gl'
-import 'mapbox-gl/dist/mapbox-gl.css'
 import {
   mdiArrowRight,
-  mdiArrowDown,
-  mdiArrowDownRight,
   mdiMap,
   mdiTable,
   mdiBell,
@@ -341,6 +343,7 @@ import {
   mdiPlus,
   mdiCodeTags,
   mdiArrowTopRight,
+  mdiTranslateVariant,
 } from '@mdi/js'
 
 export default {
@@ -359,11 +362,12 @@ export default {
     return redirect(
       `${store.state.settings.lang === 'fr' ? '/fr' : ''}/regions/${
         store.state.settings.currentRegion
-      }${launch}`
+      }${launch}`,
     )
   },
   asyncData() {
     return {
+      backendHost: process.env.backendHost,
       mapAccessToken: process.env.mapboxAccessToken,
       mapStyle: {
         dark: 'mapbox://styles/felixinx/ckv0dpig31p0516omjnkhbg4m?optimize=true',
@@ -371,8 +375,6 @@ export default {
           'mapbox://styles/felixinx/cklvgeorj2t4417rtcbtk8lki?optimize=true',
       },
       mdiArrowRight,
-      mdiArrowDown,
-      mdiArrowDownRight,
       mdiTable,
       mdiMap,
       mdiBell,
@@ -383,6 +385,7 @@ export default {
       mdiPlus,
       mdiCodeTags,
       mdiArrowTopRight,
+      mdiTranslateVariant,
     }
   },
   data: () => ({
@@ -400,10 +403,15 @@ export default {
     cities: [],
     currentPopup: {},
     activeTab: 'map',
+    mapLoadError: false,
   }),
   head() {
     return {
       titleTemplate: `Transit Tracker - ${this.$t('landing.seoTitle')}`,
+      link: [
+        { rel: 'preconnect', href: 'https://api.mapbox.com' },
+        { rel: 'preconnect', href: 'https://events.mapbox.com' },
+      ],
       meta: [
         {
           hid: 'description',
@@ -448,7 +456,7 @@ export default {
       return this.$store.state.app.dataIsLoaded
     },
     darkMode() {
-      return this.$vuetify.theme.dark
+      return this.$store.state.app.darkMode
     },
     locale() {
       return this.$i18n.locale
@@ -457,20 +465,27 @@ export default {
   mounted() {
     this.getData()
   },
+  beforeDestroy() {
+    if (this.map) {
+      this.map.remove()
+      this.map = null
+    }
+  },
   methods: {
     async getData() {
-      const regionsResponse = await this.$axios.get('/landing')
+      const [regionsResponse, vehiclesResponse] = await Promise.all([
+        this.$axios.get('/landing', { cacheId: 'landing' }),
+        this.$axios.get('/landing/vehicles', { cacheId: 'landing.vehicles' }),
+      ])
 
       regionsResponse.data.features.forEach((region) => {
         this.totalAgencies += region.properties.agencies
         this.totalActiveVehicles += region.properties.vehicles
       })
 
-      this.regionsFeatures = regionsResponse.data
+      this.regionsFeatures = Object.freeze(regionsResponse.data)
       this.totalVehicles = regionsResponse.data.stats.totalVehiclesRecorded
-
-      const vehiclesResponse = await this.$axios.get('/landing/vehicles')
-      this.vehiclesFeatures = vehiclesResponse.data
+      this.vehiclesFeatures = Object.freeze(vehiclesResponse.data)
 
       // Prepare data to start city animation
       this.cities = []
@@ -479,17 +494,28 @@ export default {
       })
       this.cities.push(this.$t('introCities'))
 
-      this.createMap()
+      try {
+        await this.createMap()
+      } catch (error) {
+        this.mapLoadError = true
+      }
     },
-    createMap() {
+    async createMap() {
       const calculateLeftPadding = () => {
-        if (window.width > 768) {
+        if (window.innerWidth < 768) {
           return 0
         }
-        return (
-          (document.getElementById('tt-landing-map')?.offsetWidth ?? 200) / 4
-        )
+        const mapWidth = document.getElementById('tt-landing-map')?.offsetWidth
+        return (mapWidth ?? window.innerWidth * 0.55) * 0.3
       }
+
+      const [mapboxgl] = await Promise.all([
+        import('mapbox-gl').then((m) => m.default),
+        import('mapbox-gl/dist/mapbox-gl.css'),
+      ])
+
+      if (this._isDestroyed) return
+
       mapboxgl.accessToken = this.mapAccessToken
       this.map = new mapboxgl.Map({
         container: 'tt-landing-map',
@@ -506,15 +532,16 @@ export default {
         },
         maxPitch: 0,
         pitchWithRotate: false,
-        scollZoom: false,
+        scrollZoom: false,
         dragRotate: false,
         doubleClickZoom: false,
         touchZoomRotate: false,
-        touchPich: false,
+        touchPitch: false,
         logoPosition: 'top-right',
       })
 
       this.map.on('load', () => {
+        if (!this.map || this._isDestroyed) return
         this.map.addSource('regions-source', {
           type: 'geojson',
           data: this.regionsFeatures,
@@ -524,10 +551,12 @@ export default {
           data: this.vehiclesFeatures,
         })
 
-        this.loadMapLayers()
+        this.loadMapLayers(mapboxgl)
       })
     },
-    loadMapLayers() {
+    loadMapLayers(mapboxgl) {
+      if (!this.map || this._isDestroyed) return
+
       this.map.addLayer({
         id: 'vehicles-layer',
         type: 'circle',
@@ -559,7 +588,7 @@ export default {
         closeButton: true,
         closeOnMove: true,
         anchor: 'bottom',
-        className: 'tt-landing-map-popup cursor-click rounded-lg shadow-lg',
+        className: 'tt-landing-map-popup',
       })
 
       popup.setDOMContent(this.$refs.popup)
@@ -573,46 +602,70 @@ export default {
       })
 
       this.map.on('mouseenter', 'regions-layer', (e) => {
-        this.map.getCanvas().style.cursor = 'pointer'
+        if (this.map) this.map.getCanvas().style.cursor = 'pointer'
       })
       this.map.on('mouseleave', 'regions-layer', (e) => {
-        this.map.getCanvas().style.cursor = ''
+        if (this.map) this.map.getCanvas().style.cursor = ''
       })
       this.map.moveLayer('regions-layer')
 
       this.map.getSource('regions-source').setData(this.regionsFeatures)
     },
+    switchLocale() {
+      this.$i18n.setLocale(this.locale === 'en' ? 'fr' : 'en')
+    },
   },
 }
 </script>
 
-<style lang="scss">
-.tt-landing {
-  &-map {
-    &-popup {
-      .mapboxgl-popup-content {
-        padding: 8px 32px 8px 12px;
-        box-shadow: none;
-        clip-path: polygon(0 0, 95% 0, 85% 100%, 0 100%);
-        position: relative;
-        border-radius: 8px;
-        // Make it visible only when it's in the popup, prevents the blue bar to appear at page load
-        .tw-invisible {
-          visibility: visible;
-        }
-      }
-    }
+<style>
+.screenshot-fade-enter-active,
+.screenshot-fade-leave-active {
+  transition:
+    opacity 280ms cubic-bezier(0.2, 0, 0, 1),
+    transform 280ms cubic-bezier(0.2, 0, 0, 1);
+}
+
+.screenshot-fade-enter {
+  opacity: 0;
+  transform: scale(0.98);
+}
+
+.screenshot-fade-leave-to {
+  opacity: 0;
+  transform: scale(1.01);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .screenshot-fade-enter-active,
+  .screenshot-fade-leave-active {
+    transition: opacity 150ms ease;
+  }
+  .screenshot-fade-enter,
+  .screenshot-fade-leave-to {
+    transform: none;
   }
 }
 
-.theme--dark .tt-landing-map-popup {
-  .mapboxgl-popup-tip {
-    border-top-color: #121212;
-  }
+.tt-landing-map-popup .mapboxgl-popup-content {
+  padding: 8px 32px 8px 12px !important;
+  box-shadow: none;
+  clip-path: polygon(0 0, 95% 0, 85% 100%, 0 100%);
+  position: relative;
+  border-radius: 8px;
+}
 
-  .mapboxgl-popup-content {
-    background: #121212;
-  }
+/* Make it visible only when it's in the popup class, prevents the blue bar to appear at page load */
+.tt-landing-map-popup .mapboxgl-popup-content [class*='invisible'] {
+  visibility: visible !important;
+}
+
+div[data-theme='dark'] .tt-landing-map-popup .mapboxgl-popup-tip {
+  border-top-color: #121212;
+}
+
+div[data-theme='dark'] .tt-landing-map-popup .mapboxgl-popup-content {
+  background: #121212;
 }
 </style>
 
