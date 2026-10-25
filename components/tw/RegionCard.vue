@@ -105,7 +105,7 @@ export default {
     size: {
       type: String,
       default: 'md',
-      validator: (val) => ['md', 'lg'].includes(val),
+      validator: (val) => ['sm', 'md', 'lg'].includes(val),
     },
     destinationPage: {
       type: String,

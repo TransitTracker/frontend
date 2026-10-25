@@ -10,6 +10,7 @@
     </p>
     <TwRegionGrid
       :regions="regions"
+      hide-current-region
       :current-region="currentRegion"
       size="lg"
       @click.native="closeDialog()"

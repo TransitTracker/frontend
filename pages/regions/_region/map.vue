@@ -457,7 +457,7 @@ export default {
           source: 'tt-regions-boxes',
           paint: {
             'fill-color': '#000000',
-            'fill-opacity': 0.2,
+            'fill-opacity': 0,
           },
         })
 

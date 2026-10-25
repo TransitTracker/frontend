@@ -10,11 +10,11 @@
       class="tw:relative tw:-my-1.5 tw:border-y-0 tw:border-l tw:border-r-0 tw:border-solid tw:border-neutral-variant-50 tw:dark:border-neutral-variant-60 tw:md:-my-2"
     >
       <div
-        class="tw:absolute tw:mt-3.5 tw:rounded-full tw:md:mt-4"
+        class="tw:absolute tw:mt-3 tw:rounded-full tw:md:mt-4 tw:h-3 tw:w-3 tw:-left-1.5"
         :class="[
           isCurrentTrip
-            ? 'tw:-left-2 tw:h-4 tw:w-4 tw:bg-primary-10 tw:dark:bg-primary-90'
-            : 'tw:-left-1.5 tw:h-3 tw:w-3 tw:bg-neutral-variant-50 tw:dark:bg-neutral-variant-60',
+            ? 'tw:bg-primary-10 tw:dark:bg-primary-90'
+            : 'tw:bg-neutral-variant-50 tw:dark:bg-neutral-variant-60',
         ]"
       ></div>
     </div>

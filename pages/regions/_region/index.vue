@@ -253,24 +253,6 @@
       </span>
       <span class="tw:block tw:md:hidden">{{ $t('brandSlogan') }}</span>
       <a
-        href="https://api.transittracker.ca"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="tw:rounded-sm tw:text-primary-40 tw:no-underline tw:hover:text-primary-30 tw:hover:underline tw:focus-visible:outline-2 tw:focus-visible:outline-offset-2 tw:focus-visible:outline-primary-40 tw:dark:text-primary-80 tw:dark:hover:text-primary-90 tw:dark:focus-visible:outline-primary-80"
-      >
-        {{ $t('forDevelopers') }}
-      </a>
-      &bull;
-      <a
-        href="https://vin.transittracker.ca/"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="tw:rounded-sm tw:text-primary-40 tw:no-underline tw:hover:text-primary-30 tw:hover:underline tw:focus-visible:outline-2 tw:focus-visible:outline-offset-2 tw:focus-visible:outline-primary-40 tw:dark:text-primary-80 tw:dark:hover:text-primary-90 tw:dark:focus-visible:outline-primary-80"
-      >
-        {{ $t('exoVin') }}
-      </a>
-      &bull;
-      <a
         href="https://github.com/TransitTracker"
         target="_blank"
         rel="noopener noreferrer"
@@ -511,7 +493,7 @@ export default {
     "exploreNow": "Open",
     "openDownload": "Download",
     "visibleAgencies": "{visible} of {total} agencies visible | The agency is visible | All {total} agencies are visible",
-    "missingAgencies": " | ({n} missing) | ({n} missing)",
+    "missingAgencies": " | ({n} hidden) | ({n} hidden)",
     "manageAgencies": "Manage visible agencies",
     "creditsBody": "For each agency, all intellectual property rights relating to the data belong to them. Consult their respective licenses for further information.",
     "emptyTitle": "Welcome here!",
@@ -528,8 +510,6 @@ export default {
     "apiDocsTitle": "API JSON",
     "apiDocsDesc": "Access real-time transit data through our open developer APIs.",
     "brandSlogan": "Making real time transit data accessible",
-    "forDevelopers": "For Developers",
-    "exoVin": "exo VIN Project",
     "github": "On GitHub"
   },
   "fr": {
@@ -547,7 +527,7 @@ export default {
     "exploreNow": "Ouvrir",
     "openDownload": "Télécharger",
     "visibleAgencies": "{visible} sur {total} agences visibles | L'agence est visible | Toutes les {visible} agences sont visibles",
-    "missingAgencies": " | ({n} manquante) | ({n} manquantes)",
+    "missingAgencies": " | ({n} cachée) | ({n} cachées)",
     "manageAgencies": "Gérer les agences visibles",
     "creditsBody": "Pour chaque agence, tous les droits de propriété intellectuelle relatifs aux données leur appartiennent. Consultez les licences respectives pour plus d'informations.",
     "emptyTitle": "Bienvenue ici !",
@@ -564,8 +544,6 @@ export default {
     "apiDocsTitle": "API JSON",
     "apiDocsDesc": "Accédez aux données de transport en temps réel via notre API ouverte.",
     "brandSlogan": "Rendre accessibles les données de transport en temps réel",
-    "forDevelopers": "Site pour les développeurs",
-    "exoVin": "Projet exo VIN",
     "github": "Sur GitHub"
   }
 }

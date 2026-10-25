@@ -13,7 +13,7 @@
     </ul>
 
     <hr
-      class="tw:-mx-4 tw:border-0 tw:border-t tw:border-neutral-variant-50/20 tw:dark:border-neutral-variant-60/20"
+      class="tw:border-0 tw:border-t tw:border-neutral-variant-50/20 tw:dark:border-neutral-variant-60/20"
     />
     <h3
       class="tw:text-sm tw:font-medium tw:leading-5 tw:text-neutral-10 tw:dark:text-neutral-90"
@@ -30,7 +30,7 @@
 
     <hr
       v-if="vehicle.properties.trip.blockId"
-      class="tw:-mx-4 tw:border-0 tw:border-t tw:border-neutral-variant-50/20 tw:dark:border-neutral-variant-60/20"
+      class="tw:border-0 tw:border-t tw:border-neutral-variant-50/20 tw:dark:border-neutral-variant-60/20"
     />
     <TwDetails
       v-if="vehicle.properties.trip.blockId"
@@ -49,7 +49,7 @@
     </TwDetails>
 
     <hr
-      class="tw:-mx-4 tw:border-0 tw:border-t tw:border-neutral-variant-50/20 tw:dark:border-neutral-variant-60/20"
+      class="tw:border-0 tw:border-t tw:border-neutral-variant-50/20 tw:dark:border-neutral-variant-60/20"
     />
     <h3
       class="tw:text-sm tw:font-medium tw:leading-5 tw:text-neutral-10 tw:dark:text-neutral-90"
@@ -60,7 +60,7 @@
 
     <hr
       v-if="vehicle.properties.carriageDetails.length"
-      class="tw:-mx-4 tw:border-0 tw:border-t tw:border-neutral-variant-50/20 tw:dark:border-neutral-variant-60/20"
+      class="tw:border-0 tw:border-t tw:border-neutral-variant-50/20 tw:dark:border-neutral-variant-60/20"
     />
     <TwDetails
       v-if="vehicle.properties.carriageDetails.length"
@@ -93,7 +93,7 @@
 
     <hr
       v-if="vehicle.properties.links.length"
-      class="tw:-mx-4 tw:border-0 tw:border-t tw:border-neutral-variant-50/20 tw:dark:border-neutral-variant-60/20"
+      class="tw:border-0 tw:border-t tw:border-neutral-variant-50/20 tw:dark:border-neutral-variant-60/20"
     />
     <TwDetails
       v-if="vehicle.properties.links.length"

@@ -26,9 +26,6 @@
           class="tw:h-4 tw:w-10 tw:shrink-0 tw:rounded tw:bg-neutral-variant-50 tw:dark:bg-neutral-variant-60 tw:md:h-5 tw:md:w-12"
         ></span>
       </div>
-      <div
-        class="tw:mt-1 tw:h-3 tw:w-20 tw:rounded tw:bg-neutral-variant-50 tw:dark:bg-neutral-variant-60 tw:md:h-4 tw:md:w-24"
-      ></div>
     </div>
   </li>
 </template>
