@@ -50,10 +50,11 @@
             {{ $tc('vehicleTotal', totalCount) }}
           </h2>
           <p
-            v-if="lastUpdatedText"
+            v-if="loadedTimes.length"
             class="tw:mt-1 tw:text-sm tw:text-neutral-variant-30 tw:dark:text-neutral-variant-80"
           >
-            {{ lastUpdatedText }}
+            {{ $t('dataUpdated') }}
+            <TwTimeAgo :timestamp="loadedTimes" :show-late="false" />
           </p>
         </div>
         <TwLoadingIndicator
@@ -296,10 +297,7 @@ export default {
       mdiCodeJson,
     }
   },
-  data: () => ({
-    currentTime: Math.floor(Date.now() / 1000),
-    timer: null,
-  }),
+  data: () => ({}),
   head() {
     return {
       title: this.region.name,
@@ -416,48 +414,13 @@ export default {
     times() {
       return this.$store.state.agencies.times
     },
-    lastUpdatedText() {
-      if (!this.activeAgencies.length) return ''
+    loadedTimes() {
+      if (!this.activeAgencies.length) return []
 
-      const loadedTimes = this.activeAgencies
+      return this.activeAgencies
         .map(({ slug }) => this.times[slug])
         .filter((timestamp) => typeof timestamp === 'number' && timestamp > 0)
-
-      if (!loadedTimes.length) return ''
-
-      const now = this.currentTime
-      const minutesAgo = loadedTimes.map((timestamp) =>
-        Math.max(0, Math.floor((now - timestamp) / 60)),
-      )
-
-      const minMinutes = Math.min(...minutesAgo)
-      const maxMinutes = Math.max(...minutesAgo)
-
-      if (maxMinutes === 0) {
-        return this.$t('dataUpdatedJustNow')
-      }
-
-      if (minMinutes === maxMinutes) {
-        return this.$tc('dataUpdatedMinutesAgo', minMinutes, {
-          count: minMinutes,
-        })
-      }
-
-      return this.$t('dataUpdatedRange', {
-        min: minMinutes,
-        max: maxMinutes,
-      })
     },
-  },
-  mounted() {
-    this.timer = setInterval(() => {
-      this.currentTime = Math.floor(Date.now() / 1000)
-    }, 10000)
-  },
-  beforeDestroy() {
-    if (this.timer) {
-      clearInterval(this.timer)
-    }
   },
   methods: {
     makeAllVisible() {
@@ -480,9 +443,7 @@ export default {
 {
   "en": {
     "vehicleTotal": "No vehicle | 1 vehicle is active | {n} vehicles are active",
-    "dataUpdatedJustNow": "Data updated just now",
-    "dataUpdatedMinutesAgo": "Data updated 1 min ago | Data updated {count} min ago",
-    "dataUpdatedRange": "Data updated {min}-{max} min ago",
+    "dataUpdated": "Data updated",
     "photoCreditsTitle": "Photo credits",
     "viewMap": "Map",
     "viewMapDesc": "Explore all active vehicles on a real-time interactive map",
@@ -514,9 +475,7 @@ export default {
   },
   "fr": {
     "vehicleTotal": "Aucun véhicule | 1 véhicule est actif | {n} véhicules sont actifs",
-    "dataUpdatedJustNow": "Données mises à jour à l'instant",
-    "dataUpdatedMinutesAgo": "Données mises à jour il y a 1 min | Données mises à jour il y a {count} min",
-    "dataUpdatedRange": "Données mises à jour il y a {min}-{max} min",
+    "dataUpdated": "Données mises à jour",
     "photoCreditsTitle": "Crédits photo",
     "viewMap": "Carte",
     "viewMapDesc": "Explorez tous les véhicules actifs sur une carte interactive",
