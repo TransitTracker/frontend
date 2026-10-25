@@ -89,6 +89,7 @@ export default {
     tags: 'Tags',
     agencyShort: 'Agency (short)',
     actions: 'Actions',
+    carriageDetails: 'Train Composition',
   },
   table: {
     empty: 'No vehicles!',

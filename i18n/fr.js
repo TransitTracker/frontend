@@ -91,6 +91,7 @@ export default {
     tags: 'Étiquettes',
     agencyShort: 'Agence (court)',
     actions: 'Actions',
+    carriageDetails: 'Composition du train',
   },
   table: {
     empty: 'Aucun véhicule!',

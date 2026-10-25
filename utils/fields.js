@@ -191,6 +191,11 @@ export const FIELDS_DEFINITIONS = {
     icon: mdiSeatPassenger,
     group: 'trip',
   },
+  carriageDetails: {
+    value: 'properties.carriageDetails',
+    sortable: false,
+    filterable: false,
+  },
   createdAt: {
     value: 'properties.firstSeenAt',
     filterable: false,

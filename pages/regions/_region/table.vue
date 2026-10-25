@@ -322,6 +322,21 @@
         }}
       </template>
       <!-- eslint-disable-next-line -->
+      <template v-slot:item.properties.carriageDetails="{ item }">
+        <div
+          v-if="item.properties.carriageDetails?.length"
+          class="tw:flex tw:items-center tw:gap-1"
+        >
+          {{ $tc('carriageQuantity', item.properties.carriageDetails.length) }}
+          <TwStandardIconButton
+            :title="$t('seeCarriageDetails')"
+            @click="setSelection('carriageDetails', item)"
+          >
+            <TwIcon :path="mdiTrainCarPassenger" />
+          </TwStandardIconButton>
+        </div>
+      </template>
+      <!-- eslint-disable-next-line -->
       <template v-slot:item.properties.actions="{ item }">
         <div class="tw:flex tw:items-center tw:gap-2">
           <TwStandardIconButton
@@ -343,16 +358,6 @@
           >
             <TwIcon :path="mdiTimelineText" />
           </TwStandardIconButton>
-          <!--          <TwFilledIconButton-->
-          <!--            v-if="adminMode"-->
-          <!--            tag="a"-->
-          <!--            :href="`https://admin.transittracker.ca/vehicles/${item.id}/edit`"-->
-          <!--            target="_blank"-->
-          <!--            class="tw:inline-flex"-->
-          <!--            color="primary"-->
-          <!--          >-->
-          <!--            <TwIcon :path="mdiTooltipEdit" />-->
-          <!--          </TwFilledIconButton>-->
         </div>
       </template>
     </v-data-table>
@@ -394,6 +399,10 @@
       <template #header>{{ $t('relatedTrips') }}</template>
       <VehicleSheetTripsList :is-open="blocksDialog" class="tw:-mx-2" />
     </TwBasicDialog>
+    <TwBasicDialog v-model="carriageDetailsDialog" @input="closeDialog($event)">
+      <template #header>{{ $t('carriageDetails') }}</template>
+      <VehicleSheetCarriagesList v-if="carriageDetailsDialog" />
+    </TwBasicDialog>
   </div>
 </template>
 
@@ -417,6 +426,7 @@ import {
   mdiMenu,
   mdiChevronLeft,
   mdiChevronRight,
+  mdiTrainCarPassenger,
 } from '@mdi/js'
 import { mixin as clickaway } from 'vue-clickaway'
 import { FIELDS_DEFINITIONS } from '~/utils/fields'
@@ -444,6 +454,7 @@ export default {
       mdiMenu,
       mdiChevronLeft,
       mdiChevronRight,
+      mdiTrainCarPassenger,
     }
   },
   data() {
@@ -451,6 +462,7 @@ export default {
       availableColumns: ['agency'],
       linksDialog: false,
       blocksDialog: false,
+      carriageDetailsDialog: false,
       searchColumn: 'ref',
       filterModal: null,
       sortBy: null,
@@ -609,6 +621,10 @@ export default {
           this.blocksDialog = true
           break
 
+        case 'carriageDetails':
+          this.carriageDetailsDialog = true
+          break
+
         case 'map':
           this.$router.push(
             this.localePath(`/regions/${this.$route.params.region}/map`),
@@ -679,7 +695,10 @@ export default {
       "paginationAll": "All",
       "paginationPosition": "{start}-{end} of {total}",
       "previousPage": "Previous page",
-      "nextPage": "Next page"
+      "nextPage": "Next page",
+      "carriageDetails": "Train Composition",
+      "seeCarriageDetails": "See Train Composition",
+      "carriageQuantity": "None | One carriage | {count} carriages"
     },
     "fr": {
       "openSettings": "Ouvrir les paramètres pour choisir les colonnes",
@@ -704,7 +723,10 @@ export default {
       "paginationAll": "Tout",
       "paginationPosition": "{start}-{end} sur {total}",
       "previousPage": "Page précédente",
-      "nextPage": "Page suivante"
+      "nextPage": "Page suivante",
+      "carriageDetails": "Composition du train",
+      "seeCarriageDetails": "Voir la composition du train",
+      "carriageQuantity": "None | Un élément | {count} éléments"
     }
   }
 </i18n>

@@ -13,7 +13,7 @@
     </ul>
 
     <hr
-      class="tw:border-0 tw:border-t tw:border-neutral-variant-50/20 tw:dark:border-neutral-variant-60/20"
+      class="tw:-mx-4 tw:border-0 tw:border-t tw:border-neutral-variant-50/20 tw:dark:border-neutral-variant-60/20"
     />
     <h3
       class="tw:text-sm tw:font-medium tw:leading-5 tw:text-neutral-10 tw:dark:text-neutral-90"
@@ -30,7 +30,7 @@
 
     <hr
       v-if="vehicle.properties.trip.blockId"
-      class="tw:border-0 tw:border-t tw:border-neutral-variant-50/20 tw:dark:border-neutral-variant-60/20"
+      class="tw:-mx-4 tw:border-0 tw:border-t tw:border-neutral-variant-50/20 tw:dark:border-neutral-variant-60/20"
     />
     <TwDetails
       v-if="vehicle.properties.trip.blockId"
@@ -49,7 +49,7 @@
     </TwDetails>
 
     <hr
-      class="tw:border-0 tw:border-t tw:border-neutral-variant-50/20 tw:dark:border-neutral-variant-60/20"
+      class="tw:-mx-4 tw:border-0 tw:border-t tw:border-neutral-variant-50/20 tw:dark:border-neutral-variant-60/20"
     />
     <h3
       class="tw:text-sm tw:font-medium tw:leading-5 tw:text-neutral-10 tw:dark:text-neutral-90"
@@ -60,7 +60,7 @@
 
     <hr
       v-if="vehicle.properties.carriageDetails.length"
-      class="tw:border-0 tw:border-t tw:border-neutral-variant-50/20 tw:dark:border-neutral-variant-60/20"
+      class="tw:-mx-4 tw:border-0 tw:border-t tw:border-neutral-variant-50/20 tw:dark:border-neutral-variant-60/20"
     />
     <TwDetails
       v-if="vehicle.properties.carriageDetails.length"
@@ -80,20 +80,12 @@
           </small>
         </h3>
       </template>
-      <ol class="tw:mt-2 tw:space-y-4">
-        <TwCarriage
-          v-for="(carriage, index) in vehicle.properties.carriageDetails"
-          :key="carriage.id"
-          :carriage="carriage"
-          :is-first="index === 0"
-          :is-last="index === vehicle.properties.carriageDetails.length - 1"
-        />
-      </ol>
+      <VehicleSheetCarriagesList />
     </TwDetails>
 
     <hr
       v-if="vehicle.properties.links.length"
-      class="tw:border-0 tw:border-t tw:border-neutral-variant-50/20 tw:dark:border-neutral-variant-60/20"
+      class="tw:-mx-4 tw:border-0 tw:border-t tw:border-neutral-variant-50/20 tw:dark:border-neutral-variant-60/20"
     />
     <TwDetails
       v-if="vehicle.properties.links.length"
@@ -160,7 +152,7 @@ export default {
     "vehicle": "Véhicule",
     "report": "Une erreur avec ce véhicule?",
     "carriageDetails": "Composition du train",
-    "carriageQuantity": "None | Un wagon | {count} wagons"
+    "carriageQuantity": "Aucun | Un élément | {count} éléments"
   }
 }
 </i18n>
