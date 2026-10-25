@@ -1,39 +1,170 @@
 <style>
-body, html {
-    background: #2374ab;
+  :root {
+    --bg-color: #00639a;
+    --logo-color: #ffffff;
+    --shadow-color: rgba(0, 0, 0, 0.22);
+    --progress-track: rgba(255, 255, 255, 0.25);
+    --progress-bar: #ffffff;
+    color-scheme: light dark;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg-color: #1a1c1e;
+      --logo-color: #91ccff;
+      --shadow-color: rgba(0, 0, 0, 0.45);
+      --progress-track: rgba(145, 204, 255, 0.15);
+      --progress-bar: #91ccff;
+    }
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html,
+  body,
+  #__nuxt,
+  #nuxt-loading {
+    margin: 0;
+    padding: 0;
     width: 100%;
     height: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    background-color: var(--bg-color);
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0;
-    padding: 0;
-}
+    overflow: hidden;
+  }
 
-.logo {
-    width: 5vw;
+  .loader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    user-select: none;
+  }
+
+  .logo-stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .logo {
+    width: clamp(56px, 12vw, 80px);
+    height: auto;
+    aspect-ratio: 295.01 / 403.72;
+    fill: var(--logo-color);
+    animation: float 2s ease-in-out infinite;
+    will-change: transform;
+    filter: drop-shadow(0 4px 12px var(--shadow-color));
+  }
+
+  .shadow {
+    width: clamp(28px, 6vw, 40px);
+    height: 8px;
+    background: var(--shadow-color);
+    border-radius: 50%;
+    margin-top: 8px;
+    animation: shadow-pulse 2s ease-in-out infinite;
+    will-change: transform, opacity;
+  }
+
+  .progress-track {
+    width: 72px;
+    height: 4px;
+    background: var(--progress-track);
+    border-radius: 9999px;
+    overflow: hidden;
     position: relative;
-    text-align: center;
-}
-.logo .pin {
-    fill: #fff;
-    stroke: #fff;
-}
-.logo .bus {
-    fill: #2374ab;
-}
+  }
 
-@media (prefers-color-scheme: dark) {
-    body, html {
-        background: #121212;
+  .progress-indicator {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    background: var(--progress-bar);
+    border-radius: 9999px;
+    animation: indeterminate 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    will-change: left, right;
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
     }
-    .logo .bus {
-        fill: #121212;
+    50% {
+      transform: translateY(-8px);
     }
-}
+  }
+
+  @keyframes shadow-pulse {
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 0.8;
+    }
+    50% {
+      transform: scale(0.65);
+      opacity: 0.35;
+    }
+  }
+
+  @keyframes indeterminate {
+    0% {
+      left: -40%;
+      right: 100%;
+    }
+    60% {
+      left: 100%;
+      right: -40%;
+    }
+    100% {
+      left: 100%;
+      right: -40%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .logo,
+    .shadow,
+    .progress-indicator {
+      animation: none;
+    }
+    .shadow {
+      opacity: 0.6;
+    }
+    .progress-indicator {
+      left: 0;
+      right: 0;
+      width: 100%;
+    }
+  }
 </style>
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 295.012 403.722" class="logo">
-    <path d="M293.137 147.506c0-80.34-65.291-145.631-145.631-145.631S1.875 67.166 1.875 147.506c0 84.709 87.864 198.786 126.942 245.631 9.708 11.651 27.427 11.651 37.136 0 39.32-46.845 127.184-160.922 127.184-245.631z" class="pin" stroke-width="3.75"/>
-    <path d="M84.348 183.032c0 6.948 3.079 13.185 7.895 17.527v10.105a11.826 11.826 0 0011.842 11.842 11.826 11.826 0 0011.842-11.842v-3.947h63.158v3.947c0 6.474 5.289 11.842 11.842 11.842 6.474 0 11.842-5.289 11.842-11.842v-10.105c4.816-4.342 7.895-10.579 7.895-17.527v-78.947c0-27.632-28.263-31.579-63.158-31.579-34.895 0-63.158 3.947-63.158 31.579zm27.632 7.895a11.826 11.826 0 01-11.842-11.842 11.826 11.826 0 0111.842-11.842 11.826 11.826 0 0111.842 11.842c0 6.553-5.29 11.842-11.842 11.842zm71.052 0a11.826 11.826 0 01-11.842-11.842c0-6.553 5.29-11.842 11.842-11.842a11.826 11.826 0 0111.842 11.842 11.826 11.826 0 01-11.842 11.842zm11.842-47.368h-94.736v-39.474h94.736z" class="bus"/>
-</svg>
+<div class="loader" role="status" aria-label="Loading Transit Tracker">
+  <div class="logo-stage">
+    <svg
+      viewBox="0 0 295.01 403.72"
+      xmlns="http://www.w3.org/2000/svg"
+      class="logo"
+      aria-hidden="true"
+    >
+      <path
+        d="m147.51 1.875c-80.34 0-145.63 65.291-145.63 145.63 0 84.709 87.863 198.79 126.94 245.63 9.708 11.651 27.428 11.651 37.137 0 39.32-46.845 127.18-160.92 127.18-245.63 0-80.34-65.291-145.63-145.63-145.63zm0 70.631c34.895 0 63.158 3.9481 63.158 31.58v78.945c0 6.948-3.0785 13.185-7.8945 17.527v10.105c0 6.553-5.3678 11.842-11.842 11.842-6.553 0-11.842-5.3678-11.842-11.842v-3.9473h-63.158v3.9473a11.826 11.826 0 0 1-11.842 11.842 11.826 11.826 0 0 1-11.844-11.842v-10.105c-4.816-4.342-7.8945-10.579-7.8945-17.527v-78.945c0-27.632 28.263-31.58 63.158-31.58zm-47.367 31.58v39.473h94.734v-39.473h-94.734zm11.842 63.156a11.826 11.826 0 0 0-11.842 11.844 11.826 11.826 0 0 0 11.842 11.842c6.552 0 11.842-5.2888 11.842-11.842a11.826 11.826 0 0 0-11.842-11.844zm71.051 0c-6.552 0-11.842 5.2908-11.842 11.844a11.826 11.826 0 0 0 11.842 11.842 11.826 11.826 0 0 0 11.842-11.842 11.826 11.826 0 0 0-11.842-11.844z"
+      />
+    </svg>
+    <div class="shadow" aria-hidden="true"></div>
+  </div>
+  <div class="progress-track" aria-hidden="true">
+    <div class="progress-indicator"></div>
+  </div>
+</div>

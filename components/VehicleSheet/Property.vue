@@ -1,26 +1,30 @@
 <template>
-  <div v-if="content" class="tw-flex tw-h-12 tw-items-center xl:tw-h-14">
+  <div
+    v-if="content"
+    class="tw:flex tw:h-12 tw:items-center tw:xl:h-14"
+    :class="[property.help && 'tw:-mr-1.5 tw:md:-mr-2']"
+  >
     <TwIcon
       :path="property.icon"
-      class="tw-text-primary-40 dark:tw-text-primary-80"
+      class="tw:text-primary-40 tw:dark:text-primary-80"
     />
-    <div class="tw-ml-3">
+    <div class="tw:ml-3">
       <dt
-        class="tw-text-[0.6875rem] tw-font-medium tw-leading-4 tw-text-neutralVariant-30 dark:tw-text-neutralVariant-80 xl:tw-text-xs"
+        class="tw:text-2xs tw:font-medium tw:leading-4 tw:text-neutral-variant-30 tw:xl:text-xs tw:dark:text-neutral-variant-80"
       >
         {{ $t(property.value) }}
       </dt>
-      <dd class="tw-mb-0 tw-text-sm tw-leading-6 xl:tw-text-base">
+      <dd class="tw:mb-0 tw:text-sm tw:leading-6 tw:xl:text-base">
         {{ property.format ? format(content) : content }} {{ property.suffix }}
       </dd>
     </div>
-    <div class="flex-grow-1"></div>
+    <div class="tw:grow"></div>
     <TwStandardIconButton
       v-if="property.help"
-      class="tw-h-8 tw-w-8 md:tw-h-10 md:tw-w-10"
+      class="tw:h-8! tw:w-8! tw:md:h-10 tw:md:w-10"
       @click="openHelp"
     >
-      <TwIcon :path="mdiHelp" class="!tw-h-5 !tw-w-5" />
+      <TwIcon :path="mdiHelp" class="tw:h-5! tw:w-5!" />
     </TwStandardIconButton>
     <TwBasicDialog v-if="property.help" v-model="helpOpen">
       <template #header>
@@ -42,8 +46,9 @@ export default {
       type: Object,
     },
     vehicle: {
-      required: true,
+      required: false,
       type: Object,
+      default: () => ({}),
     },
   },
   data: () => ({
@@ -52,22 +57,26 @@ export default {
   }),
   computed: {
     content() {
+      if (!this.vehicle || !this.property?.value) {
+        return null
+      }
+
       const data = this.property.value
         .split('.')
-        .reduce((o, i) => o[i], this.vehicle)
+        .reduce((o, i) => (o ? o[i] : undefined), this.vehicle)
+
+      if (data === undefined || data === null) {
+        return null
+      }
 
       if (this.property.condition === 'refDifferent') {
-        return this.vehicle.properties.vehicle.id ===
-          this.vehicle.properties.vehicle.label
-          ? null
-          : data
+        const vehicleInfo = this.vehicle.properties?.vehicle
+        return vehicleInfo && vehicleInfo.id === vehicleInfo.label ? null : data
       }
 
       if (this.property.condition === 'shortNameDifferent') {
-        return this.vehicle.properties.route.id ===
-          this.vehicle.properties.route.shortName
-          ? null
-          : data
+        const route = this.vehicle.properties?.route
+        return route && route.id === route.shortName ? null : data
       }
 
       return data

@@ -9,13 +9,12 @@
     <div
       v-if="view === 'index'"
       ref="index"
-      class="-tw-mb-4 tw-flex tw-flex-col tw-gap-6"
+      class="tw:flex tw:flex-col tw:gap-6 tw:min-h-full"
     >
-      <div class="tw-h-12"></div>
       <SettingsPwa />
       <SettingsGroup :title="$t('language')">
-        <SettingsItem value="en" setting="lang"> English </SettingsItem>
-        <SettingsItem value="fr" setting="lang"> Français </SettingsItem>
+        <SettingsItem value="en" setting="lang">English</SettingsItem>
+        <SettingsItem value="fr" setting="lang">Français</SettingsItem>
       </SettingsGroup>
       <SettingsGroup
         v-if="dataIsLoaded"
@@ -27,12 +26,9 @@
       >
         <div
           v-if="notificationState === 'unsupported'"
-          class="tw-col-span-full tw-flex tw-items-center tw-gap-x-2"
+          class="tw:col-span-full tw:flex tw:items-center tw:gap-x-2"
         >
-          <TwIcon
-            :path="mdiAlertCircle"
-            class="tw-text-surfaceVariant-40 dark:tw-text-surfaceVariant-80"
-          />
+          <TwIcon :path="mdiAlertCircle" />
           {{ $t('notificationsUnsupported') }}
         </div>
       </SettingsGroup>
@@ -42,7 +38,7 @@
         :description="$t('hiddenAgenciesDesc')"
         new-view="hiddenAgencies"
       >
-        <div class="tw-col-span-full tw-flex tw-items-center tw-gap-x-2">
+        <div class="tw:col-span-full tw:flex tw:items-center tw:gap-x-2">
           <TwIcon
             :path="
               settings.hiddenAgencies.length === 0
@@ -51,8 +47,8 @@
             "
             :class="[
               settings.hiddenAgencies.length === 0
-                ? 'tw-text-primary-40 dark:tw-text-primary-80'
-                : 'tw-text-error-40 dark:tw-text-error-80',
+                ? 'tw:text-primary-40 tw:dark:text-primary-80'
+                : 'tw:text-error-40 tw:dark:text-error-80',
             ]"
           />
           {{ $tc('hiddenAgenciesQuantity', settings.hiddenAgencies.length) }}
@@ -110,46 +106,42 @@
         <SettingsItem :icon="mdiCloseCircleOutline" value="no" setting="launch">
           {{ $t('noRedirect') }}
         </SettingsItem>
-        <SettingsItem :icon="mdiViewGrid" value="/" setting="launch">
-          {{ $t('app.tabHome') }}
+        <SettingsItem :icon="mdiInformationOutline" value="/" setting="launch">
+          {{ $t('app.tabInfo') }}
         </SettingsItem>
-        <SettingsItem :icon="mdiMap" value="/map" setting="launch">
+        <SettingsItem :icon="mdiMapOutline" value="/map" setting="launch">
           {{ $t('app.tabMap') }}
         </SettingsItem>
-        <SettingsItem :icon="mdiTable" value="/table" setting="launch">
+        <SettingsItem :icon="msTableOutline" value="/table" setting="launch">
           {{ $t('app.tabTable') }}
         </SettingsItem>
       </SettingsGroup>
-      <div class="tw-grow"></div>
+      <div class="tw:grow"></div>
       <button
-        class="tw-group tw-relative tw-flex tw-items-center tw-justify-center tw-gap-x-4 tw-rounded-t-xl tw-bg-primary-40 tw-p-4 tw-text-white dark:tw-bg-primary-30 dark:tw-text-primary-90"
+        class="tw:group tw:relative tw:flex tw:items-center tw:justify-center tw:gap-x-4 tw:rounded-t-xl tw:bg-primary-40 tw:p-4 tw:text-white tw:dark:bg-primary-30 tw:dark:text-primary-90"
         @click="view = 'about'"
       >
         <div
-          class="tw-absolute tw-inset-0 tw-h-full tw-w-full tw-rounded-t-xl tw-bg-primary-30 tw-bg-opacity-0 group-hover:tw-bg-opacity-8 group-focus:tw-bg-opacity-10 dark:tw-bg-primary-90 dark:tw-bg-opacity-0"
+          class="tw:absolute tw:inset-0 tw:h-full tw:w-full tw:rounded-t-xl tw:bg-transparent tw:transition-colors tw:group-hover:bg-primary-30/8 tw:group-focus:bg-primary-30/10 tw:dark:group-hover:bg-primary-90/8 tw:dark:group-focus:bg-primary-90/10"
         />
-        <img src="/img/logo-white.svg" height="40px" />
-        <h3 class="tw-font-medium">
+        <img src="/img/logo-white.svg" class="tw:h-10" />
+        <h3 class="tw:font-medium">
           {{ $t('about') }}
-          <span class="tw-font-heading">Transit&nbsp;Tracker</span>
+          <span class="tw:font-heading">Transit&nbsp;Tracker</span>
         </h3>
       </button>
     </div>
     <div v-else-if="view === 'notifications'" ref="notifications">
-      <div class="tw-h-20"></div>
       <SettingsNotifications />
     </div>
     <div v-else-if="view === 'hiddenAgencies'" ref="hiddenAgencies">
-      <div class="tw-h-20"></div>
       <SettingsHiddenAgencies />
     </div>
     <div v-else-if="view === 'listColumns'" ref="listColumns">
-      <div class="tw-h-20"></div>
-      <p class="tw-mb-2 tw-text-sm">{{ $t('listColumnsDesc') }}</p>
+      <p class="tw:mb-2 tw:text-sm">{{ $t('listColumnsDesc') }}</p>
       <SettingsTableColumns />
     </div>
     <div v-else-if="view === 'about'" ref="about">
-      <div class="tw-h-18"></div>
       <SettingsAbout />
     </div>
   </TwSideSheet>
@@ -163,16 +155,15 @@ import {
   mdiCloseCircleOutline,
   mdiFerry,
   mdiMagnify,
-  mdiMap,
+  mdiMapOutline,
   mdiMinus,
   mdiMonitor,
   mdiPlus,
   mdiSync,
   mdiSyncOff,
-  mdiTable,
   mdiTrain,
   mdiTram,
-  mdiViewGrid,
+  mdiInformationOutline,
   mdiViewList,
   mdiWeatherNight,
   mdiWhiteBalanceSunny,
@@ -190,14 +181,15 @@ export default {
     mdiClose,
     mdiCloseCircleOutline,
     mdiMagnify,
-    mdiMap,
+    mdiMapOutline,
     mdiMinus,
     mdiMonitor,
     mdiPlus,
     mdiSync,
     mdiSyncOff,
-    mdiTable,
-    mdiViewGrid,
+    msTableOutline:
+      'M19 19v-3H5v3h14Zm0-5v-4H5v4h14Zm0-6V5H5v3h14ZM5 21q-.825 0-1.413-.587Q3 19.825 3 19V5q0-.825.587-1.413Q4.175 3 5 3h14q.825 0 1.413.587Q21 4.175 21 5v14q0 .825-.587 1.413Q19.825 21 19 21Z',
+    mdiInformationOutline,
     mdiViewList,
     mdiWeatherNight,
     mdiWhiteBalanceSunny,
@@ -211,9 +203,6 @@ export default {
   computed: {
     dataIsLoaded() {
       return this.$store.state.app.dataIsLoaded
-    },
-    darkMode() {
-      return this.$vuetify.theme.dark
     },
     pwa() {
       return this.$store.state.app
