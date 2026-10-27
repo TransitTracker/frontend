@@ -6,8 +6,8 @@
   >
     <div class="tw-relative">
       <input
-        type="checkbox"
         :id="id"
+        type="checkbox"
         class="tw-peer tw-sr-only"
         :checked="value"
         :disabled="disabled"
