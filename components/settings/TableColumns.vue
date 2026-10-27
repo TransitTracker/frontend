@@ -38,15 +38,15 @@
     </draggable>
     <div class="tw-mt-2 tw-flex tw-flex-wrap tw-gap-2">
       <TwChip
-        :icon="mdiTableColumnPlusAfter"
         v-if="visibleColumns.length !== availableColumns.length"
+        :icon="mdiTableColumnPlusAfter"
         @click.native="addAll"
       >
         {{ $t('addAll') }}
       </TwChip>
       <TwChip
-        :icon="mdiTableRefresh"
         v-if="!isCurrentlyDefault"
+        :icon="mdiTableRefresh"
         @click.native="resetToDefault"
       >
         {{ $t('resetToDefault') }}

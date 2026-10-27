@@ -36,16 +36,32 @@ export default {
       this.$emit('input', value)
     },
     getLinks(vehicle) {
-      if (Object.keys(this.links).length) {
-        Object.keys(this.links).forEach((key) => this.$delete(this.links, key))
-      }
+      // ⚡ Bolt Optimization: Batch initial reactive update and prevent async race conditions
+      // By replacing $delete loop with direct assignment, we reduce initial reactivity overhead.
+      // We use a tracking ID to prevent race conditions during rapid component updates,
+      // while preserving the original UX of updating links individually as they resolve.
+      this.links = {}
       if (!vehicle || !vehicle.links) return
 
-      vehicle.links.forEach(async (id) => {
-        this.$set(this.links, id, { loading: true })
-        const link = await this.$store.dispatch('links/get', id)
+      const currentVehicleId = vehicle.id
+      this._currentVehicleLinksId = currentVehicleId
 
-        this.$set(this.links, id, link)
+      const loadingLinks = {}
+      vehicle.links.forEach((id) => {
+        loadingLinks[id] = { loading: true }
+      })
+      this.links = loadingLinks
+
+      vehicle.links.forEach(async (id) => {
+        try {
+          const link = await this.$store.dispatch('links/get', id)
+          if (this._currentVehicleLinksId === currentVehicleId) {
+            this.$set(this.links, id, link)
+          }
+        } catch (e) {
+          // preserve failure state or ignore depending on app design, but don't crash others
+          // console.error('Failed to fetch link', id, e)
+        }
       })
     },
   },

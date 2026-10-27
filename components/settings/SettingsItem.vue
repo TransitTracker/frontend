@@ -1,11 +1,11 @@
 <template>
   <button
-    @click.prevent="handleClick"
     class="tw-group tw-relative tw-rounded-lg tw-border tw-border-solid tw-border-neutralVariant-80 tw-py-3 tw-pl-2 tw-pr-4 tw-text-left tw-transition-colors dark:tw-border-neutralVariant-30"
     :class="[
       settingState === value &&
         'tw-border-secondary-90 tw-bg-secondary-90 tw-text-secondary-30 dark:tw-border-secondary-30 dark:tw-bg-secondary-30 dark:tw-text-secondary-90',
     ]"
+    @click.prevent="handleClick"
   >
     <div
       v-show="settingState !== value"
@@ -16,7 +16,7 @@
       <slot />
     </div>
     <div>
-      <small class="tw-text-xs tw-font-medium" v-if="description">
+      <small v-if="description" class="tw-text-xs tw-font-medium">
         {{ description }}
       </small>
     </div>
@@ -45,6 +45,18 @@ export default {
       required: true,
     },
   },
+  computed: {
+    isDarkMode() {
+      if (this.value === 'system') {
+        return window.matchMedia('(prefers-color-scheme: dark)').matches
+      }
+      if (this.value === 'dark') return true
+      return false
+    },
+    settingState() {
+      return this.$store.state.settings[this.setting]
+    },
+  },
   methods: {
     handleClick() {
       if (this.setting === 'theme') {
@@ -59,18 +71,6 @@ export default {
         setting: this.setting,
         value: this.value,
       })
-    },
-  },
-  computed: {
-    isDarkMode() {
-      if (this.value === 'system') {
-        return window.matchMedia('(prefers-color-scheme: dark)').matches
-      }
-      if (this.value === 'dark') return true
-      return false
-    },
-    settingState() {
-      return this.$store.state.settings[this.setting]
     },
   },
 }
