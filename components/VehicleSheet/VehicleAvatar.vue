@@ -1,6 +1,6 @@
 <template>
   <div
-    class="tw:relative tw:flex tw:h-9 tw:w-9 tw:items-center tw:justify-center tw:overflow-visible tw:rounded-full tw:md:h-12 tw:md:w-12"
+    class="tw:relative tw:flex tw:h-9 tw:w-9 tw:items-center tw:justify-center tw:overflow-visible tw:rounded-full tw:md:h-12 tw:md:w-12 tw:shrink-0"
     :style="{
       backgroundColor: agency.color,
       color: agency.textColor,

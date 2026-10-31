@@ -49,19 +49,21 @@
         </div>
       </template>
       <ul
-        class="tw:list-none tw:py-2 tw:pl-0! tw:*:flex tw:*:items-center tw:*:gap-4 tw:*:py-2"
+        class="tw:list-none tw:py-2 tw:pl-0! tw:*:flex tw:*:items-center tw:*:gap-1 tw:*:py-2"
       >
         <li v-for="agency in region.agencies" :key="agency.slug">
           <div
+            v-for="vehicleType in agency.vehicleTypes"
+            :key="vehicleType"
             :style="{ backgroundColor: agency.color, color: agency.textColor }"
-            class="tw:flex tw:h-6 tw:w-6 tw:shrink-0 tw:items-center tw:justify-center tw:rounded-full"
+            class="tw:flex tw:size-6 tw:shrink-0 tw:items-center tw:justify-center tw:rounded-full"
           >
             <TwIcon
-              :path="icons[agency.defaultVehicleType]"
-              class="tw:h-4! tw:w-4!"
+              :path="vehicleTypesEnum[vehicleType].icon"
+              class="tw:size-4!"
             />
           </div>
-          <p class="tw:mb-0! tw:grow">{{ agency.name }}</p>
+          <p class="tw:mb-0! tw:ml-2 tw:grow">{{ agency.name }}</p>
           <TwSwitch
             :id="agency.slug"
             :value="!hiddenAgencies.includes(agency.slug)"
@@ -75,6 +77,7 @@
 
 <script>
 import { mdiBus, mdiTram, mdiTrain, mdiEyeCheck } from '@mdi/js'
+import { vehicleTypes as vehicleTypesEnum } from '~/utils/enums'
 
 export default {
   data: () => ({
@@ -85,6 +88,7 @@ export default {
       train: mdiTrain,
       bus: mdiBus,
     },
+    vehicleTypesEnum,
   }),
   computed: {
     currentRegion() {

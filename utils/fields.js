@@ -48,10 +48,12 @@ export const FIELDS_DEFINITIONS = {
     help: true,
     condition: 'refDifferent',
     group: 'vehicle',
+    isId: true,
   },
   label: {
     value: 'properties.vehicle.label',
     width: 125,
+    isId: true,
   },
   tags: {
     value: 'properties.tags',
@@ -70,6 +72,7 @@ export const FIELDS_DEFINITIONS = {
     icon: mdiIdentifier,
     help: true,
     group: 'trip',
+    isId: true,
   },
   'trip.headsign': {
     value: 'properties.trip.headsign',
@@ -98,6 +101,7 @@ export const FIELDS_DEFINITIONS = {
     icon: mdiMapMarkerPath,
     condition: 'shortNameDifferent',
     group: 'trip',
+    isId: true,
   },
   'trip.routeShortName': {
     value: 'properties.route.shortName',
@@ -110,10 +114,12 @@ export const FIELDS_DEFINITIONS = {
     icon: mdiCalendarMultiselect,
     help: true,
     group: 'trip',
+    isId: true,
   },
   'trip.blockId': {
     value: 'properties.trip.blockId',
     width: 125,
+    isId: true,
   },
   'position.lat': {
     value: 'geometry.coordinates',

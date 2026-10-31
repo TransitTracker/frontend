@@ -12,9 +12,9 @@
       <b>{{ vehicle.properties.route.longName }}</b>
       <div
         v-if="vehicle.properties.trip.headsign"
-        class="tw:flex tw:items-center"
+        class="tw:flex tw:items-center tw:gap-x-1"
       >
-        <TwIcon :path="mdiArrowRight" class="tw:h-5 tw:w-5 tw:gap-x-1" />
+        <TwIcon :path="mdiArrowRight" class="tw:size-5! tw:shrink-0" />
         {{ vehicle.properties.trip.headsign }}
       </div>
     </span>

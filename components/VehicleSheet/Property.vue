@@ -6,7 +6,7 @@
   >
     <TwIcon
       :path="property.icon"
-      class="tw:text-primary-40 tw:dark:text-primary-80"
+      class="tw:text-primary-40 tw:dark:text-primary-80 tw:shrink-0"
     />
     <div class="tw:ml-3">
       <dt
@@ -14,14 +14,17 @@
       >
         {{ $t(property.value) }}
       </dt>
-      <dd class="tw:mb-0 tw:text-sm tw:leading-6 tw:xl:text-base">
+      <dd
+        class="tw:mb-0 tw:text-sm tw:leading-6 tw:xl:text-base"
+        :class="[property.isId && 'tw:break-all']"
+      >
         {{ property.format ? format(content) : content }} {{ property.suffix }}
       </dd>
     </div>
     <div class="tw:grow"></div>
     <TwStandardIconButton
       v-if="property.help"
-      class="tw:h-8! tw:w-8! tw:md:h-10 tw:md:w-10"
+      class="tw:h-8! tw:w-8! tw:md:h-10 tw:md:w-10 tw:shrink-0"
       @click="openHelp"
     >
       <TwIcon :path="mdiHelp" class="tw:h-5! tw:w-5!" />
