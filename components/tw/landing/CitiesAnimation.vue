@@ -1,11 +1,11 @@
 <template>
   <span
-    class="tt-cities tw-relative tw-inline-block tw-font-bold tw-text-primary-40 !tw-opacity-100 dark:tw-text-primary-80"
+    class="tt-cities tw:relative tw:inline-block tw:font-bold tw:text-primary-40 tw:opacity-100! tw:dark:text-primary-80"
   >
     <span
-      class="tt-cities-line tw-absolute tw-left-0 tw-h-full tw-w-1 tw-origin-[0_50%] tw-bg-current"
+      class="tt-cities-line tw:absolute tw:left-0 tw:h-full tw:w-1 tw:origin-[0_50%] tw:bg-current"
     ></span>
-    <span ref="letters" class="tt-cities-letters tw-inline-block">
+    <span ref="letters" class="tt-cities-letters tw:inline-block">
       Montréal
     </span>
   </span>
@@ -59,7 +59,7 @@ export default {
       this.$refs.letters.innerHTML = city.replace(
         // eslint-disable-next-line
         /([^\x00-\x80]|[^ ]|\w)/g,
-        "<span class='tt-cities-letters'>$&</span>"
+        "<span class='tt-cities-letters'>$&</span>",
       )
       anime
         .timeline()

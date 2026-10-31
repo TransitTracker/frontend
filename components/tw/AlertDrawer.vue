@@ -4,14 +4,14 @@
     :title="$t('alerts')"
     :is-active="alertsView !== false"
     :is-loading="isLoading"
+    :scrollbar-stable-gutter="false"
     @back="alertsView = 'index'"
     @close="alertsView = false"
   >
     <div v-if="alertsView === 'index'" ref="index">
-      <div class="tw-h-20"></div>
-      <p class="tw-mb-2 tw-text-sm">{{ $t('description') }}</p>
+      <p class="tw:mb-2 tw:text-sm">{{ $t('description') }}</p>
 
-      <div class="tw-flex tw-flex-wrap tw-items-center tw-gap-2">
+      <div class="tw:flex tw:flex-wrap tw:items-center tw:gap-2">
         <TwChip :icon="mdiBellCog" @click.native="openSettings">
           {{ $t('openSettings') }}
         </TwChip>
@@ -24,29 +24,29 @@
         </TwChip>
       </div>
 
-      <ul class="tw-mt-4 tw-list-none !tw-pl-0">
+      <ul class="tw:mt-4 tw:list-none tw:pl-0! tw:pb-4">
         <li
           v-for="alert in alerts"
           :key="alert.id"
           role="button"
           tabindex="0"
-          class="-tw-mx-4 tw-flex tw-items-start tw-justify-between tw-gap-4 tw-px-4 tw-py-2"
+          class="tw:-mx-4 tw:flex tw:items-start tw:justify-between tw:gap-4 tw:px-4 tw:py-2"
           :class="[
             alert.isUnread &&
-              'tw-bg-primary-90 tw-text-primary-30 dark:tw-bg-primary-30 dark:tw-text-primary-90',
+              'tw:bg-primary-90 tw:text-primary-30 tw:dark:bg-primary-30 tw:dark:text-primary-90',
           ]"
           @click="viewAlert(alert)"
           @keyup.enter="viewAlert(alert)"
         >
           <div>
-            <p class="!tw-mb-0">{{ alert.title }}</p>
-            <small>{{ alert.subtitle }}</small
-            ><br />
+            <p class="tw:mb-0!">{{ alert.title }}</p>
+            <small>{{ alert.subtitle }}</small>
+            <br />
             <small>{{ alert.thirdLine }}</small>
           </div>
           <TwStandardIconButton
             :title="$t('view')"
-            class="!tw-shrink-0"
+            class="tw:shrink-0!"
             @click="viewAlert(alert)"
           >
             <TwIcon :path="mdiArrowRight" />
@@ -54,29 +54,31 @@
         </li>
       </ul>
     </div>
-    <article v-if="viewIsShow && selectedAlert" ref="show">
-      <div class="tw-h-18"></div>
-      <div
-        v-if="selectedAlert.image"
-        class="-tw-mx-4 -tw-mt-2 tw-h-32 tw-bg-cover tw-bg-center lg:tw-h-64"
-        :style="{
-          backgroundImage: `url(${backendHost}/storage/content/alerts/${selectedAlert.image})`,
-          width: 'calc(100% + 2rem)',
-        }"
-      ></div>
+    <article v-if="viewIsShow && selectedAlert" ref="show" class="tw:pb-4">
+      <div v-if="selectedAlert.image" class="tw:-mx-4">
+        <img
+          :src="`${backendHost}/storage/content/alerts/${selectedAlert.image}`"
+          class="tw:w-full tw:h-auto"
+          :alt="selectedAlert.title"
+          loading="lazy"
+        />
+      </div>
       <h2
-        class="tw-mt-6 tw-font-heading tw-text-2xl tw-leading-8 tw-text-neutral-10 dark:tw-text-neutral-90"
+        class="tw:mt-6 tw:font-heading tw:text-2xl tw:leading-8 tw:text-neutral-10 tw:dark:text-neutral-90"
       >
         {{ selectedAlert.title }}
       </h2>
-      <div class="tw-flex tw-items-center tw-gap-2 tw-pt-2">
+      <div class="tw:flex tw:items-center tw:gap-2 tw:pt-2">
         <TwChip tag="div">{{ selectedAlert.categoryLabel }}</TwChip>
-        <small class="tw-text-sm tw-leading-5">
+        <small class="tw:text-sm tw:leading-5">
           {{ selectedAlert.date }}
         </small>
       </div>
       <!-- eslint-disable vue/no-v-html -->
-      <div class="tw-mt-4" v-html="selectedAlert.body"></div>
+      <div
+        class="tw:prose tw:mt-4 tw:dark:prose-invert"
+        v-html="selectedAlert.body"
+      ></div>
       <!-- eslint-enable vue/no-v-html -->
     </article>
   </TwSideSheet>
@@ -113,27 +115,27 @@ export default {
         } else if (absDiff < SECONDS_IN.hour) {
           return this.rtf.format(
             Math.round(diffSeconds / SECONDS_IN.minute),
-            'minutes'
+            'minutes',
           )
         } else if (absDiff < SECONDS_IN.day) {
           return this.rtf.format(
             Math.round(diffSeconds / SECONDS_IN.hour),
-            'hours'
+            'hours',
           )
         } else if (absDiff < SECONDS_IN.month) {
           return this.rtf.format(
             Math.round(diffSeconds / SECONDS_IN.day),
-            'days'
+            'days',
           )
         } else if (absDiff < SECONDS_IN.year) {
           return this.rtf.format(
             Math.round(diffSeconds / SECONDS_IN.month),
-            'months'
+            'months',
           )
         } else {
           return this.rtf.format(
             Math.round(diffSeconds / SECONDS_IN.year),
-            'years'
+            'years',
           )
         }
       }
@@ -149,9 +151,9 @@ export default {
             thirdLineSegments.unshift(
               alert.regions
                 ?.map(
-                  (slug) => this.$store.state.regions.data?.[slug]?.name || ''
+                  (slug) => this.$store.state.regions.data?.[slug]?.name || '',
                 )
-                .join(', ')
+                .join(', '),
             )
           }
 
@@ -198,7 +200,7 @@ export default {
         ...alert,
         date: dtf.format(alert.createdAt * 1000),
         categoryLabel: this.$t(
-          `categories.${alertCategory[alert.category].key}`
+          `categories.${alertCategory[alert.category].key}`,
         ),
       }
     },

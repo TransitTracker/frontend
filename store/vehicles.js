@@ -19,7 +19,7 @@ export const getters = {
     (state) =>
     ({ agencySlug, vehicleId }) => {
       return state.features[agencySlug].features.find(
-        (vehicle) => vehicle.id === vehicleId
+        (vehicle) => vehicle.id === vehicleId,
       )
     },
 }
@@ -48,7 +48,7 @@ export const actions = {
     }
 
     const response = await this.$axios.get(
-      `/agencies/${agency.slug}/vehicles.geojson`
+      `/agencies/${agency.slug}/vehicles.geojson`,
     )
     commit('set', {
       agency,
@@ -59,14 +59,14 @@ export const actions = {
     commit(
       'agencies/setTime',
       { agency, timestamp: response.data.lastRefreshAt },
-      { root: true }
+      { root: true },
     )
 
     // If selected vehicle is from this agency, replace it or erase it
     // TODO: agencySlug is not available anymore in selection
     if (state.selection.agency === agency.slug) {
       const vehicle = response.data.features.find(
-        ({ id }) => id === state.selection.id
+        ({ id }) => id === state.selection.id,
       )
       if (vehicle) commit('setSelection', vehicle)
       else commit('setSelection', {})
@@ -74,10 +74,10 @@ export const actions = {
   },
   setSelectionWithId(
     { commit, rootState, dispatch, state },
-    { agencySlug, vehicleId }
+    { agencySlug, vehicleId },
   ) {
     const vehicle = state.features[agencySlug]?.features?.find(
-      (vehicle) => vehicle.id === vehicleId
+      (vehicle) => vehicle.id === vehicleId,
     )
 
     if (!vehicle) {
@@ -99,7 +99,7 @@ export const actions = {
       dispatch(
         'agencies/setSelectionById',
         vehicleSelection.properties.agencyId,
-        { root: true }
+        { root: true },
       )
     }
 

@@ -1,14 +1,14 @@
 <template>
   <div
-    class="tw-rounded-xl tw-bg-neutral-90 tw-p-4 dark:tw-bg-neutral-22"
+    class="tw:rounded-xl tw:bg-neutral-90 tw:p-4 tw:dark:bg-neutral-22"
     v-if="canInstall"
   >
-    <h3 class="tw-font-medium">{{ $t('title') }}</h3>
-    <p class="!tw-mb-0 tw-text-sm">
+    <h3 class="tw:font-medium">{{ $t('title') }}</h3>
+    <p class="tw:mb-0! tw:text-sm">
       {{ $t('description') }}
     </p>
     <TwFilledButton
-      class="tw-mt-4"
+      class="tw:mt-4"
       with-icon
       :color="
         installOutcome

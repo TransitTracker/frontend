@@ -1,40 +1,48 @@
 <template>
   <div
-    class="tw-flex tw-min-h-screen tw-flex-col tw-bg-neutral-99 dark:tw-bg-neutral-10"
+    class="tw:flex tw:min-h-screen tw:flex-col tw:bg-neutral-99 tw:dark:bg-neutral-10"
   >
-    <div class="tw-container tw-mx-auto tw-p-4">
+    <div class="tw:container tw:mx-auto tw:p-4">
       <h1
-        class="leading-[2.75rem] md:leading-[4rem] tw-font-heading tw-text-4xl md:tw-text-6xl"
+        class="tw:font-heading tw:text-3xl tw:leading-9 tw:md:text-5xl tw:lg:text-6xl tw:md:leading-14 tw:lg:leading-16"
       >
         {{ $t('title') }}
       </h1>
-      <p class="!tw-mb-2 tw-mt-4">
-        {{ $t('description') }}
-      </p>
-      <b>{{ $t('notice') }}</b>
-      <ul>
-        <li>
-          {{ $t('noticeLicense') }}
-        </li>
-        <li>
-          {{ $t('noticeAccuracy') }}
-        </li>
-      </ul>
-      <div class="tw-mt-8 tw-min-h-96 md:tw-min-h-[unset]">
+      <div class="tw:prose tw:prose-sm tw:dark:prose-invert tw:md:prose-base">
+        <p class="tw:mb-2! tw:mt-3 tw:md:mt-4">
+          {{ $t('description') }}
+        </p>
+        <b>{{ $t('notice') }}</b>
+        <ul>
+          <li>
+            {{ $t('noticeLicense') }}
+          </li>
+          <li>
+            {{ $t('noticeAccuracy') }}
+          </li>
+        </ul>
+      </div>
+      <div class="tw:mt-6 tw:overflow-x-hidden tw:md:mt-8">
         <Transition
-          enter-active-class="tw-transition tw-duration-300 tw-ease-standard-effects-slow tw-absolute"
-          enter-from-class="tw-translate-x-full tw-opacity-0"
-          enter-to-class="tw-translate-x-0 tw-opacity-1"
-          leave-active-class="tw-transition tw-duration-300 tw-ease-standard-effects-slow tw-absolute"
-          leave-from-class="tw-translate-x-0 tw-opacity-1"
-          leave-to-class="-tw-translate-x-full tw-opacity-0"
+          :enter-class="transitionEnterClass"
+          :enter-from-class="transitionEnterClass"
+          enter-to-class="tw:translate-x-0 tw:opacity-1"
+          enter-active-class="tw:transition tw:duration-300 tw:ease-standard-effects-slow"
+          leave-class="tw:translate-x-0 tw:opacity-1"
+          leave-from-class="tw:translate-x-0 tw:opacity-1"
+          leave-active-class="tw:transition tw:duration-300 tw:ease-standard-effects-slow"
+          :leave-to-class="transitionLeaveToClass"
           mode="out-in"
         >
           <section v-if="step === 0" key="step0">
-            <h2 class="tw-text-[2rem] tw-font-medium tw-leading-10">
+            <h2
+              class="tw:text-2xl tw:font-medium tw:leading-8 tw:md:text-[2rem] tw:md:leading-10"
+            >
               {{ $t('step0Title') }}
             </h2>
-            <div class="tw-mt-4 tw-flex tw-flex-wrap tw-gap-4">
+            <div
+              class="tw:mt-4 tw:flex tw:flex-col tw:gap-3 tw:sm:flex-row tw:sm:flex-wrap tw:sm:gap-4"
+            >
               <TwChoiceCard
                 :title="$t('allAgencies')"
                 :icon="mdiBusMultiple"
@@ -52,16 +60,18 @@
             </div>
           </section>
           <section v-else-if="step === 1" key="step1">
-            <div class="tw-mt-8 tw-flex tw-items-center tw-gap-2">
+            <div class="tw:flex tw:items-center tw:gap-2">
               <TwFilledIconButton @click="step = 0">
                 <TwIcon :path="mdiArrowLeft" />
               </TwFilledIconButton>
-              <h2 class="tw-text-[2rem] tw-font-medium tw-leading-10">
+              <h2
+                class="tw:text-2xl tw:font-medium tw:leading-8 tw:md:text-[2rem] tw:md:leading-10"
+              >
                 {{ $t('selectAgency') }}
               </h2>
             </div>
             <div
-              class="tw-mt-4 tw-flex tw-flex-col tw-divide-y tw-divide-solid tw-divide-neutralVariant-80 *:tw-border-x-0 *:tw-py-2 dark:tw-divide-neutralVariant-30"
+              class="tw:mt-4 tw:flex tw:flex-col tw:divide-y tw:divide-solid tw:divide-neutral-variant-80 tw:*:border-x-0 tw:*:py-2 tw:dark:divide-neutral-variant-30"
             >
               <TwDetails
                 v-for="region in regions"
@@ -69,30 +79,34 @@
                 :open="currentRegion === region.slug"
               >
                 <template #summary>
-                  <h3>{{ region.name }}</h3>
+                  <h3
+                    class="tw:text-base tw:font-semibold tw:leading-6 tw:md:text-lg"
+                  >
+                    {{ region.name }}
+                  </h3>
                 </template>
                 <ul
-                  class="tw-mt-2 tw-grid tw-grid-cols-2 tw-gap-4 !tw-pl-0 md:tw-grid-cols-3 xl:tw-grid-cols-4"
+                  class="tw:mt-2 tw:grid tw:grid-cols-2 tw:gap-2 tw:pl-0! tw:sm:gap-3 tw:md:grid-cols-3 tw:md:gap-4 tw:xl:grid-cols-4"
                 >
                   <li
                     v-for="agency in region.agencies"
                     :key="agency.slug"
-                    class="tw-relative tw-cursor-pointer tw-overflow-hidden tw-rounded-lg tw-py-1 tw-pl-2 tw-pr-10 tw-text-sm tw-font-medium tw-leading-5 tw-transition-colors hover:!tw-bg-neutral-10 hover:!tw-text-neutral-98 dark:hover:!tw-bg-neutral-90 dark:hover:!tw-text-neutral-6 md:tw-py-2"
+                    class="tw:relative tw:cursor-pointer tw:overflow-hidden tw:rounded-lg tw:py-1.5 tw:pl-2.5 tw:pr-8 tw:text-xs tw:font-medium tw:leading-4 tw:transition-colors tw:hover:bg-neutral-10! tw:hover:text-neutral-98! tw:dark:hover:bg-neutral-90! tw:dark:hover:text-neutral-6! tw:sm:text-sm tw:sm:leading-5 tw:md:py-2 tw:md:pl-3 tw:md:pr-10"
                     :style="{
                       backgroundColor: `${agency.color}26`,
                     }"
                     @click="selectAgency(agency)"
                   >
-                    <b class="tw-hidden md:tw-block">{{ agency.name }}</b>
-                    <b class="md:tw-hidden">{{ agency.shortName }}</b>
+                    <b class="tw:hidden tw:md:block">{{ agency.name }}</b>
+                    <b class="tw:md:hidden">{{ agency.shortName }}</b>
                     <p
                       v-if="agency.isArchived"
-                      class="!tw-mb-0 tw-font-normal tw-italic"
+                      class="tw:mb-0! tw:text-2xs tw:font-normal tw:italic tw:sm:text-xs"
                     >
                       {{ $t('archived') }}
                     </p>
                     <div
-                      class="tw-absolute tw-inset-y-0 -tw-right-4 tw-h-full tw-w-10 tw-skew-x-[18deg]"
+                      class="tw:absolute tw:inset-y-0 tw:-right-4 tw:h-full tw:w-8 tw:skew-x-18 tw:md:w-10"
                       :style="{ backgroundColor: agency.color }"
                     ></div>
                   </li>
@@ -101,17 +115,21 @@
             </div>
           </section>
           <section v-else-if="step === 2" key="step2">
-            <div class="tw-flex tw-items-center tw-gap-2">
+            <div class="tw:flex tw:items-center tw:gap-2">
               <TwFilledIconButton
                 @click="step = selectedAgency.slug === 'all' ? 0 : 1"
               >
                 <TwIcon :path="mdiArrowLeft" />
               </TwFilledIconButton>
-              <h2 class="tw-text-[2rem] tw-font-medium tw-leading-10">
+              <h2
+                class="tw:text-2xl tw:font-medium tw:leading-8 tw:md:text-[2rem] tw:md:leading-10"
+              >
                 {{ $t('selectPeriod') }}
               </h2>
             </div>
-            <div class="tw-mt-4 tw-flex tw-flex-wrap tw-gap-4">
+            <div
+              class="tw:mt-4 tw:flex tw:flex-col tw:gap-3 tw:sm:flex-row tw:sm:flex-wrap tw:sm:gap-4"
+            >
               <TwChoiceCard
                 :title="$t('currentlyActive')"
                 :icon="mdiMotionPlayOutline"
@@ -129,28 +147,42 @@
             </div>
           </section>
           <section v-else-if="step === 3" key="step3">
-            <h2 class="tw-text-[2rem] tw-font-medium tw-leading-10">
+            <h2
+              class="tw:text-2xl tw:font-medium tw:leading-8 tw:md:text-[2rem] tw:md:leading-10"
+            >
               {{ $t('preparingData') }}
             </h2>
-            <p>
+            <p
+              class="tw:mt-2 tw:text-sm tw:leading-5 tw:text-neutral-variant-30 tw:dark:text-neutral-variant-80 tw:md:text-base"
+            >
               {{ $t('automaticDownload') }}
               <br />
-              {{ paginationCurrent }} / {{ paginationTotal }}
+              <span
+                class="tw:font-medium tw:text-neutral-10 tw:dark:text-neutral-90"
+              >
+                {{ paginationCurrent }} / {{ paginationTotal }}
+              </span>
             </p>
             <TwLinearProgress
               :max="paginationTotal"
               :value="paginationCurrent"
+              class="tw:mt-4"
             />
           </section>
           <section
             v-else-if="step === 4"
             key="step4"
-            class="tw-flex tw-flex-col tw-items-center tw-gap-8"
+            class="tw:flex tw:w-full tw:flex-col tw:items-center tw:gap-6 tw:py-6 tw:md:gap-8 tw:md:py-10"
           >
-            <h2 class="tw-text-[2rem] tw-font-medium tw-leading-10">
+            <h2
+              class="tw:text-center tw:text-2xl tw:font-medium tw:leading-8 tw:md:text-[2rem] tw:md:leading-10"
+            >
               {{ $t('downloadComplete') }}
             </h2>
-            <TwIcon :path="mdiCheckCircle" class="!tw-h-20 !tw-w-20" />
+            <TwIcon
+              :path="mdiCheckCircle"
+              class="tw:h-14! tw:w-14! tw:text-primary-40 tw:dark:text-primary-80 tw:md:h-20! tw:md:w-20!"
+            />
             <TwFilledButton @click="startNewDownload">
               {{ $t('startNewDownload') }}
             </TwFilledButton>
@@ -158,36 +190,48 @@
         </Transition>
       </div>
     </div>
-    <div class="tw-grow"></div>
-    <div class="tw-container tw-mx-auto md:tw-px-4">
+    <div class="tw:grow"></div>
+    <div class="tw:container tw:mx-auto tw:md:px-4">
       <div
-        class="tw-min-h-32 tw-rounded-t-xl tw-bg-neutral-90 tw-p-4 dark:tw-bg-neutral-20"
+        class="tw:rounded-t-xl tw:bg-neutral-90 tw:p-4 tw:dark:bg-neutral-20 tw:md:p-6"
       >
-        <h2 class="tw-text-[1.375rem] tw-font-normal tw-leading-7">
+        <h2
+          class="tw:text-base tw:font-medium tw:leading-6 tw:md:text-[1.375rem] tw:md:font-normal tw:md:leading-7"
+        >
           {{ $t('selection') }}
         </h2>
-        <div class="md:tw-grid md:tw-grid-cols-2">
-          <div v-if="selectedAgency.slug" class="tw-mt-4">
+        <div class="tw:grid tw:grid-cols-2 tw:gap-3 tw:md:gap-6">
+          <div v-if="selectedAgency.slug" class="tw:mt-3 tw:md:mt-4">
             <b
-              class="tw-block tw-text-xs tw-font-medium tw-leading-4 tw-tracking-normal"
+              class="tw:block tw:text-2xs tw:font-medium tw:leading-4 tw:tracking-normal tw:text-neutral-variant-30 tw:dark:text-neutral-variant-70 tw:sm:text-xs"
             >
               {{ $t('agency') }}
             </b>
-            {{
-              selectedAgency.slug === 'all'
-                ? $t('allAgencies')
-                : selectedAgency.name
-            }}
+            <span
+              class="tw:mt-0.5 tw:block tw:text-sm tw:font-medium tw:leading-5 tw:md:text-base"
+            >
+              {{
+                selectedAgency.slug === 'all'
+                  ? $t('allAgencies')
+                  : selectedAgency.name
+              }}
+            </span>
           </div>
-          <div v-if="period" class="tw-mt-4">
+          <div v-if="period" class="tw:mt-3 tw:md:mt-4">
             <b
-              class="tw-block tw-text-xs tw-font-medium tw-leading-4 tw-tracking-normal"
+              class="tw:block tw:text-2xs tw:font-medium tw:leading-4 tw:tracking-normal tw:text-neutral-variant-30 tw:dark:text-neutral-variant-70 tw:sm:text-xs"
             >
               {{ $t('period') }}
             </b>
-            {{
-              period === 'active' ? $t('currentlyActive') : $t('historicalData')
-            }}
+            <span
+              class="tw:mt-0.5 tw:block tw:text-sm tw:font-medium tw:leading-5 tw:md:text-base"
+            >
+              {{
+                period === 'active'
+                  ? $t('currentlyActive')
+                  : $t('historicalData')
+              }}
+            </span>
           </div>
         </div>
       </div>
@@ -211,6 +255,7 @@ export default {
   name: 'Download',
   middleware: 'loadData',
   data: () => ({
+    direction: 'forward',
     selectedAgency: { slug: null },
     step: 0,
     period: null,
@@ -251,6 +296,21 @@ export default {
         String(now.getHours()).padStart(2, '0') +
         String(now.getMinutes()).padStart(2, '0')
       return `tt-export-${this.selectedAgency.slug}-${this.period}-${dateTime}.csv`
+    },
+    transitionEnterClass() {
+      return this.direction === 'forward'
+        ? 'tw:translate-x-full tw:opacity-0'
+        : 'tw:-translate-x-full tw:opacity-0'
+    },
+    transitionLeaveToClass() {
+      return this.direction === 'forward'
+        ? 'tw:-translate-x-full tw:opacity-0'
+        : 'tw:translate-x-full tw:opacity-0'
+    },
+  },
+  watch: {
+    step(newStep, oldStep) {
+      this.direction = newStep > oldStep ? 'forward' : 'backward'
     },
   },
   methods: {
@@ -309,19 +369,40 @@ export default {
       const isPlainObj = (o) =>
         Boolean(
           o &&
-            o.constructor &&
-            o.constructor.prototype &&
-            // eslint-disable-next-line no-prototype-builtins
-            o.constructor.prototype.hasOwnProperty('isPrototypeOf')
+          o.constructor &&
+          o.constructor.prototype &&
+          // eslint-disable-next-line no-prototype-builtins
+          o.constructor.prototype.hasOwnProperty('isPrototypeOf'),
         )
 
       const flattenObj = (obj, keys = []) => {
         return Object.keys(obj).reduce((acc, key) => {
+          const value = obj[key]
+          const newKeys = keys.concat(key)
+
+          if (Array.isArray(value)) {
+            if (value.length === 0) {
+              return Object.assign(acc, { [newKeys.join('.')]: '' })
+            }
+
+            if (value.every((item) => isPlainObj(item))) {
+              // Array of objects: flatten each and prefix keys with index
+              value.forEach((item, index) => {
+                const flatItem = flattenObj(item, newKeys.concat(String(index)))
+                Object.assign(acc, flatItem)
+              })
+              return acc
+            }
+
+            // Array of primitives: join as comma-separated string
+            return Object.assign(acc, { [newKeys.join('.')]: value.join(', ') })
+          }
+
           return Object.assign(
             acc,
-            isPlainObj(obj[key])
-              ? flattenObj(obj[key], keys.concat(key))
-              : { [keys.concat(key).join('.')]: obj[key] }
+            isPlainObj(value)
+              ? flattenObj(value, newKeys)
+              : { [newKeys.join('.')]: value },
           )
         }, {})
       }

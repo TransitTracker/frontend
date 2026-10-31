@@ -16,6 +16,7 @@ export const state = () => ({
   selectedTableColumns: DEFAULT_TABLE_COLUMNS,
   tableGroupBy: 'properties.agencyId',
   debugMode: false,
+  tableItemsPerPage: 100,
 })
 
 export const mutations = {
@@ -26,7 +27,7 @@ export const mutations = {
     // Delete the field from it's current position
     state.selectedTableColumns.splice(
       state.selectedTableColumns.indexOf(columnField),
-      1
+      1,
     )
 
     // Move to it's new position
@@ -36,7 +37,7 @@ export const mutations = {
     if (remove) {
       state.selectedTableColumns.splice(
         state.selectedTableColumns.indexOf(columnField),
-        1
+        1,
       )
     } else {
       state.selectedTableColumns.push(columnField)
@@ -61,7 +62,7 @@ export const actions = {
     const activeAgencies = rootState.regions.data[region.slug].agencies.filter(
       (agency) => {
         return !state.hiddenAgencies.includes(agency.slug)
-      }
+      },
     )
 
     // For each selected agency, load vehicles
@@ -70,6 +71,27 @@ export const actions = {
     })
 
     dispatch('regions/connectToAutoRefresh', region, { root: true })
+  },
+  makeAllAgenciesVisible({ dispatch, rootState, state }, regionScope = null) {
+    state.hiddenAgencies.forEach((agencySlug) => {
+      const agency = rootState.agencies.data[agencySlug]
+
+      // Case when agency doesn't exist anymore
+      if (!agency) {
+        return
+      }
+
+      // Optional: add agencies only if part of a region
+      if (regionScope) {
+        // regionScope should be an array of agency slugs
+        const isInRegion = regionScope.includes(agencySlug)
+        if (!isInRegion) {
+          return
+        }
+      }
+
+      dispatch('toggleAgency', agency)
+    })
   },
   toggleAgency({ commit, dispatch, rootState, state }, agency) {
     const setting = [...state.hiddenAgencies]
@@ -109,12 +131,12 @@ export const getters = {
   },
   visibleTableColumns(state) {
     return state.selectedTableColumns.filter((column) =>
-      availableColumns.includes(column)
+      availableColumns.includes(column),
     )
   },
   hiddenTableColumns(state) {
     return availableColumns.filter(
-      (column) => !state.selectedTableColumns.includes(column)
+      (column) => !state.selectedTableColumns.includes(column),
     )
   },
 }

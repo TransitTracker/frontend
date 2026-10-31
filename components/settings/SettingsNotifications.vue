@@ -1,59 +1,59 @@
 <template>
-  <div class="tw-relative" v-if="notificationsSupported">
+  <div v-if="notificationsSupported" class="tw:relative">
     <div
       v-if="!pushSubscriptionUuid"
-      class="tw-flex tw-flex-col tw-items-center tw-gap-2 tw-text-center"
+      class="tw:flex tw:flex-col tw:items-center tw:gap-2 tw:text-center"
     >
-      <TwIcon class="!tw-h-12 !tw-w-12" :path="mdiBellRing" />
+      <TwIcon class="tw:h-12! tw:w-12!" :path="mdiBellRing" />
       <h2>{{ $t('heading') }}</h2>
       <p>{{ $t('description') }}</p>
       <div
-        class="tw-rounded-xl tw-bg-error-40 tw-p-4 tw-text-white dark:tw-bg-error-80 dark:tw-text-error-20"
         v-if="permissionState === 'denied'"
+        class="tw:rounded-xl tw:bg-error-40 tw:p-4 tw:text-white tw:dark:bg-error-80 tw:dark:text-error-20"
       >
         <b>{{ $t('permissionDenied') }}</b>
-        <p class="!tw-mb-0">{{ $t('permissionDeniedHelp') }}</p>
+        <p class="tw:mb-0!">{{ $t('permissionDeniedHelp') }}</p>
       </div>
-      <TwFilledButton @click="subscribe" with-icon :disabled="isLoading">
+      <TwFilledButton with-icon :disabled="isLoading" @click="subscribe">
         <TwIcon
           :path="isLoading ? mdiLoading : mdiBellPlus"
-          :class="[isLoading && 'tw-animate-spin']"
+          :class="[isLoading && 'tw:animate-spin']"
         />
         {{ $t('subscribe') }}
       </TwFilledButton>
       <small
-        class="tw-max-w-60 tw-text-sm tw-text-neutralVariant-30 dark:tw-text-neutralVariant-80"
+        class="tw:max-w-60 tw:text-sm tw:text-neutral-variant-30 tw:dark:text-neutral-variant-80"
       >
         {{ $t('unsubscribeAtAnyMoment') }}
       </small>
-      <img :src="imageUrl" class="tw-mt-8 tw-w-11/12" :alt="$t('exampleAlt')" />
+      <img :src="imageUrl" class="tw:mt-8 tw:w-11/12" :alt="$t('exampleAlt')" />
     </div>
-    <div v-if="pushSubscriptionUuid" class="tw-space-y-4">
+    <div v-if="pushSubscriptionUuid" class="tw:space-y-4">
       <div
         v-if="pushSubscriptionUuid"
-        class="tw-space-y-4 tw-rounded-xl tw-bg-secondary-40 tw-p-4 tw-text-white dark:tw-bg-secondary-80 dark:tw-text-secondary-20"
+        class="tw:space-y-4 tw:rounded-xl tw:bg-secondary-40 tw:p-4 tw:text-white tw:dark:bg-secondary-80 tw:dark:text-secondary-20"
       >
-        <div class="tw-flex tw-items-center tw-gap-2">
-          <TwIcon :path="mdiCheckCircle" class="tw-shrink-0" />
+        <div class="tw:flex tw:items-center tw:gap-2">
+          <TwIcon :path="mdiCheckCircle" class="tw:shrink-0" />
           <span>{{ $t('activeSubscription') }}</span>
         </div>
         <TwTextButton color="onSecondary" @click="unsubscribe">
           {{ $t('unsubscribe') }}
         </TwTextButton>
       </div>
-      <div class="tw-flex tw-items-center tw-gap-2">
+      <div class="tw:flex tw:items-center tw:gap-2">
         <TwIcon
-          :class="[isLoading && 'tw-animate-spin']"
+          :class="[isLoading && 'tw:animate-spin']"
           :path="isLoading ? mdiSync : mdiCloudCheck"
         />
         {{ $t(isLoading ? 'syncinc' : 'synced') }}
       </div>
-      <SettingsGroup :title="$t('generalNews')" class="!tw-mt-8">
+      <SettingsGroup :title="$t('generalNews')" class="tw:mt-8!">
         <div
-          class="tw-col-span-full tw-flex tw-items-center tw-justify-between tw-gap-4"
+          class="tw:col-span-full tw:flex tw:items-center tw:justify-between tw:gap-4"
         >
           <p
-            class="!tw-mb-0 tw-text-sm tw-text-neutralVariant-10 dark:tw-text-neutralVariant-90"
+            class="tw:mb-0! tw:text-sm tw:text-neutral-variant-10 tw:dark:text-neutral-variant-90"
           >
             {{ $t('generalNewsDesc') }}
           </p>
@@ -70,46 +70,46 @@
         :description="$t('newVehicleNotificationDesc')"
       >
         <TwDetails
-          class="tw-col-span-full tw-mt-2"
           v-for="region in regions"
           :key="region.slug"
+          class="tw:col-span-full tw:mt-2"
           :open="region.slug === currentRegion"
         >
           <template #summary>
             <div>
               <p
-                class="tw-relative !tw-mb-0 tw-inline tw-text-neutral-10 dark:tw-text-neutral-90"
+                class="tw:relative tw:mb-0! tw:inline tw:text-neutral-10 tw:dark:text-neutral-90"
               >
                 {{ region.name }}
                 <span
                   v-if="
                     region.agencies.filter(({ slug }) =>
-                      selectedAgencies.includes(slug)
+                      selectedAgencies.includes(slug),
                     ).length
                   "
-                  class="tw-absolute tw-right-0 tw-top-0 tw-h-1.5 tw-w-1.5 tw-rounded-full tw-bg-primary-40 dark:tw-bg-primary-80"
+                  class="tw:absolute tw:right-0 tw:top-0 tw:h-1.5 tw:w-1.5 tw:rounded-full tw:bg-primary-40 tw:dark:bg-primary-80"
                 />
               </p>
               <br />
               <small
-                class="tw-text-sm tw-text-neutralVariant-30 dark:tw-text-neutralVariant-80"
+                class="tw:text-sm tw:text-neutral-variant-30 tw:dark:text-neutral-variant-80"
               >
                 {{
                   $tc(
                     'selectedAgenciesCount',
                     region.agencies.filter(({ slug }) =>
-                      selectedAgencies.includes(slug)
+                      selectedAgencies.includes(slug),
                     ).length,
                     {
                       total: region.agencies.length,
-                    }
+                    },
                   )
                 }}
               </small>
             </div>
           </template>
           <ul
-            class="tw-list-none tw-py-2 !tw-pl-0 *:tw-flex *:tw-items-center *:tw-gap-4 *:tw-py-2"
+            class="tw:list-none tw:py-2 tw:pl-0! tw:*:flex tw:*:items-center tw:*:gap-4 tw:*:py-2"
           >
             <li v-for="agency in region.agencies" :key="agency.slug">
               <div
@@ -117,25 +117,25 @@
                   backgroundColor: agency.color,
                   color: agency.textColor,
                 }"
-                class="tw-flex tw-h-6 tw-w-6 tw-flex-shrink-0 tw-items-center tw-justify-center tw-rounded-full"
+                class="tw:flex tw:h-6 tw:w-6 tw:shrink-0 tw:items-center tw:justify-center tw:rounded-full"
               >
                 <TwIcon
                   :path="icons[agency.defaultVehicleType]"
-                  class="!tw-h-4 !tw-w-4"
+                  class="tw:h-4! tw:w-4!"
                 />
               </div>
-              <p class="!tw-mb-0 tw-flex-grow">
+              <p class="tw:mb-0! tw:grow">
                 {{ agency.name }}
                 <small
-                  class="tw-block tw-text-sm tw-text-neutralVariant-30 dark:tw-text-neutralVariant-80"
                   v-if="agenciesStats[agency.slug]"
+                  class="tw:block tw:text-sm tw:text-neutral-variant-30 tw:dark:text-neutral-variant-80"
                 >
                   {{ $tc('newVehiclesPerWeek', agenciesStats[agency.slug]) }}
                 </small>
               </p>
               <TwSwitch
-                :disabled="isLoading"
                 :id="agency.slug"
+                :disabled="isLoading"
                 :value="selectedAgencies.includes(agency.slug)"
                 @input="toggleAgency(agency)"
               />
@@ -145,11 +145,11 @@
       </SettingsGroup>
     </div>
   </div>
-  <div v-else class="tw-relative">
+  <div v-else class="tw:relative">
     <div
-      class="tw-flex tw-gap-4 tw-rounded-xl tw-bg-error-40 tw-p-4 tw-text-white dark:tw-bg-error-80 dark:tw-text-error-20"
+      class="tw:flex tw:gap-4 tw:rounded-xl tw:bg-error-40 tw:p-4 tw:text-white tw:dark:bg-error-80 tw:dark:text-error-20"
     >
-      <TwIcon :path="mdiBellCancel" class="!tw-h-12 !tw-w-12" />
+      <TwIcon :path="mdiBellCancel" class="tw:h-12! tw:w-12!" />
       {{ $t('notificationsUnsupported') }}
     </div>
   </div>
@@ -193,6 +193,25 @@ export default {
     agenciesStats: [],
     permissionState: null,
   }),
+  computed: {
+    currentRegion() {
+      return this.$store.state.settings.currentRegion
+    },
+    pushSubscriptionUuid() {
+      return this.$store.state.settings.pushSubscriptionUuid
+    },
+    regions() {
+      return this.$store.state.regions.data
+    },
+    imageUrl() {
+      return `/img/screenshots/push-${this.$i18n.locale}-${
+        this.$store.state.app.darkMode ? 'dark' : 'light'
+      }.webp`
+    },
+    notificationsSupported() {
+      return 'Notification' in window
+    },
+  },
   mounted() {
     if (!this.notificationsSupported) {
       // Do not load if notifications are unsupported
@@ -208,25 +227,6 @@ export default {
     this.$axios.get('/push/notifications/agencies').then(({ data }) => {
       this.agenciesStats = data
     })
-  },
-  computed: {
-    currentRegion() {
-      return this.$store.state.settings.currentRegion
-    },
-    pushSubscriptionUuid() {
-      return this.$store.state.settings.pushSubscriptionUuid
-    },
-    regions() {
-      return this.$store.state.regions.data
-    },
-    imageUrl() {
-      return `/img/screenshots/push-${this.$i18n.locale}-${
-        this.$vuetify.theme.dark ? 'dark' : 'light'
-      }.png`
-    },
-    notificationsSupported() {
-      return 'Notification' in window
-    },
   },
   methods: {
     checkPermissionState() {
