@@ -37,7 +37,7 @@
           {{ trip.headsign }}
         </span>
         <small
-          class="tw:ml-1 tw:shrink-0 tw:text-xs tw:font-normal tw:md:ml-2 tw:md:text-sm"
+          class="tw:ml-1 tw:shrink-0 tw:text-xs tw:font-normal tw:md:ml-2 tw:md:text-sm tw:tabular-nums"
         >
           {{ trip.departure }}
         </small>
