@@ -2,6 +2,7 @@
   "env": {
     "test": {
       "presets": [
+        "@nuxt/babel-preset-app",
         [
           "@babel/preset-env",
           {

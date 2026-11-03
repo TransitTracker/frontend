@@ -456,41 +456,45 @@ export default {
       return this.$store.state.settings.tableGroupBy
     },
     vehicles() {
+      // ⚡ Bolt: Cache reactive getters and pre-process inputs before iterating
+      // over vehicles to reduce repetitive computation and reactive overhead
+      const filters = Object.entries(this.filters).map(([key, term]) => ({
+        key,
+        keyParts: key.split('.'),
+        searchTerm: term ? term.toString().toUpperCase() : '',
+      }))
+      const agencies = this.agencies
+
       // Get all vehicles
       const vehicles = Object.values(this.$store.state.vehicles.features)
         .flatMap(({ features }) => features)
         .filter((item) => {
-          return Object.entries(this.filters).every(([key, searchTerm]) => {
+          return filters.every(({ key, keyParts, searchTerm }) => {
             // Ignore empty searchTerm
             if (!searchTerm) return true
 
             // Exception for agencies column
             if (key.includes('agency')) {
-              return (
-                `${this.agencies[item.properties.agencyId].name} ${
-                  this.agencies[item.properties.agencyId].shortName
-                }` ?? ''
-              )
+              const agency = agencies[item.properties.agencyId]
+              return `${agency?.name ?? ''} ${agency?.shortName ?? ''}`
                 .toUpperCase()
-                .includes(searchTerm.toString().toUpperCase())
+                .includes(searchTerm)
             }
 
             // Exception for route short name since it's used with route long name
             if (key === 'properties.route.shortName') {
-              return (
-                `${item.properties.route.shortName} ${item.properties.route.longName}` ??
-                ''
-              )
+              return `${item.properties.route.shortName ?? ''} ${
+                item.properties.route.longName ?? ''
+              }`
                 .toUpperCase()
-                .includes(searchTerm.toString().toUpperCase())
+                .includes(searchTerm)
             }
 
-            return key
-              .split('.')
+            return keyParts
               .reduce((acc, part) => acc?.[part] ?? '', item)
               .toString()
               .toUpperCase()
-              .includes(searchTerm.toString().toUpperCase())
+              .includes(searchTerm)
           })
         })
 

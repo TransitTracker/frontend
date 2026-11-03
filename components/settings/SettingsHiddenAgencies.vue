@@ -2,17 +2,17 @@
   <div>
     <p class="tw-mb-2 tw-text-sm">{{ $t('completeDesc') }}</p>
     <TwChip
-      :icon="mdiEyeCheck"
       v-if="hiddenAgencies.length"
-      @click.native="makeAllVisible"
+      :icon="mdiEyeCheck"
       class="tw-mb-2"
+      @click.native="makeAllVisible"
     >
       {{ $t('makeAllAgenciesVisible') }}
     </TwChip>
     <TwDetails
-      class="tw-mt-2"
       v-for="region in regions"
       :key="region.slug"
+      class="tw-mt-2"
       :open="region.slug === currentRegion"
     >
       <template #summary>
