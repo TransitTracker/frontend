@@ -533,7 +533,7 @@ export default {
         this.map.setPaintProperty(
           'tt-shape-stops',
           'circle-stroke-color',
-          vehicle.properties.route.textColor.toLowerCase(),
+          (vehicle.properties.route.textColor ?? '#ffffff').toLowerCase(),
         )
       } else {
         this.map.getSource('tt-shape-source').setData(defaultGeojsonShapeData)

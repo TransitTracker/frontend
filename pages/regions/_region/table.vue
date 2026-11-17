@@ -80,7 +80,10 @@
             <small>
               {{
                 $t('paginationPosition', {
-                  start: props.pagination.pageStart + 1,
+                  start:
+                    props.pagination.itemsLength === 0
+                      ? 0
+                      : props.pagination.pageStart + 1,
                   end:
                     props.pagination.pageStop === -1
                       ? props.pagination.itemsLength

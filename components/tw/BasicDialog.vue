@@ -92,7 +92,11 @@ export default {
       this.closeDialog()
     },
     openDialog() {
-      if (this.$refs.dialog.open) return
+      if (this.$refs.dialog.open) {
+        clearTimeout(this.closeTimer)
+        this.state = 'open'
+        return
+      }
       this.$refs.dialog.showModal()
       this.state = 'open'
     },
@@ -100,6 +104,7 @@ export default {
       if (!this.$refs.dialog.open) return
       this.state = 'closing'
 
+      clearTimeout(this.closeTimer)
       this.closeTimer = setTimeout(() => {
         this.$refs.dialog.close()
         this.state = 'closed'

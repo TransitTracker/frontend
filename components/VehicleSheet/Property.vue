@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="content"
-    class="tw:flex tw:h-12 tw:items-center tw:xl:h-14"
+    class="tw:flex tw:min-h-12 tw:items-center tw:xl:min-h-14"
     :class="[property.help && 'tw:-mr-1.5 tw:md:-mr-2']"
   >
     <TwIcon

@@ -1,5 +1,6 @@
 <template>
-  <button
+  <component
+    :is="tag"
     class="tw:group tw:relative tw:flex tw:h-10 tw:w-10 tw:items-center tw:justify-center tw:focus:outline-hidden"
     :class="[buttonClasses]"
     :disabled="disabled"
@@ -10,12 +11,17 @@
       :class="[stateLayerClasses]"
     ></div>
     <slot />
-  </button>
+  </component>
 </template>
 
 <script>
 export default {
   props: {
+    tag: {
+      type: String,
+      required: false,
+      default: 'button',
+    },
     color: {
       type: String,
       required: false,

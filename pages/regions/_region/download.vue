@@ -351,7 +351,7 @@ export default {
 
       if (this.period === 'history') {
         this.downloadPartOfHistory(`${url}&history=true`)
-      } else if (this.selectAgency === 'all') {
+      } else if (this.selectedAgency.slug === 'all') {
         // For every agency, there is always pagination, thus require this method
         this.downloadPartOfHistory(url)
       } else {
