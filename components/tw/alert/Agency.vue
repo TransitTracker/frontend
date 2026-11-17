@@ -1,18 +1,18 @@
 <template>
   <li
-    class="tw-relative tw-flex tw-justify-between tw-gap-x-2 tw-overflow-hidden tw-rounded-lg tw-px-2 tw-py-1 tw-text-sm tw-leading-5 md:tw-p-2"
+    class="tw:relative tw:flex tw:justify-between tw:gap-x-2 tw:overflow-hidden tw:rounded-lg tw:px-2 tw:py-1 tw:text-sm tw:leading-5 tw:md:p-2"
     :style="{ backgroundColor: `${agency.color}26` }"
   >
     <div>
-      <b class="tw-font-medium">
+      <b class="tw:font-medium">
         {{ agency.name }}
       </b>
-      <p class="!tw-mb-0">
+      <p class="tw:mb-0!">
         {{ regions }}
       </p>
     </div>
     <div
-      class="tw-absolute tw-inset-y-0 -tw-right-4 tw-h-full tw-w-20 tw-skew-x-[18deg]"
+      class="tw:absolute tw:inset-y-0 tw:-right-4 tw:h-full tw:w-20 tw:skew-x-18"
       :style="{ backgroundColor: agency.color }"
     ></div>
     <TwStandardIconButton

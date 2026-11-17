@@ -1,4 +1,5 @@
 import axios from 'axios'
+import VuetifyLoaderPlugin from 'vuetify-loader/lib/plugin'
 import { version } from './package.json'
 
 export default {
@@ -19,6 +20,8 @@ export default {
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel: 'preconnect', href: 'https://fonts.bunny.net' },
+      { rel: 'preconnect', href: 'https://api.mapbox.com' },
+      { rel: 'preconnect', href: 'https://events.mapbox.com' },
       {
         rel: 'stylesheet',
         href: 'https://fonts.bunny.net/css?family=figtree:700|inter:400,500,600&display=swap',
@@ -27,14 +30,16 @@ export default {
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
-  css: ['@/assets/main.scss', '@/assets/css/tailwind.css'],
+  css: ['@/assets/css/tailwind.css'],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
     '~/plugins/axios.client.js',
+    '~/plugins/bottomSheet.client.js',
     '~/plugins/i18n.client.js',
     '~/plugins/settings.client.js',
     '~/plugins/socket.client.js',
+    '~/plugins/vuetify.client.js',
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -44,9 +49,6 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
-    // https://go.nuxtjs.dev/vuetify
-    '@nuxtjs/vuetify',
-    '@nuxt/postcss8',
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
@@ -81,22 +83,23 @@ export default {
     vueI18nLoader: true,
   },
 
-  // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
-  vuetify: {
-    optionsPath: './vuetify.options.js',
-    defaultAssets: {
-      font: false,
-      icons: false,
-    },
-    customVariables: ['~/assets/variables.scss'],
-  },
-
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
+    transpile: ['vuetify/lib', 'pure-web-bottom-sheet'],
+    plugins: [new VuetifyLoaderPlugin()],
     postcss: {
-      plugins: {
-        tailwindcss: {},
-        autoprefixer: {},
+      postcssOptions: {
+        plugins: {
+          '@tailwindcss/postcss': {},
+        },
+      },
+    },
+    loaders: {
+      scss: {
+        sassOptions: { quietDeps: true },
+      },
+      sass: {
+        sassOptions: { quietDeps: true },
       },
     },
   },
@@ -115,7 +118,7 @@ export default {
             `/regions/${slug}/map`,
             `/fr/regions/${slug}/map`,
             `/regions/${slug}/table`,
-            `/fr/regions/${slug}/table`
+            `/fr/regions/${slug}/table`,
           )
         })
 
@@ -148,14 +151,24 @@ export default {
 
   pwa: {
     icon: {
-      source: '/static/icon-beta.png',
+      source: '/static/icon.png',
+      purpose: ['any', 'maskable'],
     },
     manifest: {
       name: 'Transit Tracker',
-      short_name: 'Transit T.',
-      description: 'An Overview of Public Transit for Several Canadian Cities',
+      short_name: 'Transit Tracker',
+      description:
+        'An overview of public transit for Canadian cities | Suivi du transport en commun pour plusieurs villes canadiennes',
+      start_url: '/?source=pwa',
+      scope: '/',
       display: 'standalone',
-      background_color: '#2374ab',
+      display_override: ['window-controls-overlay', 'standalone', 'minimal-ui'],
+      background_color: '#0a4a72',
+      theme_color: '#9acbfa',
+      lang: 'en-CA',
+      dir: 'ltr',
+      orientation: 'natural',
+      categories: ['navigation', 'productivity', 'utilities'],
     },
     meta: {
       appleStatusBarStyle: 'black-translucent',
@@ -165,7 +178,6 @@ export default {
     },
     workbox: {
       importScripts: ['sw-push.js'],
-      dev: true,
     },
   },
 }

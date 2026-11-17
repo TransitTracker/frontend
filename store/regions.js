@@ -42,12 +42,12 @@ export const actions = {
           setting: 'hiddenAgencies',
           value: hiddenAgencies,
         },
-        { root: true }
+        { root: true },
       )
       commit(
         'settings/set',
         { setting: 'activeAgencies', value: [] },
-        { root: true }
+        { root: true },
       )
     }
 

@@ -1,16 +1,16 @@
 <template>
   <nav
-    class="tw-fixed tw-bottom-0 tw-z-10 tw-w-full tw-bg-neutral-99 tw-text-sm tw-font-medium tw-leading-4 tw-tracking-wider dark:tw-bg-neutral-10 md:tw-left-0 md:tw-top-0 md:tw-mt-16 md:tw-hidden md:tw-h-full md:tw-w-20"
+    class="tw:fixed tw:bottom-0 tw:z-10 tw:w-full tw:bg-neutral-99 tw:text-sm tw:font-medium tw:leading-4 tw:tracking-wider tw:dark:bg-neutral-10 tw:md:left-0 tw:md:top-0 tw:md:mt-16 tw:md:hidden tw:md:h-full tw:md:w-20"
   >
     <ul
-      class="tw-flex tw-list-none tw-items-center tw-justify-around tw-gap-x-2 tw-bg-primary-40/12 tw-py-1 !tw-pl-0 dark:tw-bg-primary-80/12 md:tw-h-full md:tw-flex-col md:tw-justify-center md:tw-gap-y-3 md:tw-py-0"
+      class="tw:flex tw:list-none tw:items-center tw:justify-around tw:gap-x-2 tw:bg-primary-40/12 tw:py-1 tw:pl-0! tw:dark:bg-primary-80/12 tw:md:h-full tw:md:flex-col tw:md:justify-center tw:md:gap-y-3 tw:md:py-0"
     >
       <TwNavigationBarButton
         :to="localePath(`/regions/${region}/`)"
-        :icon="mdiHomeOutline"
-        :active-icon="mdiHome"
+        :icon="mdiInformationOutline"
+        :active-icon="mdiInformation"
       >
-        {{ $t('app.tabHome') }}
+        {{ $t('app.tabInfo') }}
       </TwNavigationBarButton>
       <TwNavigationBarButton
         :to="localePath(`/regions/${region}/map`)"
@@ -35,7 +35,7 @@
       </TwNavigationBarButton>
       <TwNavigationBarButton
         v-if="adminMode"
-        :to="localePath('/debug')"
+        :to="localePath('/admin')"
         :icon="mdiTools"
       >
         Admin
@@ -46,8 +46,8 @@
 
 <script>
 import {
-  mdiHomeOutline,
-  mdiHome,
+  mdiInformationOutline,
+  mdiInformation,
   mdiMap,
   mdiMapOutline,
   mdiDownload,
@@ -56,8 +56,8 @@ import {
 } from '@mdi/js'
 export default {
   data: () => ({
-    mdiHomeOutline,
-    mdiHome,
+    mdiInformationOutline,
+    mdiInformation,
     mdiMap,
     mdiMapOutline,
     msTable:
