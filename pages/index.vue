@@ -308,25 +308,7 @@
         </div>
       </div>
     </section>
-    <div
-      class="tw:container tw:relative tw:mx-auto tw:flex tw:flex-wrap tw:items-center tw:gap-x-1 tw:p-4 tw:leading-6 tw:tracking-wide"
-    >
-      <b class="tw:font-medium tw:text-primary-20 tw:dark:text-primary-90">
-        Transit&nbsp;Tracker
-      </b>
-      <span class="tw:hidden tw:grow tw:md:inline">
-        &bull; {{ $t('brandSlogan') }}
-      </span>
-      <span class="tw:block tw:md:hidden">{{ $t('brandSlogan') }}</span>
-      {{ $t('by') }}
-      <a
-        href="https://felixinx.me"
-        target="_blank"
-        class="tw:group tw:text-primary-40 tw:no-underline tw:hover:text-primary-30 tw:hover:underline tw:dark:text-primary-80 tw:dark:hover:text-primary-90"
-      >
-        @FelixINX - Félix Desjardins
-      </a>
-    </div>
+    <TwFooter />
   </div>
 </template>
 
@@ -675,8 +657,6 @@ div[data-theme='dark'] .tt-landing-map-popup .mapboxgl-popup-content {
     "welcome": "Welcome to Transit&nbsp;Tracker",
     "intro": "An overview of the public transit network for",
     "introCities": "several Canadian cities",
-    "brandSlogan": "Making real-time transit data accessible",
-    "by": "Made by",
     "vehicles": "vehicles",
     "rightNow": "right now",
     "agencies": "agencies",
@@ -720,8 +700,6 @@ div[data-theme='dark'] .tt-landing-map-popup .mapboxgl-popup-content {
     "welcome": "Bienvenue dans Transit&nbsp;Tracker",
     "intro": "Une vue d'ensemble du réseau de transport en commun pour",
     "introCities": "plusieurs villes canadiennes",
-    "brandSlogan": "Rendre accessibles les données de transport en temps réel",
-    "by": "Conçu par",
     "vehicles": "véhicules",
     "rightNow": "en ce moment",
     "agencies": "agences",

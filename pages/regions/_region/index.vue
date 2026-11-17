@@ -242,26 +242,7 @@
 
     <!-- Footer -->
     <div class="tw:grow"></div>
-    <div
-      class="tw:container tw:mx-auto tw:flex tw:flex-wrap tw:items-center tw:gap-x-1 tw:p-4 tw:leading-6 tw:tracking-wide"
-    >
-      <b class="tw:font-medium tw:text-primary-20 tw:dark:text-primary-90">
-        Transit&nbsp;Tracker
-        <span class="tw:text-black tw:dark:text-white">{{ version }}</span>
-      </b>
-      <span class="tw:hidden tw:grow tw:md:inline">
-        &bull; {{ $t('brandSlogan') }}
-      </span>
-      <span class="tw:block tw:md:hidden">{{ $t('brandSlogan') }}</span>
-      <a
-        href="https://github.com/TransitTracker"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="tw:rounded-sm tw:text-primary-40 tw:no-underline tw:hover:text-primary-30 tw:hover:underline tw:focus-visible:outline-2 tw:focus-visible:outline-offset-2 tw:focus-visible:outline-primary-40 tw:dark:text-primary-80 tw:dark:hover:text-primary-90 tw:dark:focus-visible:outline-primary-80"
-      >
-        {{ $t('github') }}
-      </a>
-    </div>
+    <TwFooter />
   </div>
 </template>
 
@@ -401,9 +382,6 @@ export default {
     vehicleCounts() {
       return this.$store.getters['vehicles/counts']
     },
-    version() {
-      return process.env.version
-    },
     totalCount() {
       let total = 0
       this.activeAgencies.forEach((agency) => {
@@ -469,9 +447,7 @@ export default {
     "submitPicturesTitle": "Submit pictures",
     "submitPicturesDesc": "Share transit photos to showcase your region!",
     "apiDocsTitle": "API JSON",
-    "apiDocsDesc": "Access real-time transit data through our open developer APIs.",
-    "brandSlogan": "Making real time transit data accessible",
-    "github": "On GitHub"
+    "apiDocsDesc": "Access real-time transit data through our open developer APIs."
   },
   "fr": {
     "vehicleTotal": "Aucun véhicule | 1 véhicule est actif | {n} véhicules sont actifs",
@@ -501,9 +477,7 @@ export default {
     "submitPicturesTitle": "Proposer des photos",
     "submitPicturesDesc": "Partagez vos photos de transport pour illustrer votre région!",
     "apiDocsTitle": "API JSON",
-    "apiDocsDesc": "Accédez aux données de transport en temps réel via notre API ouverte.",
-    "brandSlogan": "Rendre accessibles les données de transport en temps réel",
-    "github": "Sur GitHub"
+    "apiDocsDesc": "Accédez aux données de transport en temps réel via notre API ouverte."
   }
 }
 </i18n>
